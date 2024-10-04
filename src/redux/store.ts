@@ -7,7 +7,6 @@ import siderBarReducer from './SiderBar/siderBarSlice';
 import btnNextPrevReportPageReducer from './BtnNextPrevReportPage/btnNextPrevReportPageSlice';
 import searchAndChangeStockReducer from './SearchAndChangeStock/searchAndChangeStockSlice';
 import priceStockReducer from './PriceStock/priceStockSlice';
-import profileSummaryReducer from "./ProfileSummary/profileSummarySlice"
 
 const store = configureStore({
   reducer: {
@@ -18,8 +17,7 @@ const store = configureStore({
     siderBar: siderBarReducer,
     btnNextPrevReport: btnNextPrevReportPageReducer,
     searchVn30Stock: searchAndChangeStockReducer,
-    priceStock: priceStockReducer,
-    profileSummary: profileSummaryReducer
+    priceStock: priceStockReducer
   },
 });
 
