@@ -56,7 +56,8 @@ export default function DashboardHeader() {
                     <div>Đang tải...</div>
                 ) : user ? (
                     <div className="flex items-center gap-x-3"> 
-                        <img
+                        <img 
+                       
                             src={user.avatar || "/imgs/default-avatar.jpg"}
                             alt="Avatar"
                             className="w-[40px] h-[40px] rounded-full object-cover"
