@@ -8,16 +8,6 @@ import Footer from '@/src/components/layout/Footer';
 import { ReactNode } from 'react';
 
 export default function MainLayout({ children }: { children: ReactNode }) {
-  const router = useRouter();
-  useEffect(() => {
-      const token = Cookies.get('token'); // Lấy token từ cookies
-      if (token) {
-        // Nếu có token, điều hướng người dùng đến dashboard
-        router.push('/dashboard');
-      }
-  }, [router]);
-
-
   return (
     <>
       <Header />

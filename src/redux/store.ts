@@ -8,7 +8,8 @@ import btnNextPrevReportPageReducer from './BtnNextPrevReportPage/btnNextPrevRep
 import searchAndChangeStockReducer from './SearchAndChangeStock/searchAndChangeStockSlice';
 import priceStockReducer from './PriceStock/priceStockSlice';
 import profileSummaryReducer from "./ProfileSummary/profileSummarySlice";
-
+import registrationReducer  from './registrationSlice/registrationSlice';
+import authReducer from "./auth/authSlice";
 const store = configureStore({
   reducer: {
     financialStatement: financialStatementReducer,
@@ -19,7 +20,9 @@ const store = configureStore({
     btnNextPrevReport: btnNextPrevReportPageReducer,
     searchVn30Stock: searchAndChangeStockReducer,
     priceStock: priceStockReducer,
-    profileSummary: profileSummaryReducer
+    profileSummary: profileSummaryReducer,
+     registration: registrationReducer,
+     auth: authReducer,
   },
 });
 

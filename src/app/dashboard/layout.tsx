@@ -3,15 +3,17 @@ import { usePathname } from 'next/navigation';
 import DashboardHeader from '@/src/components/layout/DashboardHeader';
 import Sidebar from '@/src/components/layout/Sidebar';
 import Footer from '@/src/components/layout/Footer';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/src/redux/store';
 
 // Danh sách các route không hiển thị footer
 const routesWithoutFooter = ['/dashboard/co-phieu'];
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  // Kiểm tra khớp đường dẫn chính xác hơn cho /dashboard/co-phieu/{symbol}/ho-so-doanh-nghiep
   const shouldShowFooter = !pathname.match(/^\/dashboard\/co-phieu\/[^/]+\/ho-so-doanh-nghiep$/);
+  const token = useSelector((state: RootState) => state.auth.token);
 
   return (
     <>

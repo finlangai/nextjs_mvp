@@ -27,7 +27,6 @@ export default function HomePage() {
                                 <span>Tìm hiểu ngay bây giờ</span>
                             </button>
                         </Link>
-
                     </div>
 
                     <div className="ml-auto text-fintown-txt-1">
