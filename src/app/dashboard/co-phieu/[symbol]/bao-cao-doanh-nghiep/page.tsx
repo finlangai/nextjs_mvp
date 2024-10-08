@@ -89,22 +89,22 @@ export default function BaoCaoDoanhNghiepPage({ params }: { params: { symbol: st
     <>
     <div className='px-[40px] py-[22px] flex items-center gap-x-[50px] mb-[28px]'>
       <button 
-        className={`text-xs py-[10px] px-[16px] rounded-[7px] ${selectedButton === 1 ? 'bg-fintown-btn-active-3 text-fintown-pr9' : 'text-fintown-txt-1'}`} 
+        className={`text-[14px] py-[10px] px-[16px] rounded-[7px] ${selectedButton === 1 ? 'bg-fintown-btn-active-3 text-fintown-pr9' : 'text-fintown-txt-2'}`} 
         onClick={() => handleButtonClick(1, 'Cân đối kế toán')}>
         Cân đối kế toán
       </button>
       <button 
-        className={`text-xs py-[10px] px-[16px] rounded-[7px] ${selectedButton === 2 ? 'bg-fintown-btn-active-3 text-fintown-pr9' : 'text-fintown-txt-1'}`} 
+        className={`text-[14px] py-[10px] px-[16px] rounded-[7px] ${selectedButton === 2 ? 'bg-fintown-btn-active-3 text-fintown-pr9' : 'text-fintown-txt-2'}`} 
         onClick={() => handleButtonClick(2, 'Kết quả kinh doanh')}>
         Kết quả kinh doanh
       </button>
       <button 
-        className={`text-xs py-[10px] px-[16px] rounded-[7px] ${selectedButton === 3 ? 'bg-fintown-btn-active-3 text-fintown-pr9' : 'text-fintown-txt-1'}`} 
+        className={`text-[14px] py-[10px] px-[16px] rounded-[7px] ${selectedButton === 3 ? 'bg-fintown-btn-active-3 text-fintown-pr9' : 'text-fintown-txt-2'}`} 
         onClick={() => handleButtonClick(3, 'Lưu chuyển tiền tệ')}>
         Lưu chuyển tiền tệ
       </button>
       <button 
-        className={`text-xs py-[10px] px-[16px] rounded-[7px] ${selectedButton === 4 ? 'bg-fintown-btn-active-3 text-fintown-pr9' : 'text-fintown-txt-1'}`} 
+        className={`text-[14px] py-[10px] px-[16px] rounded-[7px] ${selectedButton === 4 ? 'bg-fintown-btn-active-3 text-fintown-pr9' : 'text-fintown-txt-2'}`} 
         onClick={() => handleButtonClick(4, 'Chỉ số tài chính')}>
         Chỉ số tài chính
       </button>
@@ -113,21 +113,21 @@ export default function BaoCaoDoanhNghiepPage({ params }: { params: { symbol: st
     {/* =========================================FILTER============================================== */}
 
     <div className='px-[40px] flex items-center gap-x-[26px] mb-[20px]'>
-        <div className='text-xs text-fintown-txt-1'>Xem theo</div>
+        <div className='text-[14px] text-fintown-txt-1'>Xem theo</div>
 
         < SelectYearOrQuarter symbol={symbol} year={currentYear} quarter={currentQuarter} />
 
-        {/* <div className='text-xs text-fintown-txt-1'>Thời gian</div>
+        {/* <div className='text-[14px] text-fintown-txt-1'>Thời gian</div>
 
         <button className='flex items-center rounded-[8px] bg-fintown-btn-disable'>
             <div className='flex items-center gap-x-[30px] py-[8px] px-[16px]'>                
-              <div className='text-xs text-fintown-txt-1'>3 năm</div>
+              <div className='text-[14px] text-fintown-txt-1'>3 năm</div>
               <i className='bx bx-lock text-fintown-txt-1' ></i>
             </div>
         </button> */}
 
         {selectedButton !== 4 && (
-          <div className='text-xs text-fintown-txt-1'>Đơn vị: Tỷ đồng</div>
+          <div className='text-[14px] text-fintown-txt-1'>Đơn vị: Tỷ đồng</div>
         )}
         
       {/* Nút prev/next */}

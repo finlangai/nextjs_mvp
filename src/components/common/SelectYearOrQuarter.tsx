@@ -81,7 +81,7 @@ const SelectYearOrQuarter = ({ symbol, year, quarter }: { symbol: string; year: 
                     onClick={toggleDropdown}
                 >
                     <div className='flex items-center gap-x-[30px] py-[8px] px-[16px]'>                
-                        <div className='text-xs text-fintown-txt-1'>{selectedOption}</div>
+                        <div className='text-[14px] text-fintown-txt-1'>{selectedOption}</div>
                         <i className={`bx ${isOpen ? 'bx-caret-up' : 'bx-caret-down'} text-fintown-txt-1`}></i>
                     </div>
                 </button>

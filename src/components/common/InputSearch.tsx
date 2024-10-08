@@ -4,9 +4,7 @@ import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { 
     fetchSearchVn30Stock, 
     fetchSearchStockByQuery,
-    selectSearchStockData, 
     selectSearchVn30StockData,
-    selectSearchStockError, 
     selectSearchStockLoading,
 } from '@/src/redux/SearchAndChangeStock';
 import { SpinerLoader } from '../common/Loader';
@@ -36,6 +34,7 @@ export default function InputSearch() {
     const [stocks, setStocks] = useState<StockList>([]);
     const [showDropdown, setShowDropdown] = useState(false);
     const [activeTab, setActiveTab] = useState<string>('report');
+    const [hasSearched, setHasSearched] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     const vn30StockData = useAppSelector(selectSearchVn30StockData);
@@ -49,14 +48,30 @@ export default function InputSearch() {
         );
     };
 
+    const handleSearch = () => {
+        if (stocks.length > 0) {
+            const firstStock = stocks[0];
+            const route = getRouteForStock(firstStock.symbol);
+            window.location.href = route;
+            setShowDropdown(false);
+        }
+    };
+
+    const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            handleSearch();
+        }
+    };
+
     useEffect(() => {
-        // Nếu query trống, ta hiển thị lại dữ liệu VN30
         if (query.length === 0) {
+            setHasSearched(false);
             setStocks(vn30StockData as StockList || []);
             return;
         }
+
+        setHasSearched(true);
     
-        // Nếu chưa gọi API VN30 và người dùng bắt đầu nhập, gọi fetch VN30
         if (!vn30StockData) {
             dispatch(fetchSearchVn30Stock())
                 .catch(() => setStocks([]));  
@@ -64,49 +79,38 @@ export default function InputSearch() {
             return;
         }
     
-        // Nếu đã có dữ liệu VN30, thực hiện lọc
         if (vn30StockData && vn30StockData.length > 0) {
             const filteredVn30Stocks = filterVn30Stocks(vn30StockData as StockList, query);
     
-            // Nếu tìm thấy cổ phiếu phù hợp trong danh sách VN30
             if (filteredVn30Stocks.length > 0) {
-                setStocks(filteredVn30Stocks);  // Cập nhật kết quả tìm thấy vào danh sách stocks
+                setStocks(filteredVn30Stocks);
             } else {
-                // Nếu không tìm thấy, gọi API query dựa trên input người dùng
                 dispatch(fetchSearchStockByQuery(query))
                     .then((action) => {
-                        // Kiểm tra kết quả query từ API
                         const result = action.payload;
-                        if (result.length > 0) {
-                            setStocks(result);  // Nếu có kết quả, cập nhật danh sách stocks
-                        } else {
-                            setStocks([]);  // Nếu không có kết quả, đặt stocks rỗng
-                        }
+                        setStocks(result.length > 0 ? result : []);
                     })
-                    .catch(() => setStocks([]));  // Nếu có lỗi, đặt stocks rỗng
+                    .catch(() => setStocks([]));
             }
         } else {
-            // Trường hợp chưa có dữ liệu VN30, hoặc không tìm thấy trong VN30
             dispatch(fetchSearchStockByQuery(query))
                 .then((action) => {
                     const result = action.payload;
-                    if (result.length > 0) {
-                        setStocks(result);  // Nếu có kết quả, cập nhật danh sách stocks
-                    } else {
-                        setStocks([]);  // Nếu không có kết quả, đặt stocks rỗng
-                    }
+                    setStocks(result.length > 0 ? result : []);
                 })
-                .catch(() => setStocks([]));  // Nếu có lỗi, đặt stocks rỗng
+                .catch(() => setStocks([]));
         }
     }, [query, vn30StockData, dispatch]);
 
     const handleInputFocus = () => {
-        if (vn30StockData) {
+        if (!showDropdown) {
             setShowDropdown(true);
+            if (query.length === 0) {
+                setHasSearched(false);
+            }
         }
     };
 
-    // Effect for handling outside clicks
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -119,12 +123,10 @@ export default function InputSearch() {
         };
     }, []);
 
-    // Hàm xử lý khi tab được click
     const handleTabClick = (tabId: string) => {
         setActiveTab(tabId);
     };
 
-    // Hàm lấy route cho link dựa trên tab active
     const getRouteForStock = (symbol: string) => {
         const activeTabData = TABS.find(tab => tab.id === activeTab);
         if (activeTabData?.id === "chart") {
@@ -144,6 +146,7 @@ export default function InputSearch() {
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     onFocus={handleInputFocus}
+                    onKeyPress={handleKeyPress}
                 />
             </div>
 
@@ -183,7 +186,9 @@ export default function InputSearch() {
                             ))}
                         </div>
                     ) : (
-                        <div className="text-center text-sm text-fintown-txt-1 py-[10px]">Không tìm thấy cổ phiếu</div>
+                        <div className="text-center text-sm text-fintown-txt-1 py-[10px]">
+                            {!hasSearched ? "Vui lòng nhập mã cổ phiếu hoặc tên công ty" : "Không tìm thấy cổ phiếu"}
+                        </div>
                     )}
                 </div>
             )}

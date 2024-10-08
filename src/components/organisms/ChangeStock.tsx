@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import React, { useEffect, useState, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { 
@@ -20,10 +19,11 @@ const ChangeStockInput = ({symbol} : {symbol: string}) => {
     const [isDropdownOpen, setDropdownOpen] = useState<boolean>(false);
     const [stockList, setStockList] = useState<ChangeStockatReportPage[]>([]);
     const [hasInitialized, setHasInitialized] = useState(false);
+    const [hasSearched, setHasSearched] = useState(false);
+    const [isEnterPressed, setIsEnterPressed] = useState(false);
 
     const vn30StockData = useAppSelector(selectSearchVn30StockData);
     const isLoading = useAppSelector(selectSearchStockLoading);
-    const error = useAppSelector(selectSearchStockError);
 
     const filterVn30Stocks = (stocksData: ChangeStockatReportPage[] | null, searchQuery: string): ChangeStockatReportPage[] => {
         if (!stocksData) return [];
@@ -33,7 +33,55 @@ const ChangeStockInput = ({symbol} : {symbol: string}) => {
         );
     };
 
-    // Xử lý click outside
+    const handleStockSelect = (stock: ChangeStockatReportPage) => {
+        setSelectedStock(stock.symbol);
+        setDropdownOpen(false);
+        window.location.href = `/dashboard/co-phieu/${stock.symbol}`;
+    };
+
+    const handleSearch = async () => {
+        if (searchTerm.length === 0) return;
+        
+        setIsEnterPressed(true);
+        
+        // Nếu đang có dữ liệu và không đang loading, chọn kết quả đầu tiên
+        if (stockList.length > 0 && !isLoading) {
+            handleStockSelect(stockList[0]);
+            return;
+        }
+
+        // Nếu đang loading hoặc chưa có dữ liệu, thực hiện tìm kiếm mới
+        try {
+            let results: ChangeStockatReportPage[] = [];
+            
+            // Kiểm tra trong VN30 trước
+            if (vn30StockData && vn30StockData.length > 0) {
+                results = filterVn30Stocks(vn30StockData, searchTerm);
+            }
+            
+            // Nếu không tìm thấy trong VN30, gọi API
+            if (results.length === 0) {
+                const action = await dispatch(fetchSearchStockByQuery(searchTerm));
+                results = action.payload;
+            }
+            
+            // Nếu có kết quả, chọn kết quả đầu tiên
+            if (results.length > 0) {
+                handleStockSelect(results[0]);
+            }
+        } catch (error) {
+            console.error("Error during search:", error);
+        } finally {
+            setIsEnterPressed(false);
+        }
+    };
+
+    const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            handleSearch();
+        }
+    };
+
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
@@ -47,7 +95,6 @@ const ChangeStockInput = ({symbol} : {symbol: string}) => {
         };
     }, []);
 
-    // Xử lý khởi tạo và cập nhật dữ liệu VN30
     useEffect(() => {
         if (vn30StockData && vn30StockData.length > 0) {
             setStockList(vn30StockData);
@@ -55,47 +102,42 @@ const ChangeStockInput = ({symbol} : {symbol: string}) => {
         }
     }, [vn30StockData]);
 
-    // Xử lý khi mở dropdown
     const handleDropdownToggle = () => {
         const newDropdownState = !isDropdownOpen;
         setDropdownOpen(newDropdownState);
         
         if (newDropdownState && !hasInitialized) {
-            // Nếu mở dropdown và chưa có dữ liệu VN30, gọi API
             if (!vn30StockData || vn30StockData.length === 0) {
                 dispatch(fetchSearchVn30Stock());
             } else {
-                // Nếu đã có dữ liệu VN30, sử dụng ngay
                 setStockList(vn30StockData);
                 setHasInitialized(true);
             }
         }
     };
 
-    // Xử lý tìm kiếm
     useEffect(() => {
         if (!isDropdownOpen) return;
 
-        // Nếu searchTerm trống và đã có dữ liệu VN30, hiển thị lại VN30
         if (searchTerm.length === 0) {
+            setHasSearched(false);
             if (vn30StockData && vn30StockData.length > 0) {
                 setStockList(vn30StockData);
             }
             return;
         }
+
+        setHasSearched(true);
     
-        // Nếu có dữ liệu VN30, thử lọc local trước
         if (vn30StockData && vn30StockData.length > 0) {
             const filteredVn30Stocks = filterVn30Stocks(vn30StockData, searchTerm);
     
-            // Nếu tìm thấy kết quả trong VN30, sử dụng kết quả đó
             if (filteredVn30Stocks.length > 0) {
                 setStockList(filteredVn30Stocks);
                 return;
             }
         }
         
-        // Nếu không tìm thấy trong VN30, gọi API tìm kiếm
         dispatch(fetchSearchStockByQuery(searchTerm))
             .then((action) => {
                 const result = action.payload;
@@ -103,11 +145,6 @@ const ChangeStockInput = ({symbol} : {symbol: string}) => {
             })
             .catch(() => setStockList([]));
     }, [searchTerm, isDropdownOpen, vn30StockData, dispatch]);
-
-    const handleStockSelect = (stock: ChangeStockatReportPage) => {
-        setSelectedStock(stock.symbol);
-        setDropdownOpen(false);
-    };
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value);
@@ -141,6 +178,7 @@ const ChangeStockInput = ({symbol} : {symbol: string}) => {
                                     placeholder='Tìm mã cổ phiếu' 
                                     value={searchTerm} 
                                     onChange={handleSearchChange}
+                                    onKeyPress={handleKeyPress}
                                 />
                                 {searchTerm && (
                                     <i 
@@ -155,26 +193,27 @@ const ChangeStockInput = ({symbol} : {symbol: string}) => {
                         </div>
 
                         <div className='py-[4px] overflow-y-scroll max-h-[228px] custom-scrollbarmini'>
-                            {isLoading ? (
+                            {isLoading || isEnterPressed ? (
                                 <div className='text-center py-4 w-full flex justify-center'>
                                     <SpinerLoader/>
                                 </div>
                             ) : stockList.length === 0 ? (
-                                <div className='text-center py-4 text-fintown-txt-2 px-[12px]'>Không tìm thấy kết quả</div>
+                                <div className='text-center py-4 text-fintown-txt-2 px-[12px]'>
+                                    {!hasSearched ? "Vui lòng nhập mã cổ phiếu hoặc tên công ty" : "Không tìm thấy kết quả"}
+                                </div>
                             ) : (
                                 stockList.map(stock => (
-                                    <Link href={`/dashboard/co-phieu/${stock.symbol}`} key={stock.symbol}>
-                                        <li 
-                                            className='py-[10px] list-none flex items-center cursor-pointer hover:bg-fintown-hvr-btn-2'
-                                            onClick={() => handleStockSelect(stock)}
-                                        >
-                                            <div className='px-[14px] text-fintown-txt-1 text-sm'>{stock.symbol}</div>
-                                            <div className='px-[14px] text-fintown-txt-1 text-sm truncate max-w-[200px] overflow-hidden whitespace-nowrap'>
-                                                {stock.company_name}
-                                            </div>
-                                            <div className='px-[14px] text-fintown-txt-1 text-sm'>{stock.exchange}</div>
-                                        </li>
-                                    </Link>
+                                    <li 
+                                        key={stock.symbol}
+                                        className='py-[10px] list-none flex items-center cursor-pointer hover:bg-fintown-hvr-btn-2'
+                                        onClick={() => handleStockSelect(stock)}
+                                    >
+                                        <div className='px-[14px] text-fintown-txt-1 text-sm'>{stock.symbol}</div>
+                                        <div className='px-[14px] text-fintown-txt-1 text-sm truncate max-w-[200px] overflow-hidden whitespace-nowrap'>
+                                            {stock.company_name}
+                                        </div>
+                                        <div className='px-[14px] text-fintown-txt-1 text-sm'>{stock.exchange}</div>
+                                    </li>
                                 ))
                             )}
                         </div>

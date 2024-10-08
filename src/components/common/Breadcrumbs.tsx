@@ -26,7 +26,7 @@ const Breadcrumbs = ({symbol} : {symbol: string;}) => {
         <div className='flex items-center gap-x-[10px] px-[40px] pt-[40px] pb-[24px]'>
             <Link className='text-fintown-txt-1 text-base' href="/dashboard/co-phieu">Cổ phiếu</Link>
             <i className='bx bx-chevron-right text-fintown-txt-1 text-[24px]'></i>
-            <Link className='text-fintown-txt-1 text-base' href="/dashboard/co-phieu/VCB">{symbol}</Link>
+            <Link className='text-fintown-txt-1 text-base' href={`/dashboard/co-phieu/${symbol}`}>{symbol}</Link>
             <i className='bx bx-chevron-right text-fintown-txt-1 text-[24px]'></i>
             <Link className='text-fintown-txt-1 text-base' href="/dashboard/co-phieu/HCM/bao-cao-doanh-nghiep">{namePage}</Link>
         </div>

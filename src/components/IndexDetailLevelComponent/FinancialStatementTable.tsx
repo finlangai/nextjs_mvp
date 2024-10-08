@@ -69,8 +69,6 @@ const FinancialStatementTable = () => {
             dispatch(setLimitByDataYear(dataMain[0]?.values[0]?.year))
 
             if (dataMain?.[0]?.values[0]?.quarter === 4) {
-                console.log('o day a`??')
-
                 dispatch(setLimitSubscribe({
                     quarter: 1,
                     year: dataMain[0]?.values[0]?.year + 1,
@@ -78,9 +76,7 @@ const FinancialStatementTable = () => {
             };
 
             if (dataMain?.[0]?.values[0]?.quarter < 4 && dataMain[0]?.values[0]?.quarter > 0) {
-                console.log('hay o day`??', dataMain?.[0]?.values[0]?.quarter )
                 const x = dataMain?.[0]?.values[0]?.quarter + 1;
-                console.log(x)
                 dispatch(setLimitSubscribe({
                     quarter: x,
                     year: dataMain?.[0]?.values[0]?.year,
@@ -88,8 +84,6 @@ const FinancialStatementTable = () => {
             };
 
             if (dataMain?.[0]?.values[0]?.quarter === 0) {
-                console.log('hay o day 2`??')
-
                 dispatch(setLimitSubscribe({
                     quarter: 0,
                     year: dataMain?.[0]?.values[0]?.year + 1,
@@ -98,7 +92,6 @@ const FinancialStatementTable = () => {
 
             // báo cáo tài chính đủ 10 data thì cho phép bấm prev để xem. Ngược lại
             if (dataMain?.[0]?.values.length < 10) {
-                console.log('hay o day 333 prev`??')
                 dispatch(setLimitByDataBtnPrev(true));
             }else{
                 dispatch(setLimitByDataBtnPrev(false));
@@ -115,11 +108,9 @@ const FinancialStatementTable = () => {
 
         if (slectYear && selectQuarter === 0 && slectSubcribleYear) {
             if (slectYear < slectSubcribleYear && selectQuarter === 0) {
-              console.log('dap ung 1')
               dispatch(setLimitByDataBtnNext(true));
             }
             else if (slectYear >= slectSubcribleYear && selectQuarter === 0) {
-              console.log('dap ung 3')
               dispatch(setLimitByDataBtnNext(false));
             }
         };
@@ -159,14 +150,14 @@ const FinancialStatementTable = () => {
     }
 
     if (error) {
-        return <div className='text-white'>Error: {error}</div>;
+        return <div className='text-white pl-[40px]'>Error: {error}</div>;
     }
     
     return (
         <div className="px-[40px]">
             {/* ========================HEADER======================== */}
             <div className="w-full flex items-center h-[60px] rounded-[8px] bg-fintown-bg-stn px-[16px]">
-                <div className="text-xs text-fintown-txt-1 flex-grow-0 flex-shrink-0 basis-[350px]">
+                <div className="text-[14px] text-fintown-txt-1 flex-grow-0 flex-shrink-0 basis-[350px]">
                     {selectedText}
                 </div>
                 <div className="flex-grow flex-shrink basis-auto">
@@ -174,14 +165,14 @@ const FinancialStatementTable = () => {
                     {selectedButton !== 4 ? (
                         // Lấy tối đa 9 phần tử từ statementsData[0]?.values
                         statementsData[0]?.values?.slice(0, 9).map((x) => (
-                            <div className="text-xs text-fintown-txt-1 min-w-[calc(11.1111%)] pl-[16px]" key={x.period}>
+                            <div className="text-[14px] text-fintown-txt-1 min-w-[calc(11.1111%)] pl-[16px]" key={x.period}>
                                 <div className="flex justify-end">{x.period}</div>
                             </div>
                         ))
                     ) : (
                         // Lấy tối đa 9 phần tử từ metricsData[0]?.values
                         metricsData[0]?.values?.slice(0, 9).map((x) => (
-                            <div className="text-xs text-fintown-txt-1 min-w-[calc(11.1111%)] pl-[16px]" key={x.period}>
+                            <div className="text-[14px] text-fintown-txt-1 min-w-[calc(11.1111%)] pl-[16px]" key={x.period}>
                                 <div className="flex justify-end">{x.period}</div>
                             </div>
                         ))

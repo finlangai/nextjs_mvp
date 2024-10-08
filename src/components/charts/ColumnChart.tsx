@@ -4,6 +4,9 @@ import HighchartsReact from 'highcharts-react-official';
 
 const StackedColumnChart = () => {
   const options = {
+    credits: {
+      enabled: false // Vô hiệu hóa watermark Highcharts.com
+    },
     chart: {
       type: 'column',
       backgroundColor: 'transparent' // Nền trong suốt, phù hợp dark mode

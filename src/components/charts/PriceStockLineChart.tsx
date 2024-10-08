@@ -63,13 +63,15 @@ const PriceStockLineChart = ({ data }: { data: PriceStock[] }) => {
         type: 'x',
         mouseWheel: {
           enabled: true,
-          sensitivity: 1.1
+          sensitivity: 1.5
         },
-        pinchType: 'x'
       },
       panning: {
         enabled: true,
         type: 'x'
+      },
+      animation: {
+        duration: 300
       },
       style: {
         cursor: 'crosshair' // Thêm con trỏ chữ thập
@@ -87,12 +89,13 @@ const PriceStockLineChart = ({ data }: { data: PriceStock[] }) => {
         }
       },
       tickLength: 0,
-      minRange: 24 * 3600 * 1000, // Giới hạn zoom tối đa (1 ngày)
+      minRange: 15 * 60 * 1000,
       crosshair: {
         color: '#cccccc',
         width: 1,
         dashStyle: 'ShortDot'
-      }
+      },
+      
     },
     yAxis: {
       title: {
@@ -151,7 +154,15 @@ const PriceStockLineChart = ({ data }: { data: PriceStock[] }) => {
           hover: {
             lineWidth: 1
           }
-        }
+        },
+        turboThreshold: 5000,
+        // dataGrouping: {
+        //   enabled: true,
+        //   units: [
+        //     ['minute', [1, 5, 15, 30]],
+        //     ['hour', [1]]
+        //   ]
+        // },
       }
     },
     series: [{
