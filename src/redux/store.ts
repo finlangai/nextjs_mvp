@@ -11,6 +11,7 @@ import profileSummaryReducer from "./ProfileSummary/profileSummarySlice";
 import tickerListReducer from './TickerList/tickerListSlice';
 import topGainerReducer from './CardStock/topGainerSlice';
 import industryReducer from './CardStock/industrySlice';
+import priceInsightsReducer from "./PriceInsights/priceInsightsSlice"
 
 // Kết hợp industryReducer & topGainerReducer
 const cardStockReducer = combineReducers({
@@ -31,6 +32,7 @@ const store = configureStore({
     profileSummary: profileSummaryReducer,
     tickerList: tickerListReducer,
     cardStock: cardStockReducer,
+    priceInsights: priceInsightsReducer
   },
 });
 

@@ -1,4 +1,34 @@
+import React, {useState, useEffect} from 'react';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
+import { priceInsights } from '@/src/interfaces/PriceInsights';
+import { fetchpriceInsights, selectpriceInsightsData, selectpriceInsightsError, selectpriceInsightsLoading } from '@/src/redux/PriceInsights';
+import { BarsLoader } from '../common/Loader';
+
 export default function PriceInsights({symbol} : {symbol: string}) {
+    const dispatch = useAppDispatch();
+    const [stockData, setStockData] = useState<priceInsights | null>(null);
+    const selectpriceInsights = useAppSelector(selectpriceInsightsData);
+
+    useEffect(() => {
+      dispatch(fetchpriceInsights({symbol}));
+    }, [symbol]);
+
+    useEffect(() => {
+      if (selectpriceInsights !== null) {
+        setStockData(selectpriceInsights);
+      }
+    }, [selectpriceInsights]);
+
+    if (stockData === null) {
+      return (
+        <>
+        <div className='w-full flex justify-center items-center h-[576px]'>
+          < BarsLoader/>
+        </div>
+        </>
+      )
+    }
+
     return(
         <>
         <div className="px-[24px] py-[28px] bg-fintown-bg-stn rounded-[16px]">
@@ -12,7 +42,7 @@ export default function PriceInsights({symbol} : {symbol: string}) {
                 Trung bình động 52 tuần
               </div>
               <div className="text-fintown-stt-buy text-sm font-bold">
-                2.94%
+                {stockData?.avg52Week.toLocaleString('en-US')}
               </div>
             </div>
 
@@ -21,7 +51,7 @@ export default function PriceInsights({symbol} : {symbol: string}) {
                 Trung bình động 200 ngày
               </div>
               <div className="text-fintown-stt-sell text-sm font-bold">
-                -2.94%
+                {stockData?.avg200day.toLocaleString('en-US')}
               </div>
             </div>
 
@@ -30,7 +60,7 @@ export default function PriceInsights({symbol} : {symbol: string}) {
                 Trung bình động 150 ngày
               </div>
               <div className="text-fintown-txt-1 text-sm font-bold">
-                0%
+                {stockData?.avg150day.toLocaleString('en-US')}
               </div>
             </div>
 
@@ -39,7 +69,7 @@ export default function PriceInsights({symbol} : {symbol: string}) {
                 Trung bình động 24 ngày
               </div>
               <div className="text-fintown-stt-buy text-sm font-bold">
-                2.94%
+               {stockData?.avg24day.toLocaleString('en-US')}
               </div>
             </div>
 
@@ -48,7 +78,7 @@ export default function PriceInsights({symbol} : {symbol: string}) {
                 Phạm vi trong ngày
               </div>
               <div className="text-fintown-txt-1 text-sm font-bold">
-                90,500 - 91,000
+                {stockData?.low.toLocaleString('en-US')} - {stockData?.high.toLocaleString('en-US')}
               </div>
             </div>
 
@@ -57,7 +87,7 @@ export default function PriceInsights({symbol} : {symbol: string}) {
                 Giá mở cửa
               </div>
               <div className="text-fintown-txt-1 text-sm font-bold">
-                90,254
+                {stockData?.open.toLocaleString('en-US')}
               </div>
             </div>
 
@@ -66,7 +96,7 @@ export default function PriceInsights({symbol} : {symbol: string}) {
                 Giá đóng cửa
               </div>
               <div className="text-fintown-txt-1 text-sm font-bold">
-                90,800
+                {stockData?.close.toLocaleString('en-US')}
               </div>
             </div>
 
@@ -75,7 +105,7 @@ export default function PriceInsights({symbol} : {symbol: string}) {
                 Giá kết phiên trước
               </div>
               <div className="text-fintown-txt-1 text-sm font-bold">
-                90,200
+                {stockData?.previousClosingPrice.toLocaleString('en-US')}
               </div>
             </div>
 
@@ -84,7 +114,7 @@ export default function PriceInsights({symbol} : {symbol: string}) {
                 Tổng khối lượng
               </div>
               <div className="text-fintown-txt-1 text-sm font-bold">
-                301,216,991
+                {stockData?.volume.toLocaleString('en-US')}
               </div>
             </div>
           </div>

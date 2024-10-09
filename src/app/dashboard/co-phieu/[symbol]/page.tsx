@@ -2,7 +2,6 @@
 import React, {useState, useEffect} from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import PriceStockLineChart from "@/src/components/charts/PriceStockLineChart";
-import CardStock from "@/src/components/organisms/CardStock";
 import useSetSelectedButtonSiderBar from '@/src/redux/hooks/useButtonsiderBar';
 import useSetSelectedButtonStockPage from '@/src/redux/hooks/useButtonstockPage';
 import PriceInsights from '@/src/components/organisms/PriceInsights';
