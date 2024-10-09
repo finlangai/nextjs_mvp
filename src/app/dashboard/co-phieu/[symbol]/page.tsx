@@ -1,11 +1,10 @@
 "use client";
-import React, { useState, useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
+import React from 'react';
 import useSetSelectedButtonSiderBar from '@/src/redux/hooks/useButtonsiderBar';
 import useSetSelectedButtonStockPage from '@/src/redux/hooks/useButtonstockPage';
 import HistoricalPriceLineChart from '@/src/components/charts/PriceStockLineChart/HistoricalPriceLineChart';
-
 import SectionCard from '@/src/components/organisms/SectionCard';
+import PriceInsights from '@/src/components/organisms/PriceInsights';
 
 export default function ChiSoKyThuatPage({ params }: { params: { symbol: string } }) {
   const { symbol } = params;
@@ -18,7 +17,12 @@ export default function ChiSoKyThuatPage({ params }: { params: { symbol: string 
         Biểu đồ giá lịch sử
       </div>
 
-      < HistoricalPriceLineChart symbol={symbol} />
+      <div className="flex px-[40px] mb-[140px]">
+          < HistoricalPriceLineChart symbol={symbol} />
+          <div className="w-full max-w-[436px]">
+              <PriceInsights symbol={symbol} />
+          </div>
+      </div>
 
       <div className="overflow-hidden">
         < SectionCard endpoint={"industry"} nameSection={"Cổ phiếu cùng ngành"} />

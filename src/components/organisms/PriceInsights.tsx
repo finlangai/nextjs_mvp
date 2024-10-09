@@ -41,7 +41,7 @@ export default function PriceInsights({symbol} : {symbol: string}) {
               <div className="text-fintown-txt-2 text-sm font-bold">
                 Trung bình động 52 tuần
               </div>
-              <div className="text-fintown-stt-buy text-sm font-bold">
+              <div className="text-fintown-txt-1 text-sm font-bold">
                 {stockData?.avg52Week.toLocaleString('en-US')}
               </div>
             </div>
@@ -50,7 +50,7 @@ export default function PriceInsights({symbol} : {symbol: string}) {
               <div className="text-fintown-txt-2 text-sm font-bold">
                 Trung bình động 200 ngày
               </div>
-              <div className="text-fintown-stt-sell text-sm font-bold">
+              <div className="text-fintown-txt-1 text-sm font-bold">
                 {stockData?.avg200day.toLocaleString('en-US')}
               </div>
             </div>
@@ -68,7 +68,7 @@ export default function PriceInsights({symbol} : {symbol: string}) {
               <div className="text-fintown-txt-2 text-sm font-bold">
                 Trung bình động 24 ngày
               </div>
-              <div className="text-fintown-stt-buy text-sm font-bold">
+              <div className="text-fintown-txt-1 text-sm font-bold">
                {stockData?.avg24day.toLocaleString('en-US')}
               </div>
             </div>

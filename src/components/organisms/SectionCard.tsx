@@ -61,7 +61,6 @@ export default function SectionCard({ endpoint, nameSection }: { endpoint: strin
         }
     }, [selectIndustryData, selectTopGainersData]);
 
-
     // ===================SLLIDER=========================================
     const slideAmount = 200;
     useEffect(() => {
@@ -143,7 +142,7 @@ export default function SectionCard({ endpoint, nameSection }: { endpoint: strin
         }
     };
 
-    // ==================RENDER===========
+    // ==================RENDER============================================
 
     if (isLoading) {
         return (
