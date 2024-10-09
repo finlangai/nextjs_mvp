@@ -11,7 +11,10 @@ import profileSummaryReducer from "./ProfileSummary/profileSummarySlice";
 import tickerListReducer from './TickerList/tickerListSlice';
 import topGainerReducer from './CardStock/topGainerSlice';
 import industryReducer from './CardStock/industrySlice';
-import priceInsightsReducer from "./PriceInsights/priceInsightsSlice"
+import priceInsightsReducer from "./PriceInsights/priceInsightsSlice";
+import CompanyDescriptionReducer from './CompanyDescription/companyDescriptionSlice';
+import OfficersReducer from "./Officers/officersSlice"
+import HoldersReducer from "./Holders/holdersSlice";
 
 // Kết hợp industryReducer & topGainerReducer
 const cardStockReducer = combineReducers({
@@ -32,7 +35,10 @@ const store = configureStore({
     profileSummary: profileSummaryReducer,
     tickerList: tickerListReducer,
     cardStock: cardStockReducer,
-    priceInsights: priceInsightsReducer
+    priceInsights: priceInsightsReducer,
+    companyDescription: CompanyDescriptionReducer,
+    officers: OfficersReducer,
+    holders: HoldersReducer
   },
 });
 

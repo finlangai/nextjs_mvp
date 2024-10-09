@@ -1,7 +1,7 @@
 "use client";
 import React from 'react';
 import StackedColumnChart from "../../components/charts/ColumnChart";
-import CardStock from "../../components/organisms/CardStock";
+// import CardStock from "../../components/organisms/CardStock";
 import MarketIndicatorChart from "../../components/charts/MarketIndicatorChart";
 import StockTable from "../../components/organisms/StockTable";
 import useSetSelectedButtonSiderBar from '@/src/redux/hooks/useButtonsiderBar';
@@ -83,11 +83,11 @@ export default function Dashboard() {
 
       <section className="overflow-hidden px-[40px] mb-[106px]">
         <div id="container-card-stock" className="flex items-center overflow-hidden gap-[20px]">
+          {/* <CardStock />
           <CardStock />
           <CardStock />
           <CardStock />
-          <CardStock />
-          <CardStock />
+          <CardStock /> */}
         </div>
       </section>
 
