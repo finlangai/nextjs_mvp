@@ -1,58 +1,13 @@
-import { useEffect, useState, useRef } from 'react';
 import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
 import { PriceStock } from '@/src/interfaces/PriceStock';
 
-// Thêm module zoom
-import HC_more from 'highcharts/highcharts-more';
-HC_more(Highcharts);
-
-// Định nghĩa các chuỗi tiếng Việt cho Highcharts
-Highcharts.setOptions({
-  lang: {
-    months: [
-      'Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4',
-      'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8',
-      'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'
-    ],
-    shortMonths: [
-      'Th1', 'Th2', 'Th3', 'Th4', 'Th5', 'Th6',
-      'Th7', 'Th8', 'Th9', 'Th10', 'Th11', 'Th12'
-    ],
-    weekdays: [
-      'Chủ nhật', 'Thứ hai', 'Thứ ba', 'Thứ tư',
-      'Thứ năm', 'Thứ sáu', 'Thứ bảy'
-    ],
-    resetZoom: 'Đặt lại zoom',
-    resetZoomTitle: 'Đặt lại mức zoom 1:1'
-  }
-});
-
-const PriceStockLineChart = ({ data }: { data: PriceStock[] }) => {
-  const chartRef = useRef<HighchartsReact.RefObject>(null);
-  const chartContainerRef = useRef<HTMLDivElement>(null);
-
-  const chartData: [number, number][] = data.map(item => [
+export const getChartOptions = (data: PriceStock[]): Highcharts.Options => {
+  const chartData: [number, number][] = data?.map(item => [
     item.time * 1000,
     item.close
   ]);
 
-  useEffect(() => {
-    const container = chartContainerRef.current;
-    if (!container) return;
-
-    const handleWheel = (e: WheelEvent) => {
-      e.preventDefault(); // Ngăn chặn cuộn trang
-    };
-
-    container.addEventListener('wheel', handleWheel, { passive: false });
-
-    return () => {
-      container.removeEventListener('wheel', handleWheel);
-    };
-  }, []);
-
-  const options: Highcharts.Options = {
+  return {
     chart: {
       type: 'line',
       backgroundColor: 'transparent',
@@ -74,7 +29,7 @@ const PriceStockLineChart = ({ data }: { data: PriceStock[] }) => {
         duration: 300
       },
       style: {
-        cursor: 'crosshair' // Thêm con trỏ chữ thập
+        cursor: 'crosshair' 
       }
     },
     title: {
@@ -95,7 +50,6 @@ const PriceStockLineChart = ({ data }: { data: PriceStock[] }) => {
         width: 1,
         dashStyle: 'ShortDot'
       },
-      
     },
     yAxis: {
       title: {
@@ -156,13 +110,6 @@ const PriceStockLineChart = ({ data }: { data: PriceStock[] }) => {
           }
         },
         turboThreshold: 5000,
-        // dataGrouping: {
-        //   enabled: true,
-        //   units: [
-        //     ['minute', [1, 5, 15, 30]],
-        //     ['hour', [1]]
-        //   ]
-        // },
       }
     },
     series: [{
@@ -177,19 +124,4 @@ const PriceStockLineChart = ({ data }: { data: PriceStock[] }) => {
       enabled: true
     }
   };
-
-  return (
-    <div 
-      ref={chartContainerRef}
-      style={{ cursor: 'crosshair' }}
-    >
-      <HighchartsReact 
-        highcharts={Highcharts} 
-        options={options}
-        ref={chartRef}
-      />
-    </div>
-  );
 };
-
-export default PriceStockLineChart;

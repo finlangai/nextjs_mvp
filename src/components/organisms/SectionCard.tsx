@@ -2,9 +2,17 @@ import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { CardStock } from "@/src/interfaces/CardStock";
-import { fetchIndustry, selectIndustry, fetchTopGainers, selectTopGainers } from "@/src/redux/CardStock";
-import LineChart from "../charts/CardStockChart";
+import { 
+    fetchIndustry, 
+    selectIndustry, 
+    fetchTopGainers, 
+    selectTopGainers, 
+    selectIndustryLoading, 
+    selectTopGainersLoading 
+} from "@/src/redux/CardStock";
 import { selectProfileSummaryData } from '@/src/redux/ProfileSummary';
+import LineChart from '../charts/CardStockChart';
+import { BarsLoader } from '../common/Loader';
 
 export default function SectionCard({ endpoint }: { endpoint: string }) {
     const dispatch = useAppDispatch();
@@ -12,6 +20,8 @@ export default function SectionCard({ endpoint }: { endpoint: string }) {
     const selectIndustryData = useAppSelector(selectIndustry);
     const selectTopGainersData = useAppSelector(selectTopGainers);
     const selectProfileSummary = useAppSelector(selectProfileSummaryData);
+    const IndustryLoading = useAppSelector(selectIndustryLoading);
+    const TopGainersLoading = useAppSelector(selectTopGainersLoading);
 
     // Theo dõi profile summary để lấy industry từ đó call api lấy data
     useEffect(() => {
@@ -37,10 +47,19 @@ export default function SectionCard({ endpoint }: { endpoint: string }) {
         }
     }, [selectIndustryData, selectTopGainersData]);
 
+    if (IndustryLoading || TopGainersLoading) {
+        return (
+            <>
+                <div className='flex justify-center items-center max-h-[240px] min-h-[240px]'>
+                    < BarsLoader />
+                </div>
+            </>
+        )
+    }
 
     if (stockData.length === 0) {
         return "";
-    }
+    };
 
     return (
         <div className='pl-[40px] relative'>
