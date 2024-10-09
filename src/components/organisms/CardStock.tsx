@@ -1,7 +1,7 @@
-import LineChart from "../charts/LineChart";
+import LineChart from "../charts/CardStockChart";
 import { CardStock } from "@/src/interfaces/CardStock";
 
-const CardStockComponent = ({data} : {data:CardStock[]}) => {
+const CardStockComponent = ({ data }: { data: CardStock[] }) => {
 
     return (
         <div className="rounded-xl bg-fintown-bg-card max-w-[380px] max-h-[240px] min-w-[380px] min-h-[240px]">
