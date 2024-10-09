@@ -20,18 +20,12 @@ export default function ChiSoKyThuatPage({ params }: { params: { symbol: string 
 
       < HistoricalPriceLineChart symbol={symbol} />
 
-      <div className="overflow-hidden  mb-[106px]">
-        <div className="text-[24px] font-bold text-fintown-txt-1 px-[40px] mb-[35px]">
-          Cổ phiếu cùng ngành
-        </div>
-        < SectionCard endpoint={"industry"} />
+      <div className="overflow-hidden">
+        < SectionCard endpoint={"industry"} nameSection={"Cổ phiếu cùng ngành"} />
       </div>
 
-      <div className="overflow-hidden  mb-[106px]">
-        <div className="text-[24px] font-bold text-fintown-txt-1 px-[40px] mb-[35px]">
-          Top tăng giá mạnh nhất
-        </div>
-        < SectionCard endpoint={"top-gainer"} />
+      <div className="overflow-hidden">
+        < SectionCard endpoint={"top-gainer"} nameSection={"Tăng giá mạnh nhất"} />
       </div>
 
     </>

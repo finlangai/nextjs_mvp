@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { CardStock } from "@/src/interfaces/CardStock";
 import { 
@@ -14,14 +14,24 @@ import { selectProfileSummaryData } from '@/src/redux/ProfileSummary';
 import LineChart from '../charts/CardStockChart';
 import { BarsLoader } from '../common/Loader';
 
-export default function SectionCard({ endpoint }: { endpoint: string }) {
+export default function SectionCard({ endpoint, nameSection }: { endpoint: string; nameSection: string}) {
     const dispatch = useAppDispatch();
     const [stockData, setStockData] = useState<CardStock[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const selectIndustryData = useAppSelector(selectIndustry);
     const selectTopGainersData = useAppSelector(selectTopGainers);
     const selectProfileSummary = useAppSelector(selectProfileSummaryData);
     const IndustryLoading = useAppSelector(selectIndustryLoading);
     const TopGainersLoading = useAppSelector(selectTopGainersLoading);
+
+    const [slidePosition, setSlidePosition] = useState(0);
+    const [canSlideMore, setCanSlideMore] = useState(true);
+    const [canSlideBack, setCanSlideBack] = useState(false);
+    const [isDragging, setIsDragging] = useState(false);
+    const [startX, setStartX] = useState(0);
+    const [scrollLeft, setScrollLeft] = useState(0);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const sliderRef = useRef<HTMLDivElement>(null);
 
     // Theo dõi profile summary để lấy industry từ đó call api lấy data
     useEffect(() => {
@@ -29,8 +39,10 @@ export default function SectionCard({ endpoint }: { endpoint: string }) {
         if (industry) {
             if (endpoint === "industry") {
                 dispatch(fetchIndustry({ name: industry, limit: 4 }));
+                setIsLoading(IndustryLoading);
             } else if (endpoint === "top-gainer") {
                 dispatch(fetchTopGainers({ limit: 4 }));
+                setIsLoading(TopGainersLoading);
             }
         }
 
@@ -41,13 +53,99 @@ export default function SectionCard({ endpoint }: { endpoint: string }) {
         if (endpoint === "industry") {
             const filteredData = selectIndustryData.filter(item => item.symbol !== selectProfileSummary?.symbol);
             setStockData(filteredData);
+            setIsLoading(IndustryLoading);
         } else if (endpoint === "top-gainer") {
             const filteredData = selectTopGainersData.filter(item => item.symbol !== selectProfileSummary?.symbol);
             setStockData(filteredData);
+            setIsLoading(TopGainersLoading);
         }
     }, [selectIndustryData, selectTopGainersData]);
 
-    if (IndustryLoading || TopGainersLoading) {
+
+    // ===================SLLIDER=========================================
+    const slideAmount = 200;
+    useEffect(() => {
+        checkSlideAbility();
+        window.addEventListener('resize', checkSlideAbility);
+        return () => window.removeEventListener('resize', checkSlideAbility);
+    }, [slidePosition]);
+
+    const checkSlideAbility = () => {
+        if (containerRef.current && sliderRef.current) {
+            const containerWidth = containerRef.current.offsetWidth;
+            const sliderWidth = sliderRef.current.scrollWidth;
+            const currentPosition = slidePosition;
+            
+            setCanSlideMore(currentPosition + containerWidth < sliderWidth);
+            setCanSlideBack(currentPosition > 0);
+        }
+    };
+
+    const handleSlideLeft = () => {
+        if (canSlideMore) {
+            setSlidePosition(prev => prev + slideAmount);
+        }
+    };
+
+    const handleSlideRight = () => {
+        if (canSlideBack) {
+            setSlidePosition(prev => Math.max(0, prev - slideAmount));
+        }
+    };
+
+    // Xử lý bắt đầu kéo
+    const handleMouseDown = (e: React.MouseEvent) => {
+        if (!sliderRef.current) return;
+        
+        setIsDragging(true);
+        setStartX(e.pageX - sliderRef.current.offsetLeft);
+        setScrollLeft(slidePosition);
+        
+        // Thay đổi cursor khi đang kéo
+        if (sliderRef.current) {
+            sliderRef.current.style.cursor = 'grabbing';
+        }
+    };
+
+    // Xử lý khi đang kéo
+    const handleMouseMove = (e: React.MouseEvent) => {
+        if (!isDragging || !sliderRef.current || !containerRef.current) return;
+        
+        e.preventDefault();
+        const x = e.pageX - sliderRef.current.offsetLeft;
+        const walk = x - startX;
+        
+        // Tính toán giới hạn trượt
+        const maxScroll = sliderRef.current.scrollWidth - containerRef.current.offsetWidth;
+        let newPosition = scrollLeft - walk;
+        
+        // Giới hạn khoảng trượt
+        newPosition = Math.max(0, Math.min(newPosition, maxScroll));
+        
+        setSlidePosition(newPosition);
+    };
+
+    // Xử lý kết thúc kéo
+    const handleMouseUp = () => {
+        setIsDragging(false);
+        if (sliderRef.current) {
+            sliderRef.current.style.cursor = 'grab';
+        }
+    };
+
+    // Xử lý khi chuột ra khỏi vùng slider
+    const handleMouseLeave = () => {
+        if (isDragging) {
+            setIsDragging(false);
+            if (sliderRef.current) {
+                sliderRef.current.style.cursor = 'grab';
+            }
+        }
+    };
+
+    // ==================RENDER===========
+
+    if (isLoading) {
         return (
             <>
                 <div className='flex justify-center items-center max-h-[240px] min-h-[240px]'>
@@ -62,16 +160,53 @@ export default function SectionCard({ endpoint }: { endpoint: string }) {
     };
 
     return (
-        <div className='pl-[40px] relative'>
+        <>
+        <div className="text-[24px] font-bold text-fintown-txt-1 px-[40px] mb-[35px]">
+           {nameSection}
+        </div>
+
+        <div  ref={containerRef} className='pl-[40px] relative mb-[106px]'>
             {
                 stockData.length >= 4 && (
-                    <button className='flex items-center justify-center w-[40px] h-[40px] absolute bg-fintown-btn-2 rounded-[50%] ml-[-18px] top-[40%] z-30'>
-                        <i className='bx bx-chevron-left text-white text-[24px]'></i>
+                    <button 
+                        onClick={handleSlideLeft}
+                        disabled={!canSlideMore}
+                        className={`flex items-center justify-center w-[40px] h-[40px] absolute rounded-[50%] ml-[-18px] top-[40%] z-30 transition-all duration-300
+                            ${canSlideMore 
+                                ? 'bg-fintown-btn-2 cursor-pointer hover:opacity-80' 
+                                : 'hidden'}`}
+                    >
+                        <i className={`bx bx-chevron-left text-[24px] ${canSlideMore ? 'text-white' : 'text-gray-500'}`}></i>
                     </button>
                 )
             }
 
-            <div className="flex items-center gap-[20px] overflow-hidden">
+            {canSlideBack && (
+                <button 
+                    onClick={handleSlideRight}
+                    disabled={!canSlideBack}
+                    className={`flex items-center justify-center w-[40px] h-[40px] absolute rounded-[50%] right-[18px] top-[40%] z-30 transition-all duration-300
+                        ${canSlideBack 
+                            ? 'bg-fintown-btn-2 cursor-pointer hover:opacity-80' 
+                            : 'bg-gray-300 cursor-not-allowed'}`}
+                >
+                    <i className={`bx bx-chevron-right text-[24px] ${canSlideBack ? 'text-white' : 'text-gray-500'}`}></i>
+                </button>
+            )}
+
+            <div              
+                ref={sliderRef}
+                className="flex items-center gap-[20px] cursor-grab active:cursor-grabbing"
+                style={{
+                    marginLeft: `-${slidePosition}px`,
+                    transition: isDragging ? 'none' : 'margin-left 0.5s ease-in-out',
+                    userSelect: 'none'
+                }}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseLeave}
+            >
                 {
                     stockData.map((x) => (
                         <div key={x.symbol} className="rounded-xl border border-fintown-br max-w-[380px] max-h-[240px] min-w-[380px] ">
@@ -123,7 +258,8 @@ export default function SectionCard({ endpoint }: { endpoint: string }) {
                     ))
                 }
             </div>
+            
         </div>
-
+        </>
     );
 }
