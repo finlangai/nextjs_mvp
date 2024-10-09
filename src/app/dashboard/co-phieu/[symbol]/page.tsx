@@ -11,6 +11,8 @@ import { fetchPriceStocks, selectPriceStocksData } from '@/src/redux/PriceStock'
 import { PriceStock } from '@/src/interfaces/PriceStock';
 import { TimeRange } from '@/src/interfaces/PriceStock';
 
+import SectionCard from '@/src/components/organisms/SectionCard';
+
 export default function ChiSoKyThuatPage({ params }: { params: { symbol: string } }) {
   const { symbol } = params;
   const dispatch = useAppDispatch();
@@ -81,29 +83,30 @@ export default function ChiSoKyThuatPage({ params }: { params: { symbol: string 
         </div>
       </div>
       
-      <div className="overflow-hidden px-[40px] mb-[106px]">
-        <div className="text-[24px] font-bold text-fintown-txt-1 mb-[35px]">
+      <div className="overflow-hidden  mb-[106px]">
+        <div className="text-[24px] font-bold text-fintown-txt-1 px-[40px] mb-[35px]">
           Cổ phiếu cùng ngành
         </div>
-        <div className="flex items-center overflow-hidden gap-[20px]">
-          <CardStock/>
-          <CardStock/>
-          <CardStock/>
-          <CardStock/>
+        <div className='pl-[40px] relative'>
+          <button className='flex items-center justify-center w-[40px] h-[40px] absolute bg-fintown-btn-2 rounded-[50%] ml-[-18px] top-[40%] z-30'>
+            <i className='bx bx-chevron-left text-white text-[24px]'></i>
+          </button>
+          < SectionCard endpoint={"industry"} />
         </div>
       </div>
       
-      <div className="overflow-hidden px-[40px] mb-[106px]">
-        <div className="text-[24px] font-bold text-fintown-txt-1 mb-[35px]">
-          Tăng giá mạnh nhất
+      <div className="overflow-hidden  mb-[106px]">
+        <div className="text-[24px] font-bold text-fintown-txt-1 px-[40px] mb-[35px]">
+          Top tăng giá mạnh nhất
         </div>
-        <div className="flex items-center overflow-hidden gap-[20px]">
-          <CardStock/>
-          <CardStock/>
-          <CardStock/>
-          <CardStock/>
+        <div className='pl-[40px] relative'>
+        <button className='flex items-center justify-center w-[40px] h-[40px] absolute bg-fintown-btn-2 rounded-[50%] ml-[-18px] top-[40%] z-30'>
+            <i className='bx bx-chevron-left text-white text-[24px]'></i>
+          </button>
+          < SectionCard endpoint={"top-gainer"} />
         </div>
       </div>
+      
     </>
   );
 }

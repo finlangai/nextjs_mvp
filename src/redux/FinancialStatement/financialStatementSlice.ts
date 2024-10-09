@@ -21,7 +21,6 @@ export const fetchFinancialStatements = createAsyncThunk(
     const limit = 10;
     const api = `${apiUrl}/symbols/${symbol}/financial-statements?type=${type}&year=${year}&quarter=${quarter}&limit=${limit}`
     const response = await fetch(api);
-    // console.log(api)
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }

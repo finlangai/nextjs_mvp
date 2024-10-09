@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import financialStatementReducer from './FinancialStatement/financialStatementSlice';
 import financialMetricReducer from './FinancialMetric/financialMetricSlice';
 import reportPageReducer from './ReportPage/reportPageSlice';
@@ -9,6 +9,14 @@ import searchAndChangeStockReducer from './SearchAndChangeStock/searchAndChangeS
 import priceStockReducer from './PriceStock/priceStockSlice';
 import profileSummaryReducer from "./ProfileSummary/profileSummarySlice";
 import tickerListReducer from './TickerList/tickerListSlice';
+import topGainerReducer from './CardStock/topGainerSlice';
+import industryReducer from './CardStock/industrySlice';
+
+// Kết hợp industryReducer & topGainerReducer
+const cardStockReducer = combineReducers({
+  industry: industryReducer,
+  topGainer: topGainerReducer,
+});
 
 const store = configureStore({
   reducer: {
@@ -21,7 +29,8 @@ const store = configureStore({
     searchVn30Stock: searchAndChangeStockReducer,
     priceStock: priceStockReducer,
     profileSummary: profileSummaryReducer,
-    tickerList: tickerListReducer
+    tickerList: tickerListReducer,
+    cardStock: cardStockReducer,
   },
 });
 

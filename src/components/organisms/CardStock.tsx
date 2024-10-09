@@ -1,6 +1,8 @@
 import LineChart from "../charts/LineChart";
+import { CardStock } from "@/src/interfaces/CardStock";
 
-const CardStock = () => {
+const CardStockComponent = ({data} : {data:CardStock[]}) => {
+
     return (
         <div className="rounded-xl bg-fintown-bg-card max-w-[380px] max-h-[240px] min-w-[380px] min-h-[240px]">
             <div className="flex px-6 pt-[24px]">
@@ -31,4 +33,4 @@ const CardStock = () => {
     );
 };
 
-export default CardStock;
+export default CardStockComponent;

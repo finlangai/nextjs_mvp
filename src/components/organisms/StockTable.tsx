@@ -4,14 +4,11 @@ import { fetchTickerList, selectTickerListsData, selectTickerListsLoading, selec
 import { TickerList } from '@/src/interfaces/TickerList';
 import { BarsLoader } from '../common/Loader';
 
-
 const StockTable = () => {
     const dispatch = useAppDispatch();
 
     const selectTickerLists = useAppSelector(selectTickerListsData);
     const [NowData, setNowData] = useState<TickerList[] | null>(null);
-    const [isOverflowing, setIsOverflowing] = useState(false);
-    const overviewRef = useRef<HTMLDivElement>(null);
     
     const hasFetched = useRef(false);
     useEffect(() => {
@@ -27,11 +24,6 @@ const StockTable = () => {
         }
     }, [selectTickerLists]);
 
-    useEffect(() => {
-        if (overviewRef.current) {
-          setIsOverflowing(overviewRef.current.scrollHeight > overviewRef.current.clientHeight);
-        }
-    }, [NowData]);
 
     if (selectTickerLists === null) {
         return (

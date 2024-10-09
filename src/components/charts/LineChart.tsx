@@ -1,51 +1,101 @@
+import React from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import { quotes } from '@/src/interfaces/CardStock';
 
-const LineChart = () => {
-    const chartOptions = {
-        chart: {
-            type: 'spline', // Sử dụng đường cong mượt (spline)
-            backgroundColor: 'none', // Màu nền tối
-            borderRadius: 10, // Tạo bo góc cho biểu đồ nếu cần
-            height: '103px', // Tùy chỉnh chiều cao
-            width: null,
-        },
-        title: {
-            text: null, // Không hiển thị tiêu đề
-        },
-        xAxis: {
-            visible: false, // Ẩn trục X
-        },
-        yAxis: {
-            visible: false, // Ẩn trục Y
-        },
-        series: [
-            {
-                data: [5, 2, 3, 6, 2, 1, 9, 5, 7, 6, 4, 5], // Dữ liệu mẫu
-                color: '#fff', // Màu của đường (trắng để nổi bật trên nền tối)
-                lineWidth: 2, // Độ dày của đường
-                marker: {
-                    enabled: false, // Ẩn các chấm tròn trên đường
-                    states: {
-                        hover: {
-                          enabled: false, // Loại bỏ các chấm khi hover
-                        },
-                    },
-                },
-            },
-        ],
-        legend: {
-            enabled: false, // Ẩn chú giải (legend)
-        },
-        credits: {
-            enabled: false, // Ẩn thông tin bản quyền ở góc dưới
-        },
-        tooltip: {
-            enabled: false, // Ẩn tooltip khi hover
-        },
+interface DataPoint extends Highcharts.PointOptionsObject {
+  x: number;
+  y: number;
+}
+
+const LineChart = ({ data }: { data: quotes[] }) => {
+  const formattedData: DataPoint[] = data.map(item => {
+    const date = new Date(item.time * 1000);
+    return {
+      x: date.getTime(),
+      y: Number(item.price),
     };
+  });
 
-    return <HighchartsReact highcharts={Highcharts} options={chartOptions} />;
+  const prices = formattedData.map(item => item.y);
+  const minPrice = Math.min(...prices);
+  const maxPrice = Math.max(...prices);
+  const priceRange = maxPrice - minPrice;
+  const padding = priceRange * 0.1;
+
+  const chartOptions: Highcharts.Options = {
+    chart: {
+      type: 'area',
+      backgroundColor: 'none',
+      borderRadius: 10,
+      height: '103px',
+    },
+    title: {
+      text: undefined,
+    },
+    xAxis: {
+      type: 'datetime',
+      visible: false,
+    },
+    yAxis: {
+      visible: false,
+      min: minPrice - padding,
+      max: maxPrice + padding,
+      startOnTick: false,
+      endOnTick: false,
+      minPadding: 0,
+      maxPadding: 0,
+    },
+    plotOptions: {
+      area: {
+        animation: false,
+        marker: {
+          enabled: false,
+          states: {
+            hover: {
+              enabled: true,
+              radius: 3
+            }
+          }
+        },
+      }
+    },
+    series: [{
+      type: 'area',
+      data: formattedData,
+      color: 'white',
+      lineWidth: 1.5,
+      fillColor: {
+        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+        stops: [
+          [0, '#ffffff61'],
+          [1, '#49494921']
+        ]
+      },
+    }],
+    legend: {
+      enabled: false,
+    },
+    credits: {
+      enabled: false,
+    },
+    tooltip: {
+      formatter: function(this: Highcharts.TooltipFormatterContextObject): string {
+        if (typeof this.x === 'undefined') return '';
+        
+        const date = new Date(this.x);
+        const day = ('0' + date.getDate()).slice(-2);
+        const month = ('0' + (date.getMonth() + 1)).slice(-2);
+        const year = date.getFullYear();
+        
+        const price = typeof this.y === 'number' ? this.y.toLocaleString() : '0';
+        
+        return `<b>${day}/${month}/${year}</b><br/>Giá: ${price}`;
+      }
+    },
+  };
+
+  return <HighchartsReact highcharts={Highcharts} options={chartOptions} />;
 };
 
 export default LineChart;
