@@ -1,13 +1,3 @@
-export function NormalSection(){
-    return (
-        <>
-            <div className='text-xm text-fintown-txt-1 text-justify'>
-                Tổng Công ty Đầu tư và Phát triển Công nghiệp (BCM) có tiền thân là Công ty Thương Nghiệp Tổng Hợp Bến Cát (Becamex), được thành lập vào năm 1976. Tổng công ty hoạt động trong lĩnh vực đầu tư phát triển công nghiệp - đô thị, xây dựng dân dụng - công nghiệp - giao thông. Becamex IDC đang xây dựng và đưa vào sử dụng 40.000 căn hộ trong dự án tổng thể cung cấp 102.000 căn hộ cho 248.000 người ở Thuận An, Thủ Dầu Một, Bến Cát và Bàu Bàng. BCM được niêm yết trên Sở Giao dịch Chứng khoán Thành phố Hồ Chí Minh (HOSE) từ cuối tháng 07/2020.  
-            </div>
-        </>
-    )
-}
-
 export function IndexSectionOne(){
     return (
         <>
