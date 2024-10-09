@@ -8,6 +8,7 @@ import btnNextPrevReportPageReducer from './BtnNextPrevReportPage/btnNextPrevRep
 import searchAndChangeStockReducer from './SearchAndChangeStock/searchAndChangeStockSlice';
 import priceStockReducer from './PriceStock/priceStockSlice';
 import profileSummaryReducer from "./ProfileSummary/profileSummarySlice";
+import tickerListReducer from './TickerList/tickerListSlice';
 
 const store = configureStore({
   reducer: {
@@ -19,7 +20,8 @@ const store = configureStore({
     btnNextPrevReport: btnNextPrevReportPageReducer,
     searchVn30Stock: searchAndChangeStockReducer,
     priceStock: priceStockReducer,
-    profileSummary: profileSummaryReducer
+    profileSummary: profileSummaryReducer,
+    tickerList: tickerListReducer
   },
 });
 

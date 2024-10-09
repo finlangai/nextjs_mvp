@@ -1,4 +1,48 @@
+import React, { useEffect, useState, useRef } from 'react';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
+import { fetchTickerList, selectTickerListsData, selectTickerListsLoading, selectTickerListsError } from '@/src/redux/TickerList';
+import { TickerList } from '@/src/interfaces/TickerList';
+import { BarsLoader } from '../common/Loader';
+
+
 const StockTable = () => {
+    const dispatch = useAppDispatch();
+
+    const selectTickerLists = useAppSelector(selectTickerListsData);
+    const [NowData, setNowData] = useState<TickerList[] | null>(null);
+    const [isOverflowing, setIsOverflowing] = useState(false);
+    const overviewRef = useRef<HTMLDivElement>(null);
+    
+    const hasFetched = useRef(false);
+    useEffect(() => {
+        if (!hasFetched.current) {
+            dispatch(fetchTickerList({ limit: 10 }));
+            hasFetched.current = true;
+        }
+    }, [dispatch]);
+
+    useEffect(() => {
+        if (selectTickerLists !== null) {
+            setNowData(selectTickerLists);
+        }
+    }, [selectTickerLists]);
+
+    useEffect(() => {
+        if (overviewRef.current) {
+          setIsOverflowing(overviewRef.current.scrollHeight > overviewRef.current.clientHeight);
+        }
+    }, [NowData]);
+
+    if (selectTickerLists === null) {
+        return (
+            <>
+            <div className='flex w-full justify-center items-center h-[428px]'>
+                < BarsLoader/>
+            </div>
+            </>
+        )
+    };
+
     return (
         <table className="table-fixed w-full">
             <colgroup>
@@ -126,15 +170,17 @@ const StockTable = () => {
             </thead>
 
             <tbody>
+
+            {NowData?.map((val) => (       
                 <tr className="border-b border-fintown-lnr-1 hover:bg-fintown-hvr-btn-1">
                     <td className="py-[21px] px-[12px]">
                         <div className="flex">
                             <div className="overflow-hidden min-w-[40px] max-w-[40px] min-h-[40px] max-h-[40px] rounded-[50%] bg-white mr-[10px]">
-                                <img className="w-full h-full" src="/imgs/logo_cty/vcb.png" alt="vcb" />
+                                <img className="w-full h-full object-contain" src={val.logo} alt={val.symbol} />
                             </div>
-                            <div>
-                                <p className="text-fintown-txt-1 text-sm">VCB</p>
-                                <div className="text-fintown-txt-1 text-xs overflow-hidden whitespace-nowrap text-ellipsis max-w-[100px]">
+                            <div className='w-full'>
+                                <p className="text-fintown-txt-1 text-sm">{val.symbol}</p>
+                                <div className="text-fintown-txt-1 text-xs overflow-hidden whitespace-nowrap text-ellipsis mr-[20px]">
                                     Ngân hàng TMCP Ngoại thương Việt Nam
                                 </div>
                             </div>
@@ -143,368 +189,84 @@ const StockTable = () => {
 
                     <td className="py-[21px] px-[12px]">
                         <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">512,519T</p>
+                            <p className="text-fintown-txt-1 text-right text-sm">{val.marketCap.toLocaleString('en-US')}T</p>
                         </div>
                     </td>
 
                     <td className="py-[21px] px-[12px]">
                         <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">91,700</p>
+                            <p className="text-fintown-txt-1 text-right text-sm">{val.price.toLocaleString('en-US')}</p>
                         </div>
                     </td>
 
                     <td className="py-[21px] px-[12px]">
                         <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">0.20%</p>
+                            <p 
+                                className={`text-right text-sm ${
+                                val.dailyDelta > 0 ? 'text-fintown-stt-buy' : 
+                                val.dailyDelta < 0 ? 'text-fintown-stt-sell' : 
+                                'text-fintown-txt-1'
+                            }`}>{val.dailyDelta}%</p>                        
                         </div>
                     </td>
 
                     <td className="py-[21px] px-[12px]">
                         <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">-0.76%</p>
+                            <p 
+                                className={`text-right text-sm ${
+                                val.weeklyDelta > 0 ? 'text-fintown-stt-buy' : 
+                                val.weeklyDelta < 0 ? 'text-fintown-stt-sell' : 
+                                'text-fintown-txt-1'
+                            }`}>{val.weeklyDelta}%</p>
                         </div>
                     </td>
 
                     <td className="py-[21px] px-[12px]">
                         <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">2.92%</p>
+                            <p 
+                            className={`text-right text-sm ${
+                                val.yearlyDelta > 0 ? 'text-fintown-stt-buy' : 
+                                val.yearlyDelta < 0 ? 'text-fintown-stt-sell' : 
+                                'text-fintown-txt-1'
+                            }`}
+                            >
+                            {val.yearlyDelta}%
+                            </p>
                         </div>
                     </td>
 
                     <td className="py-[21px] px-[12px]">
                         <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">15.38</p>
+                            <p className="text-fintown-txt-1 text-right text-sm">{val.pe}</p>
                         </div>
                     </td>
 
                     <td className="py-[21px] px-[12px]">
                         <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">2.82</p>
+                            <p className="text-fintown-txt-1 text-right text-sm">{val.pb}</p>
                         </div>
                     </td>
 
                     <td className="py-[21px] px-[12px]">
                         <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">19.98%</p>
+                            <p className="text-fintown-txt-1 text-right text-sm">{val.roe}</p>
                         </div>
                     </td>
 
                     <td className="py-[21px] px-[12px]">
                         <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">HOSE</p>
+                            <p className="text-fintown-txt-1 text-right text-sm">{val.exchange}</p>
                         </div>
                     </td>
 
                     <td className="py-[21px] px-[12px]">
                         <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">Tài chính</p>
+                            <p className="text-fintown-txt-1 text-right text-sm">{val.industry}</p>
                         </div>
                     </td>
                 </tr>
+            ))}
 
-                <tr className="border-b border-fintown-lnr-1 hover:bg-fintown-hvr-btn-1">
-                    <td className="py-[21px] px-[12px]">
-                        <div className="flex">
-                            <div className="overflow-hidden min-w-[40px] max-w-[40px] min-h-[40px] max-h-[40px] rounded-[50%] bg-white mr-[10px]">
-                                <img className="w-full h-full" src="/imgs/logo_cty/vcb.png" alt="vcb" />
-                            </div>
-                            <div>
-                                <p className="text-fintown-txt-1 text-sm">VCB</p>
-                                <div className="text-fintown-txt-1 text-xs overflow-hidden whitespace-nowrap text-ellipsis max-w-[100px]">
-                                    Ngân hàng TMCP Ngoại thương Việt Nam
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">512,519T</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">91,700</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">0.20%</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">-0.76%</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">2.92%</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">15.38</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">2.82</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">19.98%</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">HOSE</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">Tài chính</p>
-                        </div>
-                    </td>
-                </tr>
-
-                <tr className="border-b border-fintown-lnr-1 hover:bg-fintown-hvr-btn-1">
-                    <td className="py-[21px] px-[12px]">
-                        <div className="flex">
-                            <div className="overflow-hidden min-w-[40px] max-w-[40px] min-h-[40px] max-h-[40px] rounded-[50%] bg-white mr-[10px]">
-                                <img className="w-full h-full" src="/imgs/logo_cty/vcb.png" alt="vcb" />
-                            </div>
-                            <div>
-                                <p className="text-fintown-txt-1 text-sm">VCB</p>
-                                <div className="text-fintown-txt-1 text-xs overflow-hidden whitespace-nowrap text-ellipsis max-w-[100px]">
-                                    Ngân hàng TMCP Ngoại thương Việt Nam
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">512,519T</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">91,700</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">0.20%</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">-0.76%</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">2.92%</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">15.38</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">2.82</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">19.98%</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">HOSE</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">Tài chính</p>
-                        </div>
-                    </td>
-                </tr>
-
-                <tr className="border-b border-fintown-lnr-1 hover:bg-fintown-hvr-btn-1">
-                    <td className="py-[21px] px-[12px]">
-                        <div className="flex">
-                            <div className="overflow-hidden min-w-[40px] max-w-[40px] min-h-[40px] max-h-[40px] rounded-[50%] bg-white mr-[10px]">
-                                <img className="w-full h-full" src="/imgs/logo_cty/vcb.png" alt="vcb" />
-                            </div>
-                            <div>
-                                <p className="text-fintown-txt-1 text-sm">VCB</p>
-                                <div className="text-fintown-txt-1 text-xs overflow-hidden whitespace-nowrap text-ellipsis max-w-[100px]">
-                                    Ngân hàng TMCP Ngoại thương Việt Nam
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">512,519T</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">91,700</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">0.20%</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">-0.76%</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">2.92%</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">15.38</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">2.82</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">19.98%</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">HOSE</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">Tài chính</p>
-                        </div>
-                    </td>
-                </tr>
-
-                <tr className="border-b border-fintown-lnr-1 hover:bg-fintown-hvr-btn-1">
-                    <td className="py-[21px] px-[12px]">
-                        <div className="flex">
-                            <div className="overflow-hidden min-w-[40px] max-w-[40px] min-h-[40px] max-h-[40px] rounded-[50%] bg-white mr-[10px]">
-                                <img className="w-full h-full" src="/imgs/logo_cty/vcb.png" alt="vcb" />
-                            </div>
-                            <div>
-                                <p className="text-fintown-txt-1 text-sm">VCB</p>
-                                <div className="text-fintown-txt-1 text-xs overflow-hidden whitespace-nowrap text-ellipsis max-w-[100px]">
-                                    Ngân hàng TMCP Ngoại thương Việt Nam
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">512,519T</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">91,700</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">0.20%</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">-0.76%</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">2.92%</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">15.38</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">2.82</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">19.98%</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">HOSE</p>
-                        </div>
-                    </td>
-
-                    <td className="py-[21px] px-[12px]">
-                        <div>
-                            <p className="text-fintown-txt-1 text-right text-sm">Tài chính</p>
-                        </div>
-                    </td>
-                </tr>
             </tbody>
         </table>
     )
