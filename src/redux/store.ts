@@ -15,6 +15,8 @@ import priceInsightsReducer from "./PriceInsights/priceInsightsSlice";
 import CompanyDescriptionReducer from './CompanyDescription/companyDescriptionSlice';
 import OfficersReducer from "./Officers/officersSlice"
 import HoldersReducer from "./Holders/holdersSlice";
+import HistoricalDataPageReducer from "./HistoricalDataPage/historicalDataPageSlice"
+import CompanyTransactionReducer from "./CompanyTransactions/companyTransactionsSlice";
 
 // Kết hợp industryReducer & topGainerReducer
 const cardStockReducer = combineReducers({
@@ -38,7 +40,9 @@ const store = configureStore({
     priceInsights: priceInsightsReducer,
     companyDescription: CompanyDescriptionReducer,
     officers: OfficersReducer,
-    holders: HoldersReducer
+    holders: HoldersReducer,
+    historicalDataPage: HistoricalDataPageReducer,
+    companyTransaction: CompanyTransactionReducer
   },
 });
 
