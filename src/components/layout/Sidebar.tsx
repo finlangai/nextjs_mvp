@@ -25,7 +25,7 @@ export default function Sidebar() {
                     <BtnSidebar class_icon="bx bxs-grid" active={selectedButton === 0} />
                 </Link>
 
-                <Link href="/dashboard/" onClick={() => handleClick(1)}>
+                <Link href="/profile/information" onClick={() => handleClick(1)}>
                     <BtnSidebar class_icon="bx bxs-user" active={selectedButton === 1} />
                 </Link>
 

@@ -9,7 +9,11 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 // Khởi tạo trạng thái ban đầu
 interface AuthState {
-    user: null | { email: string };
+    user: null | { email: string,
+        avatar?: string,
+        fullname?: string,
+        phone?: string
+     };
     token: string | null;
     loading: boolean;
     error: string | null;

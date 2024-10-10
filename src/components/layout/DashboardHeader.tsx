@@ -24,9 +24,9 @@ export default function DashboardHeader() {
                     await Promise.all([
                         dispatch(refreshToken()).unwrap(),
                         dispatch(fetchUserProfile()).unwrap(),
-                      ]);
+                    ]);
                 } catch (err) {
-                    console.log("Lỗi khi làm mới token hoặc lấy thông tin người dùng:", err);
+                    console.log(err);
                 }
             } else {
                 // Nếu không có token, chuyển hướng về trang chính
@@ -53,25 +53,32 @@ export default function DashboardHeader() {
             <InputSearch />
             <div className="flex items-center gap-x-2.5">
                 {loading ? (
-                    <div>Đang tải...</div>
+                    <div>...</div>
                 ) : user ? (
-                    <div className="flex items-center gap-x-3"> 
-                        <img 
-                       
-                            src={user.avatar || "/imgs/default-avatar.jpg"}
-                            alt="Avatar"
-                            className="w-[40px] h-[40px] rounded-full object-cover"
-                        />
+                    <div className="flex items-center gap-x-3">
+                        <Link href="/profile/information">
+                            <img
+                                src={user.avatar || "/imgs/default-avatar.jpg"}
+                                alt="Avatar"
+                                className="w-[40px] h-[40px] rounded-full object-cover"
+                            /> </Link>
                         <div>
                             <span className="text-fintown-txt-1 text-sm">{user.fullname || user.email}</span>
                             <p className="text-fintown-txt-2 text-xs">{user.email}</p>
                         </div>
+
                         <button
                             onClick={handleLogout}
                             className="text-fintown-txt-1 text-sm rounded-md bg-fintown-btn-2 px-[19px] py-[6px]"
                         >
                             Đăng xuất
                         </button>
+                        {/* Nút nâng cấp tài khoản */}
+                        <Link href="/pricing">
+                            <button className="text-fintown-txt-1 text-sm rounded-md bg-fintown-pr9 px-[19px] py-[6px]">
+                                Nâng cấp tài khoản
+                            </button>
+                        </Link>
                     </div>
                 ) : (
                     <>
