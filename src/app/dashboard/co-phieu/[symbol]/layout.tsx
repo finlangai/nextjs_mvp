@@ -81,6 +81,15 @@ export default function MaCoPhieuLayout({ children, params }: { children: React.
                     </button>
                 </Link>
 
+                <Link href={`/dashboard/co-phieu/${symbol}/du-lieu-lich-su`}>
+                    <button
+                        onClick={() => handleButtonClick(4)} 
+                        className={`text-sm py-[10px] px-[16px] rounded-[7px] ${selectedButton === 3 ? 'bg-fintown-btn-active-1 text-fintown-txt-1' : 'text-fintown-txt-1'}`}
+                    >
+                        Kết quả dự báo
+                    </button>
+                </Link>
+
             </div>
 
             {/* =========================================COMPONENT============================================== */}
