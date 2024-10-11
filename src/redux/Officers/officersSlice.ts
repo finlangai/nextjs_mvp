@@ -19,7 +19,7 @@ export const fetchOfficers = createAsyncThunk(
   'officers/fetch',
   async ({symbol}: { symbol: string; }) => {
     const api = `${apiUrl}/symbols/${symbol}/officers?limit=9`;
-    console.log(api)
+    // console.log(api)
     const response = await fetch(api);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);

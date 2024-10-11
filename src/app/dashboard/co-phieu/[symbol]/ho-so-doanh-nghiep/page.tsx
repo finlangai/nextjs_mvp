@@ -110,62 +110,6 @@ export default function HoSoDoanhNghiepPage ({ params }: { params: { symbol: str
         
                     <CompanyDescription symbol={symbol} />
 
-                    <div id="basic" className='pr-[20px]'>
-                        <div className='text-fintown-txt-1 font-bold text-[20px] mb-[12px]'>
-                            Thông tin cơ bản
-                        </div>
-                        
-                        <div className='flex flex-col gap-y-[12px]'>
-
-                            <div className='flex gap-x-[5px] items-start'>
-                                <div className='text-xm text-fintown-txt-1 text-justify font-bold'>
-                                    Mã SIC:
-                                </div>
-                                <div className='text-xm text-fintown-txt-1 text-justify'>
-                                    ACB                                
-                                </div>
-                            </div>
-
-                            <div className='flex gap-x-[5px] items-start'>
-                                <div className='text-xm text-fintown-txt-1 text-justify font-bold'>
-                                    Mã SIC:
-                                </div>
-                                <div className='text-xm text-fintown-txt-1 text-justify'>
-                                    ACB                                
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div id="listing" className='pr-[20px]'>
-                        <div className='text-fintown-txt-1 font-bold text-[20px] mb-[12px]'>
-                            Thông tin niêm yết
-                        </div>
-                        
-                        <div className='flex flex-col gap-y-[12px]'>
-
-                            <div className='flex gap-x-[5px] items-start'>
-                                <div className='text-xm text-fintown-txt-1 text-justify font-bold'>
-                                    Mã SIC:
-                                </div>
-                                <div className='text-xm text-fintown-txt-1 text-justify'>
-                                    ACB                                
-                                </div>
-                            </div>
-
-                            <div className='flex gap-x-[5px] items-start'>
-                                <div className='text-xm text-fintown-txt-1 text-justify font-bold'>
-                                    Mã SIC:
-                                </div>
-                                <div className='text-xm text-fintown-txt-1 text-justify'>
-                                    ACB                                
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
                     < HolderList symbol={symbol} />
 
                     <OfficersComponent symbol={symbol}/>
