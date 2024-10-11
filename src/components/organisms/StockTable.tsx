@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { fetchTickerList, selectTickerListsData, selectTickerListsLoading, selectTickerListsError } from '@/src/redux/TickerList';
 import { TickerList } from '@/src/interfaces/TickerList';
 import { BarsLoader } from '../common/Loader';
+import Link from 'next/link';
 
 const StockTable = () => {
     const dispatch = useAppDispatch();
@@ -171,9 +172,11 @@ const StockTable = () => {
                                 <img className="w-full h-full object-contain" src={val.logo} alt={val.symbol} />
                             </div>
                             <div className='w-full'>
-                                <p className="text-fintown-txt-1 text-sm">{val.symbol}</p>
+                                <Link href={`/dashboard/co-phieu/${val.symbol}`}>
+                                    <p className="text-fintown-txt-1 text-sm hover:text-fintown-pr9 font-bold">{val.symbol}</p>
+                                </Link>
                                 <div className="text-fintown-txt-1 text-xs overflow-hidden whitespace-nowrap text-ellipsis mr-[20px]">
-                                    Ngân hàng TMCP Ngoại thương Việt Nam
+                                    {val.companyName}
                                 </div>
                             </div>
                         </div>
