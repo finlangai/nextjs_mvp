@@ -68,17 +68,41 @@ export default function HoSoDoanhNghiepPage ({ params }: { params: { symbol: str
             <div className='flex px-[40px]  mt-[50px] h-screen scroll-moot '  ref={containerRef}>
                 <div className='min-w-[318px] ' id='siderbar'  ref={sidebarRef}>
                     <div className='min-w-[318px]'  style={sidebarStyle}>
-                       <Link href="/dashboard/co-phieu/VCB/ho-so-doanh-nghiep">
-                        <button className='text-fintown-txt-1 h-[48px] bg-fintown-btn-active-3 px-[20px] border-l-[5px] border-fintown-pr9 block w-full text-left'>Tổng quan</button>
-                       </Link> 
-                        <button onClick={() => handleScroll('section2')} className='text-fintown-txt-1 h-[48px] px-[20px] block w-full text-left'>Lịch sử phát triển</button>
-                        <button onClick={() => handleScroll('section3')} className='text-fintown-txt-1 h-[48px] px-[20px] block w-full text-left'>Lời hứa</button>
-                        <button onClick={() => handleScroll('section4')} className='text-fintown-txt-1 h-[48px] px-[20px] block w-full text-left'>Thách thức</button>
-                        <button onClick={() => handleScroll('section5')} className='text-fintown-txt-1 h-[48px] px-[20px] block w-full text-left'>Lĩnh vực kinh doanh</button>
-                        <button onClick={() => handleScroll('section6')} className='text-fintown-txt-1 h-[48px] px-[20px] block w-full text-left'>Chiến lược kinh doanh</button>
-                        <button onClick={() => handleScroll('section7')} className='text-fintown-txt-1 h-[48px] px-[20px] block w-full text-left'>Thông tin cơ bản</button>
-                        <button onClick={() => handleScroll('section8')} className='text-fintown-txt-1 h-[48px] px-[20px] block w-full text-left'>Danh sách cổ đông</button>
-                        <button onClick={() => handleScroll('section9')} className='text-fintown-txt-1 h-[48px] px-[20px] block w-full text-left'>Ban lãnh đạo</button>
+                        <Link href={`/dashboard/co-phieu/{symbol}/ho-so-doanh-nghiep#overview`}>
+                            <button className='text-fintown-txt-1 h-[48px] bg-fintown-btn-active-3 px-[20px] border-l-[5px] border-fintown-pr9 block w-full text-left'>Tổng quan</button>
+                        </Link>
+
+                        <Link href={`/dashboard/co-phieu/VCB/ho-so-doanh-nghiep#history`}>
+                            <button className='text-fintown-txt-1 h-[48px] px-[20px] block w-full text-left'>Lịch sử phát triển</button>
+                        </Link> 
+
+                        <Link href={`/dashboard/co-phieu/VCB/ho-so-doanh-nghiep#promise`}>
+                            <button className='text-fintown-txt-1 h-[48px] px-[20px] block w-full text-left'>Lời hứa</button>
+                        </Link> 
+
+                        <Link href={`/dashboard/co-phieu/VCB/ho-so-doanh-nghiep#businessrisk`}>
+                            <button className='text-fintown-txt-1 h-[48px] px-[20px] block w-full text-left'>Thách thức</button>
+                        </Link> 
+
+                        <Link href={`/dashboard/co-phieu/VCB/ho-so-doanh-nghiep#keydevelopments`}>
+                            <button className='text-fintown-txt-1 h-[48px] px-[20px] block w-full text-left'>Chiến lược kinh doanh</button>
+                        </Link> 
+
+                        <Link href={`/dashboard/co-phieu/VCB/ho-so-doanh-nghiep#basic`}>
+                            <button className='text-fintown-txt-1 h-[48px] px-[20px] block w-full text-left'>Thông tin cơ bản</button>
+                        </Link> 
+
+                        <Link href={`/dashboard/co-phieu/VCB/ho-so-doanh-nghiep#listing`}>
+                            <button className='text-fintown-txt-1 h-[48px] px-[20px] block w-full text-left'>Thông tin niêm yết</button>
+                        </Link> 
+
+                        <Link href={`/dashboard/co-phieu/VCB/ho-so-doanh-nghiep#holders`}>
+                            <button className='text-fintown-txt-1 h-[48px] px-[20px] block w-full text-left'>Danh sách cổ đông</button>
+                        </Link> 
+
+                        <Link href={`/dashboard/co-phieu/VCB/ho-so-doanh-nghiep#officers`}>
+                            <button className='text-fintown-txt-1 h-[48px] px-[20px] block w-full text-left'>Ban lãnh đạo</button>
+                        </Link> 
                     </div>
                 </div>
 
@@ -86,7 +110,7 @@ export default function HoSoDoanhNghiepPage ({ params }: { params: { symbol: str
         
                     <CompanyDescription symbol={symbol} />
 
-                    <div id="section6" className='pr-[20px]'>
+                    <div id="basic" className='pr-[20px]'>
                         <div className='text-fintown-txt-1 font-bold text-[20px] mb-[12px]'>
                             Thông tin cơ bản
                         </div>
@@ -114,7 +138,7 @@ export default function HoSoDoanhNghiepPage ({ params }: { params: { symbol: str
                         </div>
                     </div>
 
-                    <div id="section7" className='pr-[20px]'>
+                    <div id="listing" className='pr-[20px]'>
                         <div className='text-fintown-txt-1 font-bold text-[20px] mb-[12px]'>
                             Thông tin niêm yết
                         </div>
