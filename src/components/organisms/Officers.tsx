@@ -37,7 +37,7 @@ export default function OfficersComponent({symbol} : {symbol: string}){
 
     return (
         <>
-            <div id="section9"  className='pr-[20px]'>
+            <div id="officers"  className='pr-[20px]'>
                 <div className='text-fintown-txt-1 font-bold text-[20px] mb-[12px]'>
                     Ban lãnh đạo
                 </div>
