@@ -28,10 +28,11 @@ export default function DashboardHeader() {
                 } catch (err) {
                     console.log(err);
                 }
-            } else {
-                // Nếu không có token, chuyển hướng về trang chính
-                router.push('/');
-            }
+            } 
+            // else {
+            //     // Nếu không có token, chuyển hướng về trang chính
+            //     router.push('/');
+            // }
             setIsTokenChecked(true); // Đã kiểm tra token
         };
         checkAndRefreshToken();

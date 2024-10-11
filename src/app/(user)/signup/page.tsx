@@ -33,29 +33,46 @@ const SignUpPage = () => {
         >
             {({ errors, touched }) => (
                 <Form className="w-[452px] py-[28px] px-[26px] ml-auto mr-auto mt-[80px]">
-                    <h2 className="font-bold text-fintown-txt-1 text-[24px] mb-[28px]">Tạo tài khoản</h2>
-
+                    <div className="font-bold text-fintown-txt-1 text-[24px] mb-[28px]">
+                        Tạo tài khoản
+                    </div>
                     <div className="mb-[30px]">
-                        <label className="font-medium text-fintown-txt-1 text-sm mb-[16px]" htmlFor="email">Email</label>
-                        <Field
-                            id="email"
-                            name="email"
-                            placeholder="username@gmail.com"
-                            className={`px-[20px] h-[48px] border rounded-[10px] w-full text-fintown-txt-1 bg-transparent outline-none text-sm ${errors.email && touched.email ? "border-red-500" : "border-fintown-br-input"}`}
-                        />
-                        <ErrorMessage name="email" component="div" className="text-red-500" />
+                        <label
+                            className="font-medium text-fintown-txt-1 text-sm mb-[16px] block" // Sử dụng block để label nằm trên một dòng riêng
+                            htmlFor="email"
+                        >
+                            Email
+                        </label>
+                        <div className={`px-[20px] h-[48px] border rounded-[10px] flex items-center w-full ${errors.email && touched.email ? "border-red-500" : "border-fintown-br-input"} hover:border-fintown-pr9`}>
+                            <Field
+                                id="email"
+                                name="email"
+                                placeholder="username@gmail.com"
+                                className="text-fintown-txt-1 bg-transparent outline-none text-sm w-full"
+                            />
+                        </div>
+                        <ErrorMessage name="email" component="div" className="text-red-500 text-sm mt-1" />
                     </div>
 
+
                     <div className="mb-[30px]">
-                        <label className="font-medium text-fintown-txt-1 text-sm mb-[16px]" htmlFor="phone">Số điện thoại</label>
-                        <Field
-                            id="phone"
-                            name="phone"
-                            placeholder="Nhập số điện thoại"
-                            className={`px-[20px] h-[48px] border rounded-[10px] w-full text-fintown-txt-1 bg-transparent outline-none text-sm ${errors.phone && touched.phone ? "border-red-500" : "border-fintown-br-input"}`}
-                        />
-                        <ErrorMessage name="phone" component="div" className="text-red-500" />
+                        <label
+                            className="font-medium text-fintown-txt-1 text-sm mb-[16px] block"
+                            htmlFor="phone"
+                        >
+                            Số điện thoại
+                        </label>
+                        <div className={`px-[20px] h-[48px] border rounded-[10px] flex items-center w-full ${errors.phone && touched.phone ? "border-red-500" : "border-fintown-br-input"} hover:border-fintown-pr9`}>
+                            <Field
+                                id="phone"
+                                name="phone"
+                                placeholder="Nhập số điện thoại"
+                                className="text-fintown-txt-1 bg-transparent outline-none text-sm w-full"
+                            />
+                        </div>
+                        <ErrorMessage name="phone" component="div" className="text-red-500 text-sm mt-1" />
                     </div>
+
 
                     {success && <div className="text-green-500 mb-4">{success}</div>}
 
@@ -75,3 +92,90 @@ const SignUpPage = () => {
 };
 
 export default SignUpPage;
+
+
+
+// "use client";
+// import { useState } from "react";
+// import { Formik, Form, Field, ErrorMessage } from "formik";
+// import * as Yup from "yup";
+// import Link from "next/link";
+// import { useDispatch, useSelector } from "react-redux";
+// import { verifyEmail } from "@/src/redux/auth/authSlice";
+
+// const validationSchema = Yup.object({
+//   email: Yup.string().required("Email is required").email("Invalid email format"),
+//   phone: Yup.string().required("Phone number is required").matches(/^\d{10,11}$/, "Phone number must be 10 to 11 digits"),
+// });
+
+// const SignUpPage = () => {
+//   const dispatch = useDispatch();
+//   const { loading, error, emailVerified } = useSelector((state: any) => state.auth);
+//   const [success, setSuccess] = useState("");
+
+//   interface FormValues {
+//     email: string;
+//     phone: string;
+//   }
+
+//   const handleSubmit = async (values: FormValues) => {
+//     const result = await dispatch(verifyEmail() as any);
+//     if (verifyEmail.fulfilled.match(result)) {
+//       localStorage.setItem("email", values.email);
+//       localStorage.setItem("phone", values.phone);
+//       setSuccess("Email hợp lệ! Đang chuyển đến bước tiếp theo...");
+//       setTimeout(() => {
+//         window.location.href = "/signup/set-password";
+//       }, 2000);
+//     }
+//   };
+
+//   return (
+//     <Formik
+//       initialValues={{ email: "", phone: "" }}
+//       validationSchema={validationSchema}
+//       onSubmit={handleSubmit}
+//     >
+//       {({ errors, touched }) => (
+//         <Form className="w-[452px] py-[28px] px-[26px] ml-auto mr-auto mt-[80px]">
+//           <div className="font-bold text-fintown-txt-1 text-[24px] mb-[28px]">Tạo tài khoản</div>
+
+//           {/* Email Field */}
+//           <div className="mb-[30px]">
+//             <label className="font-medium text-fintown-txt-1 text-sm mb-[16px] block" htmlFor="email">
+//               Email
+//             </label>
+//             <div className={`px-[20px] h-[48px] border rounded-[10px] flex items-center w-full ${errors.email && touched.email ? "border-red-500" : "border-fintown-br-input"} hover:border-fintown-pr9`}>
+//               <Field id="email" name="email" placeholder="username@gmail.com" className="text-fintown-txt-1 bg-transparent outline-none text-sm w-full" />
+//             </div>
+//             <ErrorMessage name="email" component="div" className="text-red-500 text-sm mt-1" />
+//           </div>
+
+//           {/* Phone Field */}
+//           <div className="mb-[30px]">
+//             <label className="font-medium text-fintown-txt-1 text-sm mb-[16px] block" htmlFor="phone">Số điện thoại</label>
+//             <div className={`px-[20px] h-[48px] border rounded-[10px] flex items-center w-full ${errors.phone && touched.phone ? "border-red-500" : "border-fintown-br-input"} hover:border-fintown-pr9`}>
+//               <Field id="phone" name="phone" placeholder="Nhập số điện thoại" className="text-fintown-txt-1 bg-transparent outline-none text-sm w-full" />
+//             </div>
+//             <ErrorMessage name="phone" component="div" className="text-red-500 text-sm mt-1" />
+//           </div>
+
+//           {error && <div className="text-red-500 mb-4">{error}</div>}
+//           {success && <div className="text-green-500 mb-4">{success}</div>}
+
+//           <button type="submit" className="h-[48px] w-full bg-fintown-pr9 rounded-[10px] mb-[30px]" disabled={loading}>
+//             <span className="text-fintown-txt-1 text-sm">{loading ? "Đang xác thực..." : "Bước tiếp theo"}</span>
+//           </button>
+
+//           <Link href="/">
+//             <button className="h-[48px] w-full border border-fintown-br-btn rounded-[10px]">
+//               <span className="text-fintown-txt-1 text-sm">Đăng nhập</span>
+//             </button>
+//           </Link>
+//         </Form>
+//       )}
+//     </Formik>
+//   );
+// };
+
+// export default SignUpPage;

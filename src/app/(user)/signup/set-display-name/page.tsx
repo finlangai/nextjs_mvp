@@ -40,7 +40,7 @@ const SetDisplayName = () => {
                 } catch (err: any) {
                     setError(err.response?.data?.message || "Failed to set display name");
                     setTimeout(() => {
-                        window.location.href = "/signup"; 
+                        window.location.href = "/signup";
                     }, 2000);
                 }
             }}
@@ -50,15 +50,23 @@ const SetDisplayName = () => {
                     <h2 className="font-bold text-fintown-txt-1 text-[24px] mb-[28px]">Tên hiển thị</h2>
 
                     <div className="mb-[30px]">
-                        <label className="font-medium text-fintown-txt-1 text-sm mb-[16px]" htmlFor="display-name">Nhập tên</label>
-                        <Field
-                            id="display-name"
-                            name="displayName"
-                            placeholder="Bạn muốn chúng tôi gọi bạn là gì?"
-                            className={`px-[20px] h-[48px] border rounded-[10px] w-full text-fintown-txt-1 bg-transparent outline-none text-sm ${errors.displayName && touched.displayName ? "border-red-500" : "border-fintown-br-input"}`}
-                        />
-                        <ErrorMessage name="displayName" component="div" className="text-red-500" />
+                        <label
+                            className="font-medium text-fintown-txt-1 text-sm mb-[16px] block"
+                            htmlFor="display-name"
+                        >
+                            Nhập tên
+                        </label>
+                        <div className={`px-[20px] h-[48px] border rounded-[10px] flex items-center w-full ${errors.displayName && touched.displayName ? "border-red-500" : "border-fintown-br-input"} hover:border-fintown-pr9`}>
+                            <Field
+                                id="display-name"
+                                name="displayName"
+                                placeholder="Bạn muốn chúng tôi gọi bạn là gì?"
+                                className="text-fintown-txt-1 bg-transparent outline-none text-sm w-full"
+                            />
+                        </div>
+                        <ErrorMessage name="displayName" component="div" className="text-red-500 text-sm mt-1" />
                     </div>
+
 
                     {error && <div className="text-red-500 mb-4">{error}</div>}
                     {success && <div className="text-green-500 mb-4">{success}</div>}

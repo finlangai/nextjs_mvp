@@ -13,7 +13,6 @@ const routesWithoutFooter = ['/dashboard/co-phieu'];
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const shouldShowFooter = !pathname.match(/^\/dashboard\/co-phieu\/[^/]+\/ho-so-doanh-nghiep$/);
-  const token = useSelector((state: RootState) => state.auth.token);
 
   return (
     <>

@@ -1,11 +1,10 @@
-
-
 import { useState } from "react";
 import { useRouter } from "next/navigation";  // Dành cho App Router
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useAppDispatch, useAppSelector } from "@/src/redux/hooks/useAppStore";
 import { login } from "@/src/redux/auth/authSlice";
+import Link from "next/link";
 
 // Schema xác thực
 const validationSchema = Yup.object({
@@ -80,6 +79,30 @@ const LoginForm = () => {
           >
             <span className="text-fintown-txt-1 text-sm">Đăng nhập</span>
           </button>
+          <div className="flex justify-between mb-[27px]">
+            <Link href="/" className="text-sm">
+              Quên mật khẩu?
+            </Link>
+
+            <div className="flex items-center">
+              <div className="border border-fintown-pr9 cursor-pointer rounded-[2px] h-[20px] w-[20px] mr-[10px] flex items-center justify-center">
+                <i className='bx bx-check text-fintown-txt-1 w-full h-full'></i>
+              </div>
+
+              <div className="text-fintown-txt-1 text-sm">Ghi nhớ</div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-x-[12px] mb-[40px]">
+            <hr className="flex-1 border-fintown-lnr-1" />
+            <div className="text-fintown-txt-1 text-sm">
+              hoặc
+            </div>
+            <hr className="flex-1 border-fintown-lnr-1" />
+          </div>
+          <Link href="/signup" className="h-[48px] w-full border border-fintown-br-btn rounded-[10px] flex items-center justify-center">
+              <span className="text-fintown-txt-1 text-sm">Đăng ký</span>
+          </Link>
         </Form>
       )}
     </Formik>

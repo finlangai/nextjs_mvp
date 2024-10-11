@@ -37,31 +37,36 @@ const SetPassword = () => {
                 <Form className="w-[452px] py-[28px] px-[26px] ml-auto mr-auto mt-[80px]">
                     <h2 className="font-bold text-fintown-txt-1 text-[24px] mb-[28px]">Tạo mật khẩu</h2>
 
+                    {/* Trường Mật khẩu */}
                     <div className="mb-[30px]">
                         <div className="font-medium text-fintown-txt-1 text-sm mb-[16px]">Mật khẩu</div>
-                        <Field
-                            id="password"
-                            name="password"
-                            type="password"
-                            placeholder="Nhập mật khẩu"
-                            className={`px-[20px] h-[48px] border rounded-[10px] w-full text-fintown-txt-1 bg-transparent outline-none text-sm ${errors.password && touched.password ? "border-red-500" : "border-fintown-br-input"}`}
-                        />
-                        <ErrorMessage name="password" component="div" className="text-red-500" />
-
+                        <div className={`px-[20px] h-[48px] border rounded-[10px] flex items-center w-full ${errors.password && touched.password ? "border-red-500" : "border-fintown-br-input"} hover:border-fintown-pr9`}>
+                            <Field
+                                id="password"
+                                name="password"
+                                type="password"
+                                placeholder="Nhập mật khẩu"
+                                className="text-fintown-txt-1 bg-transparent outline-none text-sm w-full"
+                            />
+                        </div>
+                        <ErrorMessage name="password" component="div" className="text-red-500 text-sm mt-1" />
                     </div>
 
+                    {/* Trường Xác nhận mật khẩu */}
                     <div className="mb-[30px]">
                         <div className="font-medium text-fintown-txt-1 text-sm mb-[16px]">Xác nhận mật khẩu</div>
-                        {/* <label className="font-medium text-fintown-txt-1 text-sm mb-[26px]" htmlFor="confirmPassword">Xác nhận mật khẩu</label> */}
-                        <Field
-                            id="confirmPassword"
-                            name="confirmPassword"
-                            type="password"
-                            placeholder="Nhập lại mật khẩu"
-                            className={`px-[20px] h-[48px] border rounded-[10px] w-full text-fintown-txt-1 bg-transparent outline-none text-sm ${errors.confirmPassword && touched.confirmPassword ? "border-red-500" : "border-fintown-br-input"}`}
-                        />
-                        <ErrorMessage name="confirmPassword" component="div" className="text-red-500" />
+                        <div className={`px-[20px] h-[48px] border rounded-[10px] flex items-center w-full ${errors.confirmPassword && touched.confirmPassword ? "border-red-500" : "border-fintown-br-input"} hover:border-fintown-pr9`}>
+                            <Field
+                                id="confirmPassword"
+                                name="confirmPassword"
+                                type="password"
+                                placeholder="Nhập lại mật khẩu"
+                                className="text-fintown-txt-1 bg-transparent outline-none text-sm w-full"
+                            />
+                        </div>
+                        <ErrorMessage name="confirmPassword" component="div" className="text-red-500 text-sm mt-1" />
                     </div>
+
                     <div className="mb-[30px] flex flex-col gap-y-[15px]">
                         <div className="flex items-center">
                             <i className={`bx bx-check mr-[8px] text-[20px] ${errors.password && touched.password ? "text-red-500" : "text-fintown-txt-2"}`}></i>
@@ -91,3 +96,5 @@ const SetPassword = () => {
 };
 
 export default SetPassword;
+
+
