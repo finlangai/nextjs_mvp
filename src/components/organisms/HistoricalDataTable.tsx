@@ -1,20 +1,24 @@
 import React, {useState, useEffect, useRef} from "react";
-import { companyTransactions } from "@/src/interfaces/CompanyTransactions";
+import { companyTransactions, records, total } from "@/src/interfaces/CompanyTransactions";
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { BarsLoader } from '../common/Loader';
 import { 
     fetchcompanyTransaction, 
-    selectcompanyTransactionData, 
     selectcompanyTransactionLoading, 
-    selectcompanyTransactionError 
+    selectcompanyTransactionError,
+    selectcompanyTransactionRecords,
+    selectcompanyTransactionTotal
 } from "@/src/redux/CompanyTransactions";
 import { convertUnixToDate } from "@/src/utils/convertUnixToDate";
 
 export default function HistoricalDataTable({symbol} : {symbol: string}) {
     const dispatch = useAppDispatch();
-    const selectTickerLists = useAppSelector(selectcompanyTransactionData);
-    const [NowData, setNowData] = useState<companyTransactions[] | null>(null);
-    
+    const companyTransactionRecords = useAppSelector(selectcompanyTransactionRecords);
+    const companyTransactionTotal = useAppSelector(selectcompanyTransactionTotal);
+    const [NowData, setNowData] = useState<records[] | null>(null);
+    const companyTransactionLoading = useAppSelector(selectcompanyTransactionLoading);
+    const [total, setTotal] = useState<total | null>(null); 
+
     const hasFetched = useRef(false);
     useEffect(() => {
         if (!hasFetched.current) {
@@ -24,13 +28,13 @@ export default function HistoricalDataTable({symbol} : {symbol: string}) {
     }, [dispatch]);
 
     useEffect(() => {
-        if (selectTickerLists !== null) {
-            setNowData(selectTickerLists);
+        if (companyTransactionRecords !== null) {
+            setNowData(companyTransactionRecords);
+            setTotal(companyTransactionTotal);
         }
-    }, [selectTickerLists]);
+    }, [companyTransactionRecords]);
 
-
-    if (selectTickerLists === null) {
+    if (companyTransactionLoading) {
         return (
             <>
             <div className='flex w-full justify-center items-center h-[428px]'>
@@ -69,26 +73,26 @@ export default function HistoricalDataTable({symbol} : {symbol: string}) {
                 </thead>
 
                 <tbody>
-                {NowData?.map((val) => (       
-                    <tr className='border-b border-fintown-br'>
-                        <td className="h-[60px] border-r border-b border-fintown-br px-[10px]">
-                            <p className='text-[14px] text-fintown-txt-1 font-bold'>{val.transactioner.name}</p>
-                            <span className='text-[12px] text-fintown-txt-1'>{val.transactioner.position}</span>
-                        </td>
-                        <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br'>{val.related.name}</td>
-                        <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br'>{val.related.position}</td>
-                        <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br'>{val.volumeBeforeTransaction.toLocaleString('en-US')}</td>
-                        <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br'>{val.plan.buyVolume.toLocaleString('en-US')}</td>
-                        <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br'>{val.plan.sellVolume.toLocaleString('en-US')}</td>
-                        <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br'>{convertUnixToDate(val.plan.beginDate)}</td>
-                        <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br'>{convertUnixToDate(val.plan.endDate)}</td>
-                        <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br'>{val.result.buyVolume.toLocaleString('en-US')}</td>
-                        <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br'>{val.result.sellVolume. toLocaleString('en-US')}</td>
-                        <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br'>{convertUnixToDate(val.result.executionDate)}</td>
-                        <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br'>{val.volumeAfterTransaction.toLocaleString('en-US')}</td>
-                        <td className='text-[14px] text-fintown-txt-1 text-center'>{val.ownership}</td>
-                    </tr>
-                ))}
+                {NowData && NowData?.map((val: records, index: number) => (
+                        <tr key={index} className='border-b border-fintown-br'>
+                            <td className="h-[60px] border-r border-b border-fintown-br px-[10px]">
+                                <p className='text-[14px] text-fintown-txt-1 font-bold'>{val.transactioner.name}</p>
+                                <span className='text-[12px] text-fintown-txt-1'>{val.transactioner.position}</span>
+                            </td>
+                            <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br'>{val.related.name}</td>
+                            <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br'>{val.related.position}</td>
+                            <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br'>{val.volumeBeforeTransaction.toLocaleString('en-US')}</td>
+                            <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br'>{val.plan.buyVolume.toLocaleString('en-US')}</td>
+                            <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br'>{val.plan.sellVolume.toLocaleString('en-US')}</td>
+                            <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br'>{convertUnixToDate(val.plan.beginDate)}</td>
+                            <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br'>{convertUnixToDate(val.plan.endDate)}</td>
+                            <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br'>{val.result.buyVolume.toLocaleString('en-US')}</td>
+                            <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br'>{val.result.sellVolume.toLocaleString('en-US')}</td>
+                            <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br'>{convertUnixToDate(val.result.executionDate)}</td>
+                            <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br'>{val.volumeAfterTransaction.toLocaleString('en-US')}</td>
+                            <td className='text-[14px] text-fintown-txt-1 text-center'>{val.ownership}</td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
         </div>
