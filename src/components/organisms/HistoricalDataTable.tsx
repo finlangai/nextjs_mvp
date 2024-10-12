@@ -22,7 +22,7 @@ export default function HistoricalDataTable({symbol} : {symbol: string}) {
     const hasFetched = useRef(false);
     useEffect(() => {
         if (!hasFetched.current) {
-            dispatch(fetchcompanyTransaction({symbol: symbol, limit: 10 }));
+            dispatch(fetchcompanyTransaction({symbol: symbol, limit: 1000 }));
             hasFetched.current = true;
         }
     }, [dispatch]);
@@ -79,25 +79,25 @@ export default function HistoricalDataTable({symbol} : {symbol: string}) {
                                 <p className='text-[14px] text-fintown-txt-1 font-bold'>{val.transactioner.name}</p>
                                 <span className='text-[12px] text-fintown-txt-1'>{val.transactioner.position}</span>
                             </td>
-                            <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br'>{val.related.name}</td>
-                            <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br'>{val.related.position}</td>
-                            <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br'>{val.volumeBeforeTransaction.toLocaleString('en-US')}</td>
-                            <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br'>{val.plan.buyVolume.toLocaleString('en-US')}</td>
-                            <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br'>{val.plan.sellVolume.toLocaleString('en-US')}</td>
-                            <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br'>{convertUnixToDate(val.plan.beginDate)}</td>
-                            <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br'>{convertUnixToDate(val.plan.endDate)}</td>
-                            <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br'>{val.result.buyVolume.toLocaleString('en-US')}</td>
-                            <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br'>{val.result.sellVolume.toLocaleString('en-US')}</td>
-                            <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br'>{convertUnixToDate(val.result.executionDate)}</td>
-                            <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br'>{val.volumeAfterTransaction.toLocaleString('en-US')}</td>
-                            <td className='text-[14px] text-fintown-txt-1 text-center'>{val.ownership}</td>
+                            <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br px-[8px]'>{val.related.name}</td>
+                            <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br px-[8px]'>{val.related.position}</td>
+                            <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br px-[8px]'>{val.volumeBeforeTransaction.toLocaleString('en-US')}</td>
+                            <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br px-[8px]'>{val.plan.buyVolume.toLocaleString('en-US')}</td>
+                            <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br px-[8px]'>{val.plan.sellVolume.toLocaleString('en-US')}</td>
+                            <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br px-[8px]'>{convertUnixToDate(val.plan.beginDate)}</td>
+                            <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br px-[8px]'>{convertUnixToDate(val.plan.endDate)}</td>
+                            <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br px-[8px]'>{val.result.buyVolume.toLocaleString('en-US')}</td>
+                            <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br px-[8px]'>{val.result.sellVolume.toLocaleString('en-US')}</td>
+                            <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br px-[8px]'>{convertUnixToDate(val.result.executionDate)}</td>
+                            <td className='text-[14px] text-fintown-txt-1 text-center border-r border-fintown-br px-[8px]'>{val.volumeAfterTransaction.toLocaleString('en-US')}</td>
+                            <td className='text-[14px] text-fintown-txt-1 text-center px-[8px]'>{val.ownership}</td>
                         </tr>
                     ))}
                 </tbody>
             </table>
         </div>
 
-        <div className="w-full flex justify-end">
+        {/* <div className="w-full flex justify-end">
             <div className="flex items-center gap-x-[12px]">
                 <button className="flex items-center">
                     <i 
@@ -123,7 +123,7 @@ export default function HistoricalDataTable({symbol} : {symbol: string}) {
                     hover:bg-fintown-hvr-btn-1'></i>
                 </button>
             </div>
-        </div>
+        </div> */}
         </>
     );
 }

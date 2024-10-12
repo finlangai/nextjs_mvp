@@ -14,7 +14,7 @@ const StockTable = () => {
     const hasFetched = useRef(false);
     useEffect(() => {
         if (!hasFetched.current) {
-            dispatch(fetchTickerList({ limit: 10 }));
+            dispatch(fetchTickerList({ limit: 30 }));
             hasFetched.current = true;
         }
     }, [dispatch]);

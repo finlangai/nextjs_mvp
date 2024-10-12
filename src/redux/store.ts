@@ -17,6 +17,7 @@ import OfficersReducer from "./Officers/officersSlice"
 import HoldersReducer from "./Holders/holdersSlice";
 import HistoricalDataPageReducer from "./HistoricalDataPage/historicalDataPageSlice"
 import CompanyTransactionReducer from "./CompanyTransactions/companyTransactionsSlice";
+import ForecastingPageReducers from "./ForecastingPage/historicalDataPageSlice";
 
 // Kết hợp industryReducer & topGainerReducer
 const cardStockReducer = combineReducers({
@@ -42,7 +43,8 @@ const store = configureStore({
     officers: OfficersReducer,
     holders: HoldersReducer,
     historicalDataPage: HistoricalDataPageReducer,
-    companyTransaction: CompanyTransactionReducer
+    companyTransaction: CompanyTransactionReducer,
+    forecastingPage: ForecastingPageReducers
   },
 });
 

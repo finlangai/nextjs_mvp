@@ -166,18 +166,18 @@ export default function SectionCard({ endpoint, nameSection }: { endpoint: strin
 
         <div  ref={containerRef} className='pl-[40px] relative mb-[106px]'>
             {
-                stockData.length >= 4 && (
-                    <button 
-                        onClick={handleSlideLeft}
-                        disabled={!canSlideMore}
-                        className={`flex items-center justify-center w-[40px] h-[40px] absolute rounded-[50%] ml-[-18px] top-[40%] z-30 transition-all duration-300
-                            ${canSlideMore 
-                                ? 'bg-fintown-btn-2 cursor-pointer hover:opacity-80' 
-                                : 'hidden'}`}
-                    >
-                        <i className={`bx bx-chevron-left text-[24px] ${canSlideMore ? 'text-white' : 'text-gray-500'}`}></i>
-                    </button>
-                )
+            stockData.length >= 4 && (
+                <button 
+                    onClick={handleSlideLeft}
+                    disabled={!canSlideMore}
+                    className={`flex items-center justify-center w-[40px] h-[40px] absolute rounded-[50%] ml-[-18px] top-[40%] z-30 transition-all duration-300
+                        ${canSlideMore 
+                            ? 'bg-fintown-btn-2 cursor-pointer hover:opacity-80' 
+                            : 'hidden'}`}
+                >
+                    <i className={`bx bx-chevron-left text-[24px] ${canSlideMore ? 'text-white' : 'text-gray-500'}`}></i>
+                </button>
+            )
             }
 
             {canSlideBack && (
