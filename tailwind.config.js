@@ -100,6 +100,10 @@ module.exports = {
               DEFAULT: '#2B3139', 
               light: '#333545',
             },
+
+            cardgood: "#489B75",
+            cardverygood: "#489B75",
+            cardgood: "#489B75"
           },
 
           br: {
@@ -120,11 +124,11 @@ module.exports = {
           stt: {
             buy: {
               DEFAULT: '#0ECB81', 
-              light: '#25B770',
+              1: "#0ECB81",
             },
             sell: {
               DEFAULT: '#F6465D', 
-              light: '#E14040',
+              1: "#F6465D",
             },
             hold: {
               DEFAULT: '#F0B90B'

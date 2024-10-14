@@ -1,5 +1,5 @@
-import PredictiveIndicatorCard from '@/src/components/organisms/PredictiveIndicatorCard';
-import PredictedClaimCard from '@/src/components/organisms/PredictedClaimCard';
+import PredictiveIndicatorCard from '@/src/components/organisms/forecasting/PredictiveIndicatorCard';
+import PredictedClaimCard from '@/src/components/organisms/forecasting/PredictedClaimCard';
 
 export default function OverallAssessment() {
     return (
@@ -8,7 +8,7 @@ export default function OverallAssessment() {
                 < PredictiveIndicatorCard/>
             </div>
 
-            <div className='pl-[40px] text-[24px] font-bold text-fintown-txt-1 mb-[32px]'>
+            <div className='pl-[40px] text-[40px] font-bold text-fintown-txt-1 mb-[32px]'>
                 Luận điểm
             </div>
 

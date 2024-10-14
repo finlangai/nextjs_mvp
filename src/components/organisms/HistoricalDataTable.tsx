@@ -97,7 +97,7 @@ export default function HistoricalDataTable({symbol} : {symbol: string}) {
             </table>
         </div>
 
-        {/* <div className="w-full flex justify-end">
+        <div className="w-full flex justify-end">
             <div className="flex items-center gap-x-[12px]">
                 <button className="flex items-center">
                     <i 
@@ -123,7 +123,7 @@ export default function HistoricalDataTable({symbol} : {symbol: string}) {
                     hover:bg-fintown-hvr-btn-1'></i>
                 </button>
             </div>
-        </div> */}
+        </div>
         </>
     );
 }

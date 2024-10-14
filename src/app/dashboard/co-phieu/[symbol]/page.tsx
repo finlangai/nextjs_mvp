@@ -13,7 +13,7 @@ export default function ChiSoKyThuatPage({ params }: { params: { symbol: string 
 
   return (
     <>
-      <div className="text-[24px] font-bold text-fintown-txt-1 mb-[40px] px-[40px]">
+      <div className="text-[24px] font-bold text-fintown-txt-1 mb-[40px] px-[40px] mt-[40px]">
         Biểu đồ giá lịch sử
       </div>
 

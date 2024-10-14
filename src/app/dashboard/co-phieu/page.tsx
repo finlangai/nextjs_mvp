@@ -42,7 +42,7 @@ export default function CoPhieu() {
 
             <div className="mb-[70px]"></div>
 
-            {/* <div className="w-full flex justify-end px-[40px]">
+            <div className="w-full flex justify-end px-[40px]">
                 <div className="flex items-center gap-x-[12px]">
                     <button className="flex items-center">
                         <i 
@@ -70,7 +70,7 @@ export default function CoPhieu() {
                 </div>
             </div>
 
-            <div className="mb-[100px]"></div> */}
+            <div className="mb-[100px]"></div>
         </>
     );
  }
