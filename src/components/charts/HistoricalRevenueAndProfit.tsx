@@ -9,7 +9,7 @@ const StackedColumnChart = () => {
     },
     chart: {
       type: 'column',
-      backgroundColor: 'transparent' 
+      backgroundColor: 'transparent'
     },
     title: {
       text: '',
@@ -21,7 +21,7 @@ const StackedColumnChart = () => {
       categories: ['2019', '2020', '2021', '2022', '2023'],
       labels: {
         style: {
-          color: '#ffffff' 
+          color: '#ffffff'
         }
       },
     },
@@ -37,9 +37,8 @@ const StackedColumnChart = () => {
           color: '#ffffff'
         }
       },
-      tickAmount: 5,
+      tickAmount: 5, // Đặt số lượng vạch tối đa cho trục y đầu tiên
       gridLineColor: '#2B3139',
-
     }, {
       title: {
         text: '',
@@ -53,6 +52,7 @@ const StackedColumnChart = () => {
           color: '#ffffff'
         }
       },
+      tickAmount: 5, // Đặt số lượng vạch tối đa cho trục y thứ hai
       opposite: true, // Hiển thị trục y bên phải
       gridLineWidth: 0 // Ẩn lưới
     }],
@@ -80,7 +80,7 @@ const StackedColumnChart = () => {
         lineWidth: 2,
         lineColor: 'rgb(128 37 183)',
         fillColor: 'white'
-      }
+      },
     }],
     legend: {
       itemStyle: {
