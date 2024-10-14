@@ -1,10 +1,10 @@
 "use client";
 import React from 'react';
-import StackedColumnChart from "../../components/charts/ColumnChart";
-// import CardStock from "../../components/organisms/CardStock";
+import StackedColumnChart from "../../components/charts/HistoricalRevenueAndProfit";
 import MarketIndicatorChart from "../../components/charts/MarketIndicatorChart";
-import StockTable from "../../components/organisms/StockTable";
 import useSetSelectedButtonSiderBar from '@/src/redux/hooks/useButtonsiderBar';
+import TopStocksTable from '@/src/components/organisms/topStocksTable';
+import Link from 'next/link';
 
 export default function Dashboard() {
 
@@ -94,12 +94,14 @@ export default function Dashboard() {
       <section className="px-[40px] mb-[106px]">
         <div className="flex justify-between items-center mb-[24px]">
           <h2 className="font-bold text-fintown-txt-1 text-[40px]">Top cổ phiếu</h2>
-          <button className="text-fintown-txt-1 text-sm bg-fintown-btn-2 rounded px-[18px] py-[6px] max-h-[32px]">
-            Xem thêm
-          </button>
+          <Link href={'/dashboard/co-phieu'}>
+            <button className="text-fintown-txt-1 text-sm bg-fintown-btn-2 rounded px-[18px] py-[6px] max-h-[32px]">
+              Xem thêm
+            </button>
+          </Link>
         </div>
         <div id="top-stock-table-container" className="text-fintown-txt-1">
-          <StockTable />
+          < TopStocksTable />
         </div>
       </section>
 

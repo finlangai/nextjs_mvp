@@ -20,6 +20,7 @@ import PaginationReducers from "./HistoricalDataPage/PaginationSlice";
 import HistoricalDataPageReducer from "./HistoricalDataPage/historicalDataPageSlice";
 import tickerListPaginationReducers from "./TickerList/PaginationSlice";
 import TickerListReducer from './TickerList/tickerListSlice';
+import TopStocksReducers from './TopStocks/topStocksSlice';
 
 const tickerListReducer = combineReducers({
   TickerList: TickerListReducer,
@@ -55,7 +56,8 @@ const store = configureStore({
     holders: HoldersReducer,
     historicalDataPage: historicalDataPageReducer,
     companyTransaction: CompanyTransactionReducer,
-    forecastingPage: ForecastingPageReducers
+    forecastingPage: ForecastingPageReducers,
+    topStocks: TopStocksReducers
   },
 });
 
