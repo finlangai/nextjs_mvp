@@ -10,6 +10,8 @@ import {
     selectcompanyTransactionTotal
 } from "@/src/redux/CompanyTransactions";
 import { convertUnixToDate } from "@/src/utils/convertUnixToDate";
+import Pagination from "./Pagination";
+import { selectLimitPage, setTotalPages } from '@/src/redux/HistoricalDataPage';
 
 export default function HistoricalDataTable({symbol} : {symbol: string}) {
     const dispatch = useAppDispatch();
@@ -17,22 +19,33 @@ export default function HistoricalDataTable({symbol} : {symbol: string}) {
     const companyTransactionTotal = useAppSelector(selectcompanyTransactionTotal);
     const [NowData, setNowData] = useState<records[] | null>(null);
     const companyTransactionLoading = useAppSelector(selectcompanyTransactionLoading);
-    const [total, setTotal] = useState<total | null>(null); 
+    const limitPagination = useAppSelector(selectLimitPage);
 
+    // Fetch API Lần đầu
     const hasFetched = useRef(false);
     useEffect(() => {
         if (!hasFetched.current) {
-            dispatch(fetchcompanyTransaction({symbol: symbol, limit: 1000 }));
+            const offset = ``;
+            dispatch(fetchcompanyTransaction({symbol: symbol, limit: limitPagination, offset: offset }));
             hasFetched.current = true;
         }
     }, [dispatch]);
 
+    // Lưu data đã fetch
     useEffect(() => {
         if (companyTransactionRecords !== null) {
-            setNowData(companyTransactionRecords);
-            setTotal(companyTransactionTotal);
+            setNowData(companyTransactionRecords);       
         }
     }, [companyTransactionRecords]);
+
+    // Set tổng số items để tạo ra danh sách trang
+    useEffect(()=> {
+        if (typeof companyTransactionTotal === 'number') {
+            const totalItems: number = companyTransactionTotal;
+            const totalPages = Math.ceil(totalItems / limitPagination);
+            dispatch(setTotalPages(totalPages));
+        }    
+    }, [companyTransactionTotal]);
 
     if (companyTransactionLoading) {
         return (
@@ -97,33 +110,7 @@ export default function HistoricalDataTable({symbol} : {symbol: string}) {
             </table>
         </div>
 
-        <div className="w-full flex justify-end">
-            <div className="flex items-center gap-x-[12px]">
-                <button className="flex items-center">
-                    <i 
-                    className='
-                    bx bx-chevron-left
-                    text-[30px] text-fintown-btn-disable 
-                    h-[28px] w-[28px] rounded
-                    hover:bg-fintown-hvr-btn-1'></i>
-                </button>
-
-                <button className="text-sx text-fintown-txt-1 bg-fintown-btn-active-1 h-[28px] w-[28px] rounded font-medium">1</button>
-                <button className="text-sx text-fintown-txt-2 bg-fintown-btn-disable h-[28px] w-[28px] rounded font-medium">2</button>
-                <button className="text-sx text-fintown-txt-2 bg-fintown-btn-disable h-[28px] w-[28px] rounded font-medium">3</button>
-                <button className="text-sx text-fintown-txt-2 bg-fintown-btn-disable h-[28px] w-[28px] rounded font-medium">...</button>
-                <button className="text-sx text-fintown-txt-2 bg-fintown-btn-disable h-[28px] w-[28px] rounded font-medium">53</button>
-
-                <button className="flex items-center">
-                    <i 
-                    className='
-                    bx bx-chevron-right
-                    text-[30px] text-fintown-btn-disable 
-                    h-[28px] w-[28px] rounded
-                    hover:bg-fintown-hvr-btn-1'></i>
-                </button>
-            </div>
-        </div>
+        < Pagination symbol={symbol}/>
         </>
     );
 }

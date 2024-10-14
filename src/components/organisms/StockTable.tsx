@@ -4,29 +4,43 @@ import { fetchTickerList, selectTickerListsData, selectTickerListsLoading, selec
 import { TickerList } from '@/src/interfaces/TickerList';
 import { BarsLoader } from '../common/Loader';
 import Link from 'next/link';
+import { selectLimitPage, setTotalPages } from '@/src/redux/TickerList';
 
 const StockTable = () => {
     const dispatch = useAppDispatch();
-
     const selectTickerLists = useAppSelector(selectTickerListsData);
     const [NowData, setNowData] = useState<TickerList[] | null>(null);
-    
     const hasFetched = useRef(false);
+    const limitPagination = useAppSelector(selectLimitPage);
+    const TickerListsLoading = useAppSelector(selectTickerListsLoading);
+
+    // Fetch API Lần đầu
     useEffect(() => {
         if (!hasFetched.current) {
-            dispatch(fetchTickerList({ limit: 30 }));
+            dispatch(fetchTickerList({ limit: limitPagination, offset: "" }));
             hasFetched.current = true;
         }
     }, [dispatch]);
-
+    
+    // Lưu data đã fetch
     useEffect(() => {
         if (selectTickerLists !== null) {
             setNowData(selectTickerLists);
         }
     }, [selectTickerLists]);
 
+    // Set tổng số items để tạo ra danh sách trang
+    useEffect(()=> {
+        const total = 30;
+        if (typeof total === 'number') {
+            const totalItems: number = total;
+            const totalPages = Math.ceil(totalItems / limitPagination);
+            dispatch(setTotalPages(totalPages));
+        }    
+    }, []);
 
-    if (selectTickerLists === null) {
+
+    if (TickerListsLoading) {
         return (
             <>
             <div className='flex w-full justify-center items-center h-[428px]'>
@@ -165,7 +179,7 @@ const StockTable = () => {
             <tbody>
 
             {NowData?.map((val) => (       
-                <tr className="border-b border-fintown-lnr-1 hover:bg-fintown-hvr-btn-1">
+                <tr className="border-b border-fintown-lnr-1 hover:bg-fintown-hvr-btn-1" key={val.symbol}>
                     <td className="py-[21px] px-[12px]">
                         <div className="flex">
                             <div className="overflow-hidden min-w-[40px] max-w-[40px] min-h-[40px] max-h-[40px] rounded-[50%] bg-white mr-[10px]">

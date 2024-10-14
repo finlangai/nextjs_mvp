@@ -29,7 +29,7 @@ const historicalDataPageSlice = createSlice({
 export const { setSelectedButtonAndText } = historicalDataPageSlice.actions;
 
 // Selectors để lấy state từ store
-export const selectSelectedButton = (state: RootState) => state.historicalDataPage.selectedButton;
-export const selectSelectedText = (state: RootState) => state.historicalDataPage.selectedText;
+export const selectSelectedButton = (state: RootState) => state.historicalDataPage.Historical.selectedButton;
+export const selectSelectedText = (state: RootState) => state.historicalDataPage.Historical.selectedText;
 
 export default historicalDataPageSlice.reducer;

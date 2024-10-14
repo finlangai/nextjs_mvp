@@ -2,8 +2,10 @@
 import React from 'react';
 import StockTable from "@/src/components/organisms/StockTable";
 import useSetSelectedButtonSiderBar from '@/src/redux/hooks/useButtonsiderBar';
+import TicketListPagination from '@/src/components/organisms/TicketListPagination';
 
-export default function CoPhieu() {
+export default function CoPhieu(){
+
     useSetSelectedButtonSiderBar(2);
 
     return (
@@ -43,31 +45,7 @@ export default function CoPhieu() {
             <div className="mb-[70px]"></div>
 
             <div className="w-full flex justify-end px-[40px]">
-                <div className="flex items-center gap-x-[12px]">
-                    <button className="flex items-center">
-                        <i 
-                        className='
-                        bx bx-chevron-left
-                        text-[30px] text-fintown-btn-disable 
-                        h-[28px] w-[28px] rounded
-                        hover:bg-fintown-hvr-btn-1'></i>
-                    </button>
-
-                    <button className="text-sx text-fintown-txt-1 bg-fintown-btn-active-1 h-[28px] w-[28px] rounded font-medium">1</button>
-                    <button className="text-sx text-fintown-txt-2 bg-fintown-btn-disable h-[28px] w-[28px] rounded font-medium">2</button>
-                    <button className="text-sx text-fintown-txt-2 bg-fintown-btn-disable h-[28px] w-[28px] rounded font-medium">3</button>
-                    <button className="text-sx text-fintown-txt-2 bg-fintown-btn-disable h-[28px] w-[28px] rounded font-medium">...</button>
-                    <button className="text-sx text-fintown-txt-2 bg-fintown-btn-disable h-[28px] w-[28px] rounded font-medium">53</button>
-
-                    <button className="flex items-center">
-                        <i 
-                        className='
-                        bx bx-chevron-right
-                        text-[30px] text-fintown-btn-disable 
-                        h-[28px] w-[28px] rounded
-                        hover:bg-fintown-hvr-btn-1'></i>
-                    </button>
-                </div>
+                < TicketListPagination />
             </div>
 
             <div className="mb-[100px]"></div>

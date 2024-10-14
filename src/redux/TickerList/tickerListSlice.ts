@@ -17,8 +17,9 @@ const initialState: TickerListState = {
 
 export const fetchTickerList = createAsyncThunk(
   'tickerList/fetch',
-  async ({limit}: { limit: number}) => {
-    const api = `${apiUrl}/tickers?limit=${limit}`;
+  async ({limit, offset}: { limit: number, offset:string}) => {
+    const api = `${apiUrl}/tickers?limit=${limit}${offset}`;
+    // console.log(api)
     const response = await fetch(api);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -47,8 +48,8 @@ const tickerListSlice = createSlice({
   },
 });
 
-export const selectTickerListsData = (state: RootState) => state.tickerList.data;
-export const selectTickerListsLoading = (state: RootState) => state.tickerList.loading;
-export const selectTickerListsError = (state: RootState) => state.tickerList.error;
+export const selectTickerListsData = (state: RootState) => state.tickerList.TickerList.data;
+export const selectTickerListsLoading = (state: RootState) => state.tickerList.TickerList.loading;
+export const selectTickerListsError = (state: RootState) => state.tickerList.TickerList.error;
 
 export default tickerListSlice.reducer;

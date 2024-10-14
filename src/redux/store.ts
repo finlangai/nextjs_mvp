@@ -8,18 +8,29 @@ import btnNextPrevReportPageReducer from './BtnNextPrevReportPage/btnNextPrevRep
 import searchAndChangeStockReducer from './SearchAndChangeStock/searchAndChangeStockSlice';
 import priceStockReducer from './PriceStock/priceStockSlice';
 import profileSummaryReducer from "./ProfileSummary/profileSummarySlice";
-import tickerListReducer from './TickerList/tickerListSlice';
 import topGainerReducer from './CardStock/topGainerSlice';
 import industryReducer from './CardStock/industrySlice';
 import priceInsightsReducer from "./PriceInsights/priceInsightsSlice";
 import CompanyDescriptionReducer from './CompanyDescription/companyDescriptionSlice';
 import OfficersReducer from "./Officers/officersSlice"
 import HoldersReducer from "./Holders/holdersSlice";
-import HistoricalDataPageReducer from "./HistoricalDataPage/historicalDataPageSlice"
 import CompanyTransactionReducer from "./CompanyTransactions/companyTransactionsSlice";
 import ForecastingPageReducers from "./ForecastingPage/historicalDataPageSlice";
+import PaginationReducers from "./HistoricalDataPage/PaginationSlice";
+import HistoricalDataPageReducer from "./HistoricalDataPage/historicalDataPageSlice";
+import tickerListPaginationReducers from "./TickerList/PaginationSlice";
+import TickerListReducer from './TickerList/tickerListSlice';
 
-// Kết hợp industryReducer & topGainerReducer
+const tickerListReducer = combineReducers({
+  TickerList: TickerListReducer,
+  Pagination: tickerListPaginationReducers,
+});
+
+const historicalDataPageReducer = combineReducers({
+  Historical: HistoricalDataPageReducer,
+  Pagination: PaginationReducers,
+});
+
 const cardStockReducer = combineReducers({
   industry: industryReducer,
   topGainer: topGainerReducer,
@@ -42,7 +53,7 @@ const store = configureStore({
     companyDescription: CompanyDescriptionReducer,
     officers: OfficersReducer,
     holders: HoldersReducer,
-    historicalDataPage: HistoricalDataPageReducer,
+    historicalDataPage: historicalDataPageReducer,
     companyTransaction: CompanyTransactionReducer,
     forecastingPage: ForecastingPageReducers
   },

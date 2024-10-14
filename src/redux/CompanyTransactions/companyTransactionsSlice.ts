@@ -23,8 +23,9 @@ const initialState: companyTransactionsState = {
 // Async action để fetch dữ liệu cho companyTransaction
 export const fetchcompanyTransaction = createAsyncThunk(
   'companyTransaction/fetch',
-  async ({symbol, limit}: { symbol: string, limit: number}) => {
-    const api = `${apiUrl}/symbols/${symbol}/transactions?limit=${limit}`;
+  async ({symbol, limit, offset}: { symbol: string, limit: number, offset: string}) => {
+    const api = `${apiUrl}/symbols/${symbol}/transactions?limit=${limit}${offset}`;
+    // console.log('api', api)
     const response = await fetch(api);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
