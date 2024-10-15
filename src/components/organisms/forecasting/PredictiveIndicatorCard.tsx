@@ -1,7 +1,17 @@
-import React, { useState, useEffect, useRef } from 'react';
-import GaugeChart from '@/src/components/charts/forecasting/GaugeChart';
+import React, { useEffect, useState, useRef } from 'react';
+import Link from 'next/link';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
+import GaugeChart from '@/src/components/charts/forecasting/OverallChart';
+import { 
+    selectForecastingOverallAssessmentData
+} from '@/src/redux/ForecastingOverallAssessment';
+import { ForecastingOverallAssessment, Criterias } from '@/src/interfaces/ForecastingOverallAssessment';
+import OverallSlider from './OverallSlider';
 
 export default function PredictiveIndicatorCard() {
+    const dispatch = useAppDispatch();
+    const forecastingData = useAppSelector(selectForecastingOverallAssessmentData);
+    const [NowData, setNowData] = useState<Criterias | null>(null);
 
     const [slidePosition, setSlidePosition] = useState(0);
     const [canSlideMore, setCanSlideMore] = useState(true);
@@ -12,13 +22,19 @@ export default function PredictiveIndicatorCard() {
     const containerRef = useRef<HTMLDivElement>(null);
     const sliderRef = useRef<HTMLDivElement>(null);
 
+    useEffect(()=> {
+        if (forecastingData?.criterias) {
+            setNowData(forecastingData.criterias)
+        }
+    }, [forecastingData]);
+    
     // ===================SLLIDER=========================================
     const slideAmount = 215;
     useEffect(() => {
         checkSlideAbility();
         window.addEventListener('resize', checkSlideAbility);
         return () => window.removeEventListener('resize', checkSlideAbility);
-    }, [slidePosition]);
+    }, [slidePosition, NowData]);
 
     const checkSlideAbility = () => {
         if (containerRef.current && sliderRef.current) {
@@ -45,7 +61,7 @@ export default function PredictiveIndicatorCard() {
 
     return (
         <>
-        <div ref={containerRef} className='pl-[40px] pb-[77px] relative'>
+        <div ref={containerRef} className='pl-[40px] pt-[36px] pb-[77px] relative'>
                 
             <button 
                 onClick={handleSlideLeft}
@@ -93,284 +109,68 @@ export default function PredictiveIndicatorCard() {
 
                     <hr className='border-fintown-br mb-[26px]' />
                     
-                    <div className='flex mb-[20px] overflow-hidden flex-nowrap'>
-                        <div className='flex flex-col gap-y-[23px] min-w-full mr-[10px]'>
-                            <div className='flex justify-between'>
-                                <p className='text-fintown-txt-1 text-[14px] font-bold'>Hiệu quả sinh lời</p>
-                                <div className='text-fintown-stt-sell text-[14px] text-right font-bold' >
-                                    Tiêu cực
-                                </div>
-                            </div>
-
-                            <div className='flex justify-between'>
-                                <p className='text-fintown-txt-1 text-[14px] font-bold'>Khả năng thanh toán</p>
-                                <div className='text-fintown-stt-sell text-[14px] text-right font-bold' >
-                                    Tiêu cực
-                                </div>
-                            </div>
-
-                            <div className='flex justify-between'>
-                                <p className='text-fintown-txt-1 text-[14px] font-bold'>Doanh thu & lợi nhuận</p>
-                                <div className='text-fintown-stt-buy text-[14px] text-right font-bold' >
-                                    Tích cực
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className='flex flex-col gap-y-[23px] min-w-full'>
-                            <div className='flex justify-between'>
-                                <p className='text-fintown-txt-1 text-[14px] font-bold'>Hiệu quả sinh lời</p>
-                                <div className='text-fintown-stt-sell text-[14px] text-right font-bold' >
-                                    Tiêu cực
-                                </div>
-                            </div>
-
-                            <div className='flex justify-between'>
-                                <p className='text-fintown-txt-1 text-[14px] font-bold'>Khả năng thanh toán</p>
-                                <div className='text-fintown-stt-sell text-[14px] text-right font-bold' >
-                                    Tiêu cực
-                                </div>
-                            </div>
-
-                            <div className='flex justify-between'>
-                                <p className='text-fintown-txt-1 text-[14px] font-bold'>Doanh thu & lợi nhuận</p>
-                                <div className='text-fintown-stt-buy text-[14px] text-right font-bold' >
-                                    Tích cực
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className='flex items-center gap-x-[9px] justify-center'>
-                        <div className='h-[10px] w-[10px] rounded-[50%] bg-white'></div>
-                        <div className='h-[10px] w-[10px] rounded-[50%] bg-fintown-bg-stn'></div>
-                    </div>
+                    {NowData && (
+                        <OverallSlider />
+                    )}
                 </div>
 
-                <div className='flex flex-col justify-between px-[27px] py-[25px] rounded-[10px] border border-fintown-br min-w-[344px] max-w-[344px]'>
-                    <div className='flex items-center mb-[53px] justify-between'>
-                        <div>
-                            <div className='flex items-center gap-x-[10px] mb-[5px]'>
-                                <p className='text-fintown-txt-1 text-[16px] font-bold'>Hiệu quả sinh lời</p>
-                                <i className='bx bx-info-circle text-fintown-txt-1'></i>
-                            </div>
-                            <div className='text-fintown-stt-sell text-[12px]'>
-                                Tiêu cực
-                            </div>
-                        </div>
-                        <div className='h-[40px] w-[40px] rounded-[50%] bg-fintown-stt-sell flex items-center justify-center'>
-                            <i className='bx bx-trending-down text-white text-[24px]'></i>
-                        </div>
-                    </div>
+                {NowData && Object.keys(NowData).map((key) => {
+                    const criteria = NowData[key];
+                    if (criteria !== null) {
+                        return (
+                            <div key={key} className='flex flex-col justify-between px-[27px] py-[25px] rounded-[10px] border border-fintown-br min-w-[344px] max-w-[344px]'>
+                                <div className='flex items-center mb-[53px] justify-between'>
+                                    <div>
+                                        <div className='flex items-center gap-x-[10px] mb-[5px]'>
+                                            <p className='text-fintown-txt-1 text-[16px] font-bold'>{criteria.name}</p>
+                                            <i className='bx bx-info-circle text-fintown-txt-1'></i>
+                                        </div>
+                                        <div className={`text-[12px] ${criteria.status === "Tích cực" ? "text-fintown-stt-buy" : "text-fintown-stt-sell"}`}>
+                                            {criteria.status}
+                                        </div>
+                                    </div>
+                                    
+                                    <div className={`h-[40px] w-[40px] rounded-[50%] flex items-center justify-center ${criteria.status === "Tích cực" ? "bg-fintown-stt-buy" : "bg-fintown-stt-sell"}`}>
+                                        <i className={`${criteria.status === "Tích cực" ? "bx bx-trending-up" : "bx bx-trending-down"} text-white text-[24px] `}></i>
+                                    </div>
+                                </div>
 
-                    <div className='flex flex-col gap-y-[24px] mb-[20px]'>
-                        <div className='flex gap-x-[18px]'>
-                            <div className='h-[40px] w-[40px] rounded-[8px] border border-fintown-br flex items-center justify-center'>
-                                <i className='bx bx-up-arrow-alt text-fintown-pr9 text-[24px] rotate-45'></i>
-                            </div>
+                                <div className='flex flex-col gap-y-[24px] mb-[20px]'>
+                                    {criteria.group.map((groupItem) => (
+                                        <div className='flex gap-x-[18px]' key={groupItem.index}>
+                                            <div className='min-h-[40px] max-h-[40px] min-w-[40px] rounded-[8px] border border-fintown-br flex items-center justify-center'>
+                                                <i 
+                                                className={`
+                                                ${groupItem.status === "Tích cực" ? 
+                                                    "bx bx-up-arrow-alt text-fintown-stt-buy " : 
+                                                    "bx bx-down-arrow-alt text-fintown-stt-sell"
+                                                } 
+                                                text-[24px] `}>
+                                                </i>
+                                            </div>
 
-                            <div>
-                                <p className='text-fintown-txt-1 font-bold text-[14px] '>Hiệu quả sinh lời trên vốn</p>
-                                <p className='text-fintown-txt-1 text-[12px]'>Dự báo tăng 6% trong 5 năm tới</p>
-                            </div>
-                        </div>
+                                            <div>
+                                                <p className='text-fintown-txt-1 font-bold text-[14px] '>{groupItem.name}</p>
+                                                <p className='text-fintown-txt-1 text-[12px]'> 
+                                                {groupItem.status === "Tích cực" ? 
+                                                    "Kết quả dự báo tích cực" : 
+                                                    "Kết quả dự báo không được khả quan"
+                                                } </p>
+                                            </div>
+                                        </div>
+                                    ))}
 
-                        <div className='flex gap-x-[18px]'>
-                            <div className='h-[40px] w-[40px] rounded-[8px] border border-fintown-br flex items-center justify-center'>
-                                <i className='bx bx-up-arrow-alt text-fintown-pr9 text-[24px] rotate-45'></i>
-                            </div>
+                                </div>
 
-                            <div>
-                                <p className='text-fintown-txt-1 font-bold text-[14px] '>Lợi nhuận biên</p>
-                                <p className='text-fintown-txt-1 text-[12px]'>Dự báo tăng 6% trong 5 năm tới</p>
+                                <button className='hover:bg-fintown-btn-2 mt-auto rounded h-[48px] w-full flex items-center justify-center border border-fintown-br text-[12px] font-bold text-fintown-txt-2'>
+                                    Xem chi tiết
+                                </button>
                             </div>
-                        </div>
+                        );
+                    }
+                    return null;
+                })}
 
-                        <div className='flex gap-x-[18px]'>
-                            <div className='h-[40px] min-w-[40px] rounded-[8px] border border-fintown-br flex items-center justify-center'>
-                                <i className='bx bx-up-arrow-alt text-fintown-pr9 text-[24px] rotate-45'></i>
-                            </div>
-
-                            <div>
-                                <p className='text-fintown-txt-1 font-bold text-[14px] '>EPS (Lợi nhuận trên một phần cổ phiếu)</p>
-                                <p className='text-fintown-txt-1 text-[12px]'>Dự báo tăng 6% trong 5 năm tới</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button className='hover:bg-fintown-btn-2 mt-auto rounded h-[48px] w-full flex items-center justify-center border border-fintown-br text-[12px] font-bold text-fintown-txt-2'>
-                        Xem chi tiết
-                    </button>
-                </div>
-
-                <div className='flex flex-col justify-between px-[27px] py-[25px] rounded-[10px] border border-fintown-br min-w-[344px] max-w-[344px]'>
-                    <div className='flex items-center mb-[53px] justify-between'>
-                        <div>
-                            <div className='flex items-center gap-x-[10px] mb-[5px]'>
-                                <p className='text-fintown-txt-1 text-[16px] font-bold'>Khả năng thanh toán</p>
-                                <i className='bx bx-info-circle text-fintown-txt-1'></i>
-                            </div>
-                            <div className='text-fintown-stt-sell text-[12px]'>
-                                Tiêu cực
-                            </div>
-                        </div>
-                        <div className='h-[40px] w-[40px] rounded-[50%] bg-fintown-stt-sell flex items-center justify-center'>
-                            <i className='bx bx-trending-down text-white text-[24px]'></i>
-                        </div>
-                    </div>
-
-                    <div className='flex flex-col gap-y-[24px] mb-[20px]'>
-                        <div className='flex gap-x-[18px]'>
-                            <div className='h-[40px] w-[40px] rounded-[8px] border border-fintown-br flex items-center justify-center'>
-                                <i className='bx bx-down-arrow-alt text-fintown-stt-sell text-[24px] rotate-45'></i>
-                            </div>
-
-                            <div>
-                                <p className='text-fintown-txt-1 font-bold text-[14px] '>Rủi ro thanh toán các khoản nợ</p>
-                                <p className='text-fintown-txt-1 text-[12px]'>Dự báo tăng 6% trong 5 năm tới</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button className='hover:bg-fintown-btn-2 mt-auto rounded h-[48px] w-full flex items-center justify-center border border-fintown-br text-[12px] font-bold text-fintown-txt-2'>
-                        Xem chi tiết
-                    </button>
-                </div>
-
-                <div className='flex flex-col justify-between px-[27px] py-[25px] rounded-[10px] border border-fintown-br min-w-[344px] max-w-[344px]'>
-                    <div className='flex items-center mb-[53px] justify-between'>
-                        <div>
-                            <div className='flex items-center gap-x-[10px] mb-[5px]'>
-                                <p className='text-fintown-txt-1 text-[16px] font-bold'>Doanh thu & lợi nhuận</p>
-                                <i className='bx bx-info-circle text-fintown-txt-1'></i>
-                            </div>
-                            <div className='text-fintown-stt-buy text-[12px]'>
-                                Tích cực
-                            </div>
-                        </div>
-                        <div className='h-[40px] w-[40px] rounded-[50%] bg-fintown-stt-buy flex items-center justify-center'>
-                            <i className='bx bx-trending-up text-white text-[24px]'></i>
-                        </div>
-                    </div>
-
-                    <div className='flex flex-col gap-y-[24px] mb-[20px]'>
-                        <div className='flex gap-x-[18px]'>
-                            <div className='h-[40px] w-[40px] rounded-[8px] border border-fintown-br flex items-center justify-center'>
-                                <i className='bx bx-up-arrow-alt text-fintown-pr9 text-[24px] rotate-45'></i>
-                            </div>
-
-                            <div>
-                                <p className='text-fintown-txt-1 font-bold text-[14px] '>P/E</p>
-                                <p className='text-fintown-txt-1 text-[12px]'>Dự báo tăng 6% trong 5 năm tới</p>
-                            </div>
-                        </div>
-
-                        <div className='flex gap-x-[18px]'>
-                            <div className='h-[40px] w-[40px] rounded-[8px] border border-fintown-br flex items-center justify-center'>
-                                <i className='bx bx-up-arrow-alt text-fintown-pr9 text-[24px] rotate-45'></i>
-                            </div>
-
-                            <div>
-                                <p className='text-fintown-txt-1 font-bold text-[14px] '>P/B</p>
-                                <p className='text-fintown-txt-1 text-[12px]'>Dự báo tăng 6% trong 5 năm tới</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button className='hover:bg-fintown-btn-2 mt-auto rounded h-[48px] w-full flex items-center justify-center border border-fintown-br text-[12px] font-bold text-fintown-txt-2'>
-                        Xem chi tiết
-                    </button>
-                </div>
-
-                <div className='flex flex-col justify-between px-[27px] py-[25px] rounded-[10px] border border-fintown-br min-w-[344px] max-w-[344px]'>
-                    <div className='flex items-center mb-[53px] justify-between'>
-                        <div>
-                            <div className='flex items-center gap-x-[10px] mb-[5px]'>
-                                <p className='text-fintown-txt-1 text-[16px] font-bold'>Dòng tiền</p>
-                                <i className='bx bx-info-circle text-fintown-txt-1'></i>
-                            </div>
-                            <div className='text-fintown-stt-buy text-[12px]'>
-                                Tích cực
-                            </div>
-                        </div>
-                        <div className='h-[40px] w-[40px] rounded-[50%] bg-fintown-stt-buy flex items-center justify-center'>
-                            <i className='bx bx-trending-up text-white text-[24px]'></i>
-                        </div>
-                    </div>
-
-                    <div className='flex flex-col gap-y-[24px] mb-[20px]'>
-                        <div className='flex gap-x-[18px]'>
-                            <div className='h-[40px] w-[40px] rounded-[8px] border border-fintown-br flex items-center justify-center'>
-                                <i className='bx bx-up-arrow-alt text-fintown-pr9 text-[24px] rotate-45'></i>
-                            </div>
-
-                            <div>
-                                <p className='text-fintown-txt-1 font-bold text-[14px] '>P/E</p>
-                                <p className='text-fintown-txt-1 text-[12px]'>Dự báo tăng 6% trong 5 năm tới</p>
-                            </div>
-                        </div>
-
-                        <div className='flex gap-x-[18px]'>
-                            <div className='h-[40px] w-[40px] rounded-[8px] border border-fintown-br flex items-center justify-center'>
-                                <i className='bx bx-up-arrow-alt text-fintown-pr9 text-[24px] rotate-45'></i>
-                            </div>
-
-                            <div>
-                                <p className='text-fintown-txt-1 font-bold text-[14px] '>P/B</p>
-                                <p className='text-fintown-txt-1 text-[12px]'>Dự báo tăng 6% trong 5 năm tới</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button className='hover:bg-fintown-btn-2 mt-auto rounded h-[48px] w-full flex items-center justify-center border border-fintown-br text-[12px] font-bold text-fintown-txt-2'>
-                        Xem chi tiết
-                    </button>
-                </div>
-
-                <div className='flex flex-col justify-between px-[27px] py-[25px] rounded-[10px] border border-fintown-br min-w-[344px] max-w-[344px]'>
-                    <div className='flex items-center mb-[53px] justify-between'>
-                        <div>
-                            <div className='flex items-center gap-x-[10px] mb-[5px]'>
-                                <p className='text-fintown-txt-1 text-[16px] font-bold'>Tài sản & vốn chủ sở hữu</p>
-                                <i className='bx bx-info-circle text-fintown-txt-1'></i>
-                            </div>
-                            <div className='text-fintown-stt-buy text-[12px]'>
-                                Tích cực
-                            </div>
-                        </div>
-                        <div className='h-[40px] w-[40px] rounded-[50%] bg-fintown-stt-buy flex items-center justify-center'>
-                            <i className='bx bx-trending-up text-white text-[24px]'></i>
-                        </div>
-                    </div>
-
-                    <div className='flex flex-col gap-y-[24px] mb-[20px]'>
-                        <div className='flex gap-x-[18px]'>
-                            <div className='h-[40px] w-[40px] rounded-[8px] border border-fintown-br flex items-center justify-center'>
-                                <i className='bx bx-up-arrow-alt text-fintown-pr9 text-[24px] rotate-45'></i>
-                            </div>
-
-                            <div>
-                                <p className='text-fintown-txt-1 font-bold text-[14px] '>P/E</p>
-                                <p className='text-fintown-txt-1 text-[12px]'>Dự báo tăng 6% trong 5 năm tới</p>
-                            </div>
-                        </div>
-
-                        <div className='flex gap-x-[18px]'>
-                            <div className='h-[40px] w-[40px] rounded-[8px] border border-fintown-br flex items-center justify-center'>
-                                <i className='bx bx-up-arrow-alt text-fintown-pr9 text-[24px] rotate-45'></i>
-                            </div>
-
-                            <div>
-                                <p className='text-fintown-txt-1 font-bold text-[14px] '>P/B</p>
-                                <p className='text-fintown-txt-1 text-[12px]'>Dự báo tăng 6% trong 5 năm tới</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button className='hover:bg-fintown-btn-2 mt-auto rounded h-[48px] w-full flex items-center justify-center border border-fintown-br text-[12px] font-bold text-fintown-txt-2'>
-                        Xem chi tiết
-                    </button>
-                </div>
             </div>
         </div>
         </>

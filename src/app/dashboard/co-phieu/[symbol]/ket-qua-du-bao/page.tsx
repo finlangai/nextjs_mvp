@@ -60,7 +60,7 @@ export default function KetQuaDuBaoPage({ params }: { params: { symbol: string }
             </div>
 
             {
-                selectedButton === 0 && (<OverallAssessment />)
+                selectedButton === 0 && (<OverallAssessment symbol={symbol} />)
             }
 
             {

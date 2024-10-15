@@ -1,4 +1,13 @@
+import { 
+    selectForecastingOverallAssessmentLoading, 
+    selectForecastingOverallAssessmentError,
+    selectForecastingOverallAssessmentData
+} from '@/src/redux/ForecastingOverallAssessment';
+
 export default function PredictedClaimCard() {
+
+    
+
     return (
         <>
         <div className='px-[40px] pb-[40px] relative'> 
