@@ -39,7 +39,7 @@ export default function OverallAssessment({symbol} : {symbol: string}) {
                 < PredictiveIndicatorCard/>
             </div>
 
-            <div className='pl-[40px] text-[40px] font-bold text-fintown-txt-1 mb-[32px]'>
+            <div className='pl-[40px] text-[24px] font-bold text-fintown-txt-1 mb-[32px]'>
                 Luận điểm
             </div>
 

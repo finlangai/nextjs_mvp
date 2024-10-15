@@ -1,24 +1,24 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
-import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
-import GaugeChart from '@/src/components/charts/forecasting/OverallChart';
+import { useAppSelector } from '@/src/redux/hooks/useAppStore';
+import OverallChart from '@/src/components/charts/forecasting/OverallChart';
 import { 
     selectForecastingOverallAssessmentData
 } from '@/src/redux/ForecastingOverallAssessment';
-import { ForecastingOverallAssessment, Criterias } from '@/src/interfaces/ForecastingOverallAssessment';
+import { Criterias } from '@/src/interfaces/ForecastingOverallAssessment';
 import OverallSlider from './OverallSlider';
+import { convertToSignals, SignalInterface, finalStatus, finalStatusInterface } from '@/src/utils/convertToSignals';
 
 export default function PredictiveIndicatorCard() {
-    const dispatch = useAppDispatch();
     const forecastingData = useAppSelector(selectForecastingOverallAssessmentData);
     const [NowData, setNowData] = useState<Criterias | null>(null);
+    const [signals, setSignals] = useState<SignalInterface[]>([]);
+    const [status, setStatus] = useState<finalStatusInterface>();
 
     const [slidePosition, setSlidePosition] = useState(0);
     const [canSlideMore, setCanSlideMore] = useState(true);
     const [canSlideBack, setCanSlideBack] = useState(false);
     const [isDragging, setIsDragging] = useState(false);
-    const [startX, setStartX] = useState(0);
-    const [scrollLeft, setScrollLeft] = useState(0);
     const containerRef = useRef<HTMLDivElement>(null);
     const sliderRef = useRef<HTMLDivElement>(null);
 
@@ -27,6 +27,20 @@ export default function PredictiveIndicatorCard() {
             setNowData(forecastingData.criterias)
         }
     }, [forecastingData]);
+
+    useEffect(()=> {
+        if (NowData) {
+            const signals = convertToSignals(NowData);
+            setSignals(signals);
+        }
+    }, [NowData]);
+
+    useEffect(()=> {
+        if (signals.length > 0) {
+            const kq = finalStatus({signals});
+            setStatus(kq);
+        }
+    }, [signals]);
     
     // ===================SLLIDER=========================================
     const slideAmount = 215;
@@ -97,14 +111,16 @@ export default function PredictiveIndicatorCard() {
                 }}
 
              >
-                <div className='px-[27px] py-[25px] rounded-[10px] border border-fintown-stt-sell min-w-[344px] max-w-[344px] '>
+                <div className='px-[27px] py-[25px] rounded-[10px] border border-fintown-br min-w-[344px] max-w-[344px]'>
                     <div className='flex items-center gap-x-[10px] mb-[53px]'>
                         <p className='text-fintown-txt-1 text-[16px] font-bold'>Đánh giá chung</p>
                         <i className='bx bx-info-circle text-fintown-txt-1'></i>
                     </div>
 
                     <div className='mb-[20px]'>
-                        < GaugeChart />
+                    {NowData && (
+                        < OverallChart />
+                    )}
                     </div>
 
                     <hr className='border-fintown-br mb-[26px]' />

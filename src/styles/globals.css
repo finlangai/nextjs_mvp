@@ -82,7 +82,7 @@ body::-webkit-scrollbar-thumb:hover {
 @keyframes l3 {to{transform: rotate(1turn)}}
 
 .slider-container {
-  transition: transform 1s ease;
+  transition: transform 2s ease;
 }
 
 .slider {
