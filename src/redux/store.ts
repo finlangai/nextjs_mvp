@@ -22,6 +22,7 @@ import tickerListPaginationReducers from "./TickerList/PaginationSlice";
 import TickerListReducer from './TickerList/tickerListSlice';
 import TopStocksReducers from './TopStocks/topStocksSlice';
 import ForecastingOverallAssessmentReducers from "./ForecastingOverallAssessment/forecastingOverallAssessmentSlice";
+import ForecastingCriteriaReducers from "./ForecastingCriteria/forecastingCriteriaSlice";
 
 const tickerListReducer = combineReducers({
   TickerList: TickerListReducer,
@@ -59,7 +60,8 @@ const store = configureStore({
     companyTransaction: CompanyTransactionReducer,
     forecastingPage: ForecastingPageReducers,
     topStocks: TopStocksReducers,
-    forecastingOverallAssessment: ForecastingOverallAssessmentReducers
+    forecastingOverallAssessment: ForecastingOverallAssessmentReducers,
+    forecastingCriteria: ForecastingCriteriaReducers
   },
 });
 

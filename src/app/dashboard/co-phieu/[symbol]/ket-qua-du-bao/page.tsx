@@ -1,5 +1,4 @@
 "use client";
-
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import useSetSelectedButtonSiderBar from '@/src/redux/hooks/useButtonsiderBar';
 import useSetSelectedButtonStockPage from '@/src/redux/hooks/useButtonstockPage';
@@ -66,7 +65,7 @@ export default function KetQuaDuBaoPage({ params }: { params: { symbol: string }
             {
                 selectedButton === 1 && (
                     <div className='flex flex-col gap-y-[97px]'>
-                        <Profitability />
+                        <Profitability symbol={symbol} />
                     </div>
                 )
             }

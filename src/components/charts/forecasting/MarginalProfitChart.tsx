@@ -1,6 +1,8 @@
 import React from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import { ChartSeries } from '@/src/interfaces/ChartSeries';
+import { Metric } from '@/src/interfaces/ForecastingCriteria';
 
 const historicalDataGross = [
     { year: '2015', value: 5 },
@@ -35,7 +37,21 @@ const historicalDataGross = [
   ];
 
 
-export default function MarginalProfitChart(){
+const convertToChartSeries = (metrics: Metric[]): ChartSeries[] => {
+    return metrics.map((metric, index) => ({
+        name: metric.name,
+        type: index === 0 ? 'column' : index === 1 ? 'column' : 'spline', 
+        color: index === 0 ? '#25B770' : index === 1 ? 'white' : '#FF6347',
+        data: [
+        ...metric.historical.map(item => item.value),
+        ...metric.forecast.map(item => item.value)
+        ]
+    }));
+};
+
+export default function MarginalProfitChart({data}: {data: Metric[]}){
+    const chartSeries = convertToChartSeries(data); 
+
     const options = {
     credits: {
         enabled: false // Vô hiệu hóa watermark Highcharts.com

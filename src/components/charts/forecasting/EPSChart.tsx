@@ -2,30 +2,26 @@ import React from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import HC_more from 'highcharts/highcharts-more';
+import { Metric } from '@/src/interfaces/ForecastingCriteria';
 
 // Khởi tạo module
 if (typeof Highcharts === 'object') {
   HC_more(Highcharts);
 }
 
-// Dữ liệu giả lập cho 10 năm, chia thành 5 năm lịch sử và 5 năm dự báo cho một chỉ số
-const historicalData = [
-  { year: '2015', value: 5 },
-  { year: '2016', value: 6 },
-  { year: '2017', value: 7 },
-  { year: '2018', value: 8 },
-  { year: '2019', value: 9 }
-];
+const EPSChart = ({ data }: { data: Metric[] }) => {
+  // Tính toán sự thay đổi hàng năm
+  const historicalData = data[0].historical;
+  const forecastData = data[0].forecast;
 
-const forecastData = [
-  { year: '2020', value: 5 },
-  { year: '2021', value: 7 },
-  { year: '2022', value: 6 },
-  { year: '2023', value: 8 },
-  { year: '2024', value: 9 }
-];
+  const waterfallData = [...historicalData, ...forecastData].map((item, index, arr) => {
+    if (index === 0) return { name: item.year.toString(), y: item.value }; // Điểm khởi đầu
+    return {
+      name: item.year.toString(), // Chuyển đổi 'year' thành chuỗi
+      y: item.value - arr[index - 1].value // Sự thay đổi giữa năm hiện tại và năm trước đó
+    };
+  });
 
-const EPSChart: React.FC = () => {
   const options: Highcharts.Options = {
     chart: {
       type: 'waterfall',
@@ -38,19 +34,16 @@ const EPSChart: React.FC = () => {
       }
     },
     xAxis: {
-      categories: [
-        ...historicalData.map(item => item.year),
-        ...forecastData.map(item => item.year)
-      ],
+      categories: waterfallData.map(item => item.name),
       type: 'category',
       labels: {
         style: {
           color: '#ffffff'
         }
       },
-      plotBands: [{ // Vùng màu phủ cho năm dự báo
-        from: historicalData.length - 0.5, // Bắt đầu từ vị trí của phần tử đầu tiên trong dự báo
-        to: historicalData.length + forecastData.length - 0.5,   // Đến vị trí của phần tử cuối cùng trong dự báo
+      plotBands: [{
+        from: historicalData.length - 0.5,
+        to: historicalData.length + forecastData.length - 0.5,
         color: '#1E2026',
         label: {
           text: 'Dự báo',
@@ -73,25 +66,21 @@ const EPSChart: React.FC = () => {
         }
       },
       gridLineColor: '#2B3139',
-    },
-    legend: {
-      enabled: false
+      tickAmount: 5,
+      min: 0,
     },
     tooltip: {
-      pointFormat: '<b>${point.y:,.2f}</b> USD'
+      pointFormat: '<b>{point.y:,.2f}</b> (VNĐ/CP)'
     },
     series: [{
       type: 'waterfall',
       color: 'transparent',
-      borderColor: '#25B770',  
-      data: [
-        ...historicalData.map(item => item.value),
-        ...forecastData.map(item => item.value)
-      ],
+      borderColor: '#25B770',
+      data: waterfallData,
       dataLabels: {
         enabled: true,
         formatter: function (this: Highcharts.PointLabelObject): string {
-          return Highcharts.numberFormat(this.y ?? 0, 0, ',') + ' $';
+          return Highcharts.numberFormat(this.y ?? 0, 0, ',');
         },
         style: {
           color: '#FFFFFF',
@@ -105,6 +94,9 @@ const EPSChart: React.FC = () => {
       enabled: false
     },
     exporting: {
+      enabled: false
+    },
+    legend: {
       enabled: false
     },
   };

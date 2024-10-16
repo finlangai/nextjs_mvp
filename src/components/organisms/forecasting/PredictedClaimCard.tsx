@@ -57,14 +57,17 @@ export default function PredictedClaimCard() {
 
                 {NowData && Object.keys(NowData?.criterias).map((key) => {
                     const criteria = NowData.criterias[key];
+                    {console.log('??', criteria)}
                     if (criteria !== null) {
                         return (
                             <>
-                                <div key={criteria.name} className={`rounded-[10px] border border-fintown-br border-fintown-stt-${criteria.status === "Tích cực" ? "buy" : "sell"}`}>
+                                <div key={criteria.name} className={`rounded-[10px] border  ${criteria?.status === "Tích cực" ? "border-fintown-stt-buy" : "border-fintown-stt-sell"}`}>
                                     <div className='py-[21px] px-[23px]'>
                                         <div className='flex mb-[24px] items-center'>
                                             <div 
-                                            className={`bg-fintown-stt-${criteria.status === "Tích cực" ? "buy" : "sell"} h-[15px] w-[15px] rounded-[50%] border border-fintown-txt-1 mr-[8px]`}></div>
+                                            className={`bg-fintown-stt-${criteria.status === "Tích cực" ? "buy" : "sell"} h-[15px] w-[15px] rounded-[50%] border border-fintown-txt-1 mr-[8px]`}>
+                                                
+                                            </div>
                                             <div className='text-[16px] font-bold text-fintown-txt-1'>{criteria.name}:</div>
                                         </div>
 

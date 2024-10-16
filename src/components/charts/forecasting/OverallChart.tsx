@@ -13,7 +13,6 @@ highchartsMore(Highcharts);
 
 const CustomGaugeChart= ({ signals } : {signals: SignalInterface[]; title?: string}) => {
   const result = finalStatus({ signals });
-
   const options = {
     credits: {
       enabled: false
@@ -104,7 +103,7 @@ const CustomGaugeChart= ({ signals } : {signals: SignalInterface[]; title?: stri
   return (
     <div className="text-center">
       <HighchartsReact highcharts={Highcharts} options={options} />
-      <div className="text-fintown-txt-1 text-[24px] font-bold mb-[62px] mt-[39px]">{status}</div>
+      <div className="text-fintown-txt-1 text-[24px] font-bold mb-[62px] mt-[39px]">{result?.status}</div>
       <div className="flex flex-col space-y-2 mt-2 text-sm">
         <div className="flex justify-between space-x-4 mt-2 text-sm">
 
