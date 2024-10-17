@@ -59,7 +59,7 @@ export default function KetQuaDuBaoPage({ params }: { params: { symbol: string }
             </div>
 
             {
-                selectedButton === 0 && (<OverallAssessment symbol={symbol} />)
+                selectedButton === 10 && (<OverallAssessment symbol={symbol} />)
             }
 
             {
@@ -79,7 +79,7 @@ export default function KetQuaDuBaoPage({ params }: { params: { symbol: string }
             }
 
             {
-                selectedButton === 3 &&  (
+                selectedButton === 0 &&  (
                     <div className='flex flex-col gap-y-[97px]'>
                         <RevenueAndProfit symbol={symbol} />
                     </div>
