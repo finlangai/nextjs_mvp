@@ -1,11 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { fetchForecastingCriteria, selectForecastingCriteriaData, selectForecastingCriteriaLoading } from "@/src/redux/ForecastingCriteria";
+
 import ROIChart from '../../charts/forecasting/ROIChart';
 import MarginalProfitChart from "../../charts/forecasting/MarginalProfitChart";
 import EPSChart from "../../charts/forecasting/EPSChart";
 import ROSChart from "../../charts/forecasting/ROSChart";
 import ForecastingContent from './ForecastingContent ';
+
 import { BarsLoader } from '../../common/Loader';
 import { ChartConfig } from '@/src/interfaces/Chart';
 

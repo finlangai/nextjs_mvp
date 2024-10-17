@@ -54,6 +54,9 @@ export default function ReturnOnAssetsGrowthRateChart({data}: {data: Metric[]}){
             style: {
                 color: '#ffffff'
             },
+            formatter: function (this: Highcharts.AxisLabelsFormatterContextObject): string {
+                return this.value + '%';
+              }
         },
         tickAmount: 5,
         gridLineColor: '#2B3139',

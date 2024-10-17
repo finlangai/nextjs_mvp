@@ -13,7 +13,7 @@ const InterestCoverageRatioChart = ({data}: {data: Metric[]}) => {
       backgroundColor: 'transparent'
     },
     title: {
-      text: ''
+      text: ''  
     },
     xAxis: {
       categories: [

@@ -81,7 +81,7 @@ export default function KetQuaDuBaoPage({ params }: { params: { symbol: string }
             {
                 selectedButton === 3 &&  (
                     <div className='flex flex-col gap-y-[97px]'>
-                        <RevenueAndProfit  />
+                        <RevenueAndProfit symbol={symbol} />
                     </div>
                 )
             }

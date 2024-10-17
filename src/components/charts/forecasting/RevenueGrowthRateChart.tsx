@@ -1,116 +1,108 @@
 import React from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import { Metric } from '@/src/interfaces/ForecastingCriteria';
+import { convertToChartSeries } from '@/src/utils/convertToChartSeries';
 
-// Dữ liệu giả lập cho 10 năm, chia thành 5 năm lịch sử và 5 năm dự báo cho một chỉ số
-const historicalData = [
-  { year: '2015', value: 5 },
-  { year: '2016', value: 6 },
-  { year: '2017', value: 7 },
-  { year: '2018', value: 8 },
-  { year: '2019', value: 9 }
-];
+export default function RevenueGrowthRateChart({data}: {data: Metric[]}){
+    const chartSeries = convertToChartSeries(data, "revenueGrowthRate"); 
 
-const forecastData = [
-  { year: '2020', value: 5 },
-  { year: '2021', value: 7 },
-  { year: '2022', value: 6 },
-  { year: '2023', value: 8 },
-  { year: '2024', value: 9 }
-];
-
-const RevenueGrowthRateChart = () => {
-  const chartOptions = {
+    const options = {
+    credits: {
+        enabled: false // Vô hiệu hóa watermark Highcharts.com
+    },
     chart: {
-      type: 'spline', // Đường cong uốn lượn
-      backgroundColor: 'transparent'
+        type: 'column',
+        backgroundColor: 'transparent' // Nền trong suốt, phù hợp dark mode
     },
     title: {
-      text: ''
+        text: '',
+        style: {
+            color: '#ffffff' // Màu tiêu đề phù hợp với dark mode
+        }
     },
     xAxis: {
-      categories: [
-        ...historicalData.map(item => item.year),
-        ...forecastData.map(item => item.year)
-      ],
-      title: {
-        text: ''
-      },
-      labels: {
-        style: {
-          color: 'white' // Đổi màu cho các giá trị trục X
-        }
-      },
-      plotBands: [{ // Vùng màu phủ cho năm dự báo
-        from: historicalData.length - 0.5, // Bắt đầu từ vị trí của phần tử đầu tiên trong dự báo
-        to: historicalData.length + forecastData.length - 0.5, 
-        color: '#1E2026',
-        label: {
-          text: 'Dự báo',
-          style: {
-            color: 'white'
-          }
-        }
-      }],
+        categories: [
+            ...data[0].historical.map(item => item.year.toString()), // Chuyển đổi số thành chuỗi
+            ...data[0].forecast.map(item => item.year.toString())
+        ],        
+        labels: {
+            style: {
+                color: '#ffffff' // Màu chữ trục x
+            }
+        },
+        plotBands: [{ // Vùng màu phủ cho năm dự báo
+            from: data[0].historical.length - 0.5,
+            to: data[0].historical.length + data[0].forecast.length - 0.5,
+            color: '#1E2026',
+            label: {
+              text: 'Dự báo',
+              style: {
+                color: 'white'
+              }
+            }
+        }],
     },
     yAxis: {
-      min: 0,
-      title: {
-        text: ''
-      },
-      labels: {
-        style: {
-          color: 'white'
-        }
-      },
-      gridLineColor: '#2B3139',
-      tickAmount: 5,
-    },
-    series: [
-      {
-        name: 'Tỷ lệ tăng trưởng',
-        data: [
-          ...historicalData.map(item => item.value),
-          ...forecastData.map(item => item.value)
-        ],
-        color: '#25B770', // Màu cho đường lợi nhuận
-        marker: {
-          enabled: true, // Hiển thị các chấm tròn
-          radius: 4 // Kích thước chấm tròn
+        title: {
+        text: '',
+            style: {
+                color: '#ffffff'
+            }
         },
-        dataLabels: {
-          enabled: true, // Hiển thị nhãn trên đường
-          style: {
-            color: 'white',
-            textOutline: 'none'
-          }
+        labels: {
+            style: {
+                color: '#ffffff'
+            },
+            formatter: function (this: Highcharts.AxisLabelsFormatterContextObject): string {
+                return this.value + '%';
+              }
         },
-      },
-      
-      
-    ],
+        tickAmount: 5,
+        gridLineColor: '#2B3139',
+    }, 
+    
     plotOptions: {
       column: {
-        borderColor: 'none' // Xóa màu viền cho các cột
+          stacking: 'normal',
+          borderColor: 'none'
+      },
+      area: {
+        borderColor: 'transparent',
+        borderWidth: 2
       }
     },
-    credits: {
-      enabled: false
+    series: chartSeries.map(series => ({
+        type: series.type,
+        name: series.name,
+        data: series.data,
+        color: series.color,
+        fillColor: {
+          linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+          stops: [
+            [0, '#25B770'],
+            [1, 'rgba(37, 183, 112, 0)']
+          ]
+        },        
+        dataLabels: {
+            enabled: true, // Hiển thị nhãn trên đường
+            style: {
+              color: 'white',
+              textOutline: 'none'
+            }
+        },
+    })),
+    legend: {
+        enabled: false
     },
     exporting: {
-      enabled: false // Ẩn nút menu
+        enabled: false // Ẩn nút menu
     },
-    legend: {
-      enabled: false, // Hiển thị chú giải (legend)
-      itemStyle: {
-        color: 'white' // Đổi màu chữ cho legend
-      }
-    }
-  };
-
-  return (
-    <HighchartsReact highcharts={Highcharts} options={chartOptions} />
-  );
-};
-
-export default RevenueGrowthRateChart;
+    };
+    
+    return (
+    <div>
+        <HighchartsReact highcharts={Highcharts} options={options} />
+    </div>
+    );
+}

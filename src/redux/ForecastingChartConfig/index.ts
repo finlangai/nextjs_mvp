@@ -10,6 +10,10 @@ import freeCashFlowGrowthRateReducer from "./freeCashFlowGrowthRateSlice";
 import assetGrowthRateReducer from "./assetGrowthRateSlice";
 import equityGrowthRateReducer from "./equityGrowthRateSlice";
 import returnOnAssetsGrowthRateReducer from "./returnOnAssetsGrowthRateSlice";
+import EPSGrowthReducer from "./ePSGrowthSlice"
+import eBITDAGrowthRateReducer  from "./eBITDAGrowthRateSlice"
+import revenueGrowthRateReducer from "./revenueGrowthRateSlice"
+import profitGrowthRateReducer from "./profitGrowthRateSlice"
 
 const chartsReducer = combineReducers({
   roi: roiChartReducer,
@@ -22,7 +26,11 @@ const chartsReducer = combineReducers({
   freeCashFlowGrowthRate: freeCashFlowGrowthRateReducer,
   assetGrowthRate: assetGrowthRateReducer,
   equityGrowthRate: equityGrowthRateReducer,
-  returnOnAssetsGrowthRate: returnOnAssetsGrowthRateReducer
+  returnOnAssetsGrowthRate: returnOnAssetsGrowthRateReducer,
+  GePSGrowth: EPSGrowthReducer,
+  eBITDAGrowthRate: eBITDAGrowthRateReducer,
+  revenueGrowthRate: revenueGrowthRateReducer,
+  profitGrowthRate: profitGrowthRateReducer
 });
 
 export type ChartsState = ReturnType<typeof chartsReducer>;

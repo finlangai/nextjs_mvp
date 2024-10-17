@@ -4,84 +4,166 @@ import HighchartsReact from 'highcharts-react-official';
 import { Metric } from '@/src/interfaces/ForecastingCriteria';
 import { convertToChartSeries } from '@/src/utils/convertToChartSeries';
 
-export default function FreeCashFlowGrowthRateChart({data}: {data: Metric[]}){
-    const chartSeries = convertToChartSeries(data, "freeCashFlowGrowthRate"); 
+const FreeCashFlowGrowthRateChart = ({data}: {data: Metric[]}) => {
+  const chartSeries = convertToChartSeries(data, "freeCashFlowGrowthRate");
 
-    const options = {
-    credits: {
-        enabled: false // Vô hiệu hóa watermark Highcharts.com
-    },
+  // Tìm năm bắt đầu và kết thúc cho tất cả các series
+  const allYears = data.flatMap(metric => 
+    [...metric.historical, ...metric.forecast].map(item => item.year)
+  );
+  const startYear = Math.min(...allYears);
+  const endYear = Math.max(...allYears);
+
+  // Tạo mảng các năm cho trục x
+  const xAxisCategories = Array.from(
+    { length: endYear - startYear + 1 },
+    (_, index) => (startYear + index).toString()
+  );
+
+  // Tìm giá trị min và max cho từng trục y
+  const primaryAxisValues = chartSeries
+    .filter(series => series.type === 'column')
+    .flatMap(series => series.data);
+  const secondaryAxisValues = chartSeries
+    .filter(series => series.type !== 'column')
+    .flatMap(series => series.data);
+
+  const primaryMinValue = Math.min(...primaryAxisValues);
+  const primaryMaxValue = Math.max(...primaryAxisValues);
+  const secondaryMinValue = Math.min(...secondaryAxisValues);
+  const secondaryMaxValue = Math.max(...secondaryAxisValues);
+
+  // Xác định điểm bắt đầu của dự báo
+  const forecastStartIndex = data[0].historical.length;
+
+  const chartOptions = {
     chart: {
-        type: 'column',
-        backgroundColor: 'transparent' // Nền trong suốt, phù hợp dark mode
+      backgroundColor: 'transparent'
     },
     title: {
-        text: '',
-        style: {
-            color: '#ffffff' // Màu tiêu đề phù hợp với dark mode
-        }
+      text: ''
     },
     xAxis: {
-        categories: [
-            ...data[0].historical.map(item => item.year.toString()), // Chuyển đổi số thành chuỗi
-            ...data[0].forecast.map(item => item.year.toString())
-        ],        
-        labels: {
-            style: {
-                color: '#ffffff' // Màu chữ trục x
-            }
-        },
-        plotBands: [{ // Vùng màu phủ cho năm dự báo
-            from: data[0].historical.length - 0.5,
-            to: data[0].historical.length + data[0].forecast.length - 0.5,
-            color: '#1E2026',
-            label: {
-              text: 'Dự báo',
-              style: {
-                color: 'white'
-              }
-            }
-        }],
-    },
-    yAxis: {
-        title: {
-        text: '',
-            style: {
-                color: '#ffffff'
-            }
-        },
-        labels: {
-            style: {
-                color: '#ffffff'
-            },
-        },
-        tickAmount: 5,
-        gridLineColor: '#2B3139',
-    }, 
-    
-    plotOptions: {
-        column: {
-            stacking: 'normal',
-            borderColor: 'none'
+      categories: xAxisCategories,
+      title: {
+        text: ''
+      },
+      labels: {
+        style: {
+          color: 'white'
         }
+      },
+      plotBands: [{
+        from: forecastStartIndex - 0.5,
+        to: xAxisCategories.length - 0.5,
+        color: '#1E2026',
+        label: {
+          text: 'Dự báo',
+          style: {
+            color: 'white'
+          }
+        },
+        gridLineColor: '#2B3139',
+
+      }],
     },
+    yAxis: [
+      {
+        // Trục Y chính (không phải tỷ lệ phần trăm)
+        min: Math.floor(primaryMinValue),
+        max: Math.ceil(primaryMaxValue),
+        title: {
+          text: '',
+          style: {
+            color: 'white'
+          }
+        },
+        labels: {
+          style: {
+            color: 'white'
+          },
+          formatter: function (this: Highcharts.AxisLabelsFormatterContextObject): string {
+            return this.value.toLocaleString();
+          }
+        },
+        gridLineColor: '#2B3139', // Màu lưới tối hơn
+        gridLineWidth: 1,
+        minorGridLineColor: '#2B3139', // Màu lưới phụ tối hơn
+        minorGridLineWidth: 0.5,
+      },
+      {
+        // Trục Y phụ (tỷ lệ phần trăm)
+        min: Math.floor(secondaryMinValue),
+        max: Math.ceil(secondaryMaxValue),
+        title: {
+          text: '',
+          style: {
+            color: 'white'
+          }
+        },
+        labels: {
+          style: {
+            color: 'white'
+          },
+          formatter: function (this: Highcharts.AxisLabelsFormatterContextObject): string {
+            return this.value + '%';
+          }
+        },
+        opposite: true,
+        gridLineColor: '#2B3139', // Màu lưới tối hơn
+        gridLineWidth: 1,
+        minorGridLineColor: '#2B3139', // Màu lưới phụ tối hơn
+        minorGridLineWidth: 0.5,
+      }
+    ],
     series: chartSeries.map(series => ({
-        type: series.type,
-        name: series.name,
-        data: series.data,
-        color: series.color,
+      ...series,
+      yAxis: series.type === 'column' ? 0 : 1,
+      gridLineColor: '#2B3139',
+      // Gán series vào trục Y tương ứng
     })),
-    legend: {
-        enabled: false
+    plotOptions: {
+      column: {
+        borderColor: 'transparent',
+        borderWidth: 1,
+        stacking: 'normal',
+      },
+      spline: {
+        borderColor: 'transparent',
+        borderWidth: 2
+      },
+      line: {
+        lineWidth: 2
+      }
+    },
+    credits: {
+      enabled: false
     },
     exporting: {
-        enabled: false // Ẩn nút menu
+      enabled: false
     },
-    };
-    
-    return (
-    <div>
-        <HighchartsReact highcharts={Highcharts} options={options} />
-    </div>
-    );
-}
+    legend: {
+      enabled: false,
+      itemStyle: {
+        color: 'white'
+      }
+    },
+    tooltip: {
+      shared: true,
+      formatter: function(this: Highcharts.TooltipFormatterContextObject): string {
+        let s = '<b>' + this.x + '</b>';
+        this.points?.forEach(function(point) {
+          s += '<br/>' + point.series.name + ': ' +
+            (point.series.type === 'column' ? point?.y?.toLocaleString() : point?.y?.toFixed(2) + '%');
+        });
+        return s;
+      }
+    }
+  };
+
+  return (
+    <HighchartsReact highcharts={Highcharts} options={chartOptions} />
+  );
+};
+
+export default FreeCashFlowGrowthRateChart;

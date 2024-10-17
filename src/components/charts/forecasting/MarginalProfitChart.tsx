@@ -4,87 +4,109 @@ import HighchartsReact from 'highcharts-react-official';
 import { Metric } from '@/src/interfaces/ForecastingCriteria';
 import { convertToChartSeries } from '@/src/utils/convertToChartSeries';
 
-export default function MarginalProfitChart({data}: {data: Metric[]}){
-    const chartSeries = convertToChartSeries(data, "marginalProfit"); 
+const MarginalProfitChart = ({data}: {data: Metric[]}) => {
+  const chartSeries = convertToChartSeries(data, "marginalProfit");
 
-    const options = {
-    credits: {
-        enabled: false // Vô hiệu hóa watermark Highcharts.com
-    },
+  // Tìm năm bắt đầu và kết thúc cho tất cả các series
+  const allYears = data.flatMap(metric => 
+    [...metric.historical, ...metric.forecast].map(item => item.year)
+  );
+  const startYear = Math.min(...allYears);
+  const endYear = Math.max(...allYears);
+
+  // Tạo mảng các năm cho trục x
+  const xAxisCategories = Array.from(
+    { length: endYear - startYear + 1 },
+    (_, index) => (startYear + index).toString()
+  );
+
+  // Tìm giá trị min và max cho trục y
+  const allValues = chartSeries.flatMap(series => series.data);
+  const minValue = Math.min(...allValues);
+  const maxValue = Math.max(...allValues);
+
+  // Xác định điểm bắt đầu của dự báo
+  const forecastStartIndex = data[0].historical.length;
+
+  const chartOptions = {
     chart: {
-        type: 'column',
-        backgroundColor: 'transparent' // Nền trong suốt, phù hợp dark mode
+      backgroundColor: 'transparent'
     },
     title: {
-        text: '',
-        style: {
-            color: '#ffffff' // Màu tiêu đề phù hợp với dark mode
-        }
+      text: ''
     },
     xAxis: {
-        categories: [
-            ...data[0].historical.map(item => item.year.toString()), // Chuyển đổi số thành chuỗi
-            ...data[0].forecast.map(item => item.year.toString())
-        ],        
-        labels: {
-            style: {
-                color: '#ffffff' // Màu chữ trục x
-            }
-        },
-        plotBands: [{ // Vùng màu phủ cho năm dự báo
-            from: data[0].historical.length - 0.5,
-            to: data[0].historical.length + data[0].forecast.length - 0.5,
-            color: '#1E2026',
-            label: {
-              text: 'Dự báo',
-              style: {
-                color: 'white'
-              }
-            }
-        }],
+      categories: xAxisCategories,
+      title: {
+        text: ''
+      },
+      labels: {
+        style: {
+          color: 'white'
+        }
+      },
+      plotBands: [{
+        from: forecastStartIndex - 0.5,
+        to: xAxisCategories.length - 0.5,
+        color: '#1E2026',
+        label: {
+          text: 'Dự báo',
+          style: {
+            color: 'white'
+          }
+        }
+      }],
     },
     yAxis: {
-        title: {
-        text: '',
-            style: {
-                color: '#ffffff'
-            }
+      min: Math.floor(minValue),
+      max: Math.ceil(maxValue),
+      title: {
+        text: ''
+      },
+      labels: {
+        style: {
+          color: 'white'
         },
-        labels: {
-            style: {
-                color: '#ffffff'
-            },
-            formatter: function (this: Highcharts.AxisLabelsFormatterContextObject): string {
-                return this.value + '%';
-            }
-        },
-        tickAmount: 5,
-        gridLineColor: '#2B3139',
-    }, 
-    
-    plotOptions: {
-        column: {
-            stacking: 'normal',
-            borderColor: 'none'
+        formatter: function (this: Highcharts.AxisLabelsFormatterContextObject): string {
+          return this.value + '%';
         }
+      },
+      gridLineColor: '#2B3139',
+      tickAmount: 5,
     },
-    series: chartSeries.map(series => ({
-        type: series.type,
-        name: series.name,
-        data: series.data,
-        color: series.color,
-    })),
-    legend: {
-        enabled: false
+    series: chartSeries,
+    plotOptions: {
+      column: {
+        borderColor: 'transparent',
+        borderWidth: 1,
+        stacking: 'normal',
+
+      },
+      spline: {
+        borderColor: 'transparent',
+        borderWidth: 2
+      },
+      line: {
+        lineWidth: 2
+      }
+    },
+    credits: {
+      enabled: false
     },
     exporting: {
-        enabled: false // Ẩn nút menu
+      enabled: false
     },
-    };
-    
-    return (
-    <div>
-        <HighchartsReact highcharts={Highcharts} options={options} />
-    </div>
-    );
-}
+    legend: {
+      enabled: false,
+      itemStyle: {
+        color: 'white'
+      }
+    }
+  };
+
+  return (
+    <HighchartsReact highcharts={Highcharts} options={chartOptions} />
+  );
+};
+
+export default MarginalProfitChart;

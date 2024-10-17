@@ -1,36 +1,53 @@
 import React from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { convertToChartSeries } from '@/src/utils/convertToChartSeries';
 import { Metric } from '@/src/interfaces/ForecastingCriteria';
+import { convertToChartSeries } from '@/src/utils/convertToChartSeries';
 
-export default function MarginalProfitChart({data}: {data: Metric[]}){
-  const chartSeries = convertToChartSeries(data, "liquidityRatio"); 
+const LiquidityRatioChart = ({data}: {data: Metric[]}) => {
+  const chartSeries = convertToChartSeries(data, "liquidityRatio");
+
+  // Tìm năm bắt đầu và kết thúc cho tất cả các series
+  const allYears = data.flatMap(metric => 
+    [...metric.historical, ...metric.forecast].map(item => item.year)
+  );
+  const startYear = Math.min(...allYears);
+  const endYear = Math.max(...allYears);
+
+  // Tạo mảng các năm cho trục x
+  const xAxisCategories = Array.from(
+    { length: endYear - startYear + 1 },
+    (_, index) => (startYear + index).toString()
+  );
+
+  // Tìm giá trị min và max cho trục y
+  const allValues = chartSeries.flatMap(series => series.data);
+  const minValue = Math.min(...allValues);
+  const maxValue = Math.max(...allValues);
+
+  // Xác định điểm bắt đầu của dự báo
+  const forecastStartIndex = data[0].historical.length;
 
   const chartOptions = {
     chart: {
-      type: 'column', // Đường cong uốn lượn
       backgroundColor: 'transparent'
     },
     title: {
       text: ''
     },
     xAxis: {
-      categories: [
-        ...data[0].historical.map(item => item.year.toString()), // Chuyển đổi số thành chuỗi
-        ...data[0].forecast.map(item => item.year.toString())
-      ],
+      categories: xAxisCategories,
       title: {
         text: ''
       },
       labels: {
         style: {
-          color: 'white' // Đổi màu cho các giá trị trục X
+          color: 'white'
         }
       },
-      plotBands: [{ // Vùng màu phủ cho năm dự báo
-        from: data[0].historical.length - 0.5,
-        to: data[0].historical.length + data[0].forecast.length - 0.5,
+      plotBands: [{
+        from: forecastStartIndex - 0.5,
+        to: xAxisCategories.length - 0.5,
         color: '#1E2026',
         label: {
           text: 'Dự báo',
@@ -41,83 +58,48 @@ export default function MarginalProfitChart({data}: {data: Metric[]}){
       }],
     },
     yAxis: {
-      min: 0,
+      min: Math.floor(minValue),
+      max: Math.ceil(maxValue),
       title: {
         text: ''
       },
       labels: {
         style: {
           color: 'white'
+        },
+        formatter: function (this: Highcharts.AxisLabelsFormatterContextObject): string {
+          return this.value + '%';
         }
       },
       gridLineColor: '#2B3139',
       tickAmount: 5,
     },
-    // series: [
-    //   {
-    //     name: 'Chỉ số 1',
-    //     data: [
-    //       ...historicalData1.map(item => item.value),
-    //       ...forecastData1.map(item => item.value)
-    //     ],
-    //     color: '#25B770', // Màu cho chỉ số 1
-    //     marker: {
-    //       enabled: true, // Hiển thị các chấm tròn
-    //       radius: 4 // Kích thước chấm tròn
-    //     },
-    //     type: "spline"
-    //   },
-    //   {
-    //     name: 'Chỉ số 2',
-    //     data: [
-    //       ...historicalData2.map(item => item.value),
-    //       ...forecastData2.map(item => item.value)
-    //     ],
-    //     color: 'white', // Màu cho chỉ số 2
-    //     marker: {
-    //       enabled: true, // Hiển thị các chấm tròn
-    //       radius: 4 // Kích thước chấm tròn
-    //     },
-        
-    //   },
-    //   {
-    //     name: 'Chỉ số 3',
-    //     data: [
-    //       ...historicalData3.map(item => item.value),
-    //       ...forecastData3.map(item => item.value)
-    //     ],
-    //     color: '#FF6347', // Màu cho chỉ số 3
-    //     marker: {
-    //       enabled: true, // Hiển thị các chấm tròn
-    //       radius: 4 // Kích thước chấm tròn
-    //     }
-    //   }
-    // ],
-    series: chartSeries.map(series => ({
-      type: series.type,
-      name: series.name,
-      data: series.data,
-      color: series.color,
-    })),
+    series: chartSeries,
     plotOptions: {
+      column: {
+        borderColor: 'transparent',
+        borderWidth: 1,
+        stacking: 'normal',
+
+      },
       spline: {
         borderColor: 'transparent',
         borderWidth: 2
       },
-      column: {
-        borderColor: 'none' // Xóa màu viền cho các cột
+      line: {
+        lineWidth: 2
       }
     },
     credits: {
       enabled: false
     },
     exporting: {
-      enabled: false // Ẩn nút menu
+      enabled: false
     },
     legend: {
-      enabled: false, // Hiển thị chú giải (legend)
+      enabled: false,
       itemStyle: {
-        color: 'white' // Đổi màu chữ cho legend
+        color: 'white'
       }
     }
   };
@@ -126,3 +108,5 @@ export default function MarginalProfitChart({data}: {data: Metric[]}){
     <HighchartsReact highcharts={Highcharts} options={chartOptions} />
   );
 };
+
+export default LiquidityRatioChart;
