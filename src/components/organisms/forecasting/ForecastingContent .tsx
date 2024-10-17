@@ -8,7 +8,7 @@ export default function ForecastingContent ({forecastingCriteriaData, configChar
 
   return (
     <>
-      <SegmentedControl />
+      <SegmentedControl forecastingCriteriaData={forecastingCriteriaData} />
       {forecastingCriteriaData.map((val: ForecastingCriteria) => {
         const chartConfig = configChart.find(config => config.n === val?.title);
         const color = chartConfig?.color;
@@ -24,6 +24,7 @@ export default function ForecastingContent ({forecastingCriteriaData, configChar
                 <div className="text-fintown-txt-1 font-bold text text-[20px] mb-[36px]">
                   Dự báo 5 năm tiếp theo
                 </div>
+
                 <div className="flex items-center gap-x-[28px]">
                   {val?.metrics?.map((metric, index) => (
                     metric && (
@@ -36,11 +37,14 @@ export default function ForecastingContent ({forecastingCriteriaData, configChar
                     )
                   ))}
                 {/* //   <SelectTableOrChart symbol={symbol} year={2020} quarter={4} /> */}
+
                 </div>
               </div>
+
               <div className="mb-[64px]">
                 {ChartComponent && <ChartComponent data={val?.metrics} />}
               </div>
+
               <div className="px-[24px] py-[24px] rounded-[10px] border border-fintown-br">
                 <div className="flex items-center gap-x-[14px] mb-[20px]">
                   <div className="text-[16px] text-fintown-txt-1 font-[600]">
@@ -50,9 +54,11 @@ export default function ForecastingContent ({forecastingCriteriaData, configChar
                     {val?.status}
                   </div>
                 </div>
+                
                 {val?.assessment && (
                   <div className="text-fintown-txt-1 text-[14px]" dangerouslySetInnerHTML={{ __html: val?.assessment }}></div>
                 )}
+
               </div>
             </div>
           )
