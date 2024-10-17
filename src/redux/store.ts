@@ -23,6 +23,7 @@ import TickerListReducer from './TickerList/tickerListSlice';
 import TopStocksReducers from './TopStocks/topStocksSlice';
 import ForecastingOverallAssessmentReducers from "./ForecastingOverallAssessment/forecastingOverallAssessmentSlice";
 import ForecastingCriteriaReducers from "./ForecastingCriteria/forecastingCriteriaSlice";
+import ForecastingchartsReducer from './ForecastingChartConfig';
 
 const tickerListReducer = combineReducers({
   TickerList: TickerListReducer,
@@ -61,7 +62,8 @@ const store = configureStore({
     forecastingPage: ForecastingPageReducers,
     topStocks: TopStocksReducers,
     forecastingOverallAssessment: ForecastingOverallAssessmentReducers,
-    forecastingCriteria: ForecastingCriteriaReducers
+    forecastingCriteria: ForecastingCriteriaReducers,
+    forecastingcharts: ForecastingchartsReducer
   },
 });
 

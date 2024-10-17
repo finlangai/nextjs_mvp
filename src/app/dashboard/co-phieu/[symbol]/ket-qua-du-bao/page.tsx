@@ -73,7 +73,7 @@ export default function KetQuaDuBaoPage({ params }: { params: { symbol: string }
             {
                 selectedButton === 2 && (
                     <div className='flex flex-col gap-y-[97px]'>
-                        <PaymentCapacity />
+                        <PaymentCapacity symbol={symbol} />
                     </div>
                 )
             }
@@ -81,7 +81,7 @@ export default function KetQuaDuBaoPage({ params }: { params: { symbol: string }
             {
                 selectedButton === 3 &&  (
                     <div className='flex flex-col gap-y-[97px]'>
-                        <RevenueAndProfit />
+                        <RevenueAndProfit  />
                     </div>
                 )
             }
@@ -89,7 +89,7 @@ export default function KetQuaDuBaoPage({ params }: { params: { symbol: string }
             {
                 selectedButton === 4 &&  (
                     <div className='flex flex-col gap-y-[97px]'>
-                        <CashFlow />
+                        <CashFlow symbol={symbol} />
                     </div>
                 )
             }
@@ -97,7 +97,7 @@ export default function KetQuaDuBaoPage({ params }: { params: { symbol: string }
             {
                 selectedButton === 5 &&  (
                     <div className='flex flex-col gap-y-[97px]'>
-                        <AssetsAndEquity />
+                        <AssetsAndEquity symbol={symbol} />
                     </div>
                 )
             }

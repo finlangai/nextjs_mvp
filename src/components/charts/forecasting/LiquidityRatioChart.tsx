@@ -1,57 +1,12 @@
 import React from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import { convertToChartSeries } from '@/src/utils/convertToChartSeries';
+import { Metric } from '@/src/interfaces/ForecastingCriteria';
 
-// Dữ liệu giả lập cho 10 năm, chia thành 5 năm lịch sử và 5 năm dự báo cho 3 chỉ số
-const historicalData1 = [
-  { year: '2015', value: 5 },
-  { year: '2016', value: 6 },
-  { year: '2017', value: 7 },
-  { year: '2018', value: 8 },
-  { year: '2019', value: 9 }
-];
+export default function MarginalProfitChart({data}: {data: Metric[]}){
+  const chartSeries = convertToChartSeries(data, "liquidityRatio"); 
 
-const forecastData1 = [
-  { year: '2020', value: 5 },
-  { year: '2021', value: 7 },
-  { year: '2022', value: 6 },
-  { year: '2023', value: 8 },
-  { year: '2024', value: 9 }
-];
-
-const historicalData2 = [
-  { year: '2015', value: 4 },
-  { year: '2016', value: 5 },
-  { year: '2017', value: 6 },
-  { year: '2018', value: 7 },
-  { year: '2019', value: 8 }
-];
-
-const forecastData2 = [
-  { year: '2020', value: 4 },
-  { year: '2021', value: 6 },
-  { year: '2022', value: 5 },
-  { year: '2023', value: 7 },
-  { year: '2024', value: 8 }
-];
-
-const historicalData3 = [
-  { year: '2015', value: 3 },
-  { year: '2016', value: 4 },
-  { year: '2017', value: 5 },
-  { year: '2018', value: 6 },
-  { year: '2019', value: 7 }
-];
-
-const forecastData3 = [
-  { year: '2020', value: 3 },
-  { year: '2021', value: 5 },
-  { year: '2022', value: 4 },
-  { year: '2023', value: 6 },
-  { year: '2024', value: 7 }
-];
-
-const LiquidityRatioChart = () => {
   const chartOptions = {
     chart: {
       type: 'column', // Đường cong uốn lượn
@@ -62,8 +17,8 @@ const LiquidityRatioChart = () => {
     },
     xAxis: {
       categories: [
-        ...historicalData1.map(item => item.year),
-        ...forecastData1.map(item => item.year)
+        ...data[0].historical.map(item => item.year.toString()), // Chuyển đổi số thành chuỗi
+        ...data[0].forecast.map(item => item.year.toString())
       ],
       title: {
         text: ''
@@ -74,8 +29,8 @@ const LiquidityRatioChart = () => {
         }
       },
       plotBands: [{ // Vùng màu phủ cho năm dự báo
-        from: historicalData1.length - 0.5, // Bắt đầu từ vị trí của phần tử đầu tiên trong dự báo
-        to: historicalData1.length + forecastData1.length - 0.5,   // Đến vị trí của phần tử cuối cùng trong dự báo
+        from: data[0].historical.length - 0.5,
+        to: data[0].historical.length + data[0].forecast.length - 0.5,
         color: '#1E2026',
         label: {
           text: 'Dự báo',
@@ -98,46 +53,52 @@ const LiquidityRatioChart = () => {
       gridLineColor: '#2B3139',
       tickAmount: 5,
     },
-    series: [
-      {
-        name: 'Chỉ số 1',
-        data: [
-          ...historicalData1.map(item => item.value),
-          ...forecastData1.map(item => item.value)
-        ],
-        color: '#25B770', // Màu cho chỉ số 1
-        marker: {
-          enabled: true, // Hiển thị các chấm tròn
-          radius: 4 // Kích thước chấm tròn
-        },
-        type: "spline"
-      },
-      {
-        name: 'Chỉ số 2',
-        data: [
-          ...historicalData2.map(item => item.value),
-          ...forecastData2.map(item => item.value)
-        ],
-        color: 'white', // Màu cho chỉ số 2
-        marker: {
-          enabled: true, // Hiển thị các chấm tròn
-          radius: 4 // Kích thước chấm tròn
-        },
+    // series: [
+    //   {
+    //     name: 'Chỉ số 1',
+    //     data: [
+    //       ...historicalData1.map(item => item.value),
+    //       ...forecastData1.map(item => item.value)
+    //     ],
+    //     color: '#25B770', // Màu cho chỉ số 1
+    //     marker: {
+    //       enabled: true, // Hiển thị các chấm tròn
+    //       radius: 4 // Kích thước chấm tròn
+    //     },
+    //     type: "spline"
+    //   },
+    //   {
+    //     name: 'Chỉ số 2',
+    //     data: [
+    //       ...historicalData2.map(item => item.value),
+    //       ...forecastData2.map(item => item.value)
+    //     ],
+    //     color: 'white', // Màu cho chỉ số 2
+    //     marker: {
+    //       enabled: true, // Hiển thị các chấm tròn
+    //       radius: 4 // Kích thước chấm tròn
+    //     },
         
-      },
-      {
-        name: 'Chỉ số 3',
-        data: [
-          ...historicalData3.map(item => item.value),
-          ...forecastData3.map(item => item.value)
-        ],
-        color: '#FF6347', // Màu cho chỉ số 3
-        marker: {
-          enabled: true, // Hiển thị các chấm tròn
-          radius: 4 // Kích thước chấm tròn
-        }
-      }
-    ],
+    //   },
+    //   {
+    //     name: 'Chỉ số 3',
+    //     data: [
+    //       ...historicalData3.map(item => item.value),
+    //       ...forecastData3.map(item => item.value)
+    //     ],
+    //     color: '#FF6347', // Màu cho chỉ số 3
+    //     marker: {
+    //       enabled: true, // Hiển thị các chấm tròn
+    //       radius: 4 // Kích thước chấm tròn
+    //     }
+    //   }
+    // ],
+    series: chartSeries.map(series => ({
+      type: series.type,
+      name: series.name,
+      data: series.data,
+      color: series.color,
+    })),
     plotOptions: {
       spline: {
         borderColor: 'transparent',
@@ -165,5 +126,3 @@ const LiquidityRatioChart = () => {
     <HighchartsReact highcharts={Highcharts} options={chartOptions} />
   );
 };
-
-export default LiquidityRatioChart;

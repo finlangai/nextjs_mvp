@@ -1,56 +1,11 @@
 import React from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { ChartSeries } from '@/src/interfaces/ChartSeries';
 import { Metric } from '@/src/interfaces/ForecastingCriteria';
-
-const historicalDataGross = [
-    { year: '2015', value: 5 },
-    { year: '2016', value: 6 },
-    { year: '2017', value: 7 },
-    { year: '2018', value: 8 },
-    { year: '2019', value: 9 }
-  ];
-  
-  const forecastDataGross = [
-    { year: '2020', value: 5 },
-    { year: '2021', value: 7 },
-    { year: '2022', value: 6 },
-    { year: '2023', value: 8 },
-    { year: '2024', value: 9 }
-  ];
-  
-  const historicalDataNet = [
-    { year: '2015', value: 4 },
-    { year: '2016', value: 5 },
-    { year: '2017', value: 6 },
-    { year: '2018', value: 7 },
-    { year: '2019', value: 8 }
-  ];
-  
-  const forecastDataNet = [
-    { year: '2020', value: 4 },
-    { year: '2021', value: 6 },
-    { year: '2022', value: 5 },
-    { year: '2023', value: 7 },
-    { year: '2024', value: 8 }
-  ];
-
-
-const convertToChartSeries = (metrics: Metric[]): ChartSeries[] => {
-    return metrics.map((metric, index) => ({
-        name: metric.name,
-        type: index === 0 ? 'column' : index === 1 ? 'column' : 'spline', 
-        color: index === 0 ? '#25B770' : index === 1 ? 'white' : '#FF6347',
-        data: [
-        ...metric.historical.map(item => item.value),
-        ...metric.forecast.map(item => item.value)
-        ]
-    }));
-};
+import { convertToChartSeries } from '@/src/utils/convertToChartSeries';
 
 export default function MarginalProfitChart({data}: {data: Metric[]}){
-    const chartSeries = convertToChartSeries(data); 
+    const chartSeries = convertToChartSeries(data, "marginalProfit"); 
 
     const options = {
     credits: {
@@ -68,8 +23,8 @@ export default function MarginalProfitChart({data}: {data: Metric[]}){
     },
     xAxis: {
         categories: [
-            ...historicalDataGross.map(item => item.year),
-            ...forecastDataGross.map(item => item.year)
+            ...data[0].historical.map(item => item.year.toString()), // Chuyển đổi số thành chuỗi
+            ...data[0].forecast.map(item => item.year.toString())
         ],        
         labels: {
             style: {
@@ -77,8 +32,8 @@ export default function MarginalProfitChart({data}: {data: Metric[]}){
             }
         },
         plotBands: [{ // Vùng màu phủ cho năm dự báo
-            from: 4.5, // Bắt đầu từ năm thứ 6 (0-indexed, tức là từ năm 2020)
-            to: 9.5,   // Đến năm thứ 10 (tức là năm 2024)
+            from: data[0].historical.length - 0.5,
+            to: data[0].historical.length + data[0].forecast.length - 0.5,
             color: '#1E2026',
             label: {
               text: 'Dự báo',
@@ -98,6 +53,9 @@ export default function MarginalProfitChart({data}: {data: Metric[]}){
         labels: {
             style: {
                 color: '#ffffff'
+            },
+            formatter: function (this: Highcharts.AxisLabelsFormatterContextObject): string {
+                return this.value + '%';
             }
         },
         tickAmount: 5,
@@ -110,23 +68,12 @@ export default function MarginalProfitChart({data}: {data: Metric[]}){
             borderColor: 'none'
         }
     },
-    series: [
-        {
-            name: 'Biên lợi nhuận gộp',
-            data: [
-                ...historicalDataGross.map(item => item.value),
-                ...forecastDataGross.map(item => item.value)
-              ],
-            color: '#25B770'
-        }, {
-            name: 'Biên lợi nhuận ròng',
-            data: [
-                ...historicalDataNet.map(item => item.value),
-                ...forecastDataNet.map(item => item.value)
-            ],            
-            color: 'white'
-        }
-    ],
+    series: chartSeries.map(series => ({
+        type: series.type,
+        name: series.name,
+        data: series.data,
+        color: series.color,
+    })),
     legend: {
         enabled: false
     },

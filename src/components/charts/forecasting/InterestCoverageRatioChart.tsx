@@ -1,25 +1,12 @@
 import React from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import { convertToChartSeries } from '@/src/utils/convertToChartSeries';
+import { Metric } from '@/src/interfaces/ForecastingCriteria';
 
-// Dữ liệu giả lập cho 10 năm, chia thành 5 năm lịch sử và 5 năm dự báo cho một chỉ số
-const historicalData = [
-  { year: '2015', value: 5 },
-  { year: '2016', value: 6 },
-  { year: '2017', value: 7 },
-  { year: '2018', value: 8 },
-  { year: '2019', value: 9 }
-];
+const InterestCoverageRatioChart = ({data}: {data: Metric[]}) => {
+  const chartSeries = convertToChartSeries(data, "interestCoverageRatio"); 
 
-const forecastData = [
-  { year: '2020', value: 5 },
-  { year: '2021', value: 7 },
-  { year: '2022', value: 6 },
-  { year: '2023', value: 8 },
-  { year: '2024', value: 9 }
-];
-
-const InterestCoverageRatioChart = () => {
   const chartOptions = {
     chart: {
       type: 'column', // Biểu đồ cột
@@ -30,8 +17,8 @@ const InterestCoverageRatioChart = () => {
     },
     xAxis: {
       categories: [
-        ...historicalData.map(item => item.year),
-        ...forecastData.map(item => item.year)
+        ...data[0].historical.map(item => item.year.toString()), // Chuyển đổi số thành chuỗi
+        ...data[0].forecast.map(item => item.year.toString())
       ],
       title: {
         text: ''
@@ -42,8 +29,8 @@ const InterestCoverageRatioChart = () => {
         }
       },
       plotBands: [{ // Vùng màu phủ cho năm dự báo
-        from: historicalData.length - 0.5, // Bắt đầu từ vị trí của phần tử đầu tiên trong dự báo
-        to: historicalData.length + forecastData.length - 0.5,   // Đến vị trí của phần tử cuối cùng trong dự báo
+        from: data[0].historical.length - 0.5,
+        to: data[0].historical.length + data[0].forecast.length - 0.5,
         color: '#1E2026',
         label: {
           text: 'Dự báo',
@@ -66,17 +53,23 @@ const InterestCoverageRatioChart = () => {
       gridLineColor: '#2B3139',
       tickAmount: 5,
     },
-    series: [
-      {
-        name: 'Tỷ lệ tăng trưởng',
-        data: [
-          ...historicalData.map(item => item.value),
-          ...forecastData.map(item => item.value)
-        ],
-        color: '#25B770', // Màu cho cột
-        borderWidth: 2
-      }
-    ],
+    series: chartSeries.map(series => ({
+      type: series.type,
+      name: series.name,
+      data: series.data,
+      color: series.color,
+    })),
+    // series: [
+    //   {
+    //     name: 'Tỷ lệ tăng trưởng',
+    //     data: [
+    //       ...historicalData.map(item => item.value),
+    //       ...forecastData.map(item => item.value)
+    //     ],
+    //     color: '#25B770', // Màu cho cột
+    //     borderWidth: 2
+    //   }
+    // ],
     plotOptions: {
       column: {
         borderColor: 'transparent',

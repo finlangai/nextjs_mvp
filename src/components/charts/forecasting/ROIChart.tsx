@@ -2,23 +2,10 @@ import React from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { Metric } from '@/src/interfaces/ForecastingCriteria';
-import { ChartSeries } from '@/src/interfaces/ChartSeries';
-
-const convertToChartSeries = (metrics: Metric[]): ChartSeries[] => {
-  return metrics.map((metric, index) => ({
-    name: metric.name,
-    type: index === 0 ? 'column' : index === 1 ? 'line' : 'spline', 
-    color: index === 0 ? '#25B770' : index === 1 ? 'white' : '#FF6347',
-    data: [
-      ...metric.historical.map(item => item.value),
-      ...metric.forecast.map(item => item.value)
-    ]
-  }));
-};
+import { convertToChartSeries } from '@/src/utils/convertToChartSeries';
 
 const ROIChart = ({data}: {data: Metric[]}) => {
-
-  const chartSeries = convertToChartSeries(data); 
+  const chartSeries = convertToChartSeries(data, "roi"); 
 
   const chartOptions = {
     chart: {
@@ -60,6 +47,9 @@ const ROIChart = ({data}: {data: Metric[]}) => {
       labels: {
         style: {
           color: 'white'
+        },
+        formatter: function (this: Highcharts.AxisLabelsFormatterContextObject): string {
+          return this.value + '%';
         }
       },
       gridLineColor: '#2B3139',
