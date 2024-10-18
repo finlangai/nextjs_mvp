@@ -25,11 +25,11 @@ export default function ChiSoKyThuatPage({ params }: { params: { symbol: string 
       </div>
 
       <div className="overflow-hidden">
-        < SectionCard endpoint={"industry"} nameSection={"Cổ phiếu cùng ngành"} />
+        < SectionCard endpoint={"industry"} nameSection={"Cổ phiếu cùng ngành"} dashboard={false} />
       </div>
 
       <div className="overflow-hidden">
-        < SectionCard endpoint={"top-gainer"} nameSection={"Tăng giá mạnh nhất"} />
+        < SectionCard endpoint={"top-gainer"} nameSection={"Tăng giá mạnh nhất"} dashboard={false} />
       </div>
 
     </>

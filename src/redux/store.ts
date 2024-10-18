@@ -10,6 +10,7 @@ import priceStockReducer from './PriceStock/priceStockSlice';
 import profileSummaryReducer from "./ProfileSummary/profileSummarySlice";
 import topGainerReducer from './CardStock/topGainerSlice';
 import industryReducer from './CardStock/industrySlice';
+import revenueReducer from "./CardStock/revenueSlice";
 import priceInsightsReducer from "./PriceInsights/priceInsightsSlice";
 import CompanyDescriptionReducer from './CompanyDescription/companyDescriptionSlice';
 import OfficersReducer from "./Officers/officersSlice"
@@ -39,6 +40,7 @@ const historicalDataPageReducer = combineReducers({
 const cardStockReducer = combineReducers({
   industry: industryReducer,
   topGainer: topGainerReducer,
+  revenue: revenueReducer
 });
 
 const store = configureStore({

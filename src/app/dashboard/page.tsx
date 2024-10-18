@@ -5,6 +5,7 @@ import MarketIndicatorChart from "../../components/charts/MarketIndicatorChart";
 import useSetSelectedButtonSiderBar from '@/src/redux/hooks/useButtonsiderBar';
 import TopStocksTable from '@/src/components/organisms/topStocksTable';
 import Link from 'next/link';
+import SectionCard from '@/src/components/organisms/SectionCard';
 
 export default function Dashboard() {
 
@@ -81,13 +82,9 @@ export default function Dashboard() {
         </div>
       </section>
 
-      <section className="overflow-hidden px-[40px] mb-[106px]">
-        <div id="container-card-stock" className="flex items-center overflow-hidden gap-[20px]">
-          {/* <CardStock />
-          <CardStock />
-          <CardStock />
-          <CardStock />
-          <CardStock /> */}
+      <section>
+        <div className="overflow-hidden">
+          < SectionCard endpoint={"revenue"} nameSection={""} dashboard={true} />
         </div>
       </section>
 

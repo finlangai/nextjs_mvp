@@ -8,21 +8,26 @@ import {
     fetchTopGainers, 
     selectTopGainers, 
     selectIndustryLoading, 
-    selectTopGainersLoading 
+    selectTopGainersLoading,
+    fetchRevenue,
+    selectRevenue,
+    selectRevenueLoading
 } from "@/src/redux/CardStock";
 import { selectProfileSummaryData } from '@/src/redux/ProfileSummary';
 import LineChart from '../charts/CardStockChart';
 import { BarsLoader } from '../common/Loader';
 
-export default function SectionCard({ endpoint, nameSection }: { endpoint: string; nameSection: string}) {
+export default function SectionCard({ endpoint, nameSection, dashboard }: { endpoint: string; nameSection: string; dashboard:boolean}) {
     const dispatch = useAppDispatch();
     const [stockData, setStockData] = useState<CardStock[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const selectIndustryData = useAppSelector(selectIndustry);
     const selectTopGainersData = useAppSelector(selectTopGainers);
     const selectProfileSummary = useAppSelector(selectProfileSummaryData);
+    const selectRevenueData = useAppSelector(selectRevenue)
     const IndustryLoading = useAppSelector(selectIndustryLoading);
     const TopGainersLoading = useAppSelector(selectTopGainersLoading);
+    const RevenueLoading = useAppSelector(selectRevenueLoading);
 
     const [slidePosition, setSlidePosition] = useState(0);
     const [canSlideMore, setCanSlideMore] = useState(true);
@@ -43,10 +48,20 @@ export default function SectionCard({ endpoint, nameSection }: { endpoint: strin
             } else if (endpoint === "top-gainer") {
                 dispatch(fetchTopGainers({ limit: 4 }));
                 setIsLoading(TopGainersLoading);
-            }
+            } 
         }
 
     }, [selectProfileSummary]);
+
+
+    useEffect(()=> {
+        if (dashboard) {
+            if (endpoint === "revenue") {
+                dispatch(fetchRevenue({ limit: 10 }));
+                setIsLoading(RevenueLoading);
+            }
+        }
+    }, [dashboard])
 
     // Cập nhật data cho cardstock
     useEffect(() => {
@@ -59,7 +74,11 @@ export default function SectionCard({ endpoint, nameSection }: { endpoint: strin
             setStockData(filteredData);
             setIsLoading(TopGainersLoading);
         }
-    }, [selectIndustryData, selectTopGainersData]);
+        else if (endpoint === "revenue") {
+            setStockData(selectRevenueData);
+            setIsLoading(RevenueLoading);
+        }
+    }, [selectIndustryData, selectTopGainersData, selectRevenueData]);
 
     // ===================SLLIDER=========================================
     const slideAmount = 200;
@@ -92,55 +111,6 @@ export default function SectionCard({ endpoint, nameSection }: { endpoint: strin
         }
     };
 
-    // Xử lý bắt đầu kéo
-    const handleMouseDown = (e: React.MouseEvent) => {
-        if (!sliderRef.current) return;
-        
-        setIsDragging(true);
-        setStartX(e.pageX - sliderRef.current.offsetLeft);
-        setScrollLeft(slidePosition);
-        
-        // Thay đổi cursor khi đang kéo
-        if (sliderRef.current) {
-            sliderRef.current.style.cursor = 'grabbing';
-        }
-    };
-
-    // Xử lý khi đang kéo
-    const handleMouseMove = (e: React.MouseEvent) => {
-        if (!isDragging || !sliderRef.current || !containerRef.current) return;
-        
-        e.preventDefault();
-        const x = e.pageX - sliderRef.current.offsetLeft;
-        const walk = x - startX;
-        
-        // Tính toán giới hạn trượt
-        const maxScroll = sliderRef.current.scrollWidth - containerRef.current.offsetWidth;
-        let newPosition = scrollLeft - walk;
-        
-        // Giới hạn khoảng trượt
-        newPosition = Math.max(0, Math.min(newPosition, maxScroll));
-        
-        setSlidePosition(newPosition);
-    };
-
-    // Xử lý kết thúc kéo
-    const handleMouseUp = () => {
-        setIsDragging(false);
-        if (sliderRef.current) {
-            sliderRef.current.style.cursor = 'grab';
-        }
-    };
-
-    // Xử lý khi chuột ra khỏi vùng slider
-    const handleMouseLeave = () => {
-        if (isDragging) {
-            setIsDragging(false);
-            if (sliderRef.current) {
-                sliderRef.current.style.cursor = 'grab';
-            }
-        }
-    };
 
     // ==================RENDER============================================
 
@@ -198,13 +168,9 @@ export default function SectionCard({ endpoint, nameSection }: { endpoint: strin
                 className="flex items-center gap-[20px] cursor-grab active:cursor-grabbing"
                 style={{
                     marginLeft: `-${slidePosition}px`,
-                    transition: isDragging ? 'none' : 'margin-left 0.5s ease-in-out',
+                    transition: isDragging ? 'none' : 'margin-left 0.2s ease-in-out',
                     userSelect: 'none'
                 }}
-                onMouseDown={handleMouseDown}
-                onMouseMove={handleMouseMove}
-                onMouseUp={handleMouseUp}
-                onMouseLeave={handleMouseLeave}
             >
                 {
                     stockData.map((x) => (
