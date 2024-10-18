@@ -4,11 +4,18 @@ import SegmentedControl from "../../common/SegmentedControl";
 import { ForecastingCriteria } from '@/src/interfaces/ForecastingCriteria';
 import { ChartConfig } from '@/src/interfaces/Chart';
 
-export default function ForecastingContent ({forecastingCriteriaData, configChart}: {forecastingCriteriaData:ForecastingCriteria[]; configChart:ChartConfig[]}){
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
+import { fetchForecastingCriteria, selectForecastingCriteriaData, selectForecastingCriteriaLoading, resetForecastingCriteria } from "@/src/redux/ForecastingCriteria";
+import { selectForecastingToggleByGroup } from '@/src/redux/ForecastingToggle';
+import { selectSelectedButton } from '@/src/redux/ForecastingPage';
 
+export default function ForecastingContent ({forecastingCriteriaData, configChart, symbol}: {forecastingCriteriaData:ForecastingCriteria[]; configChart:ChartConfig[]; symbol:string}){
+  // console.log('checkHoa', forecastingCriteriaData)
+  
   return (
     <>
-      <SegmentedControl forecastingCriteriaData={forecastingCriteriaData} />
+      <SegmentedControl symbol={symbol} />
+      
       {forecastingCriteriaData.map((val: ForecastingCriteria) => {
         const chartConfig = configChart.find(config => config.n === val?.title);
         const color = chartConfig?.color;

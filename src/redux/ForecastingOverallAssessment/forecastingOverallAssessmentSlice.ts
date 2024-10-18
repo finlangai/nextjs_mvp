@@ -51,5 +51,25 @@ const forecastingOverallAssessmentSlice = createSlice({
 export const selectForecastingOverallAssessmentData = (state: RootState) => state.forecastingOverallAssessment.data;
 export const selectForecastingOverallAssessmentLoading = (state: RootState) => state.forecastingOverallAssessment.loading;
 export const selectForecastingOverallAssessmentError = (state: RootState) => state.forecastingOverallAssessment.error;
+export const selectForecastingCriterias = (state: RootState) => state.forecastingOverallAssessment.data?.criterias || null;
+// src/store/slices/forecastingOverallAssessmentSlice.ts
+
+export const selectForecastingCriteriaGroupByIndex = (state: RootState, index: number) => {
+  const criterias = state.forecastingOverallAssessment.data?.criterias;
+  const criteriaKeys = criterias ? Object.keys(criterias) : [];
+  
+  // Kiểm tra index hợp lệ, nếu không hợp lệ thì trả về null
+  if (index >= 0 && index < criteriaKeys.length) {
+    const key = criteriaKeys[index];
+    const selectedCriteria = criterias ? criterias[key] : null;
+    
+    // Truy cập vào group của criteria nếu tồn tại
+    return selectedCriteria ? selectedCriteria.group : null;
+  }
+
+  return null; // Trường hợp index không hợp lệ hoặc không có group
+};
+
+
 
 export default forecastingOverallAssessmentSlice.reducer;

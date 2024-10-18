@@ -1,15 +1,18 @@
 import React, { useEffect, useState, useRef } from 'react';
-import Link from 'next/link';
-import { useAppSelector } from '@/src/redux/hooks/useAppStore';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import OverallChart from '@/src/components/charts/forecasting/OverallChart';
+import { selectSelectedButton, setSelectedButtonAndText } from '@/src/redux/ForecastingPage';
 import { 
     selectForecastingOverallAssessmentData
 } from '@/src/redux/ForecastingOverallAssessment';
 import { Criterias } from '@/src/interfaces/ForecastingOverallAssessment';
 import OverallSlider from './OverallSlider';
 import { convertToSignals, SignalInterface, finalStatus, finalStatusInterface } from '@/src/utils/convertToSignals';
+import { updateMetrics } from '@/src/redux/ForecastingToggle';
 
 export default function PredictiveIndicatorCard() {
+    const dispatch = useAppDispatch();
+
     const forecastingData = useAppSelector(selectForecastingOverallAssessmentData);
     const [NowData, setNowData] = useState<Criterias | null>(null);
     const [signals, setSignals] = useState<SignalInterface[]>([]);
@@ -41,6 +44,21 @@ export default function PredictiveIndicatorCard() {
             setStatus(kq);
         }
     }, [signals]);
+
+    // Xem chỉ số 1
+    const handleClick = async (index: number, indexMetric: number) => {
+        console.log('index: ', index, 'indexMetric: ', indexMetric);
+    
+        // Chỉ thực hiện một lần dispatch để cập nhật metrics
+        dispatch(updateMetrics({ group: index, metrics: [indexMetric] }));
+    
+        dispatch(setSelectedButtonAndText({ button: index + 1, text: '' }));
+    };
+
+    // Xem detail toàn bộ tiêu chí
+    const clickDetail = (index:number) => {
+        dispatch(setSelectedButtonAndText({ button: index + 1, text: '' }));
+    };  
     
     // ===================SLLIDER=========================================
     const slideAmount = 215;
@@ -130,7 +148,7 @@ export default function PredictiveIndicatorCard() {
                     )}
                 </div>
 
-                {NowData && Object.keys(NowData).map((key) => {
+                {NowData && Object.keys(NowData).map((key, index) => {
                     const criteria = NowData[key];
                     if (criteria !== null) {
                         return (
@@ -153,7 +171,7 @@ export default function PredictiveIndicatorCard() {
 
                                 <div className='flex flex-col gap-y-[24px] mb-[20px]'>
                                     {criteria.group.map((groupItem) => (
-                                        <div className='flex gap-x-[18px]' key={groupItem.index}>
+                                        <div className='flex gap-x-[18px]' key={groupItem?.name}>
                                             <div className='min-h-[40px] max-h-[40px] min-w-[40px] rounded-[8px] border border-fintown-br flex items-center justify-center'>
                                                 <i 
                                                 className={`
@@ -166,7 +184,12 @@ export default function PredictiveIndicatorCard() {
                                             </div>
 
                                             <div>
-                                                <p className='text-fintown-txt-1 font-bold text-[14px] '>{groupItem.name}</p>
+                                                <p 
+                                                onClick={() => handleClick(index, groupItem?.index)} 
+                                                className='cursor-pointer text-fintown-txt-1 font-bold text-[14px] hover:text-fintown-pr9'
+                                                >
+                                                {groupItem.name}
+                                                </p>
                                                 <p className='text-fintown-txt-1 text-[12px]'> 
                                                 {groupItem.status === "Tích cực" ? 
                                                     "Kết quả dự báo tích cực" : 
@@ -178,7 +201,7 @@ export default function PredictiveIndicatorCard() {
 
                                 </div>
 
-                                <button className='hover:bg-fintown-btn-2 mt-auto rounded h-[48px] w-full flex items-center justify-center border border-fintown-br text-[12px] font-bold text-fintown-txt-2'>
+                                <button onClick={()=> clickDetail(index)} className='hover:bg-fintown-btn-2 mt-auto rounded h-[48px] w-full flex items-center justify-center border border-fintown-br text-[12px] font-bold text-fintown-txt-2'>
                                     Xem chi tiết
                                 </button>
                             </div>

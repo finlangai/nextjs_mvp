@@ -24,6 +24,7 @@ import TopStocksReducers from './TopStocks/topStocksSlice';
 import ForecastingOverallAssessmentReducers from "./ForecastingOverallAssessment/forecastingOverallAssessmentSlice";
 import ForecastingCriteriaReducers from "./ForecastingCriteria/forecastingCriteriaSlice";
 import ForecastingchartsReducer from './ForecastingChartConfig';
+import ForecastingToggleReducer from "./ForecastingToggle/forecastingToggleSlice";
 
 const tickerListReducer = combineReducers({
   TickerList: TickerListReducer,
@@ -49,21 +50,27 @@ const store = configureStore({
     siderBar: siderBarReducer,
     btnNextPrevReport: btnNextPrevReportPageReducer,
     searchVn30Stock: searchAndChangeStockReducer,
+    
     priceStock: priceStockReducer,
     profileSummary: profileSummaryReducer,
     tickerList: tickerListReducer,
+
     cardStock: cardStockReducer,
     priceInsights: priceInsightsReducer,
+
     companyDescription: CompanyDescriptionReducer,
     officers: OfficersReducer,
     holders: HoldersReducer,
+
     historicalDataPage: historicalDataPageReducer,
     companyTransaction: CompanyTransactionReducer,
+    
     forecastingPage: ForecastingPageReducers,
     topStocks: TopStocksReducers,
     forecastingOverallAssessment: ForecastingOverallAssessmentReducers,
     forecastingCriteria: ForecastingCriteriaReducers,
-    forecastingcharts: ForecastingchartsReducer
+    forecastingcharts: ForecastingchartsReducer,
+    forecastingToggle: ForecastingToggleReducer
   },
 });
 

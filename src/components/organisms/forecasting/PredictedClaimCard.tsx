@@ -57,7 +57,7 @@ export default function PredictedClaimCard() {
 
                 {NowData && Object.keys(NowData?.criterias).map((key) => {
                     const criteria = NowData.criterias[key];
-                    {console.log('??', criteria)}
+                    // {console.log('??', criteria)}
                     if (criteria !== null) {
                         return (
                             <>

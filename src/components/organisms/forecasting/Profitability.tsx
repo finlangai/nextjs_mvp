@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
-import { fetchForecastingCriteria, selectForecastingCriteriaData, selectForecastingCriteriaLoading } from "@/src/redux/ForecastingCriteria";
+import { fetchForecastingCriteria, selectForecastingCriteriaData, selectForecastingCriteriaLoading, resetForecastingCriteria } from "@/src/redux/ForecastingCriteria";
+import { selectForecastingToggleByGroup } from '@/src/redux/ForecastingToggle';
+import { selectSelectedButton } from '@/src/redux/ForecastingPage';
 
 import ROIChart from '../../charts/forecasting/ROIChart';
 import MarginalProfitChart from "../../charts/forecasting/MarginalProfitChart";
@@ -16,9 +18,10 @@ export default function Profitability({symbol} : {symbol:string}) {
   const hasFetched = useRef(false);
   const forecastingCriteriaData = useAppSelector(selectForecastingCriteriaData);
   const forecastingCriteriaLoading = useAppSelector(selectForecastingCriteriaLoading);
-  
-  const chartsConfig = useAppSelector(state => state.forecastingcharts);
+  const selectedButton = useAppSelector(selectSelectedButton);
+  const forecastingToggleByGroup = useAppSelector(selectForecastingToggleByGroup(selectedButton - 1));
 
+  const chartsConfig = useAppSelector(state => state.forecastingcharts);
   const configChart: ChartConfig[] = [
     {
       n: "Hiệu quả sinh lời dựa trên vốn",
@@ -42,13 +45,33 @@ export default function Profitability({symbol} : {symbol:string}) {
     },
   ];
 
-  // Fetch API Lần đầu
+  const fetchDataForGroup = (metric:number) => {
+    dispatch(fetchForecastingCriteria({ symbol, type: 1, group: metric }));
+  };
+
+  const fetchAllData = () => {
+    dispatch(fetchForecastingCriteria({ symbol, type: 1 }));
+  };
+
   useEffect(() => {
-    if (!hasFetched.current) {
-      dispatch(fetchForecastingCriteria({ symbol: symbol, type: 1, group:`` }));
-      hasFetched.current = true;
+    const metrics = forecastingToggleByGroup?.metrics;
+
+    // Nếu đã fetch thì không gọi lại
+    if (hasFetched.current) return;
+
+    // Reset dữ liệu trước khi fetch mới
+    dispatch(resetForecastingCriteria());
+
+    if (Array.isArray(metrics) && metrics.length > 0) {
+      const sortedMetrics = [...metrics].sort((a, b) => a - b);
+      sortedMetrics.forEach(fetchDataForGroup);
+    } else {
+      fetchAllData();
     }
-  }, [dispatch, symbol]);
+
+    // Đánh dấu đã fetch xong
+    hasFetched.current = true;
+  }, [dispatch, symbol, forecastingToggleByGroup]);
 
   // RENDER
   if (forecastingCriteriaLoading) {
@@ -63,6 +86,7 @@ export default function Profitability({symbol} : {symbol:string}) {
     <ForecastingContent 
       forecastingCriteriaData={forecastingCriteriaData} 
       configChart={configChart}
+      symbol={symbol}
     />
   );
 }

@@ -1,7 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ForecastingCriteria } from '@/src/interfaces/ForecastingCriteria';
+import { Group } from '@/src/interfaces/ForecastingOverallAssessment';
+import ToggleComponent from './ToggleComponent';
+import { selectSelectedButton } from '@/src/redux/ForecastingPage';
+import { useAppSelector } from '@/src/redux/hooks/useAppStore';
+import { selectForecastingCriteriaGroupByIndex } from '@/src/redux/ForecastingOverallAssessment';
 
-export default function SegmentedControl({ forecastingCriteriaData }: { forecastingCriteriaData: ForecastingCriteria[] }) {
+export default function SegmentedControl({symbol} : {symbol:string}) {
     const [marginLeft, setMarginLeft] = useState(0);
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(true);
@@ -9,7 +13,10 @@ export default function SegmentedControl({ forecastingCriteriaData }: { forecast
     const containerRef = useRef<HTMLDivElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
     const stickyRef = useRef<HTMLDivElement>(null);
+    const selectedButton = useAppSelector(selectSelectedButton);
+    const selectedCriteria = useAppSelector((state) => selectForecastingCriteriaGroupByIndex(state, selectedButton - 1));
 
+    // SLIDER 
     const checkScrollability = () => {
         if (containerRef.current && contentRef.current) {
             const containerWidth = containerRef.current.offsetWidth;
@@ -93,14 +100,12 @@ export default function SegmentedControl({ forecastingCriteriaData }: { forecast
                         </div>
                         <div className='flex items-center overflow-hidden' ref={containerRef}>
                             <div className='flex items-center transition-all duration-300 pl-[20px]' ref={contentRef} style={{ marginLeft: `${marginLeft}px` }}>
-                                {forecastingCriteriaData.map((val: ForecastingCriteria) => (
+                                {selectedCriteria?.map((val: Group) => (
                                     val && (
-                                        <div className="flex items-center gap-x-[15px] mr-[20px] w-max" key={val?.title}>
-                                            <div className="w-[46px] min-h-[23px] rounded border border-fintown-br flex items-center cursor-pointer">
-                                                <div className="w-[22px] h-[22px] bg-fintown-pr9 rounded"></div>
-                                            </div>
+                                        <div className="flex items-center gap-x-[15px] mr-[20px] w-max" key={val?.name}>
+                                            < ToggleComponent index={val?.index} symbol={symbol} />
                                             <div className="text-fintown-txt-1 text-[14px] whitespace-nowrap">
-                                                {val?.title}
+                                                {val?.name}
                                             </div>
                                         </div>
                                     )
