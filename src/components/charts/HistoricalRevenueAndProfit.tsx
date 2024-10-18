@@ -1,11 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import { HistoricalData } from "@/src/interfaces/BestNPM";
+import { useAppSelector } from "@/src/redux/hooks/useAppStore";
+import { selectBestNPMData } from "@/src/redux/BestNPM";
 
 const StackedColumnChart = () => {
+  const bestNPMData = useAppSelector(selectBestNPMData);
+  const [NowData, setNowData] = useState<HistoricalData[]>([]);
+
+  useEffect(() => {
+    if (bestNPMData && bestNPMData?.historical?.length > 0) {
+      setNowData(bestNPMData?.historical);
+    }
+  }, [bestNPMData]);
+  console.log('NowData:', NowData); // Kiểm tra dữ liệu NowData
+
   const options = {
+
+    
     credits: {
-      enabled: false // Vô hiệu hóa watermark Highcharts.com
+      enabled: false
     },
     chart: {
       type: 'column',
@@ -18,7 +33,7 @@ const StackedColumnChart = () => {
       }
     },
     xAxis: {
-      categories: ['2019', '2020', '2021', '2022', '2023'],
+      categories: NowData.map(d => d.year.toString()),
       labels: {
         style: {
           color: '#ffffff'
@@ -37,7 +52,7 @@ const StackedColumnChart = () => {
           color: '#ffffff'
         }
       },
-      tickAmount: 5, // Đặt số lượng vạch tối đa cho trục y đầu tiên
+      tickAmount: 5,
       gridLineColor: '#2B3139',
     }, {
       title: {
@@ -52,9 +67,9 @@ const StackedColumnChart = () => {
           color: '#ffffff'
         }
       },
-      tickAmount: 5, // Đặt số lượng vạch tối đa cho trục y thứ hai
-      opposite: true, // Hiển thị trục y bên phải
-      gridLineWidth: 0 // Ẩn lưới
+      tickAmount: 5,
+      opposite: true,
+      gridLineWidth: 0
     }],
     plotOptions: {
       column: {
@@ -64,33 +79,37 @@ const StackedColumnChart = () => {
     },
     series: [{
       name: 'Doanh thu',
-      data: [500, 700, 900, 850, 1000],
+      data: NowData.map(d => d?.revenue),
       color: '#25B770'
     }, {
       name: 'LNST',
-      data: [100, 150, 200, 180, 250],
-      color: 'white'
+      data: NowData.map(d => d?.net_profit),
+      color: 'white',
+      type: 'column'
     }, {
-      type: 'spline', // Đường line cho biên lợi nhuận ròng
+      type: 'spline',
       name: 'Biên lợi nhuận ròng',
-      data: [20, 21.5, 22.2, 21.2, 25],
-      yAxis: 1, // Trục y thứ 2 (bên phải)
-      color: 'rgb(128 37 183)',
+      data: NowData.map(d => d?.npm),
+      yAxis: 1,
+      color: '#FF6347',
       marker: {
         lineWidth: 2,
-        lineColor: 'rgb(128 37 183)',
+        lineColor: '#FF6347',
         fillColor: 'white'
       },
     }],
     legend: {
+      enabled: false ,// Ẩn chú giải (legend)
       itemStyle: {
-        color: '#ffffff' // Màu chữ của chú giải (legend)
+        color: '#ffffff'
       }
     }
   };
 
+
   return (
     <div>
+      
       <HighchartsReact highcharts={Highcharts} options={options} />
     </div>
   );

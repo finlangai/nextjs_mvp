@@ -26,6 +26,7 @@ import ForecastingOverallAssessmentReducers from "./ForecastingOverallAssessment
 import ForecastingCriteriaReducers from "./ForecastingCriteria/forecastingCriteriaSlice";
 import ForecastingchartsReducer from './ForecastingChartConfig';
 import ForecastingToggleReducer from "./ForecastingToggle/forecastingToggleSlice";
+import BestNPMReducer from "./BestNPM/bestNPMSlice";
 
 const tickerListReducer = combineReducers({
   TickerList: TickerListReducer,
@@ -72,7 +73,9 @@ const store = configureStore({
     forecastingOverallAssessment: ForecastingOverallAssessmentReducers,
     forecastingCriteria: ForecastingCriteriaReducers,
     forecastingcharts: ForecastingchartsReducer,
-    forecastingToggle: ForecastingToggleReducer
+    forecastingToggle: ForecastingToggleReducer,
+
+    bestNPM: BestNPMReducer
   },
 });
 

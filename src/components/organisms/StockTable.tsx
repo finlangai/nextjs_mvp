@@ -183,7 +183,7 @@ const StockTable = () => {
                     <td className="py-[21px] px-[12px]">
                         <div className="flex">
                             <div className="overflow-hidden min-w-[40px] max-w-[40px] min-h-[40px] max-h-[40px] rounded-[50%] bg-white mr-[10px]">
-                                <img className="w-full h-full object-contain" src={val.logo} alt={val.symbol} />
+                                <img className="min-w-full min-h-full object-contain" src={val.logo} alt={val.symbol} />
                             </div>
                             <div className='w-full'>
                                 <Link href={`/dashboard/co-phieu/${val.symbol}`}>

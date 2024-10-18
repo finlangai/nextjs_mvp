@@ -1,11 +1,11 @@
 "use client";
 import React from 'react';
-import StackedColumnChart from "../../components/charts/HistoricalRevenueAndProfit";
 import MarketIndicatorChart from "../../components/charts/MarketIndicatorChart";
 import useSetSelectedButtonSiderBar from '@/src/redux/hooks/useButtonsiderBar';
 import TopStocksTable from '@/src/components/organisms/topStocksTable';
 import Link from 'next/link';
 import SectionCard from '@/src/components/organisms/SectionCard';
+import BannerDashboard from '@/src/components/organisms/bannerDashboard';
 
 export default function Dashboard() {
 
@@ -18,68 +18,7 @@ export default function Dashboard() {
       <h1 className="font-bold text-[50px] text-fintown-txt-tit9-1 px-[40px] mb-[43px]">Dashboard</h1>
 
       <section className="px-[40px] mb-[106px]">
-        <div className="flex">
-          <div id="left-stn" className="pr-[30px] w-[40%]">
-            <div className="flex items-center mb-[16px]">
-              <div
-                className="rounded-[50%] w-[40px] h-[40px] overflow-hidden mr-[15px]"
-              >
-                <img
-                  className="w-full h-full"
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2NYGSDRblWMqocU-n1KHUA-lriZUpWs3tvA&s"
-                  alt="logo PNJ"
-                />
-              </div>
-              <div className="flex items-center text-fintown-txt-1">
-                <h2 className="font-bold text-2xl mr-[5px]">PNJ</h2>
-                <p className="text-xl">(HOSE)</p>
-              </div>
-            </div>
-
-            <p className="text-base text-fintown-txt-1 font-semibold mb-[42px]">Công ty Cổ phần Vàng bạc Đá quý Phú Nhuận</p>
-
-            <p className="text-base text-fintown-txt-2 font-semibold mb-[5px]">Lợi nhuận sau thuế</p>
-
-            <div className="flex mb-[23px]">
-              <p className="text-4xl font-bold text-fintown-txt-1 mr-[10px]">7,800.39 tỷ VND</p>
-              <i className='bx bxs-up-arrow text-2xl text-fintown-stt-buy mb-[5px]'></i>
-            </div>
-
-            <p className="text-base text-fintown-txt-1 font-normal mb-[40px] max-w-[470px]">
-              Biên lãi ròng trong năm 2023 của PNJ đạt 15.42%, tăng 1.96% so với cùng kỳ. Bên cạnh đó lợi nhuận sau thuế và doanh thu đang trên đà hồi phục.
-            </p>
-
-            <div className="flex items-center gap-x-7 mb-10 hidden">
-              <div className="flex items-center gap-x-2.5">
-                <div className="bg-fintown-pr9 w-[45px] h-[5px]"></div>
-                <p className="text-fintown-txt-1">Biên lãi ròng</p>
-              </div>
-
-              <div className="flex items-center gap-x-2.5">
-                <div className="bg-fintown-chart-1 rounded w-[40px] h-[21px]"></div>
-                <p className="text-fintown-txt-1">LNST</p>
-              </div>
-
-              <div className="flex items-center gap-x-2.5">
-                <div className="bg-fintown-chart-2 rounded w-[40px] h-[21px]"></div>
-                <p className="text-fintown-txt-1">Doanh thu</p>
-              </div>
-            </div>
-
-            <button className="bg-fintown-pr9 rounded-lg text-sm text-fintown-txt-1 py-[11px] px-[16px]">
-              Xem kết quả dự báo
-            </button>
-
-          </div>
-
-          <div id="right-stn" className="w-[60%]">
-            <p className="text-fintown-txt-1 font-semibold text-2xl mb-[18px]">Doanh thu và lợi nhuận quá khứ</p>
-            <div className="w-full">
-              <StackedColumnChart />
-            </div>
-          </div>
-
-        </div>
+        < BannerDashboard />
       </section>
 
       <section>
