@@ -1,29 +1,51 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import SelectTableOrChart from "../../common/SelectTableOrChart";
 import SegmentedControl from "../../common/SegmentedControl";
-import { ForecastingCriteria } from '@/src/interfaces/ForecastingCriteria';
 import { ChartConfig } from '@/src/interfaces/Chart';
 
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { fetchForecastingCriteria, selectForecastingCriteriaData, selectForecastingCriteriaLoading, resetForecastingCriteria } from "@/src/redux/ForecastingCriteria";
 import { selectForecastingToggleByGroup } from '@/src/redux/ForecastingToggle';
 import { selectSelectedButton } from '@/src/redux/ForecastingPage';
+import { ForecastingCriteria } from '@/src/interfaces/ForecastingCriteria';
+import { BarsLoader } from '../../common/Loader';
 
-export default function ForecastingContent ({forecastingCriteriaData, configChart, symbol}: {forecastingCriteriaData:ForecastingCriteria[]; configChart:ChartConfig[]; symbol:string}){
-  // console.log('checkHoa', forecastingCriteriaData)
-  
+export default function ForecastingContent ({configChart, symbol}: {configChart:ChartConfig[]; symbol:string}){
+  const forecastingCriteriaData = useAppSelector(selectForecastingCriteriaData);
+  const forecastingCriteriaLoading = useAppSelector(selectForecastingCriteriaLoading);
+  const [NowData, setNowData] = useState<ForecastingCriteria[]>([]);
+
+  const selectedButton = useAppSelector(selectSelectedButton);
+  const forecastingToggleByGroup = useAppSelector(selectForecastingToggleByGroup(selectedButton - 1));
+  const metrics = forecastingToggleByGroup?.metrics;
+
+  useEffect(()=> {
+    if (forecastingCriteriaData.length > 0) {
+      setNowData(forecastingCriteriaData);
+    }
+  }, [forecastingCriteriaData, metrics])
+
+  // RENDER
+  if (forecastingCriteriaLoading) {
+    return (
+      <div className='flex w-full justify-center items-center h-[428px]'>
+        < BarsLoader/>
+      </div>
+    );
+  }
+
   return (
     <>
       <SegmentedControl symbol={symbol} />
       
-      {forecastingCriteriaData.map((val: ForecastingCriteria) => {
+      {NowData?.map((val: ForecastingCriteria) => {
         const chartConfig = configChart.find(config => config.n === val?.title);
         const color = chartConfig?.color;
         const ChartComponent = chartConfig?.chart;
 
         return (
           val && (
-            <div className="px-[40px]" key={val?.title}>
+            <div className="px-[40px]" >
               <div className="text-fintown-txt-1 font-bold text-[40px] mb-[36px]">
                 {val?.title}
               </div>

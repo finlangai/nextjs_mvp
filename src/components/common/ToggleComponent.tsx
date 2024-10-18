@@ -17,31 +17,49 @@ export default function ToggleComponent({ index, symbol }: { index: number; symb
   const forecastingToggleByGroup = useAppSelector(selectForecastingToggleByGroup(selectedButton - 1));
   const metrics = forecastingToggleByGroup?.metrics;
   const [isActive, setIsActive] = useState(false);
+  const [fetch, setFetch] = useState(false);
 
   useEffect(() => {
     setIsActive(Array.isArray(metrics) && metrics.includes(index));
   }, [metrics, index]);
 
-  const fetchDataForGroup = useCallback((metric: number) => {
-    dispatch(fetchForecastingCriteria({ symbol, type: 1, group: metric }));
-  }, [dispatch, symbol]);
+  useEffect(() =>{
+    if (fetch) {
+      if (Array.isArray(metrics) && metrics.length > 0) {
+        dispatch(resetForecastingCriteria());
+        const sortedMetrics = [...metrics].sort((a, b) => a - b);
+        sortedMetrics.forEach(fetchDataForGroup);
+      }
+    }
+    setFetch(false);
+  }, [fetch])
 
-  const handleToggle = useCallback(() => {
+  const fetchDataForGroup = (metric:number) => {
+    return dispatch(fetchForecastingCriteria({ symbol, type: 1, group: metric }));
+  };
+
+  const handleToggle = () => {
+    const metrics = forecastingToggleByGroup?.metrics;
     const group = selectedButton - 1;
+    console.log("Nhóm:", metrics)
     
     if (isActive) {
       if (metrics && metrics.length === 1) {
-        return; // Prevent deactivating the last active metric
+        return;
       }
-      dispatch(removeMetric({ group, metric: index }));
+      // Kiểm tra nếu phần tử tồn tại trong metrics
+      if (metrics && metrics.includes(index)) {
+        dispatch(removeMetric({ group, metric: index }));
+        setFetch(true);
+      }
     } else {
-      dispatch(addMetric({ group, metric: index }));
-      // Fetch data only when activating the toggle
-      fetchDataForGroup(index);
+      if (metrics && !metrics.includes(index)) {
+        dispatch(addMetric({ group, metric: index }));
+        setFetch(true);
+      }
     }
-    
     setIsActive(!isActive);
-  }, [isActive, metrics, selectedButton, dispatch, index, fetchDataForGroup]);
+  };
 
   return (
     <div

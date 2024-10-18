@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
-import { fetchForecastingCriteria, selectForecastingCriteriaData, selectForecastingCriteriaLoading, resetForecastingCriteria } from "@/src/redux/ForecastingCriteria";
+import { fetchForecastingCriteria, resetForecastingCriteria } from "@/src/redux/ForecastingCriteria";
 import { selectForecastingToggleByGroup } from '@/src/redux/ForecastingToggle';
 import { selectSelectedButton } from '@/src/redux/ForecastingPage';
 
@@ -10,14 +10,11 @@ import EPSChart from "../../charts/forecasting/EPSChart";
 import ROSChart from "../../charts/forecasting/ROSChart";
 import ForecastingContent from './ForecastingContent ';
 
-import { BarsLoader } from '../../common/Loader';
 import { ChartConfig } from '@/src/interfaces/Chart';
 
 export default function Profitability({symbol} : {symbol:string}) {
   const dispatch = useAppDispatch();
   const hasFetched = useRef(false);
-  const forecastingCriteriaData = useAppSelector(selectForecastingCriteriaData);
-  const forecastingCriteriaLoading = useAppSelector(selectForecastingCriteriaLoading);
   const selectedButton = useAppSelector(selectSelectedButton);
   const forecastingToggleByGroup = useAppSelector(selectForecastingToggleByGroup(selectedButton - 1));
 
@@ -73,18 +70,8 @@ export default function Profitability({symbol} : {symbol:string}) {
     hasFetched.current = true;
   }, [dispatch, symbol, forecastingToggleByGroup]);
 
-  // RENDER
-  if (forecastingCriteriaLoading) {
-    return (
-      <div className='flex w-full justify-center items-center h-[428px]'>
-        < BarsLoader/>
-      </div>
-    );
-  }
-
   return (
     <ForecastingContent 
-      forecastingCriteriaData={forecastingCriteriaData} 
       configChart={configChart}
       symbol={symbol}
     />
