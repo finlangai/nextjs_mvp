@@ -47,11 +47,9 @@ export default function PredictiveIndicatorCard() {
 
     // Xem chỉ số 1
     const handleClick = async (index: number, indexMetric: number) => {
-        console.log('index: ', index, 'indexMetric: ', indexMetric);
-    
+        // console.log('index: ', index, 'indexMetric: ', indexMetric);
         // Chỉ thực hiện một lần dispatch để cập nhật metrics
         dispatch(updateMetrics({ group: index, metrics: [indexMetric] }));
-    
         dispatch(setSelectedButtonAndText({ button: index + 1, text: '' }));
     };
 
@@ -152,7 +150,7 @@ export default function PredictiveIndicatorCard() {
                     const criteria = NowData[key];
                     if (criteria !== null) {
                         return (
-                            <div key={key} className='flex flex-col justify-between px-[27px] py-[25px] rounded-[10px] border border-fintown-br min-w-[344px] max-w-[344px]'>
+                            <div key={index} className='flex flex-col justify-between px-[27px] py-[25px] rounded-[10px] border border-fintown-br min-w-[344px] max-w-[344px]'>
                                 <div className='flex items-center mb-[53px] justify-between'>
                                     <div>
                                         <div className='flex items-center gap-x-[10px] mb-[5px]'>

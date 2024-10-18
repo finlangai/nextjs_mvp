@@ -1,49 +1,57 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
-import { fetchForecastingCriteria, selectForecastingCriteriaData, selectForecastingCriteriaLoading } from "@/src/redux/ForecastingCriteria";
-import { BarsLoader } from '../../common/Loader';
+import { fetchForecastingCriteria, resetForecastingCriteria } from "@/src/redux/ForecastingCriteria";
+import { selectForecastingToggleByGroup, updateMetrics } from '@/src/redux/ForecastingToggle';
+import { selectSelectedButton } from '@/src/redux/ForecastingPage';
 import ForecastingContent from './ForecastingContent ';
-import { ChartConfig } from '@/src/interfaces/Chart';
+import { getConfigCharts } from '../../charts/forecasting/chartConfig';
 
-import FreeCashFlowGrowthRateChart from "../../charts/forecasting/FreeCashFlowGrowthRateChart"
-
-export default function CashFlow({symbol} : {symbol:string}) {
+export default function CashFlow({ symbol }: { symbol: string }) {
   const dispatch = useAppDispatch();
   const hasFetched = useRef(false);
-  const forecastingCriteriaData = useAppSelector(selectForecastingCriteriaData);
-  const forecastingCriteriaLoading = useAppSelector(selectForecastingCriteriaLoading);
-  
-  const chartsConfig = useAppSelector(state => state.forecastingcharts);
+  const selectedButton = useAppSelector(selectSelectedButton);
+  const forecastingToggleByGroup = useAppSelector(selectForecastingToggleByGroup(selectedButton - 1));
+  const chartsConfig = useAppSelector(state => state.forecastingcharts); // Sử dụng hook để lấy chartsConfig
+  const configChart = getConfigCharts(chartsConfig)[selectedButton - 1]; // Truyền chartsConfig vào hàm
 
-  const configChart: ChartConfig[] = [
-    {
-      n: "Tăng trưởng dòng tiền tự do",
-      chart: FreeCashFlowGrowthRateChart,
-      color: chartsConfig.liquidityRatio.color
-    },
-  ];
+  const fetchDataForGroup = (metric: number) => {
+    dispatch(fetchForecastingCriteria({ symbol, type: selectedButton, group: metric }));
+  };
 
-  // Fetch API Lần đầu
+  const fetchAllData = () => {
+    dispatch(fetchForecastingCriteria({ symbol, type: selectedButton }));
+  };
+
+  const createMetrics = (configChart: any[]): number[] => {
+    return Array.from({ length: configChart.length }, (_, index) => index);
+  };  
+
   useEffect(() => {
-    if (!hasFetched.current) {
-      dispatch(fetchForecastingCriteria({ symbol: symbol, type: 4, group:`` }));
-      hasFetched.current = true;
-    }
-  }, [dispatch, symbol]);
+    const metrics = forecastingToggleByGroup?.metrics;
 
-  // RENDER
-  if (forecastingCriteriaLoading) {
-    return (
-      <div className='flex w-full justify-center items-center h-[428px]'>
-        <BarsLoader/>
-      </div>
-    );
-  }
+    // Nếu đã fetch thì không gọi lại
+    if (hasFetched.current) return;
+
+    // Reset dữ liệu trước khi fetch mới
+    dispatch(resetForecastingCriteria());
+
+    if (Array.isArray(metrics) && metrics.length > 0) {
+      const sortedMetrics = [...metrics].sort((a, b) => a - b);
+      sortedMetrics.forEach(fetchDataForGroup);
+    } else {
+      fetchAllData();
+      const arr = createMetrics(configChart)
+      dispatch(updateMetrics({ group: selectedButton - 1, metrics: arr }));
+    }
+
+    // Đánh dấu đã fetch xong
+    hasFetched.current = true;
+  }, [dispatch, symbol, forecastingToggleByGroup, selectedButton]);
 
   return (
     <ForecastingContent 
-      forecastingCriteriaData={forecastingCriteriaData} 
       configChart={configChart}
+      symbol={symbol}
     />
   );
 }

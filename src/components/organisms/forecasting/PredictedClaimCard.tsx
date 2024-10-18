@@ -40,7 +40,7 @@ export default function PredictedClaimCard() {
         <div className='px-[40px] pb-[40px] relative'> 
             <div className='flex flex-col gap-y-[23px] overflow-hidden'>
                 
-                <div className={`rounded-[10px] border`} style={{ borderColor: status?.color }}>
+                <div  className={`rounded-[10px] border`} style={{ borderColor: status?.color }}>
                     <div className='py-[21px] px-[23px]'>
                         <div className='flex mb-[24px] items-center'>
                             <div 
@@ -55,13 +55,13 @@ export default function PredictedClaimCard() {
                     </div>
                 </div>
 
-                {NowData && Object.keys(NowData?.criterias).map((key) => {
+                {NowData && Object.keys(NowData?.criterias).map((key, index) => {
                     const criteria = NowData.criterias[key];
                     // {console.log('??', criteria)}
                     if (criteria !== null) {
                         return (
                             <>
-                                <div key={criteria.name} className={`rounded-[10px] border  ${criteria?.status === "Tích cực" ? "border-fintown-stt-buy" : "border-fintown-stt-sell"}`}>
+                                <div key={index} className={`rounded-[10px] border  ${criteria?.status === "Tích cực" ? "border-fintown-stt-buy" : "border-fintown-stt-sell"}`}>
                                     <div className='py-[21px] px-[23px]'>
                                         <div className='flex mb-[24px] items-center'>
                                             <div 

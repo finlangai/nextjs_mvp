@@ -47,16 +47,13 @@ const forecastingCriteriaSlice = createSlice({
       .addCase(fetchForecastingCriteria.fulfilled, (state, action) => {
         state.loading = false;
 
-        // Nếu payload là một object (không phải mảng), push nó vào mảng
-        if (typeof action.payload === 'object' && !Array.isArray(action.payload)) {
+        if (Array.isArray(action.payload)) {
+          // Nếu payload là một mảng, thay thế hoàn toàn state.data
+          state.data = action.payload;
+        } else if (typeof action.payload === 'object' && action.payload !== null) {
+          // Nếu payload là một object (một phần tử), thêm nó vào state.data
           state.data.push(action.payload);
-        } 
-        // Nếu payload là mảng, push từng phần tử vào state
-        else if (Array.isArray(action.payload)) {
-          state.data.push(...action.payload); // Thêm từng phần tử
-        } 
-        // Xử lý trường hợp payload không hợp lệ
-        else {
+        } else {
           console.error('Dữ liệu trả về không hợp lệ');
         }
       })

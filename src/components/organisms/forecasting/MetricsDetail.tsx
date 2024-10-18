@@ -6,7 +6,7 @@ import { selectSelectedButton } from '@/src/redux/ForecastingPage';
 import ForecastingContent from './ForecastingContent ';
 import { getConfigCharts } from '../../charts/forecasting/chartConfig';
 
-export default function AssetsAndEquity({ symbol }: { symbol: string }) {
+export default function MetricsDetail({ symbol }: { symbol: string }) {
   const dispatch = useAppDispatch();
   const hasFetched = useRef(false);
   const selectedButton = useAppSelector(selectSelectedButton);
@@ -15,11 +15,11 @@ export default function AssetsAndEquity({ symbol }: { symbol: string }) {
   const configChart = getConfigCharts(chartsConfig)[selectedButton - 1]; // Truyền chartsConfig vào hàm
 
   const fetchDataForGroup = (metric: number) => {
-    dispatch(fetchForecastingCriteria({ symbol, type: selectedButton, group: metric }));
+    dispatch(fetchForecastingCriteria({ symbol, type: 1, group: metric }));
   };
 
   const fetchAllData = () => {
-    dispatch(fetchForecastingCriteria({ symbol, type: selectedButton }));
+    dispatch(fetchForecastingCriteria({ symbol, type: 1 }));
   };
 
   const createMetrics = (configChart: any[]): number[] => {

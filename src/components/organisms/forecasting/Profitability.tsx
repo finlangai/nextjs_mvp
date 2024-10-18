@@ -1,54 +1,30 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { fetchForecastingCriteria, resetForecastingCriteria } from "@/src/redux/ForecastingCriteria";
-import { selectForecastingToggleByGroup } from '@/src/redux/ForecastingToggle';
+import { selectForecastingToggleByGroup, updateMetrics } from '@/src/redux/ForecastingToggle';
 import { selectSelectedButton } from '@/src/redux/ForecastingPage';
-
-import ROIChart from '../../charts/forecasting/ROIChart';
-import MarginalProfitChart from "../../charts/forecasting/MarginalProfitChart";
-import EPSChart from "../../charts/forecasting/EPSChart";
-import ROSChart from "../../charts/forecasting/ROSChart";
 import ForecastingContent from './ForecastingContent ';
+import { getConfigCharts } from '../../charts/forecasting/chartConfig';
 
-import { ChartConfig } from '@/src/interfaces/Chart';
-
-export default function Profitability({symbol} : {symbol:string}) {
+export default function Profitability({ symbol }: { symbol: string }) {
   const dispatch = useAppDispatch();
   const hasFetched = useRef(false);
   const selectedButton = useAppSelector(selectSelectedButton);
   const forecastingToggleByGroup = useAppSelector(selectForecastingToggleByGroup(selectedButton - 1));
+  const chartsConfig = useAppSelector(state => state.forecastingcharts); // Sử dụng hook để lấy chartsConfig
+  const configChart = getConfigCharts(chartsConfig)[selectedButton - 1]; // Truyền chartsConfig vào hàm
 
-  const chartsConfig = useAppSelector(state => state.forecastingcharts);
-  const configChart: ChartConfig[] = [
-    {
-      n: "Hiệu quả sinh lời dựa trên vốn",
-      chart: ROIChart,
-      color: chartsConfig.roi.color
-    },
-    {
-      n: "Biên lợi nhuận",
-      chart: MarginalProfitChart,
-      color: chartsConfig.marginalProfit.color
-    },
-    {
-      n: "Tỷ suất lợi nhuận trên doanh thu",
-      chart: ROSChart,
-      color: chartsConfig.ros.color
-    },
-    {
-      n: "Lợi nhuận trên mỗi cổ phần",
-      chart: EPSChart,
-      color: chartsConfig.eps.color
-    },
-  ];
-
-  const fetchDataForGroup = (metric:number) => {
+  const fetchDataForGroup = (metric: number) => {
     dispatch(fetchForecastingCriteria({ symbol, type: 1, group: metric }));
   };
 
   const fetchAllData = () => {
     dispatch(fetchForecastingCriteria({ symbol, type: 1 }));
   };
+
+  const createMetrics = (configChart: any[]): number[] => {
+    return Array.from({ length: configChart.length }, (_, index) => index);
+  };  
 
   useEffect(() => {
     const metrics = forecastingToggleByGroup?.metrics;
@@ -64,11 +40,13 @@ export default function Profitability({symbol} : {symbol:string}) {
       sortedMetrics.forEach(fetchDataForGroup);
     } else {
       fetchAllData();
+      const arr = createMetrics(configChart)
+      dispatch(updateMetrics({ group: selectedButton - 1, metrics: arr }));
     }
 
     // Đánh dấu đã fetch xong
     hasFetched.current = true;
-  }, [dispatch, symbol, forecastingToggleByGroup]);
+  }, [dispatch, symbol, forecastingToggleByGroup, selectedButton]);
 
   return (
     <ForecastingContent 

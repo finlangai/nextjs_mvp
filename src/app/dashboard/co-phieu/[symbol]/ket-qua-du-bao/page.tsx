@@ -9,6 +9,7 @@ import PaymentCapacity from '@/src/components/organisms/forecasting/PaymentCapac
 import RevenueAndProfit from '@/src/components/organisms/forecasting/RevenueAndProfit';
 import CashFlow from '@/src/components/organisms/forecasting/CashFlow';
 import AssetsAndEquity from '@/src/components/organisms/forecasting/AssetsAndEquity';
+import MetricsDetail from '@/src/components/organisms/forecasting/MetricsDetail';
 
 export default function KetQuaDuBaoPage({ params }: { params: { symbol: string } }) {
     const { symbol } = params;
@@ -61,6 +62,14 @@ export default function KetQuaDuBaoPage({ params }: { params: { symbol: string }
             {
                 selectedButton === 0 && (<OverallAssessment symbol={symbol} />)
             }
+{/* 
+            {
+                selectedButton !== 0 && (               
+                    <div className='flex flex-col gap-y-[97px]'>
+                        <MetricsDetail symbol={symbol} />                
+                    </div>
+                )
+            } */}
 
             {
                 selectedButton === 1 && (

@@ -38,14 +38,14 @@ export default function ForecastingContent ({configChart, symbol}: {configChart:
     <>
       <SegmentedControl symbol={symbol} />
       
-      {NowData?.map((val: ForecastingCriteria) => {
+      {NowData?.map((val: ForecastingCriteria, index: number) => {
         const chartConfig = configChart.find(config => config.n === val?.title);
         const color = chartConfig?.color;
         const ChartComponent = chartConfig?.chart;
 
         return (
           val && (
-            <div className="px-[40px]" >
+            <div className="px-[40px]" key={index}>
               <div className="text-fintown-txt-1 font-bold text-[40px] mb-[36px]">
                 {val?.title}
               </div>

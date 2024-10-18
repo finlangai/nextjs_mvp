@@ -35,7 +35,7 @@ export default function ToggleComponent({ index, symbol }: { index: number; symb
   }, [fetch])
 
   const fetchDataForGroup = (metric:number) => {
-    return dispatch(fetchForecastingCriteria({ symbol, type: 1, group: metric }));
+    return dispatch(fetchForecastingCriteria({ symbol, type: selectedButton, group: metric }));
   };
 
   const handleToggle = () => {
