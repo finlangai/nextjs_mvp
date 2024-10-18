@@ -1,35 +1,53 @@
 import React from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { Metric } from '@/src/interfaces/ForecastingCriteria';
 import { convertToChartSeries } from '@/src/utils/convertToChartSeries';
+import { Metric } from '@/src/interfaces/ForecastingCriteria';
 
 const ROSChart = ({data}: {data: Metric[]}) => {
   const chartSeries = convertToChartSeries(data, "ros"); 
 
+  const allYears = data.flatMap(metric => 
+    [...metric.historical, ...metric.forecast].map(item => item.year)
+  );
+  const startYear = Math.min(...allYears);
+  const endYear = Math.max(...allYears);
+
+  // Tạo mảng các năm cho trục x
+  const xAxisCategories = Array.from(
+    { length: endYear - startYear + 1 },
+    (_, index) => (startYear + index).toString()
+  );
+
+  // Tìm giá trị min và max cho trục y
+  const allValues = chartSeries.flatMap(series => series.data);
+  const minValue = Math.min(...allValues);
+  const maxValue = Math.max(...allValues);
+
+  // Xác định điểm bắt đầu của dự báo
+  const forecastStartIndex = data[0].historical.length;
+
   const chartOptions = {
     chart: {
+      type: 'column', // Biểu đồ cột
       backgroundColor: 'transparent'
     },
     title: {
-      text: ''
+      text: ''  
     },
     xAxis: {
-      categories: [
-        ...data[0].historical.map(item => item.year.toString()), // Chuyển đổi số thành chuỗi
-        ...data[0].forecast.map(item => item.year.toString())
-      ],
+      categories:xAxisCategories,
       title: {
         text: ''
       },
       labels: {
         style: {
-          color: 'white'
+          color: 'white' // Đổi màu cho các giá trị trục X
         }
       },
-      plotBands: [{ 
-        from: data[0].historical.length - 0.5,
-        to: data[0].historical.length + data[0].forecast.length - 0.5,
+      plotBands: [{ // Vùng màu phủ cho năm dự báo
+        from: forecastStartIndex - 0.5,
+        to: xAxisCategories.length - 0.5,
         color: '#1E2026',
         label: {
           text: 'Dự báo',
@@ -40,7 +58,8 @@ const ROSChart = ({data}: {data: Metric[]}) => {
       }],
     },
     yAxis: {
-      min: 0,
+      min: Math.floor(minValue),
+      max: Math.ceil(maxValue),
       title: {
         text: ''
       },
@@ -55,41 +74,21 @@ const ROSChart = ({data}: {data: Metric[]}) => {
       gridLineColor: '#2B3139',
       tickAmount: 5,
     },
-    series: chartSeries.map(series => ({
-      type: series.type,
-      name: series.name,
-      data: series.data,
-      color: series.color,
-      marker: {
-        enabled: true,
-        radius: 4
-      },
-      lineWidth: series.type === 'spline' ? 3 : 2
-    })),
+    series: chartSeries,
     plotOptions: {
-      column: { 
-        borderColor: 'transparent',
-        borderWidth: 1
-      },
-      spline: { 
+      column: {
         borderColor: 'transparent',
         borderWidth: 2
-      },
-      line: { 
-        lineWidth: 2
       }
     },
     credits: {
       enabled: false
     },
     exporting: {
-      enabled: false
+      enabled: false // Ẩn nút menu
     },
     legend: {
-      enabled: false,
-      itemStyle: {
-        color: 'white'
-      }
+      enabled: false // Ẩn chú giải (legend)
     }
   };
 

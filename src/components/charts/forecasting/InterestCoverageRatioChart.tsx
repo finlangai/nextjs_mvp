@@ -7,6 +7,26 @@ import { Metric } from '@/src/interfaces/ForecastingCriteria';
 const InterestCoverageRatioChart = ({data}: {data: Metric[]}) => {
   const chartSeries = convertToChartSeries(data, "interestCoverageRatio"); 
 
+  const allYears = data.flatMap(metric => 
+    [...metric.historical, ...metric.forecast].map(item => item.year)
+  );
+  const startYear = Math.min(...allYears);
+  const endYear = Math.max(...allYears);
+
+  // Tạo mảng các năm cho trục x
+  const xAxisCategories = Array.from(
+    { length: endYear - startYear + 1 },
+    (_, index) => (startYear + index).toString()
+  );
+
+  // Tìm giá trị min và max cho trục y
+  const allValues = chartSeries.flatMap(series => series.data);
+  const minValue = Math.min(...allValues);
+  const maxValue = Math.max(...allValues);
+
+  // Xác định điểm bắt đầu của dự báo
+  const forecastStartIndex = data[0].historical.length;
+
   const chartOptions = {
     chart: {
       type: 'column', // Biểu đồ cột
@@ -16,10 +36,7 @@ const InterestCoverageRatioChart = ({data}: {data: Metric[]}) => {
       text: ''  
     },
     xAxis: {
-      categories: [
-        ...data[0].historical.map(item => item.year.toString()), // Chuyển đổi số thành chuỗi
-        ...data[0].forecast.map(item => item.year.toString())
-      ],
+      categories:xAxisCategories,
       title: {
         text: ''
       },
@@ -29,8 +46,8 @@ const InterestCoverageRatioChart = ({data}: {data: Metric[]}) => {
         }
       },
       plotBands: [{ // Vùng màu phủ cho năm dự báo
-        from: data[0].historical.length - 0.5,
-        to: data[0].historical.length + data[0].forecast.length - 0.5,
+        from: forecastStartIndex - 0.5,
+        to: xAxisCategories.length - 0.5,
         color: '#1E2026',
         label: {
           text: 'Dự báo',
@@ -41,35 +58,23 @@ const InterestCoverageRatioChart = ({data}: {data: Metric[]}) => {
       }],
     },
     yAxis: {
-      min: 0,
+      min: Math.floor(minValue),
+      max: Math.ceil(maxValue),
       title: {
         text: ''
       },
       labels: {
         style: {
           color: 'white'
+        },
+        formatter: function (this: Highcharts.AxisLabelsFormatterContextObject): string {
+          return this.value + '%';
         }
       },
       gridLineColor: '#2B3139',
       tickAmount: 5,
     },
-    series: chartSeries.map(series => ({
-      type: series.type,
-      name: series.name,
-      data: series.data,
-      color: series.color,
-    })),
-    // series: [
-    //   {
-    //     name: 'Tỷ lệ tăng trưởng',
-    //     data: [
-    //       ...historicalData.map(item => item.value),
-    //       ...forecastData.map(item => item.value)
-    //     ],
-    //     color: '#25B770', // Màu cho cột
-    //     borderWidth: 2
-    //   }
-    // ],
+    series: chartSeries,
     plotOptions: {
       column: {
         borderColor: 'transparent',

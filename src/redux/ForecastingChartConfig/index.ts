@@ -10,7 +10,7 @@ import freeCashFlowGrowthRateReducer from "./freeCashFlowGrowthRateSlice";
 import assetGrowthRateReducer from "./assetGrowthRateSlice";
 import equityGrowthRateReducer from "./equityGrowthRateSlice";
 import returnOnAssetsGrowthRateReducer from "./returnOnAssetsGrowthRateSlice";
-import EPSGrowthReducer from "./ePSGrowthSlice"
+import EPSGrowthReducer from "./EPSGrowthSlice"
 import eBITDAGrowthRateReducer  from "./eBITDAGrowthRateSlice"
 import revenueGrowthRateReducer from "./revenueGrowthRateSlice"
 import profitGrowthRateReducer from "./profitGrowthRateSlice"
