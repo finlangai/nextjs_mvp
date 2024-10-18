@@ -4,6 +4,9 @@ import ToggleComponent from './ToggleComponent';
 import { selectSelectedButton } from '@/src/redux/ForecastingPage';
 import { useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { selectForecastingCriteriaGroupByIndex } from '@/src/redux/ForecastingOverallAssessment';
+import {
+    selectForecastingToggleByGroup
+} from '@/src/redux/ForecastingToggle';
 
 export default function SegmentedControl({symbol} : {symbol:string}) {
     const [marginLeft, setMarginLeft] = useState(0);
@@ -15,6 +18,8 @@ export default function SegmentedControl({symbol} : {symbol:string}) {
     const stickyRef = useRef<HTMLDivElement>(null);
     const selectedButton = useAppSelector(selectSelectedButton);
     const selectedCriteria = useAppSelector((state) => selectForecastingCriteriaGroupByIndex(state, selectedButton - 1));
+    const forecastingToggleByGroup = useAppSelector(selectForecastingToggleByGroup(selectedButton - 1));
+    const metrics = forecastingToggleByGroup?.metrics;
 
     // SLIDER 
     const checkScrollability = () => {
@@ -29,21 +34,18 @@ export default function SegmentedControl({symbol} : {symbol:string}) {
     useEffect(() => {
         checkScrollability();
         window.addEventListener('resize', checkScrollability);
-
         const handleScroll = () => {
             if (stickyRef.current) {
                 const { top } = stickyRef.current.getBoundingClientRect();
                 setIsSticky(top <= 70); // 70px is the height of the main header
             }
         };
-
         window.addEventListener('scroll', handleScroll);
-
         return () => {
             window.removeEventListener('resize', checkScrollability);
             window.removeEventListener('scroll', handleScroll);
         };
-    }, [marginLeft]);
+    }, [marginLeft, metrics]);
 
     const handleScroll = (direction: 'left' | 'right') => {
         const scrollAmount = 100;
@@ -64,7 +66,7 @@ export default function SegmentedControl({symbol} : {symbol:string}) {
     };
 
     return (
-        <div ref={stickyRef} className="sticky top-[70px] z-10" style={{ top: '70px' }}>
+        <div ref={stickyRef} className="sticky top-[70px] z-40" style={{ top: '70px' }}>
             <div className={`${isSticky ? 'border-b-[3px] border-b-fintown-pr9 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)]' : ''} bg-fintown-bg transition-all duration-300`}>
                 <div className="pl-[40px] border-b border-t border-fintown-br overflow-hidden">
                     <div className="flex h-[72px] items-center">
