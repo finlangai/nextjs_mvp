@@ -8,13 +8,13 @@ import { useRouter } from "next/navigation";
 // Validation schema using Yup
 const validationSchema = Yup.object({
     password: Yup.string()
-        .required("Password is required")
-        .min(8, "Password must be at least 8 characters long")
-        .matches(/[0-9]/, "Password must contain at least one digit")
-        .matches(/[A-Z]/, "Password must contain at least one uppercase letter"),
+        .required("Password là bắt buộc")
+        .min(8, "Password phải có ít nhất 8 ký tự")
+        .matches(/[0-9]/, "Password phải chứa ít nhất một chữ số")
+        .matches(/[A-Z]/, " Password phải chứa ít nhất một chữ cái viết hoa"),
     confirmPassword: Yup.string()
-        .required("Confirm password is required")
-        .oneOf([Yup.ref('password'), ""], "Passwords must match"),
+        .required("Xác nhận mật khẩu là bắt buộc")
+        .oneOf([Yup.ref('password'), ""], "Xác nhận mật khẩu không khớp với mật khẩu"),
 });
 
 // Function to generate a random password suggestion

@@ -9,8 +9,8 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 // Validation schema using Yup
 const validationSchema = Yup.object({
     displayName: Yup.string()
-        .required("Display name is required")
-        .min(3, "Display name must be at least 3 characters long"),
+        .required("Tên hiển thị là bắt buộc")
+        .min(3, "Tên hiển thị phải có ít nhất 3 ký tự"),
 });
 
 const SetDisplayName = () => {

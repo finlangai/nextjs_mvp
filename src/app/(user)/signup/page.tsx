@@ -105,8 +105,8 @@ import { verifyEmail } from "@/src/redux/auth/authSlice";
 import { useRouter } from "next/navigation";
 
 const validationSchema = Yup.object({
-  email: Yup.string().required("Email is required").email("Invalid email format"),
-  phone: Yup.string().required("Phone number is required").matches(/^\d{10,11}$/, "Phone number must be 10 to 11 digits"),
+  email: Yup.string().required("Email bắt buộc").email("Email không hợp lệ"),
+  phone: Yup.string().required("Phone number bắt buộc").matches(/^\d{10,11}$/, "Số điện thoại phải có từ 10 đến 11 chữ số"),
 });
 
 const SignUpPage = () => {
