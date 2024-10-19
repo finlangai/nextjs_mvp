@@ -5,7 +5,7 @@ import useSetSelectedButtonSiderBar from '@/src/redux/hooks/useButtonsiderBar';
 import TopStocksTable from '@/src/components/organisms/topStocksTable';
 import Link from 'next/link';
 import SectionCard from '@/src/components/organisms/SectionCard';
-import BannerDashboard from '@/src/components/organisms/bannerDashboard';
+import BannerDashboard from '@/src/components/organisms/BannerDashboard';
 
 export default function Dashboard() {
 
