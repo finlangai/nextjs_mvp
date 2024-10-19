@@ -6,14 +6,13 @@ function hasTypeProperty(obj: any): obj is { type: Record<string, string> } {
   return obj && obj.type && typeof obj.type === 'object';
 }
 
-export const convertToChartSeries = (metrics: Metric[], main: keyof typeof chartsConfig): ChartSeries[] => {
+export const convertToChartSeries = (metrics: Metric[], main: string): ChartSeries[] => {
   const chartsConfig = useAppSelector(state => state.forecastingcharts);
 
   if (main in chartsConfig) {
     return metrics.map((metric, index) => {
-      const metricName = metric.name.toUpperCase();
-      const color = chartsConfig[main]?.color?.[index] || '#FF6347'; // Truy xuất màu sắc dựa trên index
-      const type = chartsConfig[main]?.type?.[index] || 'column'; // Truy xuất loại biểu đồ dựa trên index
+      const color = chartsConfig[main as keyof typeof chartsConfig]?.color?.[index] || '#FF6347'; // Cast main
+      const type = chartsConfig[main as keyof typeof chartsConfig]?.type?.[index] || 'column'; // Cast main
 
       return {
         name: metric.name,
@@ -21,11 +20,11 @@ export const convertToChartSeries = (metrics: Metric[], main: keyof typeof chart
         color,
         data: [
           ...metric.historical.map(item => item.value),
-          ...metric.forecast.map(item => item.value)
-        ]
+          ...metric.forecast.map(item => item.value),
+        ],
       };
     });
   }
 
-  return []; 
+  return [];
 };
