@@ -4,6 +4,7 @@ import { fetchBestNPM, selectBestNPMData, selectBestNPMError, selectBestNPMLoadi
 import { useAppDispatch, useAppSelector } from "@/src/redux/hooks/useAppStore";
 import { BestNPMData } from "@/src/interfaces/BestNPM";
 import { BarsLoader } from '../common/Loader';
+import Link from "next/link";
 
 export default function BannerDashboard(){
     const dispatch = useAppDispatch();
@@ -43,8 +44,8 @@ export default function BannerDashboard(){
             <div className="flex">
                 <div id="left-stn" className="pr-[30px] w-[40%]">
                     <div className="flex items-center mb-[16px]">
-                    <div className="overflow-hidden min-w-[40px] max-w-[40px] min-h-[40px] max-h-[40px] rounded-[50%] bg-white mr-[10px]">
-                        <img className="w-full h-full object-contain" src={NowData?.logo} alt={NowData?.symbol} />
+                    <div className="overflow-hidden min-w-[40px] max-w-[40px] min-h-[40px] max-h-[40px] rounded-[50%] bg-white mr-[10px] flex items-center justify-center">
+                        <img className="min-w-full min-h-full object-contain" src={NowData?.logo} alt={NowData?.symbol} />
                     </div>
                     <div className="flex items-center text-fintown-txt-1">
                         <h2 className="font-bold text-2xl mr-[5px]">{NowData?.symbol}</h2>
@@ -82,9 +83,11 @@ export default function BannerDashboard(){
                         </div>
                     </div>
 
-                    <button className="bg-fintown-pr9 rounded-lg text-sm text-fintown-txt-1 py-[11px] px-[16px]">
-                        Xem kết quả dự báo
-                    </button>
+                    <Link href={`/dashboard/co-phieu/${NowData?.symbol}/ket-qua-du-bao`}>
+                        <button className="bg-fintown-pr9 rounded-lg text-sm text-fintown-txt-1 py-[11px] px-[16px]">
+                            Xem kết quả dự báo
+                        </button>
+                    </Link>
 
                 </div>
 
