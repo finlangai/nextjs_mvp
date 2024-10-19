@@ -27,7 +27,7 @@ import ForecastingCriteriaReducers from "./ForecastingCriteria/forecastingCriter
 import ForecastingchartsReducer from './ForecastingChartConfig';
 import ForecastingToggleReducer from "./ForecastingToggle/forecastingToggleSlice";
 import BestNPMReducer from "./BestNPM/bestNPMSlice";
-
+import authReducer from "./auth/authSlice";
 const tickerListReducer = combineReducers({
   TickerList: TickerListReducer,
   Pagination: tickerListPaginationReducers,
@@ -75,7 +75,8 @@ const store = configureStore({
     forecastingcharts: ForecastingchartsReducer,
     forecastingToggle: ForecastingToggleReducer,
 
-    bestNPM: BestNPMReducer
+    bestNPM: BestNPMReducer,
+    auth: authReducer,
   },
 });
 

@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Header() {
     return (
-        <header 
+        <header
             className="
             w-full h-[70px] 
             border-b border-fintown-br 
@@ -24,11 +24,11 @@ export default function Header() {
                 </div>
 
                 <div className="flex items-center gap-x-2.5">
-
-                    <button className="text-fintown-txt-1 text-sm rounded-md bg-fintown-btn-2 px-[19px] py-[6px]">
-                        Đăng nhập
-                    </button>
-
+                    <Link href="/">
+                        <button className="text-fintown-txt-1 text-sm rounded-md bg-fintown-btn-2 px-[19px] py-[6px]">
+                            Đăng nhập
+                        </button>
+                    </Link>
                     <Link href="/signup">
                         <button className="text-fintown-txt-1 text-sm rounded-md bg-fintown-pr9 px-[19px] py-[6px]" >
                             Đăng ký
@@ -39,3 +39,5 @@ export default function Header() {
         </header>
     );
 }
+
+
