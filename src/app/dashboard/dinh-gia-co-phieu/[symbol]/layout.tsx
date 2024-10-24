@@ -1,0 +1,104 @@
+"use client";
+import React, { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
+import ChangeStockInput from '@/src/components/organisms/ChangeStock';
+import ValuationConceptPanel from '@/src/components/organisms/ValuationConceptPanel';
+
+export default function DinhGiaCoPhieuLayout({ children, params }: { children: React.ReactNode, params: { symbol: string } }){
+    const { symbol } = params;
+
+    const [selectedOptions, setSelectedOptions] = useState<{[key: number]: 'Kiểu xem 1' | 'Kiểu xem 2' | 'Kiểu xem 3'}>({});
+    const handleOptionChange = (index: number, option: 'Kiểu xem 1' | 'Kiểu xem 2' | 'Kiểu xem 3') => {
+        setSelectedOptions(prev => ({
+          ...prev,
+          [index]: option
+        }));
+    };
+
+    return (
+        <>
+            <div className='flex'>
+                <div className='w-full '>
+                    <div className='pl-[40px] border-r border-b border-fintown-br '>
+                        <div className='flex items-center justify-between'>
+                            <div className='flex items-center py-[16px] border-r border-fintown-br w-full justify-between'>
+                                <div className='flex items-center'>
+                                    <div className='h-[50px] w-[50px] rounded-[50%] overflow-hidden bg-white mr-[13px]'>
+                                        <img className='h-full w-full object-contain' src="/imgs/logo_cty/vcb.png" alt="" />
+                                    </div>
+
+                                    <div>
+                                        <p className='text-[16px] text-fintown-txt-1 font-bold'>
+                                            VCB
+                                        </p>
+                                        <div className='text-[14px] font-[400] text-fintown-txt-2'>
+                                            Công ty cổ phần vàng bạc đá quý Phú Nhuận
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className='pr-[24px]'>
+                                    {/* <div className='text-[12px] font-bold text-fintown-txt-2'>Đổi cổ phiếu</div> */}
+                                    < ChangeStockInput symbol={symbol} />
+                                </div>
+                            </div>
+                            <div className='px-[24px] py-[21px] min-w-[214px]'>
+                                <div className='flex items-center justify-between mb-[7px]'>
+                                    <div className='text-left text-[12px] font-bold text-fintown-txt-2 mr-[7px]'>
+                                        Giá: 
+                                    </div>
+                                    <div className='text-right text-[12px] text-fintown-txt-1'>
+                                        419,142
+                                    </div>
+                                </div>
+
+                                <div className='flex items-center justify-between '>
+                                    <div className='text-left text-[12px] font-bold text-fintown-txt-2 mr-[7px]'>
+                                        Khối lượng:
+                                    </div>
+                                    <div className='text-right text-[12px] text-fintown-txt-1'>
+                                        1,721,200
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className='flex border-r border-fintown-br h-max'>
+                        <div className='min-w-[265px] w-max pl-[40px] pt-[25px] pr-[24px] border-r border-fintown-br flex flex-col gap-y-[10px]'>
+                            <div className='cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] bg-[#1E2127] rounded-[8px]'>
+                                Tổng quan
+                            </div>
+
+                            <Link href={`/dashboard/dinh-gia-co-phieu/${symbol}/chiet-khau-dong-tien`}>
+                                <div className='cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] hover:bg-[#1E2127] rounded-[8px]'>
+                                    Chiết khấu dòng tiền
+                                </div>
+                            </Link>
+
+                            <div className='cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] hover:bg-[#1E2127] rounded-[8px]'>
+                                Chiết khấu cổ tức
+                            </div>
+                            <div className='cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] hover:bg-[#1E2127] rounded-[8px]'>
+                                Benjamin Graham
+                            </div>
+                            <div className='cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] hover:bg-[#1E2127] rounded-[8px]'>
+                                Hệ số P/B
+                            </div>
+                            <div className='cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] hover:bg-[#1E2127] rounded-[8px]'>
+                                Hệ số P/E
+                            </div>
+                        </div>
+                        <div className='w-full'>
+                            {children}
+                        </div>
+                    </div>
+                </div>
+
+                <div className='pr-[40px] min-w-[300px] max-w-[300px]'>
+                    < ValuationConceptPanel />
+                </div>
+            </div>
+        </>
+    )   
+}

@@ -88,3 +88,43 @@ body::-webkit-scrollbar-thumb:hover {
 .slider {
   min-width: 100%;
 }
+
+
+/* =====================================UPSIDE RANGER SLIDER==================================== */
+/* styles/ProgressBar.css */
+.progress-container {
+  width: 100%;
+  max-width: 500px;
+  margin: 20px auto;
+  color: white;
+}
+
+.progress-title {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.progress-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2px;
+}
+
+.segment {
+  width: 10px;
+  height: 20px;
+  border-radius: 4px;
+  background-color: #3e3e3e;
+}
+
+.segment.filled {
+  background-color: #00cc66; /* Green color for the filled part */
+}
+
+.progress-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-top: 8px;
+}

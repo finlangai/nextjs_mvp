@@ -7,7 +7,7 @@ function hasTypeProperty(obj: any): obj is { type: Record<string, string> } {
 }
 
 export const convertToChartSeries = (metrics: Metric[], main: string): ChartSeries[] => {
-  const chartsConfig = useAppSelector(state => state.forecastingcharts);
+  const chartsConfig = useAppSelector((state:any) => state.forecastingcharts);
 
   if (main in chartsConfig) {
     return metrics.map((metric, index) => {
