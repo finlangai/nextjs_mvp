@@ -2,8 +2,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import SelectViewType from '@/src/components/common/SelectViewType';
 import UpsideChart from '@/src/components/charts/UpsideChart';
+import useSetSelectedValuetionPage from '@/src/redux/hooks/useButtonValuetionPage';
 
-export default function DinhGiaCoPhieuPage({ params }: { params: { symbol: string } }){
+export default function TongQuanPage({ params }: { params: { symbol: string } }){
+    useSetSelectedValuetionPage(0);
+
     const [selectedOptions, setSelectedOptions] = useState<{[key: number]: 'Kiểu xem 1' | 'Kiểu xem 2' | 'Kiểu xem 3'}>({});
     const handleOptionChange = (index: number, option: 'Kiểu xem 1' | 'Kiểu xem 2' | 'Kiểu xem 3') => {
         setSelectedOptions(prev => ({
@@ -11,8 +14,10 @@ export default function DinhGiaCoPhieuPage({ params }: { params: { symbol: strin
           [index]: option
         }));
     };
+
     const stockPrice = 150.75;
     const upside = 25;
+
     return (
         <>
             <div className='w-full'>

@@ -5,7 +5,7 @@ export default function FairValueCalculator(){
     const upside = 60;
     return (
         <>
-        <div>
+        <div className="px-[24px] py-[24px]">
             <div className="px-[24px] py-[24px] border border-fintown-br rounded-[8px] flex justify-between">
                 <div className="w-full pr-[24px] ">
                     <div className="font-bold text-[14px] text-fintown-txt-1 mb-[12px]">
@@ -55,7 +55,6 @@ export default function FairValueCalculator(){
                         Tính toán
                     </button>
                 </div>
-
                 <div className="w-full max-w-[350px] flex flex-col justify-between">
                     <div>
                         <div className="font-bold text-[14px] text-fintown-txt-1 mb-[17px] ">

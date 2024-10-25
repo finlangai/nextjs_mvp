@@ -1,6 +1,39 @@
+"use client";
+import React, { useState } from 'react';
 import FairValueCalculator from "@/src/components/organisms/FairValueCalculator"
+import SlidingTabs from "@/src/components/common/SlidingTabs"
+import PriceHistoryTab from '@/src/components/organisms/PriceHistoryTab';
+import useSetSelectedValuetionPage from '@/src/redux/hooks/useButtonValuetionPage';
+import { setHistorySelectedButton} from '@/src/redux/ValuetionPage/valuationHistorySlice';
+import { useAppDispatch } from '@/src/redux/hooks/useAppStore';
 
 export default function DiscountCashFlowPage({ params }: { params: { symbol: string } }){
+    const dispatch = useAppDispatch();
+    useSetSelectedValuetionPage(1);
+    const [activeTabIndex, setActiveTabIndex] = useState<number>(0);
+
+    // Handler nhận index từ SlidingTabs
+    const handleTabChange = (index: number) => {
+      setActiveTabIndex(index);
+    };
+
+    const renderContent = () => {
+        switch (activeTabIndex) {
+          case 0:
+            dispatch(setHistorySelectedButton({ button: 0 }));
+            return (
+                < FairValueCalculator />
+            );
+          case 1:
+            dispatch(setHistorySelectedButton({ button: 1 }));
+            return (
+                < PriceHistoryTab />
+            );
+          default:
+            return null;
+        }
+    };
+
     return(
         <>
         <div className='w-full'>
@@ -14,21 +47,16 @@ export default function DiscountCashFlowPage({ params }: { params: { symbol: str
                 </div>
             </div>
 
-            <div className="px-[24px] py-[24px] border-b border-fintown-br">
-                <div className="flex items-center gap-x-[18px] pb-[11px]">
-                    <div className="text-fintown-txt-1 font-bold text-[14px] cursor-pointer">
-                        Máy tính
-                    </div>
+            <div className="flex items-center px-[24px] border-b border-fintown-br">
+                < SlidingTabs onTabChange={handleTabChange} />
 
-                    <div className="text-fintown-txt-2 font-bold text-[14px] cursor-pointer">
-                        Lịch sử định giá
-                    </div>
-                </div>
-                <div className="w-[25px] h-[2px] bg-fintown-pr9"></div>
+                <button className="text-fintown-txt-1 text-[12px] rounded py-[7px] px-[17px] bg-fintown-btn-2 ml-auto">
+                    Lưu kết quả
+                </button>
             </div>
 
-            <div className="px-[24px] py-[24px]">
-                < FairValueCalculator />
+            <div>
+                {renderContent()}
             </div>
         </div>
         </>

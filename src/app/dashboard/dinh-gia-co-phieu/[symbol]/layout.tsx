@@ -3,10 +3,21 @@ import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import ChangeStockInput from '@/src/components/organisms/ChangeStock';
 import ValuationConceptPanel from '@/src/components/organisms/ValuationConceptPanel';
+import { selectSelectedButton } from '@/src/redux/ValuetionPage/valuetionPageSlice';
+import { useAppSelector, useAppDispatch } from '@/src/redux/hooks/useAppStore';
+import useSetSelectedButtonSiderBar from '@/src/redux/hooks/useButtonsiderBar';
+import { setHistorySelectedButton, selectHistorySelectedButton } from '@/src/redux/ValuetionPage/valuationHistorySlice';
+import LogValuation from '@/src/components/organisms/LogValuation';
 
 export default function DinhGiaCoPhieuLayout({ children, params }: { children: React.ReactNode, params: { symbol: string } }){
     const { symbol } = params;
+    const dispatch = useAppDispatch();
+    const selectedButton = useAppSelector(selectSelectedButton);
+    useSetSelectedButtonSiderBar(6);
 
+    const selectedTabRight = useAppSelector(selectHistorySelectedButton);
+    dispatch(setHistorySelectedButton({ button: 1 }));
+    
     const [selectedOptions, setSelectedOptions] = useState<{[key: number]: 'Kiểu xem 1' | 'Kiểu xem 2' | 'Kiểu xem 3'}>({});
     const handleOptionChange = (index: number, option: 'Kiểu xem 1' | 'Kiểu xem 2' | 'Kiểu xem 3') => {
         setSelectedOptions(prev => ({
@@ -15,10 +26,34 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
         }));
     };
 
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [containerHeight, setContainerHeight] = useState<number>(0);
+  
+    useEffect(() => {
+      // Lấy chiều cao của phần tử cha sau khi component đã render
+      if (containerRef.current) {
+        setContainerHeight(containerRef.current.clientHeight);
+      }
+  
+      // Thiết lập listener để cập nhật chiều cao khi có sự thay đổi kích thước
+      const handleResize = () => {
+        if (containerRef.current) {
+          setContainerHeight(containerRef.current.clientHeight);
+        }
+      };
+  
+      window.addEventListener('resize', handleResize);
+  
+      // Dọn dẹp listener khi component unmount
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }, []);
+
     return (
         <>
-            <div className='flex'>
-                <div className='w-full '>
+            <div className='flex' >
+                <div className='w-full ' >
                     <div className='pl-[40px] border-r border-b border-fintown-br '>
                         <div className='flex items-center justify-between'>
                             <div className='flex items-center py-[16px] border-r border-fintown-br w-full justify-between'>
@@ -64,39 +99,85 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
                         </div>
                     </div>
 
-                    <div className='flex border-r border-fintown-br h-max'>
-                        <div className='min-w-[265px] w-max pl-[40px] pt-[25px] pr-[24px] border-r border-fintown-br flex flex-col gap-y-[10px]'>
-                            <div className='cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] bg-[#1E2127] rounded-[8px]'>
+                    <div className='flex border-r border-fintown-br'>
+
+                        <div className='min-w-[265px] w-max pl-[40px] pt-[25px] pr-[24px] border-r border-fintown-br flex flex-col gap-y-[10px]' ref={containerRef}>
+                            <Link href={`/dashboard/dinh-gia-co-phieu/${symbol}`}>
+                                <div
+                                    className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${
+                                        selectedButton === 0 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
+                                    }`}
+                                >
                                 Tổng quan
-                            </div>
+                                </div>
+                            </Link>
 
                             <Link href={`/dashboard/dinh-gia-co-phieu/${symbol}/chiet-khau-dong-tien`}>
-                                <div className='cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] hover:bg-[#1E2127] rounded-[8px]'>
+                                <div
+                                    className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${
+                                    selectedButton === 1 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
+                                    }`}
+                                >
                                     Chiết khấu dòng tiền
                                 </div>
                             </Link>
 
-                            <div className='cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] hover:bg-[#1E2127] rounded-[8px]'>
-                                Chiết khấu cổ tức
+                            <div
+                            className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${
+                                selectedButton === 2 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
+                            }`}
+                            >
+                            Chiết khấu cổ tức
                             </div>
-                            <div className='cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] hover:bg-[#1E2127] rounded-[8px]'>
-                                Benjamin Graham
+
+                            <div
+                            className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${
+                                selectedButton === 3 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
+                            }`}
+                            >
+                            Benjamin Graham
                             </div>
-                            <div className='cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] hover:bg-[#1E2127] rounded-[8px]'>
-                                Hệ số P/B
+
+                            <div
+                            className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${
+                                selectedButton === 4 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
+                            }`}
+                            >
+                            Hệ số P/B
                             </div>
-                            <div className='cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] hover:bg-[#1E2127] rounded-[8px]'>
-                                Hệ số P/E
+
+                            <div
+                            className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${
+                                selectedButton === 5 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
+                            }`}
+                            >
+                            Hệ số P/E
                             </div>
                         </div>
-                        <div className='w-full'>
+
+                        <div className='w-full' >
                             {children}
                         </div>
-                    </div>
+
+                    </div> 
                 </div>
 
-                <div className='pr-[40px] min-w-[300px] max-w-[300px]'>
-                    < ValuationConceptPanel />
+                <div className='min-w-[300px] max-w-[300px]'>
+                    {
+                        selectedTabRight === 0 && (
+                            <>
+                                < ValuationConceptPanel containerHeight={containerHeight} />
+                            </>
+                        )
+                    }
+
+                    {   
+                        selectedTabRight === 1 && (
+                            <>
+                                < LogValuation containerHeight={containerHeight} />
+                            </>
+                        )
+                    }
                 </div>
             </div>
         </>
