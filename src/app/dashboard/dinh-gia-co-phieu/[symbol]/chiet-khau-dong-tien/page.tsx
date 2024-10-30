@@ -6,6 +6,10 @@ import PriceHistoryTab from '@/src/components/organisms/PriceHistoryTab';
 import useSetSelectedValuetionPage from '@/src/redux/hooks/useButtonValuetionPage';
 import { setHistorySelectedButton } from '@/src/redux/ValuetionPage/valuationHistorySlice';
 import { useAppDispatch } from '@/src/redux/hooks/useAppStore';
+interface Tab {
+    id: number;
+    label: string;
+}
 
 export default function DiscountCashFlowPage({ params }: { params: { symbol: string } }) {
     const dispatch = useAppDispatch();
@@ -42,6 +46,11 @@ export default function DiscountCashFlowPage({ params }: { params: { symbol: str
         }
     };
 
+    const tabs: Tab[] = [
+        { id: 0, label: "Máy tính" },
+        { id: 1, label: "Lưu trữ định giá" }
+    ];
+
     return (
         <>
             <div className='w-full'>
@@ -56,7 +65,9 @@ export default function DiscountCashFlowPage({ params }: { params: { symbol: str
                 </div>
 
                 <div className="flex items-center px-[24px] border-b border-fintown-br">
-                    <SlidingTabs onTabChange={handleTabChange} />
+                    <div className='py-6'>
+                        <SlidingTabs onTabChange={handleTabChange} tabs={tabs} gap={"18px"}/>
+                    </div>
                     {activeTabIndex === 0 && (
                         <button 
                             onClick={() => setIsPopupOpen(true)} 

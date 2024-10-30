@@ -46,7 +46,7 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
 
     return (
         <>
-            <div className='flex max-h-max' >
+            <div className='flex h' >
                 <div className='w-full ' >
                     <div className='pl-[40px] border-r border-b border-fintown-br '>
                         <div className='flex items-center justify-between'>

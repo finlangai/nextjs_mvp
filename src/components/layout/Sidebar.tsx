@@ -44,7 +44,7 @@ export default function Sidebar() {
                     <BtnSidebar class_icon="bx bx-trending-up" active={selectedButton === 4} />
                 </Link>
 
-                <Link href="/dashboard/" onClick={() => handleClick(5)}>
+                <Link href="/dashboard/bieu-do-ky-thuat/VCB/" onClick={() => handleClick(5)}>
                     <BtnSidebar class_icon="bx bx-chart" active={selectedButton === 5} />
                 </Link>
 

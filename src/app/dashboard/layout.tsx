@@ -8,7 +8,8 @@ import { ReactNode } from 'react';
 // Danh sách các route không hiển thị footer
 const routesWithoutFooter = [
   '/dashboard/co-phieu',
-  '/dashboard/dinh-gia-co-phieu'
+  '/dashboard/dinh-gia-co-phieu',
+  '/dashboard/bieu-do-ky-thuat'
 ];
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
@@ -20,13 +21,16 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   // Kiểm tra khớp đường dẫn chính xác hơn cho /dashboard/co-phieu/{symbol}/ho-so-doanh-nghiep
   const isStockProfilePage = pathname.startsWith('/dashboard/co-phieu/') && pathname.endsWith('/ho-so-doanh-nghiep');
 
+  // Kiểm tra xem đường dẫn có phải là biểu đồ kỹ thuật không
+  const isTechnicalChartPage = pathname.startsWith('/dashboard/bieu-do-ky-thuat');
+
   // Footer sẽ được hiển thị nếu không thuộc các route đặc biệt hoặc không phải là trang hồ sơ doanh nghiệp
   const shouldShowFooter = !(isRouteWithoutFooter || isStockProfilePage);
 
   return (
     <>
       <Sidebar />
-      <DashboardHeader />
+      <DashboardHeader isTechnicalChart={isTechnicalChartPage} /> {/* Truyền biến boolean vào DashboardHeader */}
       <main className="ml-[70px] mt-[70px]">
         {children}
       </main>
