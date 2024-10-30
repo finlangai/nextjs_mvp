@@ -1,8 +1,9 @@
 "use client";
 import React, { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
+
 import Link from 'next/link';
 import ChangeStockInput from '@/src/components/organisms/ChangeStock';
-import ValuationConceptPanel from '@/src/components/organisms/ValuationConceptPanel';
 import { selectSelectedButton } from '@/src/redux/ValuetionPage/valuetionPageSlice';
 import { useAppSelector, useAppDispatch } from '@/src/redux/hooks/useAppStore';
 import useSetSelectedButtonSiderBar from '@/src/redux/hooks/useButtonsiderBar';
@@ -11,24 +12,17 @@ import LogValuation from '@/src/components/organisms/LogValuation';
 
 export default function DinhGiaCoPhieuLayout({ children, params }: { children: React.ReactNode, params: { symbol: string } }){
     const { symbol } = params;
+    const router = useRouter();
+
     const dispatch = useAppDispatch();
     const selectedButton = useAppSelector(selectSelectedButton);
     useSetSelectedButtonSiderBar(6);
 
     const selectedTabRight = useAppSelector(selectHistorySelectedButton);
-    dispatch(setHistorySelectedButton({ button: 1 }));
-    
-    const [selectedOptions, setSelectedOptions] = useState<{[key: number]: 'Kiểu xem 1' | 'Kiểu xem 2' | 'Kiểu xem 3'}>({});
-    const handleOptionChange = (index: number, option: 'Kiểu xem 1' | 'Kiểu xem 2' | 'Kiểu xem 3') => {
-        setSelectedOptions(prev => ({
-          ...prev,
-          [index]: option
-        }));
-    };
 
     const containerRef = useRef<HTMLDivElement>(null);
     const [containerHeight, setContainerHeight] = useState<number>(0);
-  
+
     useEffect(() => {
       // Lấy chiều cao của phần tử cha sau khi component đã render
       if (containerRef.current) {
@@ -52,7 +46,7 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
 
     return (
         <>
-            <div className='flex' >
+            <div className='flex max-h-max' >
                 <div className='w-full ' >
                     <div className='pl-[40px] border-r border-b border-fintown-br '>
                         <div className='flex items-center justify-between'>
@@ -101,21 +95,11 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
 
                     <div className='flex border-r border-fintown-br'>
 
-                        <div className='min-w-[265px] w-max pl-[40px] pt-[25px] pr-[24px] border-r border-fintown-br flex flex-col gap-y-[10px]' ref={containerRef}>
-                            <Link href={`/dashboard/dinh-gia-co-phieu/${symbol}`}>
-                                <div
-                                    className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${
-                                        selectedButton === 0 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
-                                    }`}
-                                >
-                                Tổng quan
-                                </div>
-                            </Link>
-
+                        <div className='min-w-[265px] w-max pl-[40px] pt-[25px] pr-[24px] border-r border-fintown-br flex flex-col gap-y-[10px]'>
                             <Link href={`/dashboard/dinh-gia-co-phieu/${symbol}/chiet-khau-dong-tien`}>
                                 <div
                                     className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${
-                                    selectedButton === 1 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
+                                    selectedButton === 0 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
                                     }`}
                                 >
                                     Chiết khấu dòng tiền
@@ -124,7 +108,7 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
 
                             <div
                             className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${
-                                selectedButton === 2 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
+                                selectedButton === 1 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
                             }`}
                             >
                             Chiết khấu cổ tức
@@ -132,7 +116,7 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
 
                             <div
                             className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${
-                                selectedButton === 3 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
+                                selectedButton === 2 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
                             }`}
                             >
                             Benjamin Graham
@@ -140,7 +124,7 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
 
                             <div
                             className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${
-                                selectedButton === 4 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
+                                selectedButton === 3 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
                             }`}
                             >
                             Hệ số P/B
@@ -148,14 +132,14 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
 
                             <div
                             className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${
-                                selectedButton === 5 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
+                                selectedButton === 4 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
                             }`}
                             >
                             Hệ số P/E
                             </div>
                         </div>
 
-                        <div className='w-full' >
+                        <div className='w-full' ref={containerRef} >
                             {children}
                         </div>
 
@@ -163,21 +147,7 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
                 </div>
 
                 <div className='min-w-[300px] max-w-[300px]'>
-                    {
-                        selectedTabRight === 0 && (
-                            <>
-                                < ValuationConceptPanel containerHeight={containerHeight} />
-                            </>
-                        )
-                    }
-
-                    {   
-                        selectedTabRight === 1 && (
-                            <>
-                                < LogValuation containerHeight={containerHeight} />
-                            </>
-                        )
-                    }
+                    < LogValuation containerHeight={containerHeight} />
                 </div>
             </div>
         </>

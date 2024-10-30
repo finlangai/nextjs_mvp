@@ -16,7 +16,7 @@ const UpsideRangerSlider: React.FC<ProgressBarProps> = ({ value }) => {
 
   return (
     <div className="progress-container">
-      <div className="progress-title">Upside</div>
+      <div className="progress-title">Tỷ lệ sinh lợi tiềm năng</div>
       <div className="progress-bar">
         {Array.from({ length: totalSegments }).map((_, idx) => (
           <div

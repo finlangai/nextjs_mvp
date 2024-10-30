@@ -1,14 +1,12 @@
-import ValuetionChart from "../charts/ValuetionChart"
+import ValuetionChart from "../charts/valuetion/HistoryValuetionChart"
 
 export default function PriceHistoryTab(){
     return(
         <>
             <div className="px-[27px] border-b border-b-fintown-br w-full flex items-center">
-                <div className="flex items-center gap-x-[20px] pr-[19px] py-[15px] border-r border-r-fintown-br w-max">
-                    <button className="py-[5px] text-fintown-txt-2 text-[12px] font-[600]">1 năm</button>
-                    <button className="py-[5px] text-fintown-txt-2 text-[12px] font-[600]">3 năm</button>
-                    <button className="py-[5px] text-fintown-pr9 text-[12px] font-[600]">5 năm</button>
-                    <button className="py-[5px] text-fintown-txt-2 text-[12px] font-[600]">10 năm</button>
+                <div className="flex items-center gap-x-[20px] pr-[19px] py-[15px]  w-max">
+                    <button className="py-[5px] text-fintown-pr9 text-[12px] font-[600]">Đã qua</button>
+                    <button className="py-[5px] text-fintown-txt-2 text-[12px] font-[600]">Sắp tới</button>
                 </div>
 
                 <div className="ml-auto flex items-center gap-x-[24px]">
@@ -24,8 +22,18 @@ export default function PriceHistoryTab(){
                 </div>
             </div>
             
-            <div className="px-[24px] py-[24px]">
+            <div className="px-[24px] py-[24px] border-b border-b-fintown-br">
                 < ValuetionChart />
+            </div>
+
+            <div className="px-[24px] py-[24px] border-b border-b-fintown-br">
+                <div className="font-bold text-[14px] text-fintown-txt-1 mb-[12px]">
+                    Ghi chú của bạn:
+                </div>
+
+                <div className="text-[14px] text-fintown-txt-1">
+                    Giá trị thực tế của cổ phiếu cao hơn giá trường, sẽ lên kế hoạch đầu tư ngay trong quý tới. Có thể tôi không nên xuống tiền ngay lúc này.
+                </div>
             </div>
         </>
     )

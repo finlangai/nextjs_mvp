@@ -19,7 +19,7 @@ const SlidingTabs: React.FC<Props> = ({ onTabChange }) => {
 
   const tabs: Tab[] = [
     { id: 0, label: "Máy tính" },
-    { id: 1, label: "Lịch sử định giá" }
+    { id: 1, label: "Lưu trữ định giá" }
   ];
 
   useEffect(() => {
