@@ -1,7 +1,10 @@
+
+@import "https://code.highcharts.com/css/stocktools/gui.css";
+@import "https://code.highcharts.com/css/annotations/popup.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 
 body {
     @apply font-inter;
@@ -131,3 +134,54 @@ body::-webkit-scrollbar-thumb:hover {
 
 /* =======================SROLL VALUETION CONCEPT======================= */
 
+/* ============================= CUSTOM STOCKTOLL================================ */
+
+.highcharts-stocktools-toolbar {
+  background-color: #ffffff00; /* Màu nền tùy chỉnh */
+  border-radius: 8px; /* Bo góc tùy chỉnh */
+  padding: 10px; /* Độ dày tùy chỉnh */
+}
+
+.highcharts-stocktools-toolbar button {
+  color: #fff;
+  border: none;
+  background: none;
+  background-color: transparent; 
+  border-radius: 5px;
+}
+
+.highcharts-bindings-wrapper .highcharts-stocktools-toolbar li {
+  background-color: transparent; 
+}
+
+.highcharts-bindings-wrapper li.highcharts-active > button.highcharts-menu-item-btn, .highcharts-bindings-wrapper li > button.highcharts-menu-item-btn:hover, .highcharts-bindings-wrapper .highcharts-arrow-wrapper > div:hover, .highcharts-bindings-wrapper li.highcharts-active, .highcharts-toggle-toolbar:hover {
+  background-color: rgba(10, 255, 100, 0.637);
+}
+
+.highcharts-toggle-toolbar {
+  position: absolute;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  background-color: var(--highcharts-neutral-color-3);
+  background-size: cover;
+}
+
+.highcharts-bindings-wrapper li > button.highcharts-menu-item-btn {
+  background-color: #00cc66;
+  background-blend-mode: multiply; /* Trộn màu nền với hình ảnh */
+
+}
+
+li.highcharts-separator:first-of-type {
+  display: none; /* Ẩn phần tử đầu tiên */
+}
+.highcharts-measure-rect .highcharts-measure-label,
+.highcharts-measure-x .highcharts-measure-label,
+.highcharts-measure-y .highcharts-measure-label {
+  fill: #ff0000; /* Màu cho nhãn đo */
+}
+
+.highcharts-annotation .highcharts-label-box {
+  stroke: #00ff00; /* Màu viền cho đường kẻ */
+}

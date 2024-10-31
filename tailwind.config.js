@@ -1,4 +1,3 @@
-const { DEFAULT_CIPHERS } = require('tls');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
