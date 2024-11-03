@@ -1,9 +1,19 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import useSetSelectedButtonSiderBar from '@/src/redux/hooks/useButtonsiderBar';
 import SlidingTabs from '@/src/components/common/SlidingTabs';
 import TechnicalChart from '@/src/components/charts/TechnicalChart/TechnicalChart';
 import { sampleStockData, generateRandomStockData  } from '@/src/utils/sampleData';
+import useIndicatorButton from '@/src/components/charts/TechnicalChart/useIndicatorButton';
+import { 
+    useColorPickerStroke, 
+    useColorPickerFill, 
+    useColorPickerForIndexedBackgroundsColors, 
+    useColorPickerForIndexedLabelColors, 
+    useColorPickerForSingleLabelColor,
+    useColorPickerForSingleBackgroundsColors  
+} from '@/src/components/charts/TechnicalChart/useColorPicker';
+import useFullScreenButton from '@/src/components/charts/TechnicalChart/useFullScreenButton';
 
 interface Tab {
     id: number;
@@ -12,6 +22,8 @@ interface Tab {
 export default function BieuDoKyThuatPage() {
     useSetSelectedButtonSiderBar(5);
     const [activeTabIndex, setActiveTabIndex] = useState<number>(0);
+    const [chartType, setChartType] = useState<"candlestick" | "line" | "ohlc">('candlestick');
+
     const tabs: Tab[] = [
         { id: 0, label: null },
         { id: 1, label: "VN30" },
@@ -22,6 +34,25 @@ export default function BieuDoKyThuatPage() {
     const handleTabChange = (index: number) => {
         setActiveTabIndex(index);
     };
+
+    // ==================CHỈ BÁO KỸ THUẬT CUSTOM==========================
+    const { handleIndicatorClick } = useIndicatorButton();
+
+    // =================CHỌN FULL SREEN==================================
+    const { handleFullScreenClick } = useFullScreenButton();
+
+    // ===============================CUSTOM TÙY CHỌN CHỈNH MÀU===========================
+    useColorPickerStroke({ chartType: "candlestick" });
+    useColorPickerFill({ chartType: "candlestick" });
+    useColorPickerForIndexedBackgroundsColors({ chartType: "candlestick" });
+    useColorPickerForIndexedLabelColors ({ chartType: "candlestick" });
+    useColorPickerForSingleLabelColor({ chartType: "candlestick" });
+    useColorPickerForSingleBackgroundsColors({ chartType: "candlestick" })
+    
+    // ========================CHỌN TYPE CHART===============================
+    const handleChartTypeChange = (type: "candlestick" | "line" | "ohlc") => {
+        setChartType(type);
+    };    
 
     return (
         <>
@@ -152,37 +183,52 @@ export default function BieuDoKyThuatPage() {
                             </div>
 
                             <div className='pl-[24px] flex items-center gap-x-[28px] py-[20.5px] w-full border-r border-r-fintown-br'>
-                                <div className='text-fintown-txt-2 font-bold cursor-pointer flex items-center'>
-                                    <i className='bx bx-candles text-[20px] text-fintown-pr9'></i>
+                                <div
+                                className='cursor-pointer flex items-center'
+                                onClick={() => handleChartTypeChange('candlestick')}
+                                >
+                                <i className={`bx bx-candles text-[20px] ${chartType === "candlestick" ? "text-fintown-pr9" : "text-fintown-txt-2"}`}></i>
                                 </div>
 
-                                <div className='text-fintown-txt-2 font-bold max-h-max flex items-center cursor-pointer'>
-                                    <i className='bx bxs-chart text-[20px]'></i>
+                                <div
+                                className='text-fintown-txt-2 max-h-max flex items-center cursor-pointer'
+                                onClick={() => handleChartTypeChange('line')}
+                                >
+                                <i className={`bx bxs-chart text-[20px] ${chartType === "line" ? "text-fintown-pr9" : "text-fintown-txt-2"}`}></i>
                                 </div>
 
-                                <div className='text-fintown-txt-2 font-bold cursor-pointer flex items-center'>
-                                    <i className='bx bxs-bar-chart-square text-[20px]'></i>
+                                <div
+                                className='text-fintown-txt-2 cursor-pointer flex items-center'
+                                onClick={() => handleChartTypeChange('ohlc')}
+                                >
+                                <i className={`bx bxs-bar-chart-square text-[20px] ${chartType === "ohlc" ? "text-fintown-pr9" : "text-fintown-txt-2"}`}></i>
                                 </div>
                             </div>
                         </div>
 
                         <div className='flex items-center w-full'>
-                            <div className='pl-[24px] flex items-center mr-[24px]'>
-                                <i className='bx bx-line-chart mr-[11px] text-fintown-txt-2 text-[20px]'></i>
-                                <div className='text-[12px] font-bold text-fintown-txt-2'>Chỉ báo kỹ thuật</div>
+                            <div className='flex items-center pl-[24px] mr-[24px]'>
+                                <i className='bx bx-cog text-fintown-txt-2 text-[20px]'></i>
                             </div>
                             <div className='flex items-center'>
-                                <i className='bx bx-cog text-fintown-txt-2 text-[20px]'></i>
+                                <i 
+                                    className='bx bx-line-chart mr-[11px] text-fintown-txt-2 text-[20px] cursor-pointer hover:text-fintown-pr9'
+                                    onClick={handleIndicatorClick}
+                                ></i>                                
+                                <div className='text-[12px] font-bold text-fintown-txt-2'>Chỉ báo kỹ thuật</div>
                             </div>
                             <div className='flex items-center ml-auto pr-[24px]'>
                                 <i className='bx bx-camera text-fintown-txt-2 text-[20px] mr-[20px]' ></i>
-                                <i className='bx bx-expand text-fintown-txt-2 text-[20px]'></i>
+                                <i 
+                                    className='bx bx-expand text-fintown-txt-2 text-[20px] cursor-pointer hover:text-fintown-pr9'
+                                    onClick={handleFullScreenClick}
+                                ></i>
                             </div>
                         </div>
                     </div>
 
                     <div className='px-[10px] py-[10px]'>
-                        < TechnicalChart data={sampleStockData} />
+                        < TechnicalChart data={sampleStockData}  chartType={chartType} />
                     </div>
                 </div>
             </div>

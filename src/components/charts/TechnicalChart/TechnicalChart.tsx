@@ -1,11 +1,14 @@
 import React, { useEffect, useRef } from 'react';
 import Highcharts from 'highcharts/highstock';
 
+// Import các module cần thiết
 import indicatorsAll from "highcharts/indicators/indicators-all";
 import annotationsAdvanced from "highcharts/modules/annotations-advanced";
 import priceIndicator from "highcharts/modules/price-indicator";
 import fullScreen from "highcharts/modules/full-screen";
 import stockTools from "highcharts/modules/stock-tools";
+
+import { StockDataPoint } from '@/src/utils/sampleData';
 
 // Kích hoạt các module
 indicatorsAll(Highcharts);
@@ -14,28 +17,112 @@ priceIndicator(Highcharts);
 fullScreen(Highcharts);
 stockTools(Highcharts);
 
-interface DataPoint {
-  date: number;
-  open: number;
-  high: number;
-  low: number;
-  close: number;
-  volume: number;
-}
-
-interface CandlestickChartProps {
-  data: DataPoint[];
-}
-
-// Extended Point interface để thêm các thuộc tính cần thiết
 interface ExtendedPoint extends Highcharts.Point {
   plotX?: number;
   plotY?: number;
   isHeader?: boolean;
 }
 
-const CandlestickChart: React.FC<CandlestickChartProps> = ({ data }) => {
+interface IndicatorConfig {
+  type: string;
+  options: Highcharts.SeriesOptionsType & {
+    params?: {
+      period?: number;
+      [key: string]: any;
+    };
+  };
+}
+
+interface SavedChartConfig {
+  chartConfig: Highcharts.Options;
+  annotations: Array<Highcharts.AnnotationsOptions>;
+  indicators: IndicatorConfig[];
+  timestamp: number;
+}
+
+const CandlestickChart = ({ data, chartType } :{data:StockDataPoint[], chartType:"candlestick" | "line" | "ohlc"}) => {
   const chartContainerRef = useRef<HTMLDivElement>(null);
+  const chartRef = useRef<Highcharts.Chart | null>(null);
+  const autoSaveIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  const saveToSession = () => {
+    if (chartRef.current) {
+      try {
+        const chartConfig = chartRef.current.options;
+        const annotations = chartConfig.annotations || [];
+        
+        // Update indicators filtering
+        const indicators = chartRef.current.series
+          .filter(series => {
+            const seriesOptions = series.options as any;
+            return seriesOptions.type && 
+                   seriesOptions.type !== 'candlestick' && 
+                   seriesOptions.type !== 'column';
+          })
+          .map(series => ({
+            type: series.options.type || '',
+            options: series.options as Highcharts.SeriesOptionsType & {
+              params?: {
+                period?: number;
+                [key: string]: any;
+              };
+            }
+          }));
+
+        const savedConfig: SavedChartConfig = {
+          chartConfig,
+          annotations,
+          indicators,
+          timestamp: new Date().getTime()
+        };
+
+        sessionStorage.setItem('chartConfig', JSON.stringify(savedConfig));
+        console.log('Chart auto-saved to session storage:', new Date().toLocaleTimeString());
+      } catch (error) {
+        console.error('Error auto-saving chart:', error);
+      }
+    }
+  };
+
+  const loadFromSession = () => {
+    try {
+      const savedConfig = sessionStorage.getItem('chartConfig');
+      if (savedConfig && chartRef.current) {
+        const parsedConfig: SavedChartConfig = JSON.parse(savedConfig);
+
+        // Xóa annotations hiện tại
+        if (chartRef.current.options.annotations) {
+          chartRef.current.options.annotations = [];
+        }
+        
+        // Xóa indicators hiện tại bằng remove
+        chartRef.current.series
+          .filter(series => {
+            const seriesOptions = series.options as any;
+            return seriesOptions.type && 
+                   seriesOptions.type !== 'candlestick' && 
+                   seriesOptions.type !== 'column';
+          })
+          .forEach(series => series.remove(false)); // false để không redraw ngay lập tức
+
+        // Thêm lại annotations
+        parsedConfig.annotations.forEach((annotation) => {
+          chartRef.current?.addAnnotation(annotation);
+        });
+
+        // Thêm lại indicators
+        parsedConfig.indicators.forEach((indicator) => {
+          chartRef.current?.addSeries(indicator.options);
+        });
+
+        // Redraw chart
+        chartRef.current.redraw();
+        console.log('Chart loaded from session storage successfully');
+      }
+    } catch (error) {
+      console.error('Error loading chart from session storage:', error);
+    }
+  };
 
   useEffect(() => {
     const seriesData = data.map((point) => [
@@ -51,13 +138,18 @@ const CandlestickChart: React.FC<CandlestickChartProps> = ({ data }) => {
       point.volume
     ]);
 
-    // Tạo biểu đồ
     if (chartContainerRef.current) {
       const chartOptions: Highcharts.Options = {
         chart: {
           backgroundColor: 'transparent',
-          renderTo: chartContainerRef.current
+          renderTo: chartContainerRef.current,
+          events: {
+            // Tự động lưu khi có thay đổi trên chart
+            addSeries: saveToSession,
+            redraw : saveToSession
+          }
         },
+        
         plotOptions: {
           series: {
             showInNavigator: false,
@@ -70,16 +162,39 @@ const CandlestickChart: React.FC<CandlestickChartProps> = ({ data }) => {
           },
           column: {
             color: 'white',       
-          }
-        },
-        stockTools: {
-          gui: {
-            buttons: [ 'separator', 'simpleShapes', 'lines', 'crookedLines', 'measure', 'advanced', 'toggleAnnotations', 'separator', 'verticalLabels', 'flags', 'separator', 'zoomChange', 'fullScreen', 'typeChange', 'separator', 'currentPriceIndicator', 'saveChart' ]
-          }
+          },
+          ohlc: {
+            color: '#F6465D',
+            upColor: '#0ECB81',
+          },
+          line: {
+            color: 'white',       
+          },
         },
 
+        stockTools: {
+          gui: {
+            buttons: [
+              'indicators',
+              'simpleShapes',
+              'lines',
+              'crookedLines',
+              'measure',
+              'advanced',
+              'toggleAnnotations',
+              'separator',
+              'verticalLabels',
+              'flags',
+              'separator',
+              'zoomChange',
+              'fullScreen',
+              'separator',
+              'currentPriceIndicator',
+            ],
+          },
+        },
         series: [{
-          type: 'candlestick',
+          type: chartType,
           id: 'aapl-ohlc',
           name: 'AAPL Stock Price',
           data: seriesData
@@ -129,28 +244,38 @@ const CandlestickChart: React.FC<CandlestickChartProps> = ({ data }) => {
             offset: 0
           }
         ],
+
         navigator: {
           enabled: false
         },
+
         rangeSelector: {
           enabled: false,
         },
-        title: {text: undefined},
+
+        title: {
+          text: undefined
+        },
+
         legend: {
           enabled: false,
         },
+
         tooltip: {
           headerShape: 'callout',
           borderWidth: 0,
           shadow: false,
-          positioner: function (this: Highcharts.Tooltip, width: number, height: number, point: ExtendedPoint): Highcharts.PositionObject {
+          positioner: function (
+            this: Highcharts.Tooltip,
+            width: number,
+            height: number,
+            point: ExtendedPoint
+          ): Highcharts.PositionObject {
             const chart = this.chart;
             let position: Highcharts.PositionObject;
     
             if (point.isHeader) {
               const plotX = point.plotX || 0;
-              const plotY = point.plotY || 0;
-              
               position = {
                 x: Math.max(
                   chart.plotLeft,
@@ -171,16 +296,37 @@ const CandlestickChart: React.FC<CandlestickChartProps> = ({ data }) => {
             return position;
           }
         },
+
         credits: {
           enabled: false
         },
       };
 
-      Highcharts.stockChart(chartOptions);
-    }
-  }, [data]);
+      // Khởi tạo chart
+      chartRef.current = Highcharts.stockChart(chartOptions);
 
-  return <div ref={chartContainerRef} style={{ height: '500px', width: '100%' }} />;
+      // Load cấu hình đã lưu từ session storage
+      loadFromSession();
+
+      // Bắt đầu auto save mỗi 0.5s
+      autoSaveIntervalRef.current = setInterval(saveToSession, 500);
+    }
+
+    // Cleanup function
+    return () => {
+      if (autoSaveIntervalRef.current) {
+        clearInterval(autoSaveIntervalRef.current);
+      }
+      if (chartRef.current) {
+        // Lưu lần cuối trước khi destroy
+        saveToSession();
+        chartRef.current.destroy();
+        chartRef.current = null;
+      }
+    };
+  }, [data, chartType]);
+
+  return <div ref={chartContainerRef} style={{ height: '600px', width: '100%' }} />;
 };
 
 export default CandlestickChart;
