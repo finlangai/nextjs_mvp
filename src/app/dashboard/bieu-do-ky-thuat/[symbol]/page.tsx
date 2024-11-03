@@ -9,9 +9,23 @@ import {
     useColorPickerStroke, 
     useColorPickerFill, 
     useColorPickerForIndexedBackgroundsColors, 
-    useColorPickerForIndexedLabelColors, 
-    useColorPickerForSingleLabelColor,
-    useColorPickerForSingleBackgroundsColors  
+    useColorPickerForSingleLabelBackground,
+    useColorPickerForSingleBackgroundsColors,
+    useColorPickerLineFill,
+    useColorPickerForSingleLabel,
+    useColorPickerForTypeLabel,
+    useColorPickerForConnectorStroke,
+    useColorPickerForConnectorFill,
+    useColorPickerForIndexedLabelColors,
+    useColorPickerForcrosshairYLine,
+    useColorPickerForcrosshairXLine,
+    useColorPickerForShapesStroke,
+    useColorPickerbackgroundStroke,
+    useColorPickerForIndexedShapesFill,
+    useColorPickerForInnerBackgroundStroke,
+    useColorPickerForInnerBackgroundFill,
+    useColorPickerForOuterBackgroundStroke,
+    useColorPickerForOuterBackgroundFill
 } from '@/src/components/charts/TechnicalChart/useColorPicker';
 import useFullScreenButton from '@/src/components/charts/TechnicalChart/useFullScreenButton';
 
@@ -44,11 +58,25 @@ export default function BieuDoKyThuatPage() {
     // ===============================CUSTOM TÙY CHỌN CHỈNH MÀU===========================
     useColorPickerStroke({ chartType: "candlestick" });
     useColorPickerFill({ chartType: "candlestick" });
+    useColorPickerLineFill({ chartType: "candlestick" });
     useColorPickerForIndexedBackgroundsColors({ chartType: "candlestick" });
-    useColorPickerForIndexedLabelColors ({ chartType: "candlestick" });
-    useColorPickerForSingleLabelColor({ chartType: "candlestick" });
     useColorPickerForSingleBackgroundsColors({ chartType: "candlestick" })
-    
+    useColorPickerForSingleLabelBackground({ chartType: "candlestick" });
+    useColorPickerForSingleLabel({ chartType: "candlestick" });
+    useColorPickerForTypeLabel({chartType: "candlestick"});
+    useColorPickerForConnectorStroke({chartType: "candlestick"});
+    useColorPickerForConnectorFill({chartType: "candlestick"});
+    useColorPickerForIndexedLabelColors({chartType: "candlestick"});
+    useColorPickerForcrosshairYLine({chartType: "candlestick"});
+    useColorPickerForcrosshairXLine({chartType: "candlestick"});
+    useColorPickerForShapesStroke({chartType: "candlestick"});
+    useColorPickerbackgroundStroke({chartType: "candlestick"});
+    useColorPickerForIndexedShapesFill({chartType: "candlestick"});
+    useColorPickerForInnerBackgroundStroke({chartType: "candlestick"});
+    useColorPickerForInnerBackgroundFill({chartType: "candlestick"});
+    useColorPickerForOuterBackgroundStroke({chartType: "candlestick"});
+    useColorPickerForOuterBackgroundFill({chartType: "candlestick"});
+
     // ========================CHỌN TYPE CHART===============================
     const handleChartTypeChange = (type: "candlestick" | "line" | "ohlc") => {
         setChartType(type);
@@ -228,7 +256,7 @@ export default function BieuDoKyThuatPage() {
                     </div>
 
                     <div className='px-[10px] py-[10px]'>
-                        < TechnicalChart data={sampleStockData}  chartType={chartType} />
+                        < TechnicalChart data={sampleStockData} chartType={chartType} />
                     </div>
                 </div>
             </div>
