@@ -30,6 +30,7 @@ import BestNPMReducer from "./BestNPM/bestNPMSlice";
 import authReducer from "./auth/authSlice";
 import valuetionReducers from './ValuetionPage';
 import InstrumentListReducers from "./InstrumentList/instrumentListSlice";
+import TechnicalChartOverviewReducers from "./TechnicalChartOverview/technicalChartOverviewSlice";
 
 const tickerListReducer = combineReducers({
   TickerList: TickerListReducer,
@@ -83,7 +84,7 @@ const store = configureStore({
     valuetionPage: valuetionReducers,
 
     instrumentList: InstrumentListReducers,
-
+    technicalChartOverview: TechnicalChartOverviewReducers,
     auth: authReducer,
   },
 });

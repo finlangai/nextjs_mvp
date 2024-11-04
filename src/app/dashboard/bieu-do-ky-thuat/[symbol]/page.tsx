@@ -27,7 +27,7 @@ import {
 } from '@/src/components/charts/TechnicalChart/useColorPicker';
 import useFullScreenButton from '@/src/components/charts/TechnicalChart/useFullScreenButton';
 import LeftBarTechnicalChart from '@/src/components/organisms/LeftBarTechnicalChart';
-
+import StockSummaryTechChart from '@/src/components/organisms/StockSummaryTechChart';
 interface Tab {
     id: number;
     label: string | null;
@@ -74,52 +74,7 @@ export default function BieuDoKyThuatPage({ params }: { params: { symbol: string
                 < LeftBarTechnicalChart symbol={symbol} />
 
                 <div id='right-chart-technical-vvv' className='w-full'>
-                    <div className='border-b border-b-fintown-br flex w-full'>
-                        {/* Phần tử đầu tiên có width cố định */}
-                        <div className='flex items-center pl-[24px] border-r border-r-fintown-br w-[430px] py-[16px]'>
-                            <div className='h-[40px] w-[40px] rounded-[50%] overflow-hidden bg-white mr-[13px]'>
-                                <img className='h-full w-full object-contain' src="/imgs/logo_cty/vcb.png" alt="" />
-                            </div>
-
-                            <div>
-                                <div className='flex items-center'>
-                                    <p className='text-[16px] text-fintown-txt-1 font-bold mr-[11px]'>VCB</p>
-                                    <i className='bx bxs-star text-[18px] text-fintown-txt-2 mr-[10px] cursor-pointer'></i>
-                                </div>
-                                <div className='text-[14px] font-[400] text-fintown-txt-2'>
-                                    Công ty cổ phần vàng bạc đá quý Phú Nhuận
-                                </div>
-                            </div>
-                        </div>
-                        
-                        {/* Các phần tử còn lại chia đều không gian */}
-                        <div className='flex flex-1'>
-                            <div className='flex-1 py-[16px] px-[16px] border-r border-r-fintown-br'>
-                                <div className='text-fintown-txt-2 text-[12px] font-bold mb-[9px]'>Giá đóng cửa</div>
-                                <div className='text-fintown-txt-1 text-[12px] font-bold'>123,654</div>
-                            </div>
-
-                            <div className='flex-1 py-[16px] px-[16px] border-r border-r-fintown-br'>
-                                <div className='text-fintown-txt-2 text-[12px] font-bold mb-[9px]'>Thay đổi 24h</div>
-                                <div className='text-fintown-stt-buy text-[12px] font-bold'>+5.65%</div>
-                            </div>
-
-                            <div className='flex-1 py-[16px] px-[16px] border-r border-r-fintown-br'>
-                                <div className='text-fintown-txt-2 text-[12px] font-bold mb-[9px]'>Cao nhất 24h</div>
-                                <div className='text-fintown-txt-1 text-[12px] font-bold'>123,654</div>
-                            </div>
-
-                            <div className='flex-1 py-[16px] px-[16px] border-r border-r-fintown-br'>
-                                <div className='text-fintown-txt-2 text-[12px] font-bold mb-[9px]'>Thấp nhất 24h</div>
-                                <div className='text-fintown-txt-1 text-[12px] font-bold'>123,654</div>
-                            </div>
-
-                            <div className='flex-1 py-[16px] px-[16px] '>
-                                <div className='text-fintown-txt-2 text-[12px] font-bold mb-[9px]'>Khối lượng</div>
-                                <div className='text-fintown-txt-1 text-[12px] font-bold'>123,654</div>
-                            </div>
-                        </div>
-                    </div>
+                    < StockSummaryTechChart symbol={symbol} />
 
                     <div className='border-b border-b-fintown-br flex'>
                         <div className='flex min-w-[430px]'>

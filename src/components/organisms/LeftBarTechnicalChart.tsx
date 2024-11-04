@@ -15,15 +15,13 @@ interface Tab {
 export default function LeftBarTechnicalChart({symbol} : {symbol:string}){
     const dispatch = useAppDispatch();
     const selectInstrumentLists = useAppSelector(selectInstrumentListsData);
+    const ListsLoading = useAppSelector(selectInstrumentListsLoading);
     const [NowData, setNowData] = useState<Instruments[] | null>(null);
     const hasFetched = useRef(false);
+
     const [activeTabIndex, setActiveTabIndex] = useState<number>(1);
-    const ListsLoading = useAppSelector(selectInstrumentListsLoading);
     const [isDescending, setIsDescending] = useState<boolean>(true); // Track sorting order
     const [sortKey, setSortKey] = useState<keyof Instruments | null>(null); // Track sorted column
-
-     // State cho việc sắp xếp
-    const [sortConfig, setSortConfig] = useState<{ key: keyof Instruments | null; direction: 'asc' | 'desc' }>({ key: null, direction: 'asc' });
 
     const tabs: Tab[] = [
         { id: 0, label: null, api: null },
@@ -120,7 +118,7 @@ export default function LeftBarTechnicalChart({symbol} : {symbol:string}){
             className='custom-scrollbarmini2'
             style={
                 {
-                    height: "600px",
+                    height: "582px",
                     overflowY: "scroll"
                 }
             }>

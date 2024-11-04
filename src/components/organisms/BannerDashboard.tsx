@@ -58,7 +58,7 @@ export default function BannerDashboard(){
                     <p className="text-base text-fintown-txt-2 font-semibold mb-[5px]">Lợi nhuận sau thuế</p>
 
                     <div className="flex mb-[23px]">
-                    <p className="text-4xl font-bold text-fintown-txt-1 mr-[10px]">{NowData?.netProfit}</p>
+                    <p className="text-4xl font-bold text-fintown-txt-1 mr-[10px]">{NowData?.netProfit.toLocaleString('en-US')} tỷ</p>
                     <i className='bx bxs-up-arrow text-2xl text-fintown-stt-buy mb-[5px]'></i>
                     </div>
 
