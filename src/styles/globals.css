@@ -45,6 +45,23 @@ body::-webkit-scrollbar-thumb:hover {
   background-color: rgba(57, 57, 57, 0.475); /* Màu nền của track */
 }
 
+/* -------------------- */
+.custom-scrollbarmini2::-webkit-scrollbar {
+  width: 4px; /* Độ rộng thanh cuộn */
+}
+
+.custom-scrollbarmini2::-webkit-scrollbar-thumb {
+  background-color: rgb(96, 112, 103); /* Màu thanh cuộn */
+  border-radius: 4px; /* Bo tròn các góc */
+}
+
+.custom-scrollbarmini2::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.3); /* Màu khi hover */
+}
+
+.custom-scrollbarmini2::-webkit-scrollbar-track {
+  background-color: transparent; /* Màu nền của track */
+}
 
 #BarsLoader {
   width: 45px;
@@ -94,7 +111,6 @@ body::-webkit-scrollbar-thumb:hover {
 
 
 /* =====================================UPSIDE RANGER SLIDER==================================== */
-/* styles/ProgressBar.css */
 .progress-container {
   width: 100%;
   max-width: 500px;

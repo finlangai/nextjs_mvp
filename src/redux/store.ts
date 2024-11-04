@@ -29,6 +29,7 @@ import ForecastingToggleReducer from "./ForecastingToggle/forecastingToggleSlice
 import BestNPMReducer from "./BestNPM/bestNPMSlice";
 import authReducer from "./auth/authSlice";
 import valuetionReducers from './ValuetionPage';
+import InstrumentListReducers from "./InstrumentList/instrumentListSlice";
 
 const tickerListReducer = combineReducers({
   TickerList: TickerListReducer,
@@ -80,6 +81,8 @@ const store = configureStore({
     bestNPM: BestNPMReducer,
 
     valuetionPage: valuetionReducers,
+
+    instrumentList: InstrumentListReducers,
 
     auth: authReducer,
   },

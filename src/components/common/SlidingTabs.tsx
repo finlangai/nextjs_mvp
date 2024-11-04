@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-const SlidingTabs = ({ onTabChange, tabs, gap } : {onTabChange: any; tabs: any[]; gap: string}) => {
+const SlidingTabs = ({ onTabChange, tabs, gap } : {onTabChange: (index: number, api: string) => void; tabs: any[]; gap: string}) => {
   const [activeTab, setActiveTab] = useState(0);
   const [indicatorStyle, setIndicatorStyle] = useState({
     transform: 'translateX(0px)'
@@ -17,10 +17,10 @@ const SlidingTabs = ({ onTabChange, tabs, gap } : {onTabChange: any; tabs: any[]
     }
   }, [activeTab]);
 
-  const handleTabClick = (index: number): void => {
+  const handleTabClick = (index: number, api: string): void => {
     setActiveTab(index);
-    // Gọi callback khi tab thay đổi
-    onTabChange?.(index);
+    // Gọi callback khi tab thay đổi với cả `index` và `api`
+    onTabChange(index, api);
   };
 
   useEffect(() => {
@@ -32,27 +32,19 @@ const SlidingTabs = ({ onTabChange, tabs, gap } : {onTabChange: any; tabs: any[]
       <div className={`flex items-center gap-x-[${gap}] pb-[11px]`}>
         {tabs.map((tab, index) => (
           <div
-            key={tab.id}
-            ref={el => {
-              if (el) {
-                tabRefs.current[index] = el;
-              }
-            }}
-            className={`font-bold text-[14px] cursor-pointer transition-colors duration-200 ${
+            key={tab.id} ref={el => {if (el) {tabRefs.current[index] = el;}}}
+            className={`font-bold text-[12px] cursor-pointer transition-colors duration-200 ${
               activeTab === index ? 'text-fintown-txt-1' : 'text-fintown-txt-2'
             }`}
-            onClick={() => handleTabClick(index)}
+            onClick={() => handleTabClick(index, tab.api)}
           >
             {
               tab.label === null  && (
-                <>
-                <div className=' flex justify-center w-full w-[25px]'>
+                <div className=' flex justify-center w-[25px]'>
                   <i className='bx bxs-star text-[18px]'></i>
                 </div>
-                </>
               )
             }
-
             {
               tab.label !== null  && (
                 tab.label
