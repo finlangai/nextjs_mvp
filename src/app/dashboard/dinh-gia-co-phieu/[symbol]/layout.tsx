@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
-
+import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import ChangeStockInput from '@/src/components/organisms/ChangeStock';
 import { selectSelectedButton } from '@/src/redux/ValuetionPage/valuetionPageSlice';
@@ -11,8 +10,11 @@ import { setHistorySelectedButton, selectHistorySelectedButton } from '@/src/red
 import LogValuation from '@/src/components/organisms/LogValuation';
 
 export default function DinhGiaCoPhieuLayout({ children, params }: { children: React.ReactNode, params: { symbol: string } }){
-    const { symbol } = params;
-    const router = useRouter();
+    const symbol = params.symbol.toUpperCase();
+    const isValidSymbol = /^[A-Z]{3}$/.test(symbol);
+    if (!isValidSymbol) {
+        redirect('/dashboard/'); 
+    }
 
     const dispatch = useAppDispatch();
     const selectedButton = useAppSelector(selectSelectedButton);

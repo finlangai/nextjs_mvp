@@ -1,5 +1,6 @@
 "use client";
-import React, { useState, useRef, useEffect } from 'react';
+import React from 'react';
+import { redirect } from 'next/navigation';
 import useSetSelectedButtonSiderBar from '@/src/redux/hooks/useButtonsiderBar';
 import TechnicalChart from '@/src/components/charts/TechnicalChart/TechnicalChart';
 import { sampleStockData} from '@/src/utils/sampleData';
@@ -34,7 +35,12 @@ interface Tab {
 }
 
 export default function BieuDoKyThuatPage({ params }: { params: { symbol: string } }) {
-    const { symbol } = params;
+    const symbol = params.symbol.toUpperCase();
+    const isValidSymbol = /^[A-Z]{3}$/.test(symbol);
+    if (!isValidSymbol) {
+        redirect('/dashboard/'); 
+    }
+
     useSetSelectedButtonSiderBar(5);
 
     // =================CHỌN FULL SREEN==================================
