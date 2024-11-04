@@ -3,8 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import useSetSelectedButtonSiderBar from '@/src/redux/hooks/useButtonsiderBar';
 import SlidingTabs from '@/src/components/common/SlidingTabs';
 import TechnicalChart from '@/src/components/charts/TechnicalChart/TechnicalChart';
-import { sampleStockData, generateRandomStockData  } from '@/src/utils/sampleData';
-import useIndicatorButton from '@/src/components/charts/TechnicalChart/useIndicatorButton';
+import { sampleStockData} from '@/src/utils/sampleData';
 import { 
     useColorPickerStroke, 
     useColorPickerFill, 
@@ -49,44 +48,40 @@ export default function BieuDoKyThuatPage() {
         setActiveTabIndex(index);
     };
 
-    // ==================CHỈ BÁO KỸ THUẬT CUSTOM==========================
-    const { handleIndicatorClick } = useIndicatorButton();
-
     // =================CHỌN FULL SREEN==================================
+
     const { handleFullScreenClick } = useFullScreenButton();
-
+    const { handleExitFullScreenClick } = useFullScreenButton();
+    const { handedleLeftBarClick } = useFullScreenButton();
     // ===============================CUSTOM TÙY CHỌN CHỈNH MÀU===========================
-    useColorPickerStroke({ chartType: "candlestick" });
-    useColorPickerFill({ chartType: "candlestick" });
-    useColorPickerLineFill({ chartType: "candlestick" });
-    useColorPickerForIndexedBackgroundsColors({ chartType: "candlestick" });
-    useColorPickerForSingleBackgroundsColors({ chartType: "candlestick" })
-    useColorPickerForSingleLabelBackground({ chartType: "candlestick" });
-    useColorPickerForSingleLabel({ chartType: "candlestick" });
-    useColorPickerForTypeLabel({chartType: "candlestick"});
-    useColorPickerForConnectorStroke({chartType: "candlestick"});
-    useColorPickerForConnectorFill({chartType: "candlestick"});
-    useColorPickerForIndexedLabelColors({chartType: "candlestick"});
-    useColorPickerForcrosshairYLine({chartType: "candlestick"});
-    useColorPickerForcrosshairXLine({chartType: "candlestick"});
-    useColorPickerForShapesStroke({chartType: "candlestick"});
-    useColorPickerbackgroundStroke({chartType: "candlestick"});
-    useColorPickerForIndexedShapesFill({chartType: "candlestick"});
-    useColorPickerForInnerBackgroundStroke({chartType: "candlestick"});
-    useColorPickerForInnerBackgroundFill({chartType: "candlestick"});
-    useColorPickerForOuterBackgroundStroke({chartType: "candlestick"});
-    useColorPickerForOuterBackgroundFill({chartType: "candlestick"});
+    useColorPickerStroke();
+    useColorPickerFill();
+    useColorPickerLineFill();
+    useColorPickerForIndexedBackgroundsColors();
+    useColorPickerForSingleBackgroundsColors()
+    useColorPickerForSingleLabelBackground();
+    useColorPickerForSingleLabel();
+    useColorPickerForTypeLabel();
+    useColorPickerForConnectorStroke();
+    useColorPickerForConnectorFill();
+    useColorPickerForIndexedLabelColors();
+    useColorPickerForcrosshairYLine();
+    useColorPickerForcrosshairXLine();
+    useColorPickerForShapesStroke();
+    useColorPickerbackgroundStroke();
+    useColorPickerForIndexedShapesFill();
+    useColorPickerForInnerBackgroundStroke();
+    useColorPickerForInnerBackgroundFill();
+    useColorPickerForOuterBackgroundStroke();
+    useColorPickerForOuterBackgroundFill();
 
-    // ========================CHỌN TYPE CHART===============================
-    const handleChartTypeChange = (type: "candlestick" | "line" | "ohlc") => {
-        setChartType(type);
-    };    
+    // ========================CHỌN TYPE CHART=============================== 
 
     return (
         <>
-        <div className='border-r border-r-fintown-br'>
-            <div className='flex w-full '>
-                <div className='min-w-[358px] border-r border-r-fintown-br'>
+        <div id='technical-chart-page' className='border-r border-r-fintown-br w-full bg-fintown-bg'>
+            <div className='flex w-full'>
+                <div id='left-bar-technical-chart-vvv' className='min-w-[358px] border-r border-r-fintown-br bg-fintown-bg'>
                     <div className=' border-b border-b-fintown-br'>
                         <div className='px-[20px] pt-[20px] mb-[12px]'>
                             <div className='py-[13px] px-[24px] flex items-center rounded-[8px] border border-fintown-br'> 
@@ -142,7 +137,7 @@ export default function BieuDoKyThuatPage() {
 
                 </div>
 
-                <div className='w-full '>
+                <div id='right-chart-technical-vvv' className='w-full'>
                     <div className='border-b border-b-fintown-br flex w-full'>
                         {/* Phần tử đầu tiên có width cố định */}
                         <div className='flex items-center pl-[24px] border-r border-r-fintown-br w-[430px] py-[16px]'>
@@ -192,7 +187,20 @@ export default function BieuDoKyThuatPage() {
 
                     <div className='border-b border-b-fintown-br flex'>
                         <div className='flex min-w-[430px]'>
-                            <div className='pl-[24px] flex items-center gap-x-[28px] py-[18px] min-w-[257px] border-r border-r-fintown-br'>
+                            <div className='pl-[24px] flex items-center'>
+                                <i 
+                                onClick={() => handedleLeftBarClick(true)}
+                                id='show-leftbar-search'
+                                className='bx bxs-arrow-to-left text-fintown-txt-2 text-[20px] cursor-pointer hover:text-fintown-pr9'>
+                                </i>
+                                <i 
+                                onClick={() => handedleLeftBarClick(false)}
+                                style={{display: "none"}}
+                                id='exit-leftbar-search'
+                                className='bx bxs-arrow-to-right text-fintown-txt-2 text-[20px] cursor-pointer hover:text-fintown-pr9'>
+                                </i>
+                            </div>
+                            <div className='pl-[24px] flex items-center gap-x-[28px] py-[18px] w-full '>
                                 <button className='text-[12px] font-bold text-fintown-pr9'>
                                     1D
                                 </button>
@@ -209,54 +217,28 @@ export default function BieuDoKyThuatPage() {
                                     YTD
                                 </button>
                             </div>
-
-                            <div className='pl-[24px] flex items-center gap-x-[28px] py-[20.5px] w-full border-r border-r-fintown-br'>
-                                <div
-                                className='cursor-pointer flex items-center'
-                                onClick={() => handleChartTypeChange('candlestick')}
-                                >
-                                <i className={`bx bx-candles text-[20px] ${chartType === "candlestick" ? "text-fintown-pr9" : "text-fintown-txt-2"}`}></i>
-                                </div>
-
-                                <div
-                                className='text-fintown-txt-2 max-h-max flex items-center cursor-pointer'
-                                onClick={() => handleChartTypeChange('line')}
-                                >
-                                <i className={`bx bxs-chart text-[20px] ${chartType === "line" ? "text-fintown-pr9" : "text-fintown-txt-2"}`}></i>
-                                </div>
-
-                                <div
-                                className='text-fintown-txt-2 cursor-pointer flex items-center'
-                                onClick={() => handleChartTypeChange('ohlc')}
-                                >
-                                <i className={`bx bxs-bar-chart-square text-[20px] ${chartType === "ohlc" ? "text-fintown-pr9" : "text-fintown-txt-2"}`}></i>
-                                </div>
-                            </div>
                         </div>
 
                         <div className='flex items-center w-full'>
-                            <div className='flex items-center pl-[24px] mr-[24px]'>
-                                <i className='bx bx-cog text-fintown-txt-2 text-[20px]'></i>
-                            </div>
-                            <div className='flex items-center'>
-                                <i 
-                                    className='bx bx-line-chart mr-[11px] text-fintown-txt-2 text-[20px] cursor-pointer hover:text-fintown-pr9'
-                                    onClick={handleIndicatorClick}
-                                ></i>                                
-                                <div className='text-[12px] font-bold text-fintown-txt-2'>Chỉ báo kỹ thuật</div>
-                            </div>
                             <div className='flex items-center ml-auto pr-[24px]'>
                                 <i className='bx bx-camera text-fintown-txt-2 text-[20px] mr-[20px]' ></i>
                                 <i 
+                                    id='in-full-sreen'
                                     className='bx bx-expand text-fintown-txt-2 text-[20px] cursor-pointer hover:text-fintown-pr9'
                                     onClick={handleFullScreenClick}
+                                ></i>
+                                <i 
+                                    id='exit-full-sreen'
+                                    className='bx bx-collapse text-fintown-txt-2 text-[20px] cursor-pointer hover:text-fintown-pr9'
+                                    onClick={handleExitFullScreenClick}
+                                    style={{display: 'none'}}
                                 ></i>
                             </div>
                         </div>
                     </div>
 
-                    <div className='px-[10px] py-[10px]'>
-                        < TechnicalChart data={sampleStockData} chartType={chartType} />
+                    <div className=' py-[10px]'>
+                        < TechnicalChart data={sampleStockData} />
                     </div>
                 </div>
             </div>

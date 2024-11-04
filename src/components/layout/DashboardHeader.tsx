@@ -51,7 +51,9 @@ export default function DashboardHeader({isTechnicalChart} : {isTechnicalChart: 
     return (
         <header
             className="w-full h-[70px] border-b border-fintown-br px-[40px] flex items-center justify-between bg-fintown-bg fixed top-0 z-50 ml-[70px]"
-            style={{ width: 'calc(100% - 70px)' }}>
+            style={{ width: 'calc(100% - 70px)' }}
+            id="dasnhboard-header"
+            >
 
             {
                 isTechnicalChart === !true && (

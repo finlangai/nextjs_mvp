@@ -18,26 +18,24 @@ export default function ProfilePage() {
 
     return (
         <>
-                        {/* Sidebar */}
-                        <div className="w-1/4 bg-gray-900 p-4">
-                            <ul className="space-y-4">
-                             
-                                {menuItems.map((item, index) => (
-                                    <li
-                                        key={index}
-                                        className={`flex items-center space-x-2 p-2 rounded-lg transition-all duration-300 transform ${activeIndex === index ? "bg-gray-700 scale-105" : "hover:bg-gray-800 hover:scale-105"
-                                            }`}
-                                        onClick={() => setActiveIndex(index)}
-                                    >
-                                        <i className={`bx ${item.icon} text-2xl ${item.color} transition-transform duration-300`}></i>
-                                        <Link href={item.href}>
-                                            <span className="text-fintown-txt-1">{item.label}</span>
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
- 
+            <div className="w-1/4 bg-gray-900 p-4" >
+                <ul className="space-y-4">
+                    
+                    {menuItems.map((item, index) => (
+                        <li
+                            key={index}
+                            className={`flex items-center space-x-2 p-2 rounded-lg transition-all duration-300 transform ${activeIndex === index ? "bg-gray-700 scale-105" : "hover:bg-gray-800 hover:scale-105"
+                                }`}
+                            onClick={() => setActiveIndex(index)}
+                        >
+                            <i className={`bx ${item.icon} text-2xl ${item.color} transition-transform duration-300`}></i>
+                            <Link href={item.href}>
+                                <span className="text-fintown-txt-1">{item.label}</span>
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </>
     );
 }

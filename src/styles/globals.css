@@ -228,6 +228,7 @@ div.highcharts-popup-rhs-col-wrapper h3 {
 
 button.highcharts-tab-item.highcharts-tab-item-active {
   background-color: transparent;
+  visibility:hidden
 }
 
 .highcharts-popup button.highcharts-annotation-edit-button:hover, .highcharts-popup button.highcharts-annotation-remove-button:hover {
@@ -426,6 +427,6 @@ div.highcharts-popup-lhs-col.highcharts-popup-lhs-full {
 
 /* --------------HIDE----------------------- */
 
-li.highcharts-indicators{
+/* li.highcharts-indicators{
   display: none;
-}
+} */

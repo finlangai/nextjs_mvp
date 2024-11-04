@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-const useColorPicker = ({ inputName, chartType }: { inputName: string; chartType: "candlestick" | "line" | "ohlc" }) => {
+const useColorPicker = ({ inputName }: { inputName: string}) => {
     const colorPickerContainerRef = useRef<HTMLDivElement | null>(null);
     const colorPickerInputRef = useRef<HTMLInputElement | null>(null);
     const activeInputRef = useRef<HTMLInputElement | null>(null);
@@ -8,7 +8,7 @@ const useColorPicker = ({ inputName, chartType }: { inputName: string; chartType
     useEffect(() => {
         const colorPickerContainer = document.createElement('div');
         colorPickerContainer.style.position = 'absolute';
-        colorPickerContainer.style.zIndex = '10000';
+        colorPickerContainer.style.zIndex = '100000';
         colorPickerContainer.style.display = 'none';
         colorPickerContainer.style.backgroundColor = 'white';
         colorPickerContainer.style.padding = '10px';
@@ -56,7 +56,7 @@ const useColorPicker = ({ inputName, chartType }: { inputName: string; chartType
                 document.body.removeChild(colorPickerContainerRef.current);
             }
         };
-    }, [chartType]);
+    }, []);
 
     const handleClickOutside = (event: MouseEvent) => {
         if (
@@ -137,79 +137,79 @@ const useColorPicker = ({ inputName, chartType }: { inputName: string; chartType
     return {};
 };
 
-export const useColorPickerStroke = ({ chartType }: { chartType: "candlestick" | "line" | "ohlc" }) => {
-    return useColorPicker({ inputName: "typeOptions.line.stroke", chartType });
+export const useColorPickerStroke = () => {
+    return useColorPicker({ inputName: "typeOptions.line.stroke" });
 };
 
-export const useColorPickerForcrosshairYLine = ({ chartType }: { chartType: "candlestick" | "line" | "ohlc" }) => {
-    return useColorPicker({ inputName: "typeOptions.crosshairY.stroke", chartType });
+export const useColorPickerForcrosshairYLine = () => {
+    return useColorPicker({ inputName: "typeOptions.crosshairY.stroke" });
 };
 
-export const useColorPickerForcrosshairXLine = ({ chartType }: { chartType: "candlestick" | "line" | "ohlc" }) => {
-    return useColorPicker({ inputName: "typeOptions.crosshairX.stroke", chartType });
+export const useColorPickerForcrosshairXLine = () => {
+    return useColorPicker({ inputName: "typeOptions.crosshairX.stroke" });
 };
 
-export const useColorPickerbackgroundStroke = ({ chartType }: { chartType: "candlestick" | "line" | "ohlc" }) => {
-    return useColorPicker({ inputName: "typeOptions.background.stroke", chartType });
+export const useColorPickerbackgroundStroke = () => {
+    return useColorPicker({ inputName: "typeOptions.background.stroke" });
 };
 
-export const useColorPickerLineFill = ({ chartType }: { chartType: "candlestick" | "line" | "ohlc" }) => {
-    return useColorPicker({ inputName: "typeOptions.line.fill", chartType });
+export const useColorPickerLineFill = () => {
+    return useColorPicker({ inputName: "typeOptions.line.fill" });
 };
 
-export const useColorPickerFill = ({ chartType }: { chartType: "candlestick" | "line" | "ohlc" }) => {
-    return useColorPicker({ inputName: "typeOptions.background.fill", chartType });
+export const useColorPickerFill = () => {
+    return useColorPicker({ inputName: "typeOptions.background.fill" });
 };
 
-export const useColorPickerForSingleBackgroundsColors = ({ chartType }: { chartType: "candlestick" | "line" | "ohlc" }) => {
-    return useColorPicker({ inputName: "typeOptions.backgroundColors", chartType });
+export const useColorPickerForSingleBackgroundsColors = () => {
+    return useColorPicker({ inputName: "typeOptions.backgroundColors" });
 };
 
-export const useColorPickerForSingleLabelBackground = ({ chartType }: { chartType: "candlestick" | "line" | "ohlc" }) => {
-    return useColorPicker({ inputName: "labelOptions.backgroundColor", chartType });
+export const useColorPickerForSingleLabelBackground = () => {
+    return useColorPicker({ inputName: "labelOptions.backgroundColor" });
 };
 
-export const useColorPickerForSingleLabel = ({ chartType }: { chartType: "candlestick" | "line" | "ohlc" }) => {
-    return useColorPicker({ inputName: "labelOptions.style.color", chartType });
+export const useColorPickerForSingleLabel = () => {
+    return useColorPicker({ inputName: "labelOptions.style.color" });
 };
 
-export const useColorPickerForTypeLabel = ({ chartType }: { chartType: "candlestick" | "line" | "ohlc" }) => {
-    return useColorPicker({ inputName: "typeOptions.label.style.color", chartType });
+export const useColorPickerForTypeLabel = () => {
+    return useColorPicker({ inputName: "typeOptions.label.style.color" });
 };
 
-export const useColorPickerForConnectorStroke = ({ chartType }: { chartType: "candlestick" | "line" | "ohlc" }) => {
-    return useColorPicker({ inputName: "typeOptions.connector.stroke", chartType });
+export const useColorPickerForConnectorStroke = () => {
+    return useColorPicker({ inputName: "typeOptions.connector.stroke" });
 };
 
-export const useColorPickerForConnectorFill = ({ chartType }: { chartType: "candlestick" | "line" | "ohlc" }) => {
-    return useColorPicker({ inputName: "typeOptions.connector.fill", chartType });
+export const useColorPickerForConnectorFill = () => {
+    return useColorPicker({ inputName: "typeOptions.connector.fill" });
 };
 
-export const useColorPickerForShapesStroke = ({ chartType }: { chartType: "candlestick" | "line" | "ohlc" }) => {
-    return useColorPicker({ inputName: "shapes.0.stroke", chartType });
+export const useColorPickerForShapesStroke = () => {
+    return useColorPicker({ inputName: "shapes.0.stroke" });
 };
 
-export const useColorPickerForIndexedShapesFill = ({ chartType }: { chartType: "candlestick" | "line" | "ohlc" }) => {
-    return useColorPicker({ inputName: "shapes.0.fill", chartType });
+export const useColorPickerForIndexedShapesFill = () => {
+    return useColorPicker({ inputName: "shapes.0.fill" });
 };
 
-export const useColorPickerForInnerBackgroundStroke = ({ chartType }: { chartType: "candlestick" | "line" | "ohlc" }) => {
-    return useColorPicker({ inputName: "typeOptions.innerBackground.stroke", chartType });
+export const useColorPickerForInnerBackgroundStroke = () => {
+    return useColorPicker({ inputName: "typeOptions.innerBackground.stroke" });
 };
 
-export const useColorPickerForInnerBackgroundFill = ({ chartType }: { chartType: "candlestick" | "line" | "ohlc" }) => {
-    return useColorPicker({ inputName: "typeOptions.innerBackground.fill", chartType });
+export const useColorPickerForInnerBackgroundFill = () => {
+    return useColorPicker({ inputName: "typeOptions.innerBackground.fill" });
 };
 
-export const useColorPickerForOuterBackgroundStroke = ({ chartType }: { chartType: "candlestick" | "line" | "ohlc" }) => {
-    return useColorPicker({ inputName: "typeOptions.outerBackground.stroke", chartType });
+export const useColorPickerForOuterBackgroundStroke = () => {
+    return useColorPicker({ inputName: "typeOptions.outerBackground.stroke" });
 };
 
-export const useColorPickerForOuterBackgroundFill = ({ chartType }: { chartType: "candlestick" | "line" | "ohlc" }) => {
-    return useColorPicker({ inputName: "typeOptions.outerBackground.fill", chartType });
+export const useColorPickerForOuterBackgroundFill = () => {
+    return useColorPicker({ inputName: "typeOptions.outerBackground.fill" });
 };
 
-export const useColorPickerForIndexedBackgroundsColors = ({ chartType }: { chartType: "candlestick" | "line" | "ohlc" }) => {
+export const useColorPickerForIndexedBackgroundsColors = () => {
     const colorPickerContainerRef = useRef<HTMLDivElement | null>(null);
     const colorPickerInputRef = useRef<HTMLInputElement | null>(null);
     const activeInputRef = useRef<HTMLInputElement | null>(null);
@@ -266,7 +266,7 @@ export const useColorPickerForIndexedBackgroundsColors = ({ chartType }: { chart
                 document.body.removeChild(colorPickerContainerRef.current);
             }
         };
-    }, [chartType]);
+    }, []);
 
     const handleClickOutside = (event: MouseEvent) => {
         if (
@@ -347,7 +347,7 @@ export const useColorPickerForIndexedBackgroundsColors = ({ chartType }: { chart
     return {};
 };
 
-export const useColorPickerForIndexedLabelColors  = ({ chartType }: { chartType: "candlestick" | "line" | "ohlc" }) => {
+export const useColorPickerForIndexedLabelColors  = () => {
     const colorPickerContainerRef = useRef<HTMLDivElement | null>(null);
     const colorPickerInputRef = useRef<HTMLInputElement | null>(null);
     const activeInputRef = useRef<HTMLInputElement | null>(null);
@@ -404,7 +404,7 @@ export const useColorPickerForIndexedLabelColors  = ({ chartType }: { chartType:
                 document.body.removeChild(colorPickerContainerRef.current);
             }
         };
-    }, [chartType]);
+    }, []);
 
     const handleClickOutside = (event: MouseEvent) => {
         if (

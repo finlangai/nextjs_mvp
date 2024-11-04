@@ -13,7 +13,7 @@ export default function Sidebar() {
     };
 
     return (
-        <div id="sidebar" className="fixed z-50 top-0 w-[70px] border-r h-screen border-fintown-br bg-fintown-bg">
+        <div id="sider-bar-left-dashboard" className="fixed z-50 top-0 w-[70px] border-r h-screen border-fintown-br bg-fintown-bg">
             <div className="logo">
                 <Link href="/" className="flex justify-center h-[70px] items-center">
                     <img className="w-[42px] h-[42px]" src="/imgs/logo.png" alt="logo fintown" />
