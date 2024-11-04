@@ -9,7 +9,6 @@ import fullScreen from "highcharts/modules/full-screen";
 import stockTools from "highcharts/modules/stock-tools";
 import hollowCandlestick from 'highcharts/modules/hollowcandlestick';
 import heikinAshi from 'highcharts/modules/heikinashi';
-// Initialize the hollowcandlestick module
 import { StockDataPoint } from '@/src/utils/sampleData';
 
 // Kích hoạt các module
@@ -44,8 +43,7 @@ interface SavedChartConfig {
   timestamp: number;
 }
 
-
-const CandlestickChart = ({ data} :{data:StockDataPoint[]}) => {
+const CandlestickChart = ({ data }: { data: StockDataPoint[] }) => {
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<Highcharts.Chart | null>(null);
   const autoSaveIntervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -55,21 +53,20 @@ const CandlestickChart = ({ data} :{data:StockDataPoint[]}) => {
     return JSON.parse(JSON.stringify(obj, (key, value) => {
       if (typeof value === 'object' && value !== null) {
         if (seen.has(value)) {
-          return; // Trả về undefined để loại bỏ thuộc tính vòng tròn
+          return;
         }
         seen.add(value);
       }
       return value;
     }));
   }
-  
+
   const saveToSession = () => {
     if (chartRef.current) {
       try {
-        const chartConfig = removeCircularReferences<Highcharts.Options>(chartRef.current.options); // Đảm bảo kiểu trả về
+        const chartConfig = removeCircularReferences<Highcharts.Options>(chartRef.current.options);
         const annotations = chartConfig.annotations || [];
         
-        // Update indicators filtering
         const indicators = chartRef.current.series
           .filter(series => {
             const seriesOptions = series.options as any;
@@ -95,7 +92,6 @@ const CandlestickChart = ({ data} :{data:StockDataPoint[]}) => {
         };
   
         sessionStorage.setItem('chartConfig', JSON.stringify(savedConfig));
-        console.log('Chart auto-saved to session storage:', savedConfig);
       } catch (error) {
         console.error('Error auto-saving chart:', error);
       }
@@ -108,15 +104,10 @@ const CandlestickChart = ({ data} :{data:StockDataPoint[]}) => {
       if (savedConfig && chartRef.current) {
         const parsedConfig: SavedChartConfig = JSON.parse(savedConfig);
   
-        // Ghi lại cấu hình biểu đồ đã lưu
-        console.log('Loaded chart configuration from session:', parsedConfig);
-  
-        // Xóa annotations hiện tại
         if (chartRef.current.options.annotations) {
           chartRef.current.options.annotations = [];
         }
         
-        // Xóa indicators hiện tại bằng remove
         chartRef.current.series
           .filter(series => {
             const seriesOptions = series.options as any;
@@ -124,29 +115,22 @@ const CandlestickChart = ({ data} :{data:StockDataPoint[]}) => {
                    seriesOptions.type !== 'candlestick' && 
                    seriesOptions.type !== 'column';
           })
-          .forEach(series => series.remove(false)); // false để không redraw ngay lập tức
+          .forEach(series => series.remove(false));
   
-        // Thêm lại annotations
         parsedConfig.annotations.forEach((annotation) => {
           chartRef.current?.addAnnotation(annotation);
         });
   
-        // Thêm lại indicators
         parsedConfig.indicators.forEach((indicator) => {
           chartRef.current?.addSeries(indicator.options);
         });
   
-        // Redraw chart
         chartRef.current.redraw();
-        console.log('Chart loaded from session storage successfully');
-      } else {
-        console.log('No saved configuration found in session storage.');
       }
     } catch (error) {
       console.error('Error loading chart from session storage:', error);
     }
   };
-  
 
   useEffect(() => {
     const seriesData = data.map((point) => [
@@ -157,10 +141,12 @@ const CandlestickChart = ({ data} :{data:StockDataPoint[]}) => {
       point.close,
     ]);
 
-    const volume = data.map((point) => [
-      point.date,
-      point.volume
-    ]);
+    // Tính toán màu cho volume dựa trên giá đóng cửa và mở cửa
+    const volumeData = data.map((point, index) => ({
+      x: point.date,
+      y: point.volume,
+      color: point.close >= point.open ? '#0ECB81' : '#F6465D' // Xanh nếu tăng, đỏ nếu giảm
+    }));
 
     if (chartContainerRef.current) {
       const chartOptions: Highcharts.Options = {
@@ -192,9 +178,8 @@ const CandlestickChart = ({ data} :{data:StockDataPoint[]}) => {
           backgroundColor: 'rgb(24 26 32)',
           renderTo: chartContainerRef.current,
           events: {
-              addSeries: saveToSession,
-              redraw : saveToSession,
-
+            addSeries: saveToSession,
+            redraw: saveToSession,
           }
         },
 
@@ -237,17 +222,17 @@ const CandlestickChart = ({ data} :{data:StockDataPoint[]}) => {
             upLineColor: '#0ECB81',            
           },
           column: {
-            color: 'white',       
+            borderWidth: 0,
+            borderRadius: 0
           },
           ohlc: {
             color: '#F6465D',
             upColor: '#0ECB81',
           },
           line: {
-            color: 'white',       
+            color: '#0ECB81',       
           },
         },
-
 
         series: [{
           type: 'candlestick',
@@ -258,7 +243,7 @@ const CandlestickChart = ({ data} :{data:StockDataPoint[]}) => {
           type: 'column',
           id: 'aapl-volume',
           name: 'AAPL Volume',
-          data: volume,
+          data: volumeData,
           yAxis: 1
         }],
 
@@ -295,8 +280,8 @@ const CandlestickChart = ({ data} :{data:StockDataPoint[]}) => {
                 color: '#ffffff'
               },
             },
-            top: '70%',
-            height: '30%',
+            top: '80%',
+            height: '20%',
             offset: 0
           }
         ],
@@ -358,21 +343,14 @@ const CandlestickChart = ({ data} :{data:StockDataPoint[]}) => {
         },
       };
 
-      // // Khởi tạo chart
       chartRef.current = Highcharts.stockChart(chartOptions);
-
-      // // Load cấu hình đã lưu từ session storage
-      // loadFromSession();
-      // autoSaveIntervalRef.current = setInterval(saveToSession, 1000);
     }
 
-    // Cleanup function
     return () => {
       if (autoSaveIntervalRef.current) {
         clearInterval(autoSaveIntervalRef.current);
       }
       if (chartRef.current) {
-        // Lưu lần cuối trước khi destroy
         saveToSession();
         chartRef.current.destroy();
         chartRef.current = null;
