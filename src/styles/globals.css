@@ -169,8 +169,8 @@ body::-webkit-scrollbar-thumb:hover {
   background-color: transparent; 
 }
 
-.highcharts-bindings-wrapper li.highcharts-active > button.highcharts-menu-item-btn, .highcharts-bindings-wrapper li > button.highcharts-menu-item-btn:hover, .highcharts-bindings-wrapper .highcharts-arrow-wrapper > div:hover, .highcharts-bindings-wrapper li.highcharts-active, .highcharts-toggle-toolbar:hover {
-  background-color: rgba(10, 255, 100, 0.637);
+.highcharts-bindings-wrapper li > button.highcharts-menu-item-btn:hover{
+  background-color: rgba(255, 255, 255, 0.052); 
 }
 
 .highcharts-toggle-toolbar {
@@ -180,12 +180,6 @@ body::-webkit-scrollbar-thumb:hover {
   height: 20px;
   background-color: var(--highcharts-neutral-color-3);
   background-size: cover;
-}
-
-.highcharts-bindings-wrapper li > button.highcharts-menu-item-btn {
-  background-color: #00cc66;
-  background-blend-mode: multiply; /* Trộn màu nền với hình ảnh */
-
 }
 
 li.highcharts-separator:first-of-type {

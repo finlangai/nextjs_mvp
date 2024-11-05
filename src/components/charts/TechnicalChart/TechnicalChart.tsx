@@ -43,6 +43,24 @@ interface SavedChartConfig {
   timestamp: number;
 }
 
+Highcharts.setOptions({
+  lang: {
+    months: [
+      'Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4',
+      'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8',
+      'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'
+    ],
+    shortMonths: [
+      'Th1', 'Th2', 'Th3', 'Th4', 'Th5', 'Th6',
+      'Th7', 'Th8', 'Th9', 'Th10', 'Th11', 'Th12'
+    ],
+    weekdays: [
+      'Chủ nhật', 'Thứ hai', 'Thứ ba', 'Thứ tư',
+      'Thứ năm', 'Thứ sáu', 'Thứ bảy'
+    ],
+  }
+});
+
 const CandlestickChart = ({ data }: { data: StockDataPoint[] }) => {
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<Highcharts.Chart | null>(null);
@@ -174,6 +192,7 @@ const CandlestickChart = ({ data }: { data: StockDataPoint[] }) => {
             ],
           },
         },
+
         chart: {
           backgroundColor: 'rgb(24 26 32)',
           renderTo: chartContainerRef.current,
@@ -234,18 +253,20 @@ const CandlestickChart = ({ data }: { data: StockDataPoint[] }) => {
           },
         },
 
-        series: [{
-          type: 'candlestick',
-          id: 'aapl-ohlc',
-          name: 'AAPL Stock Price',
-          data: seriesData
-        }, {
-          type: 'column',
-          id: 'aapl-volume',
-          name: 'AAPL Volume',
-          data: volumeData,
-          yAxis: 1
-        }],
+        series: [
+          {
+            type: 'candlestick',
+            id: 'aapl-ohlc',
+            name: 'AAPL Stock Price',
+            data: seriesData,
+          }, {
+            type: 'column',
+            id: 'aapl-volume',
+            name: 'AAPL Volume',
+            data: volumeData,
+            yAxis: 1
+          }
+        ],
 
         xAxis: {
           type: 'datetime',
@@ -256,6 +277,8 @@ const CandlestickChart = ({ data }: { data: StockDataPoint[] }) => {
               color: '#ffffff'
             },
           },
+          gridLineWidth: 1
+
         },
 
         yAxis: [
@@ -303,40 +326,80 @@ const CandlestickChart = ({ data }: { data: StockDataPoint[] }) => {
         },
 
         tooltip: {
+          useHTML: true,
+          backgroundColor: 'none', // Loại bỏ nền của tooltip
+          formatter: function () {
+            const point = this as any;
+            // console.log("Tooltip context", point.point);
+        
+            const open = point.point.open !== undefined ? point.point.open : 'N/A';
+            const high = point.point.high !== undefined ? point.point.high : 'N/A';
+            const low = point.point.low !== undefined ? point.point.low : 'N/A';
+            const close = point.point.close !== undefined ? point.point.close : 'N/A';
+        
+            return `
+              <div style="display:flex; column-gap: 10px;">
+
+                <div style="display:flex; column-gap: 5px;">
+                  <div style="color: rgb(132 142 156);">
+                    Ngày:
+                  </div>
+                  <div style="color: white;">
+                    ${this.x !== undefined ? Highcharts.dateFormat('%e %b, %Y', this.x as number) : 'N/A'}
+                  </div>
+                </div>
+
+                <div style="display:flex; column-gap: 5px;">
+                  <div style="color: rgb(132 142 156);">
+                    Giá mở cửa:
+                  </div>
+                  <div style="color: white;">
+                    ${open.toLocaleString('en-US')}
+                  </div>
+                </div>
+
+                <div style="display:flex; column-gap: 5px;">
+                  <div style="color: rgb(132 142 156);">
+                    Giá cao nhất:
+                  </div>
+                  <div style="color: white;">
+                    ${high.toLocaleString('en-US')}
+                  </div>
+                </div>
+
+                <div style="display:flex; column-gap: 5px;">
+                  <div style="color: rgb(132 142 156);">
+                    Giá thấp nhất:
+                  </div>
+                  <div style="color: white;">
+                    ${low.toLocaleString('en-US')}
+                  </div>
+                </div>
+
+                <div style="display:flex; column-gap: 5px;">
+                  <div style="color: rgb(132 142 156);">
+                    Giá đóng cửa:
+                  </div>
+                  <div style="color: white;">
+                    ${close.toLocaleString('en-US')}
+                  </div>
+                </div>
+
+              <div>
+            `;
+          },
           headerShape: 'callout',
           borderWidth: 0,
           shadow: false,
-          positioner: function (
-            this: Highcharts.Tooltip,
-            width: number,
-            height: number,
-            point: ExtendedPoint
-          ): Highcharts.PositionObject {
-            const chart = this.chart;
-            let position: Highcharts.PositionObject;
-    
-            if (point.isHeader) {
-              const plotX = point.plotX || 0;
-              position = {
-                x: Math.max(
-                  chart.plotLeft,
-                  Math.min(
-                    plotX + chart.plotLeft - width / 2,
-                    chart.plotLeft + chart.plotWidth - width
-                  )
-                ),
-                y: 0
-              };
-            } else {
-              position = {
-                x: point.series.chart.plotLeft,
-                y: point.series.yAxis.toPixels(point.y || 0, true)
-              };
-            }
-    
-            return position;
+          positioner: function (): Highcharts.PositionObject {
+            // Cố định tooltip ở góc trên cùng bên trái
+            return {
+              x: 50,  // Khoảng cách từ trái màn hình
+              y: 10   // Khoảng cách từ đỉnh màn hình
+            };
           }
         },
+        
 
         credits: {
           enabled: false
