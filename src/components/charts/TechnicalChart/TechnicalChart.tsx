@@ -43,6 +43,13 @@ interface SavedChartConfig {
   timestamp: number;
 }
 
+interface OHLCPoint extends Highcharts.Point {
+  open?: number;
+  high?: number;
+  low?: number;
+  close?: number;
+}
+
 Highcharts.setOptions({
   lang: {
     months: [
@@ -196,10 +203,6 @@ const CandlestickChart = ({ data }: { data: StockDataPoint[] }) => {
         chart: {
           backgroundColor: 'rgb(24 26 32)',
           renderTo: chartContainerRef.current,
-          events: {
-            addSeries: saveToSession,
-            redraw: saveToSession,
-          }
         },
 
         annotations: [{
@@ -271,13 +274,17 @@ const CandlestickChart = ({ data }: { data: StockDataPoint[] }) => {
         xAxis: {
           type: 'datetime',
           gridLineColor: '#2B3139',
-          offset: 0,  
           labels: {
             style: {
               color: '#ffffff'
             },
           },
-          gridLineWidth: 1
+          gridLineWidth: 1,
+          crosshair: {
+            color: '#cccccc',
+            width: 1,
+            dashStyle: 'ShortDot',
+          },
 
         },
 
@@ -290,10 +297,15 @@ const CandlestickChart = ({ data }: { data: StockDataPoint[] }) => {
                 color: '#ffffff'
               },
             },
-            height: '70%',
+            height: '80%',
             resize: {
               enabled: true
-            }
+            },
+            crosshair: {
+              color: '#cccccc',
+              width: 1,
+              dashStyle: 'ShortDot',
+            },
           }, 
           {
             gridLineColor: '#2B3139',
@@ -305,8 +317,9 @@ const CandlestickChart = ({ data }: { data: StockDataPoint[] }) => {
             },
             top: '80%',
             height: '20%',
-            offset: 0
-          }
+            offset: 0,
+          },
+          
         ],
 
         navigator: {
@@ -327,7 +340,7 @@ const CandlestickChart = ({ data }: { data: StockDataPoint[] }) => {
 
         tooltip: {
           useHTML: true,
-          backgroundColor: 'none', // Loại bỏ nền của tooltip
+          backgroundColor: 'none', 
           formatter: function () {
             const point = this as any;
             // console.log("Tooltip context", point.point);
@@ -388,7 +401,6 @@ const CandlestickChart = ({ data }: { data: StockDataPoint[] }) => {
               <div>
             `;
           },
-          headerShape: 'callout',
           borderWidth: 0,
           shadow: false,
           positioner: function (): Highcharts.PositionObject {

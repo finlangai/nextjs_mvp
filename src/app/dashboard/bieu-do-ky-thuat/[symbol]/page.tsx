@@ -118,7 +118,8 @@ export default function BieuDoKyThuatPage({ params }: { params: { symbol: string
 
                         <div className='flex items-center w-full'>
                             <div className='flex items-center ml-auto pr-[24px]'>
-                                <i className='bx bx-camera text-fintown-txt-2 text-[20px] mr-[20px]' ></i>
+                                <i className='bx bx-cloud-download text-fintown-txt-2 text-[20px] mr-[20px] cursor-pointer hover:text-fintown-pr9'></i>
+                                <i className='bx bx-camera text-fintown-txt-2 text-[20px] mr-[20px] cursor-pointer hover:text-fintown-pr9' ></i>
                                 <i 
                                     id='in-full-sreen'
                                     className='bx bx-expand text-fintown-txt-2 text-[20px] cursor-pointer hover:text-fintown-pr9'
