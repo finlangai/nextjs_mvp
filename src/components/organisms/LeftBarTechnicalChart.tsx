@@ -6,6 +6,7 @@ import { Instruments } from '@/src/interfaces/Instruments';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import Link from 'next/link';
 import { toggleWatchlist, selectWatchlist, selectIsInWatchlist } from '@/src/redux/WatchList';
+import { fetchSearchStockTechChart, selectSearchStockTechChartData, selectSearchStockTechChartLoading, selectSearchStockTechChartError } from '@/src/redux/SearchStockTechChart';
 
 interface Tab {
     id: number;
@@ -16,10 +17,12 @@ interface Tab {
 export default function LeftBarTechnicalChart({symbol} : {symbol:string}){
     const dispatch = useAppDispatch();
     const selectInstrumentLists = useAppSelector(selectInstrumentListsData);
-    const ListsLoading = useAppSelector(selectInstrumentListsLoading);
+    const instrumentListsLoading = useAppSelector(selectInstrumentListsLoading);
+    const searchStockTechChartLoading = useAppSelector(selectSearchStockTechChartLoading);
+    const selectSearchData = useAppSelector(selectSearchStockTechChartData);
     const [NowData, setNowData] = useState<Instruments[] | null>(null);
-    const [originalData, setOriginalData] = useState<Instruments[] | null>(null); // Thêm state để lưu data gốc
     const hasFetched = useRef(false);
+    const [originalData, setOriginalData] = useState<Instruments[] | null>(null);
 
     const watchlist = useAppSelector(selectWatchlist);
     const isInWatchlist = useAppSelector(selectIsInWatchlist(symbol));
@@ -28,6 +31,8 @@ export default function LeftBarTechnicalChart({symbol} : {symbol:string}){
 
     const [isDescending, setIsDescending] = useState<boolean>(true);
     const [sortKey, setSortKey] = useState<keyof Instruments | null>(null);
+
+    const [searchQuery, setSearchQuery] = useState('');
 
     const tabs: Tab[] = [
         { id: 0, label: null, api: null },
@@ -46,8 +51,15 @@ export default function LeftBarTechnicalChart({symbol} : {symbol:string}){
         if (index === 0 && originalData) {
             const filteredData = originalData.filter(item => watchlist.includes(item.symbol));
             setNowData(filteredData);
-        } else if (api) {
+        } else if (api && searchQuery === '') {
             dispatch(fetchInstrumentList({ category: api }));
+        }
+    };
+
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchQuery(e.target.value);
+        if (e.target.value !== '') {
+            dispatch(fetchSearchStockTechChart({ query: e.target.value }));
         }
     };
 
@@ -60,7 +72,6 @@ export default function LeftBarTechnicalChart({symbol} : {symbol:string}){
     }, [dispatch]);
     
     useEffect(() => {
-        console.log('watchlist')
         if (selectInstrumentLists !== null) {
             setOriginalData(selectInstrumentLists);
             if (activeTabIndex === 0) {
@@ -71,6 +82,12 @@ export default function LeftBarTechnicalChart({symbol} : {symbol:string}){
             }
         }
     }, [selectInstrumentLists, activeTabIndex, watchlist]);
+
+    useEffect(() => {
+        if (selectSearchData) {
+            setNowData(selectSearchData);
+        }
+    }, [selectSearchData]);
 
     // SORT CỔ PHIẾU================================================
     const handleSort = (key: keyof Instruments) => {
@@ -89,11 +106,11 @@ export default function LeftBarTechnicalChart({symbol} : {symbol:string}){
     };
 
     useEffect(() => {
-        if (ListsLoading) {
+        if (instrumentListsLoading || searchStockTechChartLoading) {
             setSortKey(null);
             setIsDescending(true);
         }
-    }, [ListsLoading]);
+    }, [instrumentListsLoading, searchStockTechChartLoading]);
 
     return(
         <>
@@ -102,7 +119,13 @@ export default function LeftBarTechnicalChart({symbol} : {symbol:string}){
                 <div className='px-[20px] pt-[16px] mb-[12px]'>
                     <div className='py-[13px] px-[20px] flex items-center rounded-[8px] border border-fintown-br'> 
                         <i className='bx bx-search text-fintown-txt-2 text-[20px] pr-[13px]'></i>
-                        <input className='bg-transparent text-[14px] outline-none text-fintown-txt-1 w-full' type="text" placeholder='Tìm cổ phiếu' />
+                        <input
+                            className='bg-transparent text-[14px] outline-none text-fintown-txt-1 w-full'
+                            type="text"
+                            placeholder='Tìm cổ phiếu'
+                            value={searchQuery}
+                            onChange={handleSearch}
+                        />                    
                     </div>
                 </div>
                 <div className='px-[20px] py-[13px]'>
@@ -144,7 +167,7 @@ export default function LeftBarTechnicalChart({symbol} : {symbol:string}){
                 }
             }>
                 {
-                    ListsLoading ? (
+                    instrumentListsLoading || searchStockTechChartLoading ? (
                         <div className='flex w-full justify-center items-center h-[428px]'>
                             <SpinerLoader />
                         </div>

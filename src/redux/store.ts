@@ -32,6 +32,7 @@ import valuetionReducers from './ValuetionPage';
 import InstrumentListReducers from "./InstrumentList/instrumentListSlice";
 import TechnicalChartOverviewReducers from "./TechnicalChartOverview/technicalChartOverviewSlice";
 import WatchlistReducer from './WatchList/watchlistSlice';
+import SearchStockTechChartReducers from "./SearchStockTechChart/searchStockTechChartSlice"
 
 const tickerListReducer = combineReducers({
   TickerList: TickerListReducer,
@@ -87,6 +88,7 @@ const store = configureStore({
     instrumentList: InstrumentListReducers,
     technicalChartOverview: TechnicalChartOverviewReducers,
     watchlist: WatchlistReducer,
+    searchStockTechChart: SearchStockTechChartReducers,
     
     auth: authReducer,
   },

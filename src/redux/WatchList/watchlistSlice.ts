@@ -6,7 +6,7 @@ interface WatchlistState {
 }
 
 const initialState: WatchlistState = {
-    watchlist: JSON.parse(sessionStorage.getItem('watchlist') || '[]'),
+    watchlist: JSON.parse(localStorage.getItem('watchlist') || '[]'),
 };
 
 const watchlistSlice = createSlice({
@@ -20,11 +20,11 @@ const watchlistSlice = createSlice({
             } else {
                 state.watchlist.push(symbol);
             }
-            sessionStorage.setItem('watchlist', JSON.stringify(state.watchlist));
+            localStorage.setItem('watchlist', JSON.stringify(state.watchlist));
         },
         setWatchlist: (state, action: PayloadAction<string[]>) => {
             state.watchlist = action.payload;
-            sessionStorage.setItem('watchlist', JSON.stringify(state.watchlist));
+            localStorage.setItem('watchlist', JSON.stringify(state.watchlist));
         }
     }
 });

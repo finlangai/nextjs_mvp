@@ -23,7 +23,6 @@ const MarketSummary = () => {
   useEffect(() => {
     if (selectData !== null) {
       setNowData(selectData);
-      console.log(selectData)
     }
   }, [selectData]);
 
