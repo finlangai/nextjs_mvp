@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Highcharts from 'highcharts/highstock';
 
 // Import các module cần thiết
@@ -9,7 +9,10 @@ import fullScreen from "highcharts/modules/full-screen";
 import stockTools from "highcharts/modules/stock-tools";
 import hollowCandlestick from 'highcharts/modules/hollowcandlestick';
 import heikinAshi from 'highcharts/modules/heikinashi';
-import { StockDataPoint } from '@/src/utils/sampleData';
+import { PriceStock } from '@/src/interfaces/PriceStock';
+import { fetchPriceStocks, selectPriceStocksData } from '@/src/redux/PriceStock';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
+import { getStartOfYear, getCurrentUnixTimestamp} from '../PriceStockLineChart/getTimeRanges';
 
 // Kích hoạt các module
 indicatorsAll(Highcharts);
@@ -19,36 +22,6 @@ fullScreen(Highcharts);
 stockTools(Highcharts);
 hollowCandlestick(Highcharts);
 heikinAshi(Highcharts);
-
-interface ExtendedPoint extends Highcharts.Point {
-  plotX?: number;
-  plotY?: number;
-  isHeader?: boolean;
-}
-
-interface IndicatorConfig {
-  type: string;
-  options: Highcharts.SeriesOptionsType & {
-    params?: {
-      period?: number;
-      [key: string]: any;
-    };
-  };
-}
-
-interface SavedChartConfig {
-  chartConfig: Highcharts.Options;
-  annotations: Array<Highcharts.AnnotationsOptions>;
-  indicators: IndicatorConfig[];
-  timestamp: number;
-}
-
-interface OHLCPoint extends Highcharts.Point {
-  open?: number;
-  high?: number;
-  low?: number;
-  close?: number;
-}
 
 Highcharts.setOptions({
   lang: {
@@ -68,98 +41,32 @@ Highcharts.setOptions({
   }
 });
 
-const CandlestickChart = ({ data }: { data: StockDataPoint[] }) => {
+const CandlestickChart = ({symbol} : {symbol: string}) => {
+  const dispatch = useAppDispatch();
+
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<Highcharts.Chart | null>(null);
-  const autoSaveIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const selectPriceStocks = useAppSelector(selectPriceStocksData);
+  const [data, setStockData] = useState<PriceStock[]>([]);
 
-  function removeCircularReferences<T>(obj: T): T {
-    const seen = new WeakSet();
-    return JSON.parse(JSON.stringify(obj, (key, value) => {
-      if (typeof value === 'object' && value !== null) {
-        if (seen.has(value)) {
-          return;
-        }
-        seen.add(value);
-      }
-      return value;
-    }));
-  }
+  // LẦN ĐẦU CALL API LẤY YTD
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      const now = getCurrentUnixTimestamp();
+      const start = getStartOfYear(); 
+      await dispatch(fetchPriceStocks({ symbol, start, end: now, interval: '1D', type: 1, limit: 90 }));
+    };
+    fetchInitialData(); 
+  }, [dispatch, symbol]);
+  
+  useEffect(() => {
+    setStockData(selectPriceStocks);
+  }, [selectPriceStocks]);
 
-  const saveToSession = () => {
-    if (chartRef.current) {
-      try {
-        const chartConfig = removeCircularReferences<Highcharts.Options>(chartRef.current.options);
-        const annotations = chartConfig.annotations || [];
-        
-        const indicators = chartRef.current.series
-          .filter(series => {
-            const seriesOptions = series.options as any;
-            return seriesOptions.type && 
-                   seriesOptions.type !== 'candlestick' && 
-                   seriesOptions.type !== 'column';
-          })
-          .map(series => ({
-            type: series.options.type || '',
-            options: series.options as Highcharts.SeriesOptionsType & {
-              params?: {
-                period?: number;
-                [key: string]: any;
-              }
-            }
-          }));
-  
-        const savedConfig: SavedChartConfig = {
-          chartConfig,
-          annotations,
-          indicators,
-          timestamp: new Date().getTime()
-        };
-  
-        sessionStorage.setItem('chartConfig', JSON.stringify(savedConfig));
-      } catch (error) {
-        console.error('Error auto-saving chart:', error);
-      }
-    }
-  };
-
-  const loadFromSession = () => {
-    try {
-      const savedConfig = sessionStorage.getItem('chartConfig');
-      if (savedConfig && chartRef.current) {
-        const parsedConfig: SavedChartConfig = JSON.parse(savedConfig);
-  
-        if (chartRef.current.options.annotations) {
-          chartRef.current.options.annotations = [];
-        }
-        
-        chartRef.current.series
-          .filter(series => {
-            const seriesOptions = series.options as any;
-            return seriesOptions.type && 
-                   seriesOptions.type !== 'candlestick' && 
-                   seriesOptions.type !== 'column';
-          })
-          .forEach(series => series.remove(false));
-  
-        parsedConfig.annotations.forEach((annotation) => {
-          chartRef.current?.addAnnotation(annotation);
-        });
-  
-        parsedConfig.indicators.forEach((indicator) => {
-          chartRef.current?.addSeries(indicator.options);
-        });
-  
-        chartRef.current.redraw();
-      }
-    } catch (error) {
-      console.error('Error loading chart from session storage:', error);
-    }
-  };
-
+  // TẠO CHART===========================================
   useEffect(() => {
     const seriesData = data.map((point) => [
-      point.date,
+      point.time,
       point.open,
       point.high,
       point.low,
@@ -167,10 +74,10 @@ const CandlestickChart = ({ data }: { data: StockDataPoint[] }) => {
     ]);
 
     // Tính toán màu cho volume dựa trên giá đóng cửa và mở cửa
-    const volumeData = data.map((point, index) => ({
-      x: point.date,
+    const volumeData = data.map((point) => ({
+      x: point.time,
       y: point.volume,
-      color: point.close >= point.open ? '#0ECB81' : '#F6465D' // Xanh nếu tăng, đỏ nếu giảm
+      color: point.close >= point.open ? '#0ECB81' : '#F6465D'
     }));
 
     if (chartContainerRef.current) {
@@ -199,145 +106,10 @@ const CandlestickChart = ({ data }: { data: StockDataPoint[] }) => {
             ],
           },
         },
-
         chart: {
           backgroundColor: 'rgb(24 26 32)',
           renderTo: chartContainerRef.current,
-        },
-
-        annotations: [{
-          labels: [{
-            point: {
-              x: 2,
-              y: 2,
-              xAxis: 0,
-              yAxis: 0
-            },
-            text: 'Điểm quan trọng',
-            style: {
-              color: 'red',
-              fontWeight: 'bold'
-            }
-          }]
-        }],
-        
-        plotOptions: {
-          series: {
-            showInNavigator: false,
-          },
-          candlestick: {
-            color: '#F6465D',
-            lineColor: '#F6465D',
-            upColor: '#0ECB81',
-            upLineColor: '#0ECB81',            
-          },
-          hollowcandlestick: {
-            color: '#F6465D',
-            lineColor: '#F6465D',
-            upColor: '#0ECB81',
-            upLineColor: '#0ECB81',            
-          },
-          heikinashi: {
-            color: '#F6465D',
-            lineColor: '#F6465D',
-            upColor: '#0ECB81',
-            upLineColor: '#0ECB81',            
-          },
-          column: {
-            borderWidth: 0,
-            borderRadius: 0
-          },
-          ohlc: {
-            color: '#F6465D',
-            upColor: '#0ECB81',
-          },
-          line: {
-            color: '#0ECB81',       
-          },
-        },
-
-        series: [
-          {
-            type: 'candlestick',
-            id: 'aapl-ohlc',
-            name: 'AAPL Stock Price',
-            data: seriesData,
-          }, {
-            type: 'column',
-            id: 'aapl-volume',
-            name: 'AAPL Volume',
-            data: volumeData,
-            yAxis: 1
-          }
-        ],
-
-        xAxis: {
-          type: 'datetime',
-          gridLineColor: '#2B3139',
-          labels: {
-            style: {
-              color: '#ffffff'
-            },
-          },
-          gridLineWidth: 1,
-          crosshair: {
-            color: '#cccccc',
-            width: 1,
-            dashStyle: 'ShortDot',
-          },
-
-        },
-
-        yAxis: [
-          {
-            gridLineColor: '#2B3139',
-            labels: {
-              align: 'left',
-              style: {
-                color: '#ffffff'
-              },
-            },
-            height: '80%',
-            resize: {
-              enabled: true
-            },
-            crosshair: {
-              color: '#cccccc',
-              width: 1,
-              dashStyle: 'ShortDot',
-            },
-          }, 
-          {
-            gridLineColor: '#2B3139',
-            labels: {
-              align: 'left',
-              style: {
-                color: '#ffffff'
-              },
-            },
-            top: '80%',
-            height: '20%',
-            offset: 0,
-          },
-          
-        ],
-
-        navigator: {
-          enabled: false
-        },
-
-        rangeSelector: {
-          enabled: false,
-        },
-
-        title: {
-          text: undefined
-        },
-
-        legend: {
-          enabled: false,
-        },
-
+        },       
         tooltip: {
           useHTML: true,
           backgroundColor: 'none', 
@@ -411,26 +183,137 @@ const CandlestickChart = ({ data }: { data: StockDataPoint[] }) => {
             };
           }
         },
-        
+        annotations: [{
+          labels: [{
+            point: {
+              x: 2,
+              y: 2,
+              xAxis: 0,
+              yAxis: 0
+            },
+            text: 'Điểm quan trọng',
+            style: {
+              color: 'red',
+              fontWeight: 'bold'
+            }
+          }]
+        }],     
+        plotOptions: {
+          series: {
+            showInNavigator: false,
+          },
+          candlestick: {
+            color: '#F6465D',
+            lineColor: '#F6465D',
+            upColor: '#0ECB81',
+            upLineColor: '#0ECB81',            
+          },
+          hollowcandlestick: {
+            color: '#F6465D',
+            lineColor: '#F6465D',
+            upColor: '#0ECB81',
+            upLineColor: '#0ECB81',            
+          },
+          heikinashi: {
+            color: '#F6465D',
+            lineColor: '#F6465D',
+            upColor: '#0ECB81',
+            upLineColor: '#0ECB81',            
+          },
+          column: {
+            borderWidth: 0,
+            borderRadius: 0
+          },
+          ohlc: {
+            color: '#F6465D',
+            upColor: '#0ECB81',
+          },
+          line: {
+            color: '#0ECB81',       
+          },
+        },
+        series: [
+          {
+            type: 'candlestick',
+            id: `${symbol}-ohlc`,
+            name: `${symbol} Stock Price`,
+            data: seriesData,
+          }, {
+            type: 'column',
+            id: `${symbol}-Volume`,
+            name: `${symbol} Volume`,
+            data: volumeData,
+            yAxis: 1
+          }
+        ],
+        xAxis: {
+          type: 'datetime',
+          gridLineColor: '#2B3139',
+          labels: {
+            style: {
+              color: '#ffffff'
+            },
+          },
+          gridLineWidth: 1,
+          crosshair: {
+            color: '#cccccc',
+            width: 1,
+            dashStyle: 'ShortDot',
+          },
 
+        },
+        yAxis: [
+          {
+            gridLineColor: '#2B3139',
+            labels: {
+              align: 'left',
+              style: {
+                color: '#ffffff'
+              },
+            },
+            height: '80%',
+            resize: {
+              enabled: true
+            },
+            crosshair: {
+              color: '#cccccc',
+              width: 1,
+              dashStyle: 'ShortDot',
+            },
+          }, 
+          {
+            gridLineColor: '#2B3139',
+            labels: {
+              align: 'left',
+              style: {
+                color: '#ffffff'
+              },
+            },
+            top: '80%',
+            height: '20%',
+            offset: 0,
+          },
+          
+        ],
+        navigator: {
+          enabled: false
+        },
+        rangeSelector: {
+          selected: 4,
+          enabled: false,
+        },
+        title: {
+          text: undefined
+        },
+        legend: {
+          enabled: false,
+        },
         credits: {
           enabled: false
         },
       };
-
       chartRef.current = Highcharts.stockChart(chartOptions);
     }
-
-    return () => {
-      if (autoSaveIntervalRef.current) {
-        clearInterval(autoSaveIntervalRef.current);
-      }
-      if (chartRef.current) {
-        saveToSession();
-        chartRef.current.destroy();
-        chartRef.current = null;
-      }
-    };
   }, [data]);
 
   return <div id='container-technical-chart-azz' ref={chartContainerRef} style={{ height: '600px', width: '100%' }} />;
