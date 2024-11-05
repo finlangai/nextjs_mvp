@@ -5,6 +5,7 @@ import { SpinerLoader } from '@/src/components/common/Loader';
 import { Instruments } from '@/src/interfaces/Instruments';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import Link from 'next/link';
+import { toggleWatchlist, selectWatchlist, selectIsInWatchlist } from '@/src/redux/WatchList';
 
 interface Tab {
     id: number;
@@ -17,11 +18,16 @@ export default function LeftBarTechnicalChart({symbol} : {symbol:string}){
     const selectInstrumentLists = useAppSelector(selectInstrumentListsData);
     const ListsLoading = useAppSelector(selectInstrumentListsLoading);
     const [NowData, setNowData] = useState<Instruments[] | null>(null);
+    const [originalData, setOriginalData] = useState<Instruments[] | null>(null); // Thêm state để lưu data gốc
     const hasFetched = useRef(false);
 
+    const watchlist = useAppSelector(selectWatchlist);
+    const isInWatchlist = useAppSelector(selectIsInWatchlist(symbol));
+    
     const [activeTabIndex, setActiveTabIndex] = useState<number>(1);
-    const [isDescending, setIsDescending] = useState<boolean>(true); // Track sorting order
-    const [sortKey, setSortKey] = useState<keyof Instruments | null>(null); // Track sorted column
+
+    const [isDescending, setIsDescending] = useState<boolean>(true);
+    const [sortKey, setSortKey] = useState<keyof Instruments | null>(null);
 
     const tabs: Tab[] = [
         { id: 0, label: null, api: null },
@@ -30,12 +36,22 @@ export default function LeftBarTechnicalChart({symbol} : {symbol:string}){
         { id: 3, label: "HNX", api: "hnx" }
     ];
 
-    const handleTabChange = (index: number, api: string) => {
-        setActiveTabIndex(index);
-        dispatch(fetchInstrumentList({ category: api }));
+    const handleStarClick = (symbol: string) => {
+        dispatch(toggleWatchlist(symbol));
     };
 
-    // Fetch API Lần đầu
+    const handleTabChange = (index: number, api: string | null) => {
+        setActiveTabIndex(index);
+        
+        if (index === 0 && originalData) {
+            const filteredData = originalData.filter(item => watchlist.includes(item.symbol));
+            setNowData(filteredData);
+        } else if (api) {
+            dispatch(fetchInstrumentList({ category: api }));
+        }
+    };
+
+    // CALL API LẦN ĐẦU VN30===========================================
     useEffect(() => {
         if (!hasFetched.current) {
             dispatch(fetchInstrumentList({ category: "vn30" }));
@@ -43,14 +59,20 @@ export default function LeftBarTechnicalChart({symbol} : {symbol:string}){
         }
     }, [dispatch]);
     
-    // Lưu data đã fetch
     useEffect(() => {
+        console.log('watchlist')
         if (selectInstrumentLists !== null) {
-            setNowData(selectInstrumentLists);
+            setOriginalData(selectInstrumentLists);
+            if (activeTabIndex === 0) {
+                const filteredData = selectInstrumentLists.filter(item => watchlist.includes(item.symbol));
+                setNowData(filteredData);
+            } else {
+                setNowData(selectInstrumentLists);
+            }
         }
-    }, [selectInstrumentLists]);
+    }, [selectInstrumentLists, activeTabIndex, watchlist]);
 
-    // Hàm xử lý sắp xếp=================================================
+    // SORT CỔ PHIẾU================================================
     const handleSort = (key: keyof Instruments) => {
         if (NowData) {
             const sortedData = [...NowData].sort((a, b) => {
@@ -61,12 +83,11 @@ export default function LeftBarTechnicalChart({symbol} : {symbol:string}){
                 }
             });
             setNowData(sortedData);
-            setSortKey(key); // Set the key for the sorted column
-            setIsDescending(!isDescending); // Toggle sort order
+            setSortKey(key);
+            setIsDescending(!isDescending);
         }
     };
 
-    // Khi Data thay đổi hủy biểu diễn icoin sắp xếp
     useEffect(() => {
         if (ListsLoading) {
             setSortKey(null);
@@ -85,7 +106,7 @@ export default function LeftBarTechnicalChart({symbol} : {symbol:string}){
                     </div>
                 </div>
                 <div className='px-[20px] py-[13px]'>
-                    < SlidingTabs onTabChange={handleTabChange} tabs={tabs} gap={"24px"} />
+                    < SlidingTabs onTabChange={handleTabChange} tabs={tabs} gap={"24px"} startIndex={1} />
                 </div>
             </div>
 
@@ -131,12 +152,16 @@ export default function LeftBarTechnicalChart({symbol} : {symbol:string}){
                         Array.isArray(NowData) && NowData.length > 0 ? (
                             NowData.map((item, index) => (
                                 <div key={index} 
-                                className={`flex items-center px-[24px] py-[14px] border-b border-b-fintown-br hover:bg-fintown-bg-stn
-                                ${item.symbol === symbol ? "bg-fintown-bg-stn" : ""}
+                                    className={`flex items-center justify-between px-[24px] py-[14px] border-b border-b-fintown-br hover:bg-fintown-bg-stn w-full 
+                                    ${item.symbol === symbol ? "bg-fintown-bg-stn" : ""}
                                 `}>
                                     <div className="flex items-center w-full">
                                         <div className="flex justify-center w-[25px]">
-                                            <i className={`bx bxs-star text-[18px] mr-[10px] cursor-pointer ${item.isInWatchlist ? "text-fintown-pr9" : "text-fintown-txt-2"}`}></i>
+                                        <i 
+                                            className={`bx bxs-star text-[18px] mr-[10px] cursor-pointer hover:text-fintown-pr9 
+                                                ${watchlist.includes(item.symbol) ? "text-fintown-pr9" : "text-fintown-txt-2"}`}
+                                            onClick={() => handleStarClick(item.symbol)}
+                                        ></i>                                      
                                         </div>
                                         <div className="min-w-[30px] min-h-[30px] max-w-[30px] max-h-[30px] rounded-[50%] overflow-hidden bg-white mr-[7px] flex items-center justify-center">
                                             <img className="w-full h-full object-contain" src={item.logo} alt="" />
@@ -147,14 +172,14 @@ export default function LeftBarTechnicalChart({symbol} : {symbol:string}){
                                             </div>
                                         </Link>
                                     </div>
-                                    <div className="text-fintown-txt-1 font-bold text-[12px] min-w-[74px] flex justify-end items-center">
+                                    <div className="text-fintown-txt-1 font-bold text-[12px] min-w-[74px] max-w-[74px] flex justify-end items-center">
                                         <p>{item.price.toLocaleString('en-US')}</p>
                                     </div>
-                                    <div className="text-fintown-txt-1 font-bold text-[12px] min-w-[86px] flex justify-end items-center">
+                                    <div className="text-fintown-txt-1 font-bold text-[12px] min-w-[86px] max-w-[86px] flex justify-end items-center">
                                         <p>{item.volume.toLocaleString('en-US')}</p>
                                     </div>
                                     <div 
-                                        className={`font-bold text-[12px] min-w-[61px] flex justify-end items-center ${
+                                        className={`font-bold text-[12px] min-w-[61px] max-w-[61px] flex justify-end items-center ${
                                             item.delta > 0 ? 'text-fintown-stt-buy' : 
                                             item.delta < 0 ? 'text-fintown-stt-sell' : 
                                             'text-fintown-txt-1'

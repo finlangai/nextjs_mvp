@@ -66,7 +66,7 @@ export default function DiscountCashFlowPage({ params }: { params: { symbol: str
 
                 <div className="flex items-center px-[24px] border-b border-fintown-br">
                     <div className='py-6'>
-                        <SlidingTabs onTabChange={handleTabChange} tabs={tabs} gap={"18px"}/>
+                        <SlidingTabs onTabChange={handleTabChange} tabs={tabs} gap={"18px"} startIndex={0}/>
                     </div>
                     {activeTabIndex === 0 && (
                         <button 

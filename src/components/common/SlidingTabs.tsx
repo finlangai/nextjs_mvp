@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-const SlidingTabs = ({ onTabChange, tabs, gap } : {onTabChange: (index: number, api: string) => void; tabs: any[]; gap: string}) => {
-  const [activeTab, setActiveTab] = useState(0);
+const SlidingTabs = ({ onTabChange, tabs, gap, startIndex } : {onTabChange: (index: number, api: string) => void; tabs: any[]; gap: string; startIndex:number}) => {
+  const [activeTab, setActiveTab] = useState(startIndex);
   const [indicatorStyle, setIndicatorStyle] = useState({
     transform: 'translateX(0px)'
   });
