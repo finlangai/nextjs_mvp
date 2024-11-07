@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-const SlidingTabs = ({ onTabChange, tabs, gap, startIndex } : {onTabChange: (index: number, api: string) => void; tabs: any[]; gap: string; startIndex:number}) => {
+const SlidingTabs = ({ onTabChange, tabs, gap, startIndex, fontsize } : {onTabChange: (index: number, api: string) => void; tabs: any[]; gap: string; startIndex:number; fontsize: string;}) => {
   const [activeTab, setActiveTab] = useState(startIndex);
   const [indicatorStyle, setIndicatorStyle] = useState({
     transform: 'translateX(0px)'
@@ -33,7 +33,7 @@ const SlidingTabs = ({ onTabChange, tabs, gap, startIndex } : {onTabChange: (ind
         {tabs.map((tab, index) => (
           <div
             key={tab.id} ref={el => {if (el) {tabRefs.current[index] = el;}}}
-            className={`font-bold text-[12px] cursor-pointer transition-colors duration-200 ${
+            className={`font-bold text-[${fontsize}] cursor-pointer transition-colors duration-200 ${
               activeTab === index ? 'text-fintown-txt-1' : 'text-fintown-txt-2'
             }`}
             onClick={() => handleTabClick(index, tab.api)}

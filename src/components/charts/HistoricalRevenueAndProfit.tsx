@@ -14,7 +14,7 @@ const StackedColumnChart = () => {
       setNowData(bestNPMData?.historical);
     }
   }, [bestNPMData]);
-  console.log('NowData:', NowData); // Kiểm tra dữ liệu NowData
+  // console.log('NowData:', NowData); // Kiểm tra dữ liệu NowData
 
   const options = {
 
