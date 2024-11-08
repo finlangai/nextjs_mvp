@@ -6,7 +6,9 @@ interface WatchlistState {
 }
 
 const initialState: WatchlistState = {
-    watchlist: JSON.parse(localStorage.getItem('watchlist') || '[]'),
+    watchlist: typeof window !== 'undefined' 
+        ? JSON.parse(localStorage.getItem('watchlist') || '[]') 
+        : [],
 };
 
 const watchlistSlice = createSlice({
