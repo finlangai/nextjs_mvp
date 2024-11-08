@@ -16,7 +16,7 @@ export default function DashboardHeader({isTechnicalChart} : {isTechnicalChart: 
         loading: boolean;
         error: string | null;
     };
-    const [isTokenChecked, setIsTokenChecked] = useState(false); // Trạng thái để theo dõi việc kiểm tra token
+    const [isTokenChecked, setIsTokenChecked] = useState(false); 
     useEffect(() => {
         const checkAndRefreshToken = async () => {
             const token = Cookies.get('token');

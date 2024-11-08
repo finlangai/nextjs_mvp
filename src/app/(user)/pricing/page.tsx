@@ -1,130 +1,662 @@
-// pages/pricing.js
 "use client";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const Pricing = () => {
-  const [isNavOpen, setIsNavOpen] = useState(false);
-  const [billPlan, setBillPlan] = useState('monthly');
+  const [pricingData, setPricingData] = useState<PricingData>();
+  const [load, setLoad] = useState(true);
+  useEffect(() => {
+    fetch('https://portal.fintown.software/api/general/pricing')
+      .then((response) => response.json())
+      .then((data) => {
+        setPricingData(data);
+        setLoad(false);
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+        setLoad(false);
+      });
+  }, []); 
 
-  const plans = [
-    {
-      name: 'Easy',
-      discretion: 'All the basics for businesses that are just getting started.',
-      price: {
-        monthly: 29,
-        annually: 29 * 12 - 199,
-      },
-      features: ['One project', 'Your dashboard'],
-    },
-    {
-      name: 'Basic',
-      discretion: 'Better for growing businesses that want more customers.',
-      price: {
-        monthly: 59,
-        annually: 59 * 12 - 100,
-      },
-      features: ['Two projects', 'Your dashboard', 'Components included', 'Advanced charts'],
-    },
-    {
-      name: 'Custom',
-      discretion: 'Advanced features for pros who need more customization.',
-      price: {
-        monthly: 139,
-        annually: 139 * 12 - 100,
-      },
-      features: ['Unlimited projects', 'Your dashboard', '+300 Components', 'Chat support'],
-    },
-  ];
+  if (load) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-solid mx-auto"></div>
+          <p className="text-lg mt-4 font-semibold text-gray-600">Đang tải dữ liệu, vui lòng chờ...</p>
+        </div>
+      </div>
+    );
+  }
+  const formatPrice = (price: number): string => {
+    const formattedPrice = price >= 1000 ? (price / 1000).toFixed(0) + 'k' : price.toString();
+    return formattedPrice;
+  }
 
   return (
     <div className="bg-fintown-bg font-inter custom-scrollbar">
-      {/* Navbar */}
-  
-
-      <main className="mx-4 my-16">
-        <div className="text-center">
-          <h1 className="mb-4 text-2xl font-normal md:text-3xl lg:text-4xl text-fintown-txt-tit9-1">
-            Our <span className="font-semibold">plans</span> for your <span className="font-semibold">strategies</span>
-          </h1>
-          <p className="text-sm font-normal text-gray-400">
-            See below our main three plans for your business, for your startup and agency.
-          </p>
-          <p className="text-sm font-normal text-gray-400">
-            It start from here! You can teach yourself what you really like.
-          </p>
+      {/* Thanh điều hướng */}
+      <main className="ml-[75px] mx-4 my-16">
+        <div className="text-center mt-48" >
+            <h1 className="text-4xl leading-9 mb-2 font-semibold text-white">Hãy trân trọng</h1>
         </div>
-
-        {/* Plan switch */}
-        <div className="flex items-center justify-center mt-10 space-x-4">
-          <span className="text-base font-medium text-fintown-txt-tit9-1">Bill Monthly</span>
-          <button
-            className="relative rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 "
-            onClick={() => setBillPlan(billPlan === 'monthly' ? 'annually' : 'monthly')}
-          >
-            <div className="w-16 h-8 transition bg-green-500 rounded-full shadow-md outline-none"></div>
-            <div
-              className={`absolute inline-flex items-center justify-center w-6 h-6 transition-all duration-200 ease-in-out transform bg-white rounded-full shadow-sm top-1 left-1 ${billPlan === 'monthly' ? 'translate-x-0' : 'translate-x-8'}`}
-            ></div>
-          </button>
-          <span className="text-base font-medium text-fintown-txt-tit9-1">Bill Annually</span>
+        <div className="text-center mt-10">
+            <span className="text-6xl leading-9 mb-2 font-bold text-fintown-pr9 block">Số tiền đầu tư của bạn</span>
+            <div className="max-w-[684px] mx-auto">
+                <span className="font-inter font-normal text-[#a7adb2] text-center md:text-[1.125rem] md:leading-[1.875rem] text-sm leading-5 block">
+                    Hơn <span className="text-[#f4f4f5] font-inter text-base leading-[1.625rem] font-bold inline">150,000+</span> nhà đầu tư chuyên nghiệp đang sử dụng <strong  className="text-[#25B770]">fintown</strong> làm công cụ
+                    thông minh hỗ trợ đầu tư mỗi ngày.
+                </span>
+            </div>
         </div>
-
-        {/* Plans */}
-        <div className="flex flex-col items-center justify-center mt-16 space-y-8 lg:flex-row lg:items-stretch lg:space-x-8 lg:space-y-0 ">
-          {plans.map((plan, i) => (
-            <section key={i} className="flex flex-col w-full max-w-sm p-12 space-y-6 rounded-lg shadow-md bg-fintown-btn-2 text-fintown-txt-tit9-1">
-              {/* Price */}
-              <div className="flex-shrink-0">
-                <span
-                  className="text-4xl font-medium tracking-tight"
-                  style={{ color: plan.name === 'Basic' ? 'green' : 'inherit' }}
-                >
-                  ${billPlan === 'monthly' ? plan.price.monthly : plan.price.annually}
-                </span>
-                <span className="text-gray-400" style={{ marginLeft: '0.5rem' }}>
-                  {billPlan === 'monthly' ? '/month' : '/year'}
-                </span>
+        <div className="mx-auto mt-20 flex justify-center">
+            <div className="rounded-tl-[16px] rounded-bl-[16px] text-white bg-[#222222] min-h-full relative p-[24px_32px_40px] overflow-visible w-[378px]">
+                <div className="p-2">
+                  <div className="text-center text-[#A7ADB2]">
+                      <h2 className='text-[#A7ADB2] text-lg font-bold'>Basic</h2>
+                      <span className="text-[#fff] font-normal text-4xl mt-4 block">Miễn phí</span>
+                  </div>
+                  <div className="mt-5">
+                      <button className="bg-[#2C2C2C] rounded-lg p-3 w-full">
+                          <span className="text-[#656f79] text-base font-semibold">Đăng kí miễn phí</span>
+                      </button>
+                  </div>
+                  <div className="border-b border-[#4d4d4d] py-3"></div>
+                  <div className="mt-5">
+                      <div className="flex">
+                        <h6 className="font-inter text-base leading-6 font-semibold mb-2 text-[#f4f4f5]"> 1 danh mục</h6>
+                        <h6 className="font-inter text-base leading-6 font-normal text-[#a7adb2] ml-2">theo dõi</h6>
+                      </div>
+                  </div>
+                  <div>
+                      <div className="flex">
+                        <h6 className="font-inter text-base leading-6 font-semibold  text-[#f4f4f5]"> 2 năm</h6>
+                        <h6 className="font-inter text-base leading-6 font-normal text-[#a7adb2] ml-2">dữ liệu tài chính</h6>
+                      </div>
+                  </div>
+                  <div className="border-b border-[#4d4d4d] py-3"></div>
+                  <div className="mt-3">
+                    <h4 className="font-medium">Tính năng chính</h4>
+                
+                    <div className="mt-2">
+                      <div className="flex items-center text-[#a7adb2]">
+                        <svg 
+                          xmlns="http://www.w3.org/2000/svg" 
+                          width={20} 
+                          height={20} 
+                          viewBox="0 0 24 24" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          strokeWidth={2} 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round" 
+                          className="lucide lucide-check mr-2"
+                        > 
+                          <path d="M20 6 9 17l-5-5" />  
+                        </svg>
+                        <span className="font-inter text-base leading-6 font-normal ">
+                        Quản lý danh mục đầu tư
+                        </span>
+                      </div>
+                    </div>
+                    <div className="mt-2">
+                      <div className="flex items-center text-[#a7adb2]">
+                        <svg 
+                          xmlns="http://www.w3.org/2000/svg" 
+                          width={20} 
+                          height={20} 
+                          viewBox="0 0 24 24" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          strokeWidth={2} 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round" 
+                          className="lucide lucide-check mr-2"
+                        > 
+                          <path d="M20 6 9 17l-5-5" />  
+                        </svg>
+                        <span className="font-inter text-base leading-6 font-normal ">
+                        Theo dõi cổ phiếu
+                        </span>
+                      </div>
+                    </div>
+                    <div className="mt-2">
+                      <div className="flex items-center text-[#a7adb2]">
+                        <svg 
+                          xmlns="http://www.w3.org/2000/svg" 
+                          width={20} 
+                          height={20} 
+                          viewBox="0 0 24 24" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          strokeWidth={2} 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round" 
+                          className="lucide lucide-check mr-2"
+                        > 
+                          <path d="M20 6 9 17l-5-5" />  
+                        </svg>
+                        <span className="font-inter text-base leading-6 font-normal ">
+                        Phân tích thị trường
+                        </span>
+                      </div>
+                    </div>
+                    <div className="mt-2">
+                      <div className="flex items-center text-[#a7adb2]">
+                        <svg 
+                          xmlns="http://www.w3.org/2000/svg" 
+                          width={20} 
+                          height={20} 
+                          viewBox="0 0 24 24" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          strokeWidth={2} 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round" 
+                          className="lucide lucide-check mr-2"
+                        > 
+                          <path d="M20 6 9 17l-5-5" />  
+                        </svg>
+                        <span className="font-inter text-base leading-6 font-normal ">
+                          Phân tích kỹ thuật
+                        </span>
+                      </div>
+                    </div>
+                    <div className="mt-2">
+                      <div className="flex items-center text-[#a7adb2]">
+                        <svg 
+                          xmlns="http://www.w3.org/2000/svg" 
+                          width={20} 
+                          height={20} 
+                          viewBox="0 0 24 24" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          strokeWidth={2} 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round" 
+                          className="lucide lucide-check mr-2"
+                        > 
+                          <path d="M20 6 9 17l-5-5" />  
+                        </svg>
+                        <span className="font-inter text-base leading-6 font-normal ">
+                        Dữ liệu cổ phiếu
+                        </span>
+                      </div>
+                    </div>
+                    <div className="mt-2">
+                      <div className="flex items-center text-[#a7adb2]">
+                        <svg 
+                          xmlns="http://www.w3.org/2000/svg" 
+                          width={20} 
+                          height={20} 
+                          viewBox="0 0 24 24" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          strokeWidth={2} 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round" 
+                          className="lucide lucide-check mr-2"
+                        > 
+                          <path d="M20 6 9 17l-5-5" />  
+                        </svg>
+                        <span className="font-inter text-base leading-6 font-normal ">
+                        Bộ lọc cổ phiếu (cơ bản)
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div className="rounded-none bg-[#2C2C2C] shadow-[0_4px_20px_rgba(0,0,0,0.5)] min-h-full relative p-[24px_32px_40px] overflow-visible w-[378px]">
+              <button className="absolute top-[-48px] left-0 right-0 bg-[#32A071] hover:bg-[#25B770] text-white p-3 rounded-tl-xl rounded-tr-xl">
+                  <p className="text-white text-center font-bold">TIẾT KIỆM {formatPrice(pricingData?.YEARLY?.discountAmount ?? 0)} VNĐ ({pricingData?.YEARLY?.discountPercentage}%)</p>
+              </button>
+              <div className="p-2">
+                  <div className="text-center text-[#A7ADB2]">
+                  <h2 className="text-[#A7ADB2] text-2xl font-bold">
+                      {pricingData?.YEARLY?.name || "Tên gói không có sẵn"}
+                    </h2>
+                      <div className="font-medium text-[40px] leading-[60px] text-[#f4f4f5] relative inline-block mt-0">
+                          <span>{formatPrice(pricingData?.YEARLY?.discountedPrice ?? 0)}</span>
+                          <span className="align-super  font-medium text-[18px] leading-[26px] text-[#f4f4f5]">VNĐ</span>
+                          <span className="text-base">/Năm</span>
+                      </div> 
+                      <div>
+                      {formatPrice(pricingData?.YEARLY?.originalPrice ?? 0)} VNĐ/năm
+                      </div>
+                  </div>
+                  <div className="mt-5">
+                      <a href={`/payment/${pricingData?.YEARLY.programId}`} className="bg-[#32A071] rounded-lg p-3 w-full block text-center hover:bg-fintown-pr9 hover:scale-105 hover:shadow-lg transition-all duration-300 ease-in-out">
+                          <span className="text-[white] text-base font-semibold">Đăng kí ngay</span>
+                      </a>
+                  </div>
+                  <div className="border-b border-[#4d4d4d] py-3"></div>
+                  <div className="mt-5">
+                      <div className="flex">
+                        <h6 className="font-inter text-base leading-6 font-semibold mb-2 text-[#f4f4f5]">Không giới hạn</h6>
+                        <h6 className="font-inter text-base leading-6 font-normal text-[#a7adb2] ml-2">danh mục theo dõi</h6>
+                      </div>
+                  </div>
+                  <div>
+                      <div className="flex">
+                        <h6 className="font-inter text-base leading-6 font-semibold  text-[#f4f4f5]">Không giới hạn</h6>
+                        <h6 className="font-inter text-base leading-6 font-normal text-[#a7adb2] ml-2">dữ liệu tài chính</h6>
+                      </div>
+                  </div>
+                  <div className="mt-3">
+                      <div className="flex">
+                        <h6 className="font-inter text-base leading-6 font-semibold  text-[#f4f4f5]">Trợ lý AI</h6>
+                        <h6 className="font-inter text-base leading-6 font-normal text-[#a7adb2] ml-2">hỗ trợ đầu tư -</h6>
+                        <h6 className="font-inter text-sm leading-6 font-semibold  text-[#f4f4f5]">Nebula Gen 1</h6>
+                      </div>
+                  </div>
+                  <div className="mt-3">
+                      <div className="flex">
+                        <h6 className="font-inter text-base leading-6 font-normal  text-[#f4f4f5]">1200 Credits</h6>
+                        <h6 className="font-inter text-base leading-6 font-normal text-[#a7adb2] ml-2">sử dụng trợ lý AI -</h6>
+                        <h6 className="font-inter text-sm leading-6 font-normal  text-[#f4f4f5]">Nebula</h6>
+                      </div>
+                  </div>
+                
+                  <div className="border-b border-[#4d4d4d] py-3"></div>
+                  <div className="mt-3">
+                    <h4 className="text-white font-bold">Bao gồm tất cả tính năng của gói Basic, cộng thêm:</h4>
+                    <div className="mt-2">
+                      <div className="flex items-center text-[#a7adb2]">
+                        <svg 
+                          xmlns="http://www.w3.org/2000/svg" 
+                          width={20} 
+                          height={20} 
+                          viewBox="0 0 24 24" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          strokeWidth={2} 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round" 
+                          className="lucide lucide-check mr-2"
+                        > 
+                          <path d="M20 6 9 17l-5-5" />  
+                        </svg>
+                        <span className="font-inter text-base leading-6 font-normal ">
+                        Đầu tư hiệu quả với hỗ trợ từ AI
+                        </span>
+                      </div>
+                    </div>
+                    <div className="mt-2">
+                      <div className="flex items-center text-[#a7adb2]">
+                        <svg 
+                          xmlns="http://www.w3.org/2000/svg" 
+                          width={20} 
+                          height={20} 
+                          viewBox="0 0 24 24" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          strokeWidth={2} 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round" 
+                          className="lucide lucide-check mr-2"
+                        > 
+                          <path d="M20 6 9 17l-5-5" />  
+                        </svg>
+                        <span className="font-inter text-base leading-6 font-normal ">
+                        Phân tích chất lượng doanh nghiệp
+                        </span>
+                      </div>
+                    </div>
+                    <div className="mt-2">
+                      <div className="flex items-center text-[#a7adb2]">
+                        <svg 
+                          xmlns="http://www.w3.org/2000/svg" 
+                          width={20} 
+                          height={20} 
+                          viewBox="0 0 24 24" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          strokeWidth={2} 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round" 
+                          className="lucide lucide-check mr-2"
+                        > 
+                          <path d="M20 6 9 17l-5-5" />  
+                        </svg>
+                        <span className="font-inter text-base leading-6 font-normal ">
+                        Phân tích rủi ro cổ phiếu
+                        </span>
+                      </div>
+                    </div>
+                    <div className="mt-2">
+                      <div className="flex items-center text-[#a7adb2]">
+                        <svg 
+                          xmlns="http://www.w3.org/2000/svg" 
+                          width={20} 
+                          height={20} 
+                          viewBox="0 0 24 24" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          strokeWidth={2} 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round" 
+                          className="lucide lucide-check mr-2"
+                        > 
+                          <path d="M20 6 9 17l-5-5" />  
+                        </svg>
+                        <span className="font-inter text-base leading-6 font-normal ">
+                        Định giá cổ phiếu
+                        </span>
+                      </div>
+                    </div>
+                    <div className="mt-2">
+                      <div className="flex items-center text-[#a7adb2]">
+                        <svg 
+                          xmlns="http://www.w3.org/2000/svg" 
+                          width={20} 
+                          height={20} 
+                          viewBox="0 0 24 24" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          strokeWidth={2} 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round" 
+                          className="lucide lucide-check mr-2"
+                        > 
+                          <path d="M20 6 9 17l-5-5" />  
+                        </svg>
+                        <span className="font-inter text-base leading-6 font-normal ">
+                        Dự báo kết quả kinh doanh
+                        </span>
+                      </div>
+                    </div>
+                    <div className="mt-2">
+                      <div className="flex items-center text-[#a7adb2]">
+                        <svg 
+                          xmlns="http://www.w3.org/2000/svg" 
+                          width={20} 
+                          height={20} 
+                          viewBox="0 0 24 24" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          strokeWidth={2} 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round" 
+                          className="lucide lucide-check mr-2"
+                        > 
+                          <path d="M20 6 9 17l-5-5" />  
+                        </svg>
+                        <span className="font-inter text-base leading-6 font-normal ">
+                        So sánh cổ phiếu
+                        </span>
+                      </div>
+                    </div>
+                    <div className="mt-2">
+                      <div className="flex items-center text-[#a7adb2]">
+                        <svg 
+                          xmlns="http://www.w3.org/2000/svg" 
+                          width={20} 
+                          height={20} 
+                          viewBox="0 0 24 24" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          strokeWidth={2} 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round" 
+                          className="lucide lucide-check mr-2"
+                        > 
+                          <path d="M20 6 9 17l-5-5" />  
+                        </svg>
+                        <span className="font-inter text-base leading-6 font-normal ">
+                        Bộ lọc cổ phiếu (nâng cao)
+                        </span>
+                      </div>
+                    </div>
+                    <div className="mt-2">
+                      <div className="flex items-center text-[#a7adb2]">
+                        <svg 
+                          xmlns="http://www.w3.org/2000/svg" 
+                          width={20} 
+                          height={20} 
+                          viewBox="0 0 24 24" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          strokeWidth={2} 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round" 
+                          className="lucide lucide-check mr-2"
+                        > 
+                          <path d="M20 6 9 17l-5-5" />  
+                        </svg>
+                        <span className="font-inter text-base leading-6 font-normal ">
+                        Tối ưu phân bổ vốn đầu tư
+                        </span>
+                      </div>
+                    </div>
+                    <div className="mt-2">
+                      <div className="flex items-center text-[#a7adb2]">
+                        <svg 
+                          xmlns="http://www.w3.org/2000/svg" 
+                          width={20} 
+                          height={20} 
+                          viewBox="0 0 24 24" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          strokeWidth={2} 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round" 
+                          className="lucide lucide-check mr-2"
+                        > 
+                          <path d="M20 6 9 17l-5-5" />  
+                        </svg>
+                        <span className="font-inter text-base leading-6 font-normal ">
+                        Xuất dữ liệu Excel/PDF...
+                        </span>
+                      </div>
+                    </div>
+                  </div>
               </div>
+            </div>
+            <div className="rounded-tr-[16px] rounded-br-[16px] text-white bg-[#222222] min-h-full relative p-[24px_32px_40px] overflow-visible w-[378px]"> 
+              <div className="p-2">
+                  <div className="text-center text-[#A7ADB2]">
+                    <h2 className="text-[#A7ADB2] text-2xl font-bold">
+                      {pricingData?.MONTHLY?.name || "Tên gói không có sẵn"}
+                    </h2>
+                      <div className="font-medium text-[40px] leading-[60px] text-[#f4f4f5] relative inline-block mt-0">
+                          <span>{formatPrice(pricingData?.MONTHLY?.price ?? 0)}</span>
+                          <span className="align-super  font-medium text-[18px] leading-[26px] text-[#f4f4f5]">VNĐ</span>
+                          <span className="text-base">/Năm</span>
+                      </div> 
+                  </div>
+                  <div className="mt-5">
+                      <a
+                        href={`/payment/${pricingData?.MONTHLY.programId}`}
+                        className="bg-[#2C2C2C] rounded-lg p-3 w-full block text-center hover:bg-fintown-pr9 hover:scale-105 hover:shadow-lg transition-all duration-300 ease-in-out"
+                      >
+                        <span className="text-[white] text-base font-semibold">Đăng kí ngay</span>
+                      </a>
+                    </div>
 
-              {/* Description */}
-              <div className="flex-shrink-0 pb-6 space-y-2 border-b">
-                <h2 className="text-2xl font-normal">{plan.name}</h2>
-                <p className="text-sm text-gray-400">{plan.discretion}</p>
+                  <div className="border-b border-[#4d4d4d] py-3"></div>
+                  <div className="mt-5">
+                      <div className="flex">
+                        <h6 className="font-inter text-base leading-6 font-semibold mb-2 text-[#f4f4f5]">Không giới hạn</h6>
+                        <h6 className="font-inter text-base leading-6 font-normal text-[#a7adb2] ml-2">danh mục theo dõi</h6>
+                      </div>
+                  </div>
+                  <div>
+                      <div className="flex">
+                        <h6 className="font-inter text-base leading-6 font-semibold  text-[#f4f4f5]">Không giới hạn</h6>
+                        <h6 className="font-inter text-base leading-6 font-normal text-[#a7adb2] ml-2">dữ liệu tài chính</h6>
+                      </div>
+                  </div>
+                  <div className="mt-3">
+                      <div className="flex">
+                        <h6 className="font-inter text-base leading-6 font-semibold  text-[#f4f4f5]">Trợ lý AI</h6>
+                        <h6 className="font-inter text-base leading-6 font-normal text-[#a7adb2] ml-2">hỗ trợ đầu tư -</h6>
+                        <h6 className="font-inter text-sm leading-6 font-semibold  text-[#f4f4f5]">Nebula Gen 1</h6>
+                      </div>
+                  </div>
+                  <div className="mt-3">
+                      <div className="flex">
+                        <h6 className="font-inter text-base leading-6 font-normal  text-[#f4f4f5]">100 Credits</h6>
+                        <h6 className="font-inter text-base leading-6 font-normal text-[#a7adb2] ml-2">sử dụng trợ lý AI -</h6>
+                        <h6 className="font-inter text-sm leading-6 font-normal  text-[#f4f4f5]">Nebula</h6>
+                      </div>
+                  </div>
+                
+                  <div className="border-b border-[#4d4d4d] py-3"></div>
+                  <div className="mt-3">
+                    <h4 className="text-white font-bold">Bao gồm tất cả tính năng của gói Basic, cộng thêm:</h4>
+                    <div className="mt-2">
+                      <div className="flex items-center text-[#a7adb2]">
+                        <svg 
+                          xmlns="http://www.w3.org/2000/svg" 
+                          width={20} 
+                          height={20} 
+                          viewBox="0 0 24 24" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          strokeWidth={2} 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round" 
+                          className="lucide lucide-check mr-2"
+                        > 
+                          <path d="M20 6 9 17l-5-5" />  
+                        </svg>
+                        <span className="font-inter text-base leading-6 font-normal ">
+                        Đầu tư hiệu quả với hỗ trợ từ AI
+                        </span>
+                      </div>
+                    </div>
+                    <div className="mt-2">
+                      <div className="flex items-center text-[#a7adb2]">
+                        <svg 
+                          xmlns="http://www.w3.org/2000/svg" 
+                          width={20} 
+                          height={20} 
+                          viewBox="0 0 24 24" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          strokeWidth={2} 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round" 
+                          className="lucide lucide-check mr-2"
+                        > 
+                          <path d="M20 6 9 17l-5-5" />  
+                        </svg>
+                        <span className="font-inter text-base leading-6 font-normal ">
+                        Phân tích chất lượng doanh nghiệp
+                        </span>
+                      </div>
+                    </div>
+                    <div className="mt-2">
+                      <div className="flex items-center text-[#a7adb2]">
+                        <svg 
+                          xmlns="http://www.w3.org/2000/svg" 
+                          width={20} 
+                          height={20} 
+                          viewBox="0 0 24 24" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          strokeWidth={2} 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round" 
+                          className="lucide lucide-check mr-2"
+                        > 
+                          <path d="M20 6 9 17l-5-5" />  
+                        </svg>
+                        <span className="font-inter text-base leading-6 font-normal ">
+                        Phân tích rủi ro cổ phiếu
+                        </span>
+                      </div>
+                    </div>
+                    <div className="mt-2">
+                      <div className="flex items-center text-[#a7adb2]">
+                        <svg 
+                          xmlns="http://www.w3.org/2000/svg" 
+                          width={20} 
+                          height={20} 
+                          viewBox="0 0 24 24" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          strokeWidth={2} 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round" 
+                          className="lucide lucide-check mr-2"
+                        > 
+                          <path d="M20 6 9 17l-5-5" />  
+                        </svg>
+                        <span className="font-inter text-base leading-6 font-normal ">
+                        Định giá cổ phiếu
+                        </span>
+                      </div>
+                    </div>
+                 
+                  </div>
               </div>
-
-              {/* Features */}
-              <ul className="flex-1 space-y-4">
-                {plan.features.map((feature, i) => (
-                  <li key={i} className="flex items-start">
-                    <svg
-                      className="w-6 h-6 text-green-300"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                        clipRule="evenodd"
+            </div>
+        </div>
+        <div className="mt-24">
+              <h1 className="text-[white] text-center text-6xl font-bold">Bứt phá lợi nhuận đầu tư cùng AI</h1>
+              <div className="block">
+                <div className="flex flex-wrap justify-center w-full gap-y-0 relative">
+                  <div className="relative mt-[550px] max-w-[1298px] w-full flex justify-between">
+                    <div className="relative block flex-none max-w-[47%] min-h-[1px]">
+                      <img 
+                        src="/imgs/chisoTT.jpg" 
+                        alt="Image 1" 
                       />
-                    </svg>
-                    <span className="ml-3 text-base font-medium">{feature}</span>
-                  </li>
-                ))}
-              </ul>
-
-              {/* Button */}
-              <div className="flex-shrink-0 pt-4">
-                <button
-                  className={`inline-flex items-center justify-center w-full max-w-xs px-4 py-2 transition-colors border rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 ${plan.name === 'Basic' ? 'bg-green-500 text-white hover:bg-green-700' : 'hover:bg-green-500 hover:text-white'}`}
-                >
-                  Get {plan.name}
-                </button>
+                    </div>
+                    <div className="relative block flex-none max-w-[47%] min-h-[1px]">
+                      <img 
+                        src="/imgs/topCP.jpg" 
+                        alt="Image 2" 
+                      />
+                    </div>
+                  </div>
+                  <div style={{
+                              position: 'absolute',
+                              top: '100px',
+                              left: '50%',
+                              transform: 'translate(-50%, 0px)',
+                              width: '856px',
+                              height: '481.5px',
+                              borderRadius: '12px',
+                              overflow: 'hidden',
+                              boxShadow: 'rgb(0, 0, 0) 0px 0px 50px 10px'
+                            }}>
+                    <video  src="/imgs/video/investing-ai.mp4"  autoPlay  loop  playsInline  disableRemotePlayback  />
+                  </div>
+                </div>
               </div>
-            </section>
-          ))}
+              <div className="text-[#A7ADB2] text-center text-lg font-semibold max-w-[700px] mx-auto">
+                Với trợ lý trí tuệ nhân tạo Nebula, việc khớp lệnh và chốt lời của bạn trở nên dễ dàng hơn với hiệu suất vượt trội
+              </div>
+              <div className="mt-10 p-20">
+                <h1 className="text-[white] text-center text-6xl font-bold">Phân tích cổ phiếu toàn diện</h1>
+                <div className="mt-[48px] flex justify-center flex-wrap">
+                  <div className="relative max-w-full min-h-[1px]">
+                      <div className="p-[8px] rounded-[28px] border border-[#25B770] flex">
+                            <div className="p-[7px] px-[54px] rounded-[24px] cursor-pointer bg-[#25B770] relative max-w-full min-h-[1px]">
+                                <h5 className="text-white font-medium text-lg">Web app</h5>
+                            </div>
+                      </div>
+                  
+                  </div>
+                  
+                </div>
+                <div className=" rounded-[12px] overflow-hidden shadow-[0px_0px_50px_10px_rgba(0,0,0,0.5)] p-10 mt-10 ">
+                    <div className="mx-auto flex justify-center items-center w-full">
+                      <video 
+                        src="/imgs/video/investing-ai.mp4" 
+                        autoPlay  loop  playsInline  disableRemotePlayback
+                      />
+                    </div>
+                  </div>
+              </div>
+
         </div>
+
+
+
+
       </main>
     </div>
   );

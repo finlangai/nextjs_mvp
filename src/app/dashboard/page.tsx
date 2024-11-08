@@ -73,13 +73,13 @@ export default function Dashboard() {
 
               </div>
               <div className="flex gap-x-7">
-                <div>
+                {/* <div>
                   <button className="text-fintown-txt-1 text-base font-medium">VNINDEX</button>
                   <div className="w-full h-1 rounded"></div>
-                </div>
+                </div> */}
                 <div>
                   <button className="text-fintown-txt-1 text-base font-medium">VN30</button>
-                  <div className="w-full h-1 rounded bg-fintown-btn-active-2"></div>
+                  {/* <div className="w-full h-1 rounded bg-fintown-btn-active-2"></div> */}
                 </div>
               </div>
             </div>

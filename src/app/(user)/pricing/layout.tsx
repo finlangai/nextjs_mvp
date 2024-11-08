@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from 'next/navigation';
+
 import Footer from '@/src/components/layout/Footer';
 import { ReactNode } from 'react';
 import DashboardHeader from '@/src/components/layout/DashboardHeader';
