@@ -28,7 +28,9 @@ export default function TicketListPagination() {
 
         dispatch(fetchTickerList({
             limit: selectLimit, 
-            offset: offset
+            offset: offset,
+            sortOn: "marketcap",  
+            sortOrder: "desc"
         }));
     };
 
