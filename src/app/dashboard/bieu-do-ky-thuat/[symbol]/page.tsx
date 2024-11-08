@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { redirect } from 'next/navigation';
 import useSetSelectedButtonSiderBar from '@/src/redux/hooks/useButtonsiderBar';
 import TechnicalChart from '@/src/components/charts/TechnicalChart/TechnicalChart';
-import { sampleStockData} from '@/src/utils/sampleData';
 import { 
     useColorPickerStroke, 
     useColorPickerFill, 

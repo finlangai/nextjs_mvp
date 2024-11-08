@@ -129,7 +129,7 @@ export default function LeftBarTechnicalChart({symbol} : {symbol:string}){
                     </div>
                 </div>
                 <div className='px-[20px] py-[13px]'>
-                    < SlidingTabs onTabChange={handleTabChange} tabs={tabs} gap={"24px"} startIndex={1} />
+                    < SlidingTabs onTabChange={handleTabChange} tabs={tabs} gap={"24px"} startIndex={1} fontsize='12px' />
                 </div>
             </div>
 
