@@ -5,7 +5,7 @@ import { TickerList } from '@/src/interfaces/TickerList';
 import { BarsLoader } from '../common/Loader';
 import Link from 'next/link';
 
-const TopStocksTable = () => {
+export default function TopStocksTable() {
     const dispatch = useAppDispatch();
     const TopStockssData = useAppSelector(selectTopStockssData);
     const [NowData, setNowData] = useState<TickerList[] | null>(null);
@@ -267,5 +267,3 @@ const TopStocksTable = () => {
         </table>
     )
 }
-
-export default TopStocksTable

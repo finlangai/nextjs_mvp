@@ -30,7 +30,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <Sidebar />
-      <DashboardHeader isTechnicalChart={isTechnicalChartPage} /> {/* Truyền biến boolean vào DashboardHeader */}
+      <DashboardHeader isTechnicalChart={isTechnicalChartPage} />
       <main className="ml-[70px] mt-[70px]" id='main-dashboard'>
         {children}
       </main>
