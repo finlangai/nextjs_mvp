@@ -1,6 +1,4 @@
 "use client";
-
-
 import Footer from '@/src/components/layout/Footer';
 import { ReactNode } from 'react';
 import DashboardHeader from '@/src/components/layout/DashboardHeader';

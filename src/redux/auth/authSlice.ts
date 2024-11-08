@@ -65,7 +65,6 @@ export const verifyEmail = createAsyncThunk(
                     password: apiKey,
                 },
             });
-            console.log(response.data);
             const { is_valid, is_disposable_address, is_role_address } = response.data;
 
             if (is_valid && !is_disposable_address && !is_role_address) {
@@ -129,7 +128,6 @@ export const fetchUserProfile = createAsyncThunk(
                     Authorization: `Bearer ${token}`,
                 },
             });
-            console.log(response.data);
             return response.data;
         } catch (error) {
             return rejectWithValue("Lỗi khi lấy thông tin người dùng");

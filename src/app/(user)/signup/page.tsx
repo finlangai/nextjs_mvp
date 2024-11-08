@@ -122,7 +122,7 @@ const SignUpPage = () => {
 
   const handleSubmit = async (values: FormValues) => {
     const result = await dispatch(verifyEmail(values.email) as any);
-  console.log(result);
+    console.log(result);
     console.log(verifyEmail.fulfilled.match(result));
     // if (verifyEmail.fulfilled.match(result)) {
         localStorage.setItem("email", values.email);
