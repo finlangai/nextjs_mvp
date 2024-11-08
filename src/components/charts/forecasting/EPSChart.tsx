@@ -88,7 +88,7 @@ const EPSChart = ({ data }: { data: Metric[] }) => {
           textOutline: 'none'
         }
       },
-      pointPadding: 0
+      pointPadding: 0,
     }],
     credits: {
       enabled: false

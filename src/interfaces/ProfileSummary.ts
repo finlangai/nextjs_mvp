@@ -18,4 +18,5 @@ export interface ProfileSummary {
     roa: number,
     companyName:string;
     website:string;
+    isInWatchlist: boolean;
 }

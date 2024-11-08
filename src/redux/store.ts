@@ -28,6 +28,13 @@ import ForecastingchartsReducer from './ForecastingChartConfig';
 import ForecastingToggleReducer from "./ForecastingToggle/forecastingToggleSlice";
 import BestNPMReducer from "./BestNPM/bestNPMSlice";
 import authReducer from "./auth/authSlice";
+import valuetionReducers from './ValuetionPage';
+import InstrumentListReducers from "./InstrumentList/instrumentListSlice";
+import TechnicalChartOverviewReducers from "./TechnicalChartOverview/technicalChartOverviewSlice";
+import WatchlistReducer from './WatchList/watchlistSlice';
+import SearchStockTechChartReducers from "./SearchStockTechChart/searchStockTechChartSlice"
+import TickerListOverviewReducers from "./TickerListOverview/tickerListOverviewSlice";
+
 const tickerListReducer = combineReducers({
   TickerList: TickerListReducer,
   Pagination: tickerListPaginationReducers,
@@ -56,7 +63,9 @@ const store = configureStore({
     
     priceStock: priceStockReducer,
     profileSummary: profileSummaryReducer,
+    
     tickerList: tickerListReducer,
+    tickerListOverview: TickerListOverviewReducers,
 
     cardStock: cardStockReducer,
     priceInsights: priceInsightsReducer,
@@ -76,6 +85,14 @@ const store = configureStore({
     forecastingToggle: ForecastingToggleReducer,
 
     bestNPM: BestNPMReducer,
+
+    valuetionPage: valuetionReducers,
+
+    instrumentList: InstrumentListReducers,
+    technicalChartOverview: TechnicalChartOverviewReducers,
+    watchlist: WatchlistReducer,
+    searchStockTechChart: SearchStockTechChartReducers,
+    
     auth: authReducer,
   },
 });

@@ -1,5 +1,5 @@
 "use client";
-
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
@@ -12,6 +12,8 @@ import { RootState } from '@/src/redux/store';
 import DashboardHeader from '@/src/components/layout/DashboardHeader';
 import Sidebar from '@/src/components/layout/Sidebar';
 export default function MainLayout({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
+  const isTechnicalChartPage = pathname.startsWith('/dashboard/bieu-do-ky-thuat');
     const router = useRouter();
   // const token = useSelector((state: RootState) => state.auth.token); // Lấy token từ Redux store
 
@@ -25,7 +27,7 @@ export default function MainLayout({ children }: { children: ReactNode }) {
   return (
     <>
        <Sidebar />
-       <DashboardHeader />
+       <DashboardHeader isTechnicalChart={isTechnicalChartPage} />
       <main className='mt-[70px]'>
         <div className="pt-[40px] pb-[174px] max-w-[1120px] mr-auto ml-auto">
           <div className="flex h-screen">

@@ -17,8 +17,8 @@ const initialState: TickerListState = {
 
 export const fetchTickerList = createAsyncThunk(
   'tickerList/fetch',
-  async ({limit, offset}: { limit: number, offset:string}) => {
-    const api = `${apiUrl}/tickers?limit=${limit}${offset}`;
+  async ({limit, offset, sortOn, sortOrder}: { limit: number, offset:string, sortOn:string, sortOrder:string}) => {
+    const api = `${apiUrl}/tickers?limit=${limit}${offset}&sortOn=${sortOn}&sortOrder=${sortOrder}`;
     // console.log(api)
     const response = await fetch(api);
     if (!response.ok) {

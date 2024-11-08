@@ -1,7 +1,10 @@
+
+@import "https://code.highcharts.com/css/stocktools/gui.css";
+@import "https://code.highcharts.com/css/annotations/popup.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 
 body {
     @apply font-inter;
@@ -42,6 +45,23 @@ body::-webkit-scrollbar-thumb:hover {
   background-color: rgba(57, 57, 57, 0.475); /* Màu nền của track */
 }
 
+/* -------------------- */
+.custom-scrollbarmini2::-webkit-scrollbar {
+  width: 4px; /* Độ rộng thanh cuộn */
+}
+
+.custom-scrollbarmini2::-webkit-scrollbar-thumb {
+  background-color: rgb(96, 112, 103); /* Màu thanh cuộn */
+  border-radius: 4px; /* Bo tròn các góc */
+}
+
+.custom-scrollbarmini2::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.3); /* Màu khi hover */
+}
+
+.custom-scrollbarmini2::-webkit-scrollbar-track {
+  background-color: transparent; /* Màu nền của track */
+}
 
 #BarsLoader {
   width: 45px;
@@ -88,3 +108,335 @@ body::-webkit-scrollbar-thumb:hover {
 .slider {
   min-width: 100%;
 }
+
+
+/* =====================================UPSIDE RANGER SLIDER==================================== */
+.progress-container {
+  width: 100%;
+  max-width: 500px;
+  margin: 20px auto;
+  color: white;
+}
+
+.progress-title {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.progress-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2px;
+}
+
+.segment {
+  width: 10px;
+  height: 20px;
+  border-radius: 4px;
+  background-color: #3e3e3e;
+}
+
+.segment.filled {
+  background-color: #00cc66; /* Green color for the filled part */
+}
+
+.progress-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+/* =======================SROLL VALUETION CONCEPT======================= */
+
+/* ============================= CUSTOM STOCKTOLL BAR================================ */
+.highcharts-stocktools-toolbar {
+  background-color: #ffffff00; 
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.highcharts-stocktools-toolbar button {
+  color: #fff;
+  border: none;
+  background: none;
+  background-color: transparent; 
+  border-radius: 5px;
+}
+
+.highcharts-bindings-wrapper .highcharts-stocktools-toolbar li {
+  background-color: transparent; 
+}
+
+.highcharts-bindings-wrapper li > button.highcharts-menu-item-btn:hover{
+  background-color: rgba(255, 255, 255, 0.052); 
+}
+
+.highcharts-toggle-toolbar {
+  position: absolute;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  background-color: var(--highcharts-neutral-color-3);
+  background-size: cover;
+}
+
+li.highcharts-separator:first-of-type {
+  display: none; /* Ẩn phần tử đầu tiên */
+}
+
+.highcharts-measure-rect .highcharts-measure-label,
+.highcharts-measure-x .highcharts-measure-label,
+.highcharts-measure-y .highcharts-measure-label {
+  fill: #ff0000; /* Màu cho nhãn đo */
+}
+
+.highcharts-annotation .highcharts-label-box {
+  stroke: #00ff00; /* Màu viền cho đường kẻ */
+}
+
+
+/* ====================CUSTOM INDICATOR================================================================================================*/
+
+li.highcharts-full-screen {
+  display: none;
+}
+
+div.highcharts-popup.highcharts-no-tooltip{
+  border-radius: 8px;
+  background-color: #1E2329;
+  color: white;
+}
+
+.highcharts-tab-item-content {
+  border-top:1px solid #2B3139;
+}
+
+
+div.highcharts-popup.highcharts-no-tooltip > button.highcharts-tab-item:nth-child(3) {
+  display: none;
+}
+
+div.highcharts-popup-rhs-col-wrapper h3 {
+  margin-bottom: 24px;
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.highcharts-popup button, .highcharts-popup button.highcharts-annotation-edit-button, .highcharts-popup button.highcharts-annotation-remove-button {
+  background: none;
+  color: rgb(132 142 156);
+  padding: 10px 20px;
+
+}
+
+.highcharts-popup button:hover{
+  background-color: #5d656e24;
+
+}
+
+button.highcharts-tab-item.highcharts-tab-item-active {
+  background-color: transparent;
+  visibility:hidden
+}
+
+.highcharts-popup button.highcharts-annotation-edit-button:hover, .highcharts-popup button.highcharts-annotation-remove-button:hover {
+  background-color: #5d656e7f;
+}
+
+.highcharts-bindings-wrapper ul.highcharts-indicator-list, .highcharts-indicator-list {
+  scrollbar-width: thin; /* Độ rộng của thanh cuộn */
+  scrollbar-color: rgb(37 183 112) transparent; /* Màu của thanh cuộn và màu nền của nó */
+}
+
+/* Thanh cuộn của Chrome, Edge và Safari */
+.highcharts-bindings-wrapper ul.highcharts-indicator-list::-webkit-scrollbar, .highcharts-indicator-list::-webkit-scrollbar {
+  width: 8px; /* Độ rộng của thanh cuộn */
+  background: transparent; /* Ẩn nền thanh cuộn */
+}
+
+.highcharts-bindings-wrapper ul.highcharts-indicator-list::-webkit-scrollbar-thumb, .highcharts-indicator-list::-webkit-scrollbar-thumb {
+  background-color: #ff6347; /* Màu của thanh cuộn */
+  border-radius: 10px; /* Bo tròn góc của thanh cuộn */
+}
+
+.highcharts-bindings-wrapper ul.highcharts-indicator-list::-webkit-scrollbar-button,
+.highcharts-indicator-list::-webkit-scrollbar-button {
+  display: none;
+}
+
+.highcharts-popup select {
+  padding: 15px 16px;
+  background: none;
+  outline: none;
+  border: 1px solid #2B3139;
+  border-radius: 8px;
+}
+
+/* Style cho hộp chọn (dropdown) khi mở */
+.highcharts-popup select::-ms-expand {
+  display: none; /* Ẩn biểu tượng mũi tên mặc định trên IE */
+}
+
+.highcharts-popup select:focus {
+  border-color: rgb(37 183 112); /* Thay đổi viền khi hộp chọn được focus */
+}
+
+/* Style cho các tùy chọn bên trong hộp chọn */
+.highcharts-popup select option {
+  background: #1E2329; 
+  color: #fff;
+  padding: 10px;
+}
+
+/* Style khi di chuột lên các tùy chọn */
+.highcharts-popup select option:hover {
+  background: #444;
+}
+
+/* Style cho các tùy chọn được chọn */
+.highcharts-popup select option:checked {
+  background: #555; /* Màu nền cho tùy chọn được chọn */
+}
+
+.highcharts-popup-lhs-col {
+  border-right:1px solid #2B3139;
+}
+
+input.highcharts-input-search-indicators {
+  border: 1px solid #2B3139;
+  padding: 10px 10px;
+  width: 100%;
+  background: none;
+  outline: none;
+  border-radius: 4px;
+}
+
+.highcharts-input-wrapper {
+  padding: 10px 20px;
+}
+
+.highcharts-popup a.clear-filter-button {
+  color: var(--highcharts-background-color);
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 4px;
+  background-color: #545051;
+  border: 0px;
+  font-size: 12px;
+}
+
+.highcharts-popup a.clear-filter-button:hover {
+  background-color: #787374;
+}
+
+.highcharts-input-search-indicators-label {
+  color:white;
+}
+
+ .highcharts-popup select {
+  margin-bottom: 20px;
+}
+
+div.highcharts-popup.highcharts-no-tooltip > button.highcharts-popup-close{
+  /* margin: 10px 10px 10px 10px; */
+  /* border-radius: 8px; */
+  background: none;
+  padding: 0px;
+  /* position: static; */
+  /* margin-left: auto; */
+  /* display: block; */
+}
+
+/* .highcharts-popup.highcharts-annotation-toolbar {
+  display: flex;
+  align-items: center;
+  height: 70px;
+} */
+
+/* ------------------------RIGHT------------------------------ */
+
+div.highcharts-popup-rhs-col:nth-child(2) .highcharts-popup-rhs-col-wrapper input {
+  border: 1px solid #2B3139;
+  border-radius: 8px;
+  padding: 15px 16px;
+  width: 100%;
+  background: none;
+  outline: none;
+  margin-bottom: 20px;
+}
+
+.highcharts-popup-rhs-col {
+  scrollbar-width: thin; /* Độ rộng của thanh cuộn */
+  scrollbar-color: rgb(37 183 112) transparent;
+}
+
+div.highcharts-popup-rhs-col:nth-child(2) button {
+  background-color: rgb(37 183 112);
+  border-radius: 8px;
+  color: white;
+  margin-bottom: 30px;
+}
+
+div.highcharts-popup-rhs-col:nth-child(2) button:hover {
+  background-color: rgb(43, 209, 129);
+}
+
+/* ------------------------------------------EDIT------------------------------- */
+.highcharts-popup-lhs-col.highcharts-popup-lhs-full {
+  height: calc(100% - 150px);
+}
+
+.highcharts-popup-bottom-row {
+  display: flex;
+  justify-content: right;
+  padding: 20px 20px;
+  padding-bottom: 12px;
+  width: 100%;
+  border-top: 1px solid var(--highcharts-neutral-color-10);
+}
+
+.highcharts-popup input {
+  border: 1px solid #2B3139;
+  border-radius: 8px;
+  padding: 15px 16px;
+  width: 100%;
+  background: none;
+  outline: none;
+  margin-bottom: 20px;
+}
+
+div.highcharts-popup-bottom-row button{
+  background-color: rgb(37 183 112);
+  border-radius: 8px;
+  color: white;
+}
+
+div.highcharts-popup-bottom-row button:hover {
+  background-color: rgb(43, 209, 129);
+}
+
+div.highcharts-popup-lhs-col.highcharts-popup-lhs-full {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(37 183 112) transparent; 
+}
+
+.highcharts-popup-bottom-row {
+  border-top:1px solid #2B3139;
+}
+
+.highcharts-popup .highcharts-popup-main-title {
+  border-bottom: 1px solid #2B3139;
+}
+
+.highcharts-popup .highcharts-popup-main-title {
+  padding: 20px 20px;
+  font-size: 20px;
+}
+
+/* --------------HIDE----------------------- */
+
+/* li.highcharts-indicators{
+  display: none;
+} */

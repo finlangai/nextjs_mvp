@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import { setSelectedButtonActive, selectSelectedButton } from '@/src/redux/StockPage/stockPageSlice';
 import Breadcrumbs from '@/src/components/common/Breadcrumbs';
 import StockProfileSummary from '@/src/components/organisms/StockProfileSummary';
@@ -9,7 +10,12 @@ import { fetchProfileSummaries } from '@/src/redux/ProfileSummary';
 import { useAppSelector, useAppDispatch } from '@/src/redux/hooks/useAppStore';
 
 export default function MaCoPhieuLayout({ children, params }: { children: React.ReactNode, params: { symbol: string } }) {
-    const { symbol } = params;
+    const symbol = params.symbol.toUpperCase();
+    const isValidSymbol = /^[A-Z]{3}$/.test(symbol);
+    if (!isValidSymbol) {
+        redirect('/dashboard/'); 
+    }
+
     const selectedButton = useAppSelector(selectSelectedButton);
     const dispatch = useAppDispatch();
 
@@ -87,6 +93,15 @@ export default function MaCoPhieuLayout({ children, params }: { children: React.
                         className={`text-sm py-[10px] px-[16px] rounded-[7px] ${selectedButton === 4 ? 'bg-fintown-btn-active-1 text-fintown-txt-1' : 'text-fintown-txt-1'}`}
                     >
                         Dữ liệu lịch sử
+                    </button>
+                </Link>
+
+                <Link href={`/dashboard/co-phieu/${symbol}/so-sanh`}>
+                    <button
+                        onClick={() => handleButtonClick(5)} 
+                        className={`text-sm py-[10px] px-[16px] rounded-[7px] ${selectedButton === 5 ? 'bg-fintown-btn-active-1 text-fintown-txt-1' : 'text-fintown-txt-1'}`}
+                    >
+                        So sánh
                     </button>
                 </Link>
 

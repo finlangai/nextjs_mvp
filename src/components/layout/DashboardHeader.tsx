@@ -6,8 +6,9 @@ import { fetchUserProfile, logout, refreshToken } from "@/src/redux/auth/authSli
 import { RootState, AppDispatch } from "@/src/redux/store";
 import Cookies from 'js-cookie';
 import { useRouter } from "next/navigation";
+import MarketSummary from "../organisms/MarketSummary";
 
-export default function DashboardHeader() {
+export default function DashboardHeader({isTechnicalChart} : {isTechnicalChart: boolean}) {
     const dispatch = useDispatch<AppDispatch>();
     const router = useRouter();
     let { user, loading, error } = useSelector((state: RootState) => state.auth) as {
@@ -50,9 +51,27 @@ export default function DashboardHeader() {
     return (
         <header
             className="w-full h-[70px] border-b border-fintown-br px-[40px] flex items-center justify-between bg-fintown-bg fixed top-0 z-50 ml-[70px]"
-            style={{ width: 'calc(100% - 70px)' }}>
-            <InputSearch />
-            <div className="flex items-center gap-x-2.5">
+            style={{ width: 'calc(100% - 70px)' }}
+            id="dasnhboard-header"
+            >
+
+            {
+                isTechnicalChart === !true && (
+                    <>
+                        <InputSearch />
+                    </>
+                )
+            } 
+
+            {
+                isTechnicalChart === true && (
+                    <>
+                        <MarketSummary />
+                    </>
+                )
+            } 
+
+            <div className="flex items-center gap-x-2.5 ml-auto">
                 {loading ? (
                     <div>...</div>
                 ) : user ? (
@@ -62,7 +81,8 @@ export default function DashboardHeader() {
                                 src={user.avatar || "/imgs/default-avatar.jpg"}
                                 alt="Avatar"
                                 className="w-[40px] h-[40px] rounded-full object-cover"
-                            /> </Link>
+                            /> 
+                        </Link>
                         <div>
                             <span className="text-fintown-txt-1 text-sm">{user.fullname || user.email}</span>
                             <p className="text-fintown-txt-2 text-xs">{user.email}</p>

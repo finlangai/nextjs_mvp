@@ -13,7 +13,7 @@ export default function Sidebar() {
     };
 
     return (
-        <div id="sidebar" className="fixed z-50 top-0 w-[70px] border-r h-screen border-fintown-br bg-fintown-bg">
+        <div id="sider-bar-left-dashboard" className="fixed z-50 top-0 w-[70px] border-r h-screen border-fintown-br bg-fintown-bg">
             <div className="logo">
                 <Link href="/" className="flex justify-center h-[70px] items-center">
                     <img className="w-[42px] h-[42px]" src="/imgs/logo.png" alt="logo fintown" />
@@ -44,11 +44,11 @@ export default function Sidebar() {
                     <BtnSidebar class_icon="bx bx-trending-up" active={selectedButton === 4} />
                 </Link>
 
-                <Link href="/dashboard/" onClick={() => handleClick(5)}>
-                    <BtnSidebar class_icon="bx bx-chart" active={selectedButton === 5} />
+                <Link href="/dashboard/bieu-do-ky-thuat/VCB/" onClick={() => handleClick(5)}>
+                    <BtnSidebar class_icon="bx bx-candles" active={selectedButton === 5} />
                 </Link>
 
-                <Link href="/dashboard/" onClick={() => handleClick(6)}>
+                <Link href="/dashboard/dinh-gia-co-phieu/VCB/" onClick={() => handleClick(6)}>
                     <BtnSidebar class_icon="bx bx-calculator" active={selectedButton === 6} />
                 </Link>
             </div>

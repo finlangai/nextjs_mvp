@@ -1,7 +1,6 @@
 "use client";
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import useSetSelectedButtonSiderBar from '@/src/redux/hooks/useButtonsiderBar';
 import useSetSelectedButtonStockPage from '@/src/redux/hooks/useButtonstockPage';
 import CompanyDescription from '@/src/components/organisms/CompanyDescription';
