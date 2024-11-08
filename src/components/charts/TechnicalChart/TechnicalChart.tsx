@@ -106,6 +106,16 @@ const CandlestickChart = ({symbol} : {symbol: string}) => {
             ],
           },
         },
+        annotations: [ {
+
+          labels: [],
+          shapes: [],
+          draggable: 'xy',
+          shapeOptions: {
+            stroke: 'orange',
+            strokeWidth: 2,
+          },
+        }],
         chart: {
           backgroundColor: 'rgb(24 26 32)',
           renderTo: chartContainerRef.current,
@@ -182,22 +192,7 @@ const CandlestickChart = ({symbol} : {symbol: string}) => {
               y: 10   // Khoảng cách từ đỉnh màn hình
             };
           }
-        },
-        annotations: [{
-          labels: [{
-            point: {
-              x: 2,
-              y: 2,
-              xAxis: 0,
-              yAxis: 0
-            },
-            text: 'Điểm quan trọng',
-            style: {
-              color: 'red',
-              fontWeight: 'bold'
-            }
-          }]
-        }],     
+        },     
         plotOptions: {
           series: {
             showInNavigator: false,
@@ -247,6 +242,7 @@ const CandlestickChart = ({symbol} : {symbol: string}) => {
           }
         ],
         xAxis: {
+          
           type: 'datetime',
           gridLineColor: '#2B3139',
           labels: {
@@ -260,6 +256,11 @@ const CandlestickChart = ({symbol} : {symbol: string}) => {
             width: 1,
             dashStyle: 'ShortDot',
           },
+          plotLines: [{
+            color: '#FF0000',
+            width: 2,
+            value: 5.5
+        }]
 
         },
         yAxis: [

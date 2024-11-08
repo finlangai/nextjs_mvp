@@ -163,7 +163,7 @@ export default function LeftBarTechnicalChart({symbol} : {symbol:string}){
             style={
                 {
                     height: "582px",
-                    overflowY: "scroll"
+                    overflowY: "auto"
                 }
             }>
                 {
