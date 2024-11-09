@@ -4,11 +4,11 @@ import HighchartsReact from 'highcharts-react-official';
 import { PriceStock } from '@/src/interfaces/PriceStock';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { fetchPriceStocks, selectPriceStocksData } from '@/src/redux/PriceStock';
-import { configureHighchartsLanguage } from './highchartsLanguageConfig';
+import { configureHighchartsLanguage } from '../../../utils/highchartsLanguageConfig';
 import { getChartOptions } from './chartOptions';
 import HC_more from 'highcharts/highcharts-more';
 import { BarsLoader } from '../../common/Loader';
-import { getStartOfYear, getCurrentUnixTimestamp} from './getTimeRanges';
+import { getStartOfYear, getCurrentUnixTimestamp} from '@/src/utils/getTimeRanges';
 
 HC_more(Highcharts);
 configureHighchartsLanguage();

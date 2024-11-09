@@ -7,6 +7,11 @@ export interface PriceStock {
     volume: number;
 }
 
+export interface PriceStockNoVolume {
+    time: number;
+    price: number;
+}
+
 export interface TimeRange {
     label: string;
     interval: string;

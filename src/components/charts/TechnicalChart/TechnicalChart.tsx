@@ -12,7 +12,7 @@ import heikinAshi from 'highcharts/modules/heikinashi';
 import { PriceStock } from '@/src/interfaces/PriceStock';
 import { fetchPriceStocks, selectPriceStocksData } from '@/src/redux/PriceStock';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
-import { getStartOfYear, getCurrentUnixTimestamp} from '../PriceStockLineChart/getTimeRanges';
+import { getStartOfYear, getCurrentUnixTimestamp} from '@/src/utils/getTimeRanges';
 
 // Kích hoạt các module
 indicatorsAll(Highcharts);
