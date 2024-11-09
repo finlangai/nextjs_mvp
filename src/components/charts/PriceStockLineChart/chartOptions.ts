@@ -1,63 +1,64 @@
 import Highcharts from 'highcharts';
-import { PriceStock } from '@/src/interfaces/PriceStock';
+import { PriceStockNoVolume } from '@/src/interfaces/PriceStock';
 
-export const getChartOptions = (data: PriceStock[]): Highcharts.Options => {
-  const chartData: [number, number][] = data?.map(item => [
-    item.time * 1000,
-    item.close
-  ]);
+interface DataPoint extends Highcharts.PointOptionsObject {
+  x: number;
+  y: number;
+}
+
+export const getChartOptions = (data: PriceStockNoVolume[]): Highcharts.Options => {
+  const formattedData: DataPoint[] = data.map(item => {
+    const date = new Date(item.time * 1000);
+    return {
+      x: date.getTime(),
+      y: Number(item.price),
+    };
+  });
+
+  const prices = formattedData.map(item => item.y);
+  const minPrice = Math.min(...prices);
+  const maxPrice = Math.max(...prices);
+  const priceRange = maxPrice - minPrice;
+  const padding = priceRange * 0.1;
 
   return {
-    chart: {
-      type: 'line',
-      backgroundColor: 'transparent',
-      borderWidth: 0,
-      plotBorderWidth: 0,
-      height: 576,
-      zooming: {
-        type: 'x',
-        mouseWheel: {
-          enabled: true,
-          sensitivity: 1.5
-        },
-      },
-      panning: {
-        enabled: true,
-        type: 'x'
-      },
-      animation: {
-        duration: 300
-      },
-      style: {
-        cursor: 'crosshair' 
-      }
-    },
     title: {
       text: undefined
     },
     xAxis: {
       type: 'datetime',
-      lineColor: '#2B3139',
-      labels: {
-        style: {
-          color: '#ffffff'
-        }
-      },
-      tickLength: 0,
       minRange: 15 * 60 * 1000,
       crosshair: {
         color: '#cccccc',
         width: 1,
         dashStyle: 'ShortDot'
       },
-    },
-    yAxis: {
       title: {
         text: undefined
       },
-      lineColor: '#2B3139',
-      gridLineWidth: 1,
-      gridLineColor: '#2B3139',
+      labels: {
+        style: {
+          color: 'white'
+        }
+      }
+    },
+    yAxis: {
+      crosshair: {
+        color: '#cccccc',
+        width: 1,
+        dashStyle: 'ShortDot'
+      },
+      min: minPrice - padding,
+      max: maxPrice + padding,
+      startOnTick: false,
+      endOnTick: false,
+      minPadding: 0,
+      maxPadding: 0,
+      title: {
+        text: undefined
+      },
+      gridLineWidth: 2,
+      opposite: false,
       labels: {
         style: {
           color: '#ffffff'
@@ -69,11 +70,65 @@ export const getChartOptions = (data: PriceStock[]): Highcharts.Options => {
           return this.value.toString();
         }
       },
-      crosshair: {
-        color: '#cccccc',
-        width: 1,
-        dashStyle: 'ShortDot'
+      gridLineColor: '#2B3139',
+      // tickAmount: 6,
+      gridLineDashStyle: 'ShortDot'
+    },
+    series: [{
+      type: 'area',
+      data: formattedData,
+      color: 'white',
+      lineWidth: 1.5,
+      fillColor: {
+        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+        stops: [
+          [0, '#ffffff61'],
+          [1, '#49494921']
+        ]
+      },
+      dataGrouping: {
+        enabled: false // Tắt nhóm dữ liệu tự động
       }
+    }],
+    plotOptions: {
+      area: {
+        animation: false,
+        marker: {
+          enabled: false,
+          states: {
+            hover: {
+              enabled: true,
+              radius: 3
+            }
+          }
+        }
+      }
+    },
+    chart: {
+      type: 'line',
+      backgroundColor: 'transparent',
+      width: null,
+      height: 576,
+    },
+    responsive: {
+      rules: [{
+        condition: {
+          maxWidth: 500
+        },
+        chartOptions: {
+          legend: {
+            layout: 'horizontal',
+            align: 'center',
+            verticalAlign: 'bottom'
+          }
+        }
+      }]
+    },
+    credits: {
+      enabled: false
+    },
+    legend: {
+      enabled: false
     },
     tooltip: {
       formatter: function(this: Highcharts.TooltipFormatterContextObject): string {
@@ -86,42 +141,10 @@ export const getChartOptions = (data: PriceStock[]): Highcharts.Options => {
         
         return `
           <b>Thời gian: ${Highcharts.dateFormat('%d/%m/%Y', this.x)}</b><br/>
-          Mở cửa: ${stockData.open.toLocaleString('vi-VN')}<br/>
-          Cao nhất: ${stockData.high.toLocaleString('vi-VN')}<br/>
-          Thấp nhất: ${stockData.low.toLocaleString('vi-VN')}<br/>
-          Đóng cửa: ${stockData.close.toLocaleString('vi-VN')}<br/>
-          Khối lượng: ${stockData.volume.toLocaleString('vi-VN')}
+          Đóng cửa: ${stockData.price.toLocaleString('vi-VN')}<br/>
         `;
       },
       shared: true
-    },
-    legend: {
-      enabled: false
-    },
-    plotOptions: {
-      series: {
-        marker: {
-          enabled: false
-        },
-        lineWidth: 1,
-        states: {
-          hover: {
-            lineWidth: 1
-          }
-        },
-        turboThreshold: 5000,
-      }
-    },
-    series: [{
-      type: 'line',
-      data: chartData,
-      color: '#ffffff'
-    }] as any,
-    credits: {
-      enabled: false
-    },
-    scrollbar: {
-      enabled: true
     }
   };
 };

@@ -1,7 +1,32 @@
+import { useEffect, useState, useRef } from 'react';
 import MarketIndicatorChart from "../charts/MarketIndicatorChart/MarketIndicatorChart";
 import VN30Summary from "./VN30Summary";
+import { PriceStockNoVolume } from '@/src/interfaces/PriceStock';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
+import { fetchPriceStocksNoVolume, selectPriceStocksNovolume } from '@/src/redux/PriceStock';
+import { getStartOfYear, getCurrentUnixTimestamp } from '@/src/utils/getTimeRanges';
+import { SpinerLoader } from '../common/Loader';
+import TimeRangeButtons from '../common/TimeRangeButtons';
 
 export default function SectionMarketOverview() {
+  const dispatch = useAppDispatch();
+
+  const selectData = useAppSelector(selectPriceStocksNovolume);
+  const [data, setStockData] = useState<PriceStockNoVolume[]>([]);
+
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      const now = getCurrentUnixTimestamp();
+      const start = getStartOfYear();
+      const symbol = "VN30";
+      await dispatch(fetchPriceStocksNoVolume({ symbol, start, end: now, interval: '1D', type: 2, limit: 500 }));
+    };
+    fetchInitialData();
+  }, [dispatch]);
+
+  useEffect(() => {
+    setStockData(selectData);
+  }, [selectData]);
 
   return (
     <>
@@ -17,12 +42,14 @@ export default function SectionMarketOverview() {
             </div>
           </div>
 
-          <div className='flex items-center text-[14px] text-fintown-txt-2 gap-x-[22px] font-[500]'>
-            <button className='text-fintown-pr9 hover:text-fintown-pr9'>1D</button>
+          {/* <div className='flex items-center text-[14px] text-fintown-txt-2 gap-x-[22px] font-[500]'>
+            <button className='hover:text-fintown-pr9'>1D</button>
             <button className='hover:text-fintown-pr9'>3M</button>
             <button className='hover:text-fintown-pr9'>1Y</button>
-            <button className='hover:text-fintown-pr9'>YTD</button>
-          </div>
+            <button className='text-fintown-pr9 hover:text-fintown-pr9'>YTD</button>
+          </div> */}
+
+          < TimeRangeButtons symbol='VN30' />
 
           <div className="flex items-center ml-auto">
             <p className="text-fintown-txt-1 font-bold text-[24px]">
@@ -42,7 +69,7 @@ export default function SectionMarketOverview() {
           </div>
         </div>
         <div className='pb-[38px] mb-[24px] border-b border-b-fintown-br'>
-          <MarketIndicatorChart />
+          <MarketIndicatorChart data={data} />
         </div>
         < VN30Summary />
       </div>

@@ -7,11 +7,6 @@ interface DataPoint extends Highcharts.PointOptionsObject {
 }
 
 export const getChartOptions = (data: PriceStockNoVolume[]): Highcharts.Options => {
-  const chartData: [number, number][] = data?.map(item => [
-    item.time * 1000,
-    item.price
-  ]);
-
   const formattedData: DataPoint[] = data.map(item => {
     const date = new Date(item.time * 1000);
     return {
@@ -91,6 +86,9 @@ export const getChartOptions = (data: PriceStockNoVolume[]): Highcharts.Options 
           [1, '#49494921']
         ]
       },
+      dataGrouping: {
+        enabled: false // Tắt nhóm dữ liệu tự động
+      }
     }],
     plotOptions: {
       area: {
@@ -143,7 +141,7 @@ export const getChartOptions = (data: PriceStockNoVolume[]): Highcharts.Options 
         
         return `
           <b>Thời gian: ${Highcharts.dateFormat('%d/%m/%Y', this.x)}</b><br/>
-          Mở cửa: ${stockData.price.toLocaleString('vi-VN')}<br/>
+          Đóng cửa: ${stockData.price.toLocaleString('vi-VN')}<br/>
         `;
       },
       shared: true
