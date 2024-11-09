@@ -108,7 +108,7 @@ export const getChartOptions = (data: PriceStockNoVolume[]): Highcharts.Options 
       type: 'line',
       backgroundColor: 'transparent',
       width: null,
-      height: 576,
+      height: "400px"
     },
     responsive: {
       rules: [{
