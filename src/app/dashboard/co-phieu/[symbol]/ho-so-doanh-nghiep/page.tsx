@@ -16,14 +16,18 @@ export default function HoSoDoanhNghiepPage ({ params }: { params: { symbol: str
 
     const sidebarRef = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
+
     const [isFixed, setIsFixed] = useState(false);
     const [sidebarStyle, setSidebarStyle] = useState({});
+
+    const [activeLink, setActiveLink] = useState("#overview");
 
     useEffect(() => {
         const handleScroll = () => {
             if (sidebarRef.current && containerRef.current) {
                 const containerRect = containerRef.current.getBoundingClientRect();
                 const sidebarRect = sidebarRef.current.getBoundingClientRect();
+
                 const scrollY = window.scrollY;
 
                 if (sidebarRect.top <= 70) { 
@@ -55,48 +59,74 @@ export default function HoSoDoanhNghiepPage ({ params }: { params: { symbol: str
         };
     }, []);
 
+    const handleLinkClick = (link: string) => {
+        setActiveLink(link);
+    };
+
+    const linkClass = (link: string) => (
+        `cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] text-left ${
+            activeLink === link ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
+        }`
+    );
+
     return (
         <>
-            <div className='flex px-[40px] h-screen scroll-moot '  ref={containerRef}>
-                <div className='min-w-[318px] pt-[50px]' id='siderbar'  ref={sidebarRef}>
+            <div className='flex px-[40px] h-screen scroll-moot' ref={containerRef}>
+                <div className='min-w-[318px] pt-[50px]' id='siderbar' ref={sidebarRef}>
                     <div className='min-w-[318px] pr-[24px] flex flex-col gap-y-[10px]'  style={sidebarStyle}>
                         <Link href={`/dashboard/co-phieu/VCB/ho-so-doanh-nghiep#overview`}>
-                            <div className='cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] hover:bg-[#1E2127] bg-[#1E2127] text-left'>
+                            <div onClick={() => handleLinkClick("#overview")} className={linkClass("#overview")}>
                                 Tổng quan
                             </div>
                         </Link>
 
                         <Link href={`/dashboard/co-phieu/VCB/ho-so-doanh-nghiep#history`}>
-                            <div className='cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] hover:bg-[#1E2127] text-left'>Lịch sử phát triển</div>
-                        </Link> 
+                            <div onClick={() => handleLinkClick("#history")} className={linkClass("#history")}>
+                                Lịch sử phát triển
+                            </div>
+                        </Link>
 
                         <Link href={`/dashboard/co-phieu/VCB/ho-so-doanh-nghiep#promise`}>
-                            <div className='cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] hover:bg-[#1E2127] text-left'>Lời hứa</div>
-                        </Link> 
+                            <div onClick={() => handleLinkClick("#promise")} className={linkClass("#promise")}>
+                                Lời hứa
+                            </div>
+                        </Link>
 
                         <Link href={`/dashboard/co-phieu/VCB/ho-so-doanh-nghiep#businessrisk`}>
-                            <div className='cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] hover:bg-[#1E2127] text-left'>Thách thức</div>
-                        </Link> 
+                            <div onClick={() => handleLinkClick("#businessrisk")} className={linkClass("#businessrisk")}>
+                                Thách thức
+                            </div>
+                        </Link>
 
                         <Link href={`/dashboard/co-phieu/VCB/ho-so-doanh-nghiep#keydevelopments`}>
-                            <div className='cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] hover:bg-[#1E2127] text-left'>Chiến lược kinh doanh</div>
-                        </Link> 
+                            <div onClick={() => handleLinkClick("#keydevelopments")} className={linkClass("#keydevelopments")}>
+                                Chiến lược kinh doanh
+                            </div>
+                        </Link>
 
                         <Link href={`/dashboard/co-phieu/VCB/ho-so-doanh-nghiep#basic`}>
-                            <div className='cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] hover:bg-[#1E2127] text-left'>Thông tin cơ bản</div>
-                        </Link> 
+                            <div onClick={() => handleLinkClick("#basic")} className={linkClass("#basic")}>
+                                Thông tin cơ bản
+                            </div>
+                        </Link>
 
                         <Link href={`/dashboard/co-phieu/VCB/ho-so-doanh-nghiep#listing`}>
-                            <div className='cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] hover:bg-[#1E2127] text-left'>Thông tin niêm yết</div>
-                        </Link> 
+                            <div onClick={() => handleLinkClick("#listing")} className={linkClass("#listing")}>
+                                Thông tin niêm yết
+                            </div>
+                        </Link>
 
                         <Link href={`/dashboard/co-phieu/VCB/ho-so-doanh-nghiep#holders`}>
-                            <div className='cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] hover:bg-[#1E2127] text-left'>Danh sách cổ đông</div>
-                        </Link> 
+                            <div onClick={() => handleLinkClick("#holders")} className={linkClass("#holders")}>
+                                Danh sách cổ đông
+                            </div>
+                        </Link>
 
                         <Link href={`/dashboard/co-phieu/VCB/ho-so-doanh-nghiep#officers`}>
-                            <div className='cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] hover:bg-[#1E2127] text-left'>Ban lãnh đạo</div>
-                        </Link> 
+                            <div onClick={() => handleLinkClick("#officers")} className={linkClass("#officers")}>
+                                Ban lãnh đạo
+                            </div>
+                        </Link>
                     </div>
                 </div>
 

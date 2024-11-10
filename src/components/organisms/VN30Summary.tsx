@@ -98,7 +98,7 @@ export default function VN30Summary () {
                     <div className="text-[14px] text-fintown-txt-2 mb-[10px]">TBĐ 52 tuần</div>
                     <div className="flex items-end">
                         <div className="text-[20px] font-bold text-fintown-txt-1 mr-[10px]">
-                        {NowData?.avg_52w}
+                        {NowData?.avg52w}
                         </div>
                     </div>
                 </div>
