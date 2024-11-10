@@ -1,14 +1,24 @@
 import React, { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
-import { fetchTickerList, } from '@/src/redux/TickerList';
+import { 
+    fetchTickerList, 
+    setNameSort,
+    setStateSort
+} from '@/src/redux/TickerList';
 import { selectLimitPage } from '@/src/redux/TickerList';
 
-export default function StockTheadTable(){
+type SortColumn = 'marketcap' | 'price' | 'dailyDelta' | 'weeklyDelta' | 'yearlyDelta' | 'pe' | 'pb' | 'roe' | 'exchange' | 'industry';
+type SortDirection = 'up' | 'down';
+
+export default function StockTheadTable() {
     const dispatch = useAppDispatch();
     const limitPagination = useAppSelector(selectLimitPage);
 
-    // State để lưu trạng thái của các icon (up hoặc down)
-    const [sortOrder, setSortOrder] = useState({
+    // Thêm state để theo dõi cột đang được sắp xếp
+    const [activeColumn, setActiveColumn] = useState<SortColumn | null>(null);
+    
+    // State để lưu trạng thái của các icon
+    const [sortOrder, setSortOrder] = useState<Record<SortColumn, SortDirection>>({
         marketcap: 'up',
         price: 'up',
         dailyDelta: 'up',
@@ -21,20 +31,39 @@ export default function StockTheadTable(){
         industry: 'up'
     });
 
-    const handleSortClick = (
-        column: 'marketcap' | 'price' | 'dailyDelta' | 'weeklyDelta' | 'yearlyDelta' | 'pe' | 'pb' | 'roe' | 'exchange' | 'industry'
-    ) => {
-        // Thay đổi trạng thái icon
-        const newSortOrder = sortOrder[column] === 'up' ? 'down' : 'up';
-        setSortOrder((prevState) => ({
-            ...prevState,
-            [column]: newSortOrder,
-        }));
+    const handleSortClick = (column: SortColumn) => {
+        // Nếu click vào cùng một cột, đảo ngược hướng sắp xếp
+        // Nếu click vào cột khác, reset tất cả các cột về up và set cột mới
+        const newSortOrder: Record<SortColumn, SortDirection> = {
+            marketcap: 'up',
+            price: 'up',
+            dailyDelta: 'up',
+            weeklyDelta: 'up',
+            yearlyDelta: 'up',
+            pe: 'up',
+            pb: 'up',
+            roe: 'up',
+            exchange: 'up',
+            industry: 'up'
+        };
+
+        if (activeColumn === column) {
+            // Nếu click vào cùng cột, chỉ đảo ngược hướng sắp xếp của cột đó
+            newSortOrder[column] = sortOrder[column] === 'up' ? 'down' : 'up';
+        } else {
+            // Nếu click vào cột khác, set cột mới là 'up'
+            newSortOrder[column] = 'up';
+        }
+
+        setActiveColumn(column);
+        setSortOrder(newSortOrder);
 
         // Xác định thứ tự sortOrder để truyền vào API
-        const sortOrderValue = newSortOrder === 'up' ? 'asc' : 'desc';
+        const sortOrderValue = newSortOrder[column] === 'up' ? 'asc' : 'desc';
 
         // Gọi dispatch để set bộ lọc
+        dispatch(setNameSort(column));
+        dispatch(setStateSort(sortOrderValue));
         dispatch(fetchTickerList({ limit: limitPagination, offset: "", sortOn: column,  sortOrder: sortOrderValue}));
     };
 
@@ -80,7 +109,7 @@ export default function StockTheadTable(){
                         onClick={() => handleSortClick('weeklyDelta')}
                         className="flex relative justify-end items-center">
                             <p className="text-sm font-normal text-right text-fintown-txt-1 mr-[5px]">7 ngày</p>
-                            <i className={`bx ${sortOrder.dailyDelta === 'up' ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt'} text-fintown-txt-1`}></i>
+                            <i className={`bx ${sortOrder.weeklyDelta === 'up' ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt'} text-fintown-txt-1`}></i>
                         </div>
                     </th>
 

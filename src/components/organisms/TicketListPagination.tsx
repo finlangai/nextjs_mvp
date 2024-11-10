@@ -6,14 +6,53 @@ import {
     selectTotalPages, 
     selectLimitPage, 
     setOffset,
+    selectNameSort,
+    selectStateSort,
+    fetchTotal,
+    
 } from '@/src/redux/TickerList';
 import { fetchTickerList } from '@/src/redux/TickerList';
 
 export default function TicketListPagination() {
     const dispatch = useAppDispatch();
+    const hasFetched = useRef(false);
+
     const currentPage = useAppSelector(selectCurrentPage);
     const totalPages = useAppSelector(selectTotalPages);
     const selectLimit = useAppSelector(selectLimitPage);
+
+    const nameSort =useAppSelector(selectNameSort);
+    const stateSort =useAppSelector(selectStateSort);
+
+    const [ totalNow, setTotalNow ] = useState<number>(0);
+    const [ nameSortNow, setNameSortNow] = useState<string>('');
+    const [ stateSortNow, setStateSortNow ]= useState<string>('');
+
+    // CALL API LẤY TOTAL
+    useEffect(() => {
+        if (!hasFetched.current) {
+            dispatch(fetchTotal())
+            hasFetched.current = true;
+        }
+    }, [dispatch]);
+
+    // SET TOTAL
+    useEffect(()=> {
+        if (typeof totalPages === 'number' && totalPages > 0) {
+            setTotalNow(totalPages)
+        };
+    }, [totalPages]);
+
+    // SET SORT
+    useEffect(()=> {
+        if (typeof nameSort === 'string') {
+            setNameSortNow(nameSort);
+        };
+        if (typeof stateSort === 'string') {
+            setStateSortNow(stateSort);
+        };
+    }, [nameSort, stateSort]);
+
 
     const handlePageChange = (page: number) => {        
         const newOffset = (page - 1) * selectLimit;
@@ -29,15 +68,15 @@ export default function TicketListPagination() {
         dispatch(fetchTickerList({
             limit: selectLimit, 
             offset: offset,
-            sortOn: "marketcap",  
-            sortOrder: "desc"
+            sortOn: nameSortNow,  
+            sortOrder: stateSortNow
         }));
     };
 
     const renderPageNumbers = () => {
         const pageNumbers = [];
-        for (let i = 1; i <= totalPages; i++) {
-            if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+        for (let i = 1; i <= totalNow; i++) {
+            if (i === 1 || i === totalNow || (i >= currentPage - 1 && i <= currentPage + 1)) {
                 pageNumbers.push(
                     <button
                         key={i}
@@ -73,8 +112,8 @@ export default function TicketListPagination() {
                 
                 <button
                     className="flex items-center"
-                    onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
-                    disabled={currentPage === totalPages}
+                    onClick={() => handlePageChange(Math.min(totalNow, currentPage + 1))}
+                    disabled={currentPage === totalNow}
                 >
                     <i className='bx bx-chevron-right text-[30px] text-fintown-btn-disable h-[28px] w-[28px] rounded hover:bg-fintown-hvr-btn-1'></i>
                 </button>
