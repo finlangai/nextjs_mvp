@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef } from 'react';
-import MarketIndicatorChart from "../charts/MarketIndicatorChart/MarketIndicatorChart";
 import VN30Summary from "./VN30Summary";
 import { PriceStockNoVolume } from '@/src/interfaces/PriceStock';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
@@ -8,6 +7,11 @@ import { getStartOfYear, getCurrentUnixTimestamp } from '@/src/utils/getTimeRang
 import TimeRangeButtons from '../common/TimeRangeButtons';
 import {selectTickerListOverviewData, selectTickerListOverviewLoading} from '@/src/redux/TickerListOverview';
 import { SpinerLoader } from '../common/Loader';
+import dynamic from 'next/dynamic';
+
+const MarketIndicatorChart = dynamic(() => import('@/src/components/charts/MarketIndicatorChart/MarketIndicatorChartComponent'), {
+  ssr: false,
+});
 
 export default function SectionMarketOverview() {
   const dispatch = useAppDispatch();
