@@ -5,7 +5,7 @@ import {
     fetchcompanyTransaction, 
 } from "@/src/redux/CompanyTransactions";
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
-import { selectLimitPage } from '@/src/redux/HistoricalDataPage';
+import { selectLimitPage, setRange, setCurrentPage } from '@/src/redux/HistoricalDataPage';
 
 export default function FilterRangeTimeTransaction({symbol} : {symbol: string}) {
     const dispatch = useAppDispatch();
@@ -16,19 +16,15 @@ export default function FilterRangeTimeTransaction({symbol} : {symbol: string}) 
 
     const handleStartDateChange = (date: Dayjs | null) => {
         if (date) {
-            // Lấy Unix timestamp của ngày (loại bỏ giờ, phút, giây)
             const unixTime = date.startOf('day').unix();
-            setStartDate(unixTime); // Lưu Unix timestamp vào state
-            console.log('Ngày bắt đầu đã chọn (Unix timestamp):', unixTime);
+            setStartDate(unixTime); 
         }
     };
 
     const handleEndDateChange = (date: Dayjs | null) => {
         if (date) {
-            // Lấy Unix timestamp của ngày (loại bỏ giờ, phút, giây)
             const unixTime = date.startOf('day').unix();
-            setEndDate(unixTime); // Lưu Unix timestamp vào state
-            console.log('Ngày kết thúc đã chọn (Unix timestamp):', unixTime);
+            setEndDate(unixTime); 
         }
     };
 
@@ -36,6 +32,8 @@ export default function FilterRangeTimeTransaction({symbol} : {symbol: string}) 
         const offset = ``;
         const start_and_end = `&start=${startDate}&end=${endDate}`;
         dispatch(fetchcompanyTransaction({symbol: symbol, limit: limitPagination, offset: offset, start_and_end: start_and_end }));
+        dispatch(setRange(start_and_end));
+        dispatch(setCurrentPage(1));
     }
 
     return (
@@ -51,8 +49,8 @@ export default function FilterRangeTimeTransaction({symbol} : {symbol: string}) 
                     disabled={startDate === null || endDate === null}
                     className={`flex items-center py-[14px] px-[20px] rounded-[10px] ${
                         startDate === null || endDate === null 
-                            ? 'bg-gray-400 cursor-not-allowed' // disabled state styling
-                            : 'bg-fintown-pr9' // enabled state styling
+                            ? 'bg-gray-400 cursor-not-allowed' 
+                            : 'bg-fintown-pr9' 
                     } justify-center mt-[8px]`}
                 >
                     <div className='text-fintown-txt-1 text-[14px]'>Xác nhận</div>
