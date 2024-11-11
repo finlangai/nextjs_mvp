@@ -6,6 +6,7 @@ import {
     selectTotalPages, 
     selectLimitPage, 
     setOffset,
+    selectRangePage
 } from '@/src/redux/HistoricalDataPage';
 import { fetchcompanyTransaction } from '@/src/redux/CompanyTransactions';
 
@@ -14,8 +15,16 @@ export default function Pagination({symbol} : {symbol: string}) {
     const currentPage = useAppSelector(selectCurrentPage);
     const totalPages = useAppSelector(selectTotalPages);
     const selectLimit = useAppSelector(selectLimitPage);
+    const selectrangePage = useAppSelector(selectRangePage);
 
-    const handlePageChange = (page: number) => {        
+    const [ nowTotalPages, setNowTotalPages ] = useState<number>(0);
+
+    const handlePageChange = (page: number) => {
+        
+        if (currentPage === page) {
+            return;
+        }
+
         const newOffset = (page - 1) * selectLimit;
         let offset = `&offset=${newOffset}`;
 
@@ -29,14 +38,20 @@ export default function Pagination({symbol} : {symbol: string}) {
         dispatch(fetchcompanyTransaction({
             symbol: symbol, 
             limit: selectLimit, 
-            offset: offset
+            offset: offset,
+            start_and_end: selectrangePage
         }));
     };
 
+    // Cập Nhật nowtotal mỗi khi có thay đổi
+    useEffect(()=> {
+        setNowTotalPages(totalPages);
+    }, [totalPages])
+
     const renderPageNumbers = () => {
         const pageNumbers = [];
-        for (let i = 1; i <= totalPages; i++) {
-            if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+        for (let i = 1; i <= nowTotalPages; i++) {
+            if (i === 1 || i === nowTotalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
                 pageNumbers.push(
                     <button
                         key={i}
@@ -72,8 +87,8 @@ export default function Pagination({symbol} : {symbol: string}) {
                 
                 <button
                     className="flex items-center"
-                    onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
-                    disabled={currentPage === totalPages}
+                    onClick={() => handlePageChange(Math.min(nowTotalPages, currentPage + 1))}
+                    disabled={currentPage === nowTotalPages}
                 >
                     <i className='bx bx-chevron-right text-[30px] text-fintown-btn-disable h-[28px] w-[28px] rounded hover:bg-fintown-hvr-btn-1'></i>
                 </button>

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { TimeRange } from '@/src/interfaces/PriceStock';
 import { useAppDispatch } from '@/src/redux/hooks/useAppStore';
-import { fetchPriceStocks } from '@/src/redux/PriceStock';
-import { getTimeRanges } from './getTimeRanges';
+import { fetchPriceStocksNoVolume } from '@/src/redux/PriceStock';
+import { getTimeRanges } from '@/src/utils/getTimeRanges';
 
 export default function TimeRangeButtons({symbol} : {symbol: string}) {
   const [timeRanges] = useState(getTimeRanges());
@@ -10,8 +10,8 @@ export default function TimeRangeButtons({symbol} : {symbol: string}) {
   const dispatch = useAppDispatch();
 
   const handleTimeRangeClick = async (timeRange: TimeRange) => {
-    const type = 1;
-    await dispatch(fetchPriceStocks({ symbol, start: timeRange.start, end: timeRange.end, interval: timeRange.interval, type, limit: timeRange.limit }));
+    const type = 2;
+    await dispatch(fetchPriceStocksNoVolume({ symbol, start: timeRange.start, end: timeRange.end, interval: timeRange.interval, type, limit: timeRange.limit }));
     setActiveTimeRange(timeRange);
   };
 

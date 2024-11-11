@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from "react";
-import { companyTransactions, records, total } from "@/src/interfaces/CompanyTransactions";
+import { records } from "@/src/interfaces/CompanyTransactions";
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { BarsLoader } from '../common/Loader';
 import { 
@@ -11,7 +11,7 @@ import {
 } from "@/src/redux/CompanyTransactions";
 import { convertUnixToDate } from "@/src/utils/convertUnixToDate";
 import Pagination from "./Pagination";
-import { selectLimitPage, setTotalPages } from '@/src/redux/HistoricalDataPage';
+import { selectLimitPage, setTotalPages, selectTotalPages } from '@/src/redux/HistoricalDataPage';
 
 export default function HistoricalDataTable({symbol} : {symbol: string}) {
     const dispatch = useAppDispatch();
@@ -20,13 +20,14 @@ export default function HistoricalDataTable({symbol} : {symbol: string}) {
     const [NowData, setNowData] = useState<records[] | null>(null);
     const companyTransactionLoading = useAppSelector(selectcompanyTransactionLoading);
     const limitPagination = useAppSelector(selectLimitPage);
+    const selectTotalpages = useAppSelector(selectTotalPages);
 
     // Fetch API Lần đầu
     const hasFetched = useRef(false);
     useEffect(() => {
         if (!hasFetched.current) {
             const offset = ``;
-            dispatch(fetchcompanyTransaction({symbol: symbol, limit: limitPagination, offset: offset }));
+            dispatch(fetchcompanyTransaction({symbol: symbol, limit: limitPagination, offset: offset, start_and_end: '' }));
             hasFetched.current = true;
         }
     }, [dispatch]);
@@ -40,10 +41,11 @@ export default function HistoricalDataTable({symbol} : {symbol: string}) {
 
     // Set tổng số items để tạo ra danh sách trang
     useEffect(()=> {
-        if (typeof companyTransactionTotal === 'number') {
+        if (typeof companyTransactionTotal === 'number' && companyTransactionTotal !== selectTotalpages) {
             const totalItems: number = companyTransactionTotal;
             const totalPages = Math.ceil(totalItems / limitPagination);
             dispatch(setTotalPages(totalPages));
+            console.log(companyTransactionTotal, selectTotalpages)
         }    
     }, [companyTransactionTotal]);
 
