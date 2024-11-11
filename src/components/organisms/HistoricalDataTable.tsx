@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from "react";
-import { companyTransactions, records, total } from "@/src/interfaces/CompanyTransactions";
+import { records } from "@/src/interfaces/CompanyTransactions";
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { BarsLoader } from '../common/Loader';
 import { 
@@ -26,7 +26,7 @@ export default function HistoricalDataTable({symbol} : {symbol: string}) {
     useEffect(() => {
         if (!hasFetched.current) {
             const offset = ``;
-            dispatch(fetchcompanyTransaction({symbol: symbol, limit: limitPagination, offset: offset }));
+            dispatch(fetchcompanyTransaction({symbol: symbol, limit: limitPagination, offset: offset, start_and_end: '' }));
             hasFetched.current = true;
         }
     }, [dispatch]);

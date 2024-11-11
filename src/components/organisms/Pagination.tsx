@@ -29,7 +29,8 @@ export default function Pagination({symbol} : {symbol: string}) {
         dispatch(fetchcompanyTransaction({
             symbol: symbol, 
             limit: selectLimit, 
-            offset: offset
+            offset: offset,
+            start_and_end: ''
         }));
     };
 
