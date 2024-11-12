@@ -4,13 +4,16 @@ import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 const CallBackUrlPayMent = () => {
-  const searchParams = useSearchParams();
   const [outcome, setOutcome] = useState<string | null>(null);
 
+  // Kiểm tra nếu đang ở client để sử dụng useSearchParams
   useEffect(() => {
-    const outcomeParam = searchParams.get('outcome');
-    setOutcome(outcomeParam);
-  }, [searchParams]);
+    if (typeof window !== 'undefined') {
+      const searchParams = new URLSearchParams(window.location.search);
+      const outcomeParam = searchParams.get('outcome');
+      setOutcome(outcomeParam);
+    }
+  }, []);
 
   const getMessage = () => {
     switch (outcome) {
@@ -31,18 +34,21 @@ const CallBackUrlPayMent = () => {
         };
     }
   };
+
   const { message, type } = getMessage();
 
   useEffect(() => {
-    if (outcome) {
+    if (typeof window !== 'undefined' && outcome) {
       window.opener?.postMessage(outcome === 'REGISTRATION_SUCCESS' ? 'success' : 'failure', 'http://localhost:3000');
     }
   }, [outcome]);
 
   const handleCloseTab = () => {
-   window.opener?.postMessage('tabClosed', 'http://localhost:3000');
-   window.close(); 
- };
+    if (typeof window !== 'undefined') {
+      window.opener?.postMessage('tabClosed', 'http://localhost:3000');
+      window.close();
+    }
+  };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -56,10 +62,9 @@ const CallBackUrlPayMent = () => {
         <h1 className="text-3xl font-semibold mb-4">{`Thanh toán kết thúc`}</h1>
         <p className="text-xl mb-6">{message}</p>
 
-        {/* Nút đóng tab */}
         <button
           className="mt-4 px-6 py-3 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300"
-          onClick={handleCloseTab} // Gọi hàm đóng tab và gửi thông điệp
+          onClick={handleCloseTab} 
         >
           Đóng tab
         </button>
