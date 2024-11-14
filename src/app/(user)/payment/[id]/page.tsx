@@ -63,7 +63,7 @@ const Payment = ({ params }: { params: { id: string } }) => {
   const [paymentData, setPaymentData] = useState<PaymentData>({
     programId : id,
     paymentMethod: "momo",
-    callbackUrl: "http://localhost:3000/payment/thanhtoan",  
+    callbackUrl: "/payment/thanhtoan",  
   }); 
   const handlePaymentMethodChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
