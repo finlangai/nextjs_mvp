@@ -18,7 +18,7 @@ const Payment = ({ params }: { params: { id: string } }) => {
   
     if (event.origin === "http://localhost:3000") {  
       if (event.data === "success") {
-        window.location.href = '/payment/camonquykhach';
+        window.location.href = 'https://fintown.software/payment/camonquykhach';
       } else if (event.data === "failure") {
         console.log("Thanh toán thất bại.");
       } else if (event.data === "tabClosed") {
@@ -34,9 +34,8 @@ const Payment = ({ params }: { params: { id: string } }) => {
       dispatch(fetchUserProfile());
     }
   }, [user, dispatch]);
-
   useEffect(() => {
-    fetch('https://portal.fintown.software/api/general/pricing')
+    fetch(`${location.origin}/api/general/pricing`)
       .then((response) => response.json())
       .then((data) => {
         setPricingData(data);
@@ -44,8 +43,7 @@ const Payment = ({ params }: { params: { id: string } }) => {
       .catch((error) => {
         console.error('Error fetching pricing data:', error);
       });
-  }, []);
-
+  }, []);  
   useEffect(() => {
     if (pricingData) {
       if (id === pricingData.MONTHLY.programId) {
@@ -61,10 +59,11 @@ const Payment = ({ params }: { params: { id: string } }) => {
   // code gửi thông tin thanh toán
   
   const [paymentData, setPaymentData] = useState<PaymentData>({
-    programId : id,
+    programId: id,
     paymentMethod: "momo",
-    callbackUrl: "/payment/thanhtoan",  
-  }); 
+    callbackUrl: `${location.origin}/payment/thanhtoan`,  
+  });
+  
   const handlePaymentMethodChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setPaymentData(prevState => ({
