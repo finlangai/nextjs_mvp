@@ -50,15 +50,20 @@ export default function TopStocksTable() {
 
                 {
                     TopStockssLoading ? (
-                        <div className="flex w-full justify-center items-center h-[428px] absolute">
-                            <SpinerLoader />
-                        </div>
+                        <tbody>
+                        <tr>
+                            <td colSpan={11}>
+                                <div className="flex w-full justify-center items-center h-[428px]">
+                                    <SpinerLoader />
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
                     ) : (
                         NowData?.map((val) => (
-                        <tbody>
+                        <tbody key={val.symbol}>
                             <tr
                                 className="border-b border-fintown-lnr-1 hover:bg-fintown-hvr-btn-1"
-                                key={val.symbol}
                             >
                                 <td className="py-[21px] px-[12px]">
                                     <div className="flex">

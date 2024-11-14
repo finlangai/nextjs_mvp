@@ -1,3 +1,5 @@
+import dynamic from 'next/dynamic';
+
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import HC_more from 'highcharts/highcharts-more';
@@ -10,10 +12,16 @@ import { PriceStockNoVolume } from '@/src/interfaces/PriceStock';
 import { useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { selectPriceStocksLoading } from '@/src/redux/PriceStock';
 
+const MarketIndicatorChart = dynamic(() => {
+  return import('./MarketIndicatorChartComponent').then(mod => mod.default);
+}, {
+  ssr: false, // Tắt SSR cho component này
+});
+
 HC_more(Highcharts);
 configureHighchartsLanguage();
 
-const MarketIndicatorChart = ({data} : {data: PriceStockNoVolume[]}) => {
+const MarketIndicatorChartComponent  = ({data} : {data: PriceStockNoVolume[]}) => {
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<HighchartsReact.RefObject>(null);
   const selectLoading = useAppSelector(selectPriceStocksLoading);
@@ -27,7 +35,7 @@ const MarketIndicatorChart = ({data} : {data: PriceStockNoVolume[]}) => {
   };
 
   return (
-      <div ref={chartContainerRef} style={{ cursor: 'crosshair' }}>
+      <div ref={chartContainerRef} >
         <HighchartsReact
           highcharts={Highcharts}
           options={getChartOptions(data)}
@@ -37,4 +45,4 @@ const MarketIndicatorChart = ({data} : {data: PriceStockNoVolume[]}) => {
   );
 };
 
-export default MarketIndicatorChart;
+export default MarketIndicatorChartComponent ;
