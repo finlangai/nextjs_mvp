@@ -36,7 +36,7 @@ export default function HolderList({symbol} : {symbol: string}){
 
     return (
         <>
-        <div id="holders" className='pr-[20px]'>
+        <div id="holders" className='pr-[20px] pb-[100px] anchor-section'>
             <div className='text-fintown-txt-1 font-bold text-[20px] mb-[12px]'>
                 Danh sách cổ đông
             </div>

@@ -27,6 +27,17 @@ body::-webkit-scrollbar-thumb:hover {
   background-color: #555;  /* Màu khi hover vào thanh cuộn */
 }
 
+/* Thêm đoạn CSS này để điều chỉnh vị trí cuộn LINK HREF HTML */
+.anchor-section {
+  scroll-margin-top: 80px; /* Điều chỉnh giá trị này bằng với chiều cao của header cố định */
+}
+
+.anchor-section-top {
+  scroll-margin-top: 500px; /* Điều chỉnh giá trị này bằng với chiều cao của header cố định */
+}
+
+/* ====================================== */
+
 /* Tùy chỉnh thanh cuộn */
 .custom-scrollbarmini::-webkit-scrollbar {
   width: 8px; /* Độ rộng thanh cuộn */

@@ -43,8 +43,8 @@ export default function CompanyDescriptionComponent({symbol} : {symbol: string})
     
     return (
         <>
-        <div className='flex flex-col gap-y-[100px]'>
-            <div id="overview" className='pr-[20px]' >
+        <div className='flex flex-col'>
+            <div id="overview" className='pr-[20px] pb-[100px] anchor-section ' >
                 <div className='text-fintown-txt-1 font-bold text-[20px] mb-[12px]'>
                     Tổng quan
                 </div>
@@ -53,7 +53,7 @@ export default function CompanyDescriptionComponent({symbol} : {symbol: string})
                 </div>
             </div>
 
-            <div id="history" className='pr-[20px]'>
+            <div id="history" className='pr-[20px] pb-[100px] anchor-section'>
                 <div className='text-fintown-txt-1 font-bold text-[20px] mb-[12px]'>
                     Lịch sử phát triển
                 </div>
@@ -75,7 +75,7 @@ export default function CompanyDescriptionComponent({symbol} : {symbol: string})
                 </div>
             </div>
             
-            <div id="promise" className='pr-[20px]'>
+            <div id="promise" className='pr-[20px] pb-[100px] anchor-section'>
                 <div className='text-fintown-txt-1 font-bold text-[20px] mb-[12px]'>
                     Lời hứa
                 </div>
@@ -97,7 +97,7 @@ export default function CompanyDescriptionComponent({symbol} : {symbol: string})
                 </div>
             </div>
 
-            <div id="businessrisk" className='pr-[20px]'>
+            <div id="businessrisk" className='pr-[20px] pb-[100px] anchor-section'>
                 <div className='text-fintown-txt-1 font-bold text-[20px] mb-[12px]'>
                     Thách thức
                 </div>
@@ -119,7 +119,7 @@ export default function CompanyDescriptionComponent({symbol} : {symbol: string})
                 </div>
             </div>
 
-            <div id="keydevelopments" className='pr-[20px]'>
+            <div id="keydevelopments" className='pr-[20px] pb-[100px] anchor-section'>
                 <div className='text-fintown-txt-1 font-bold text-[20px] mb-[12px]'>
                     Chiến lược kinh doanh
                 </div>
@@ -141,7 +141,7 @@ export default function CompanyDescriptionComponent({symbol} : {symbol: string})
                 </div>
             </div>
 
-            <div id="basic" className='pr-[20px]'>
+            <div id="basic" className='pr-[20px] pb-[100px] anchor-section'>
                 <div className='text-fintown-txt-1 font-bold text-[20px] mb-[12px]'>
                     Thông tin cơ bản
                 </div>
@@ -239,7 +239,7 @@ export default function CompanyDescriptionComponent({symbol} : {symbol: string})
                 </div>
             </div>
 
-            <div id="listing" className='pr-[20px]'>
+            <div id="listing" className='pr-[20px] pb-[100px] anchor-section'>
                 <div className='text-fintown-txt-1 font-bold text-[20px] mb-[12px]'>
                     Thông tin niêm yết
                 </div>

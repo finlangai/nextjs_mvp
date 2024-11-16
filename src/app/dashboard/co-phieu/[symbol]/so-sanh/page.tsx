@@ -20,7 +20,7 @@ export default function SoSanhPage({ params }: { params: { symbol: string } }) {
     const [activeTabIndex, setActiveTabIndex] = useState<number>(0);
 
     // Xác định UI của trang đang ở
-    useSetSelectedButtonSiderBar(4);
+    useSetSelectedButtonSiderBar(3);
     useSetSelectedButtonStockPage(5);
 
     const tabs: Tab[] = [

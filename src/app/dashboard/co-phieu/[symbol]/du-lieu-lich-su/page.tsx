@@ -4,6 +4,7 @@ import useSetSelectedButtonSiderBar from '@/src/redux/hooks/useButtonsiderBar';
 import { selectSelectedButton, setSelectedButtonAndText } from '@/src/redux/HistoricalDataPage';
 import useSetSelectedButtonStockPage from '@/src/redux/hooks/useButtonstockPage';
 import HistoricalDataTable from '@/src/components/organisms/HistoricalDataTable';
+import FilterRangeTimeTransaction from '@/src/components/organisms/FilterRangeTimeTransaction';
 
 export default function DuLieuLichSuPage({ params }: { params: { symbol: string } }) {
     const { symbol } = params;
@@ -40,31 +41,15 @@ export default function DuLieuLichSuPage({ params }: { params: { symbol: string 
 
             {/* =========================================FILTER============================================== */}
 
-            <div className='px-[40px] flex items-center gap-x-[26px] mb-[20px]'>
-                <div className='flex items-center gap-x-[15px]'>
-                    <button className='flex items-center py-[10px] px-[15px] rounded-[10px] bg-fintown-btn-disable'>
-                        <div className='mr-[10px] text-fintown-txt-1 text-[14px]'>Chọn ngày</div>
-                        <i className='bx bx-calendar text-fintown-txt-1'></i>
-                    </button>
-
-                    <div className='text-fintown-txt-1 text-[14px]'>
-                        đến
-                    </div>
-
-                    <button className='flex items-center py-[10px] px-[15px] rounded-[10px] bg-fintown-btn-disable'>
-                        <div className='mr-[10px] text-fintown-txt-1 text-[14px]'>Chọn ngày</div>
-                        <i className='bx bx-calendar text-fintown-txt-1'></i>
-                    </button>
-
-                    <button className='flex items-center py-[10px] px-[20px] rounded-[10px] bg-fintown-pr9 justify-center'>
-                        <div className='text-fintown-txt-1 text-[14px]'>Xác nhận</div>
-                    </button>
-                </div>
-            </div>
+            < FilterRangeTimeTransaction symbol={symbol}/>
 
             {/* =========================================FILTER============================================== */}
             <div className='px-[40px] mb-[40px]'>
-                < HistoricalDataTable symbol={symbol}/>
+                {
+                    selectedButton === 2 && (
+                        < HistoricalDataTable symbol={symbol}/>
+                    )
+                }
             </div>
 
         </>

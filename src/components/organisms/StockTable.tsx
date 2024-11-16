@@ -1,44 +1,50 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
-import { fetchTickerList, selectTickerListsData, selectTickerListsLoading, selectTickerListsError } from '@/src/redux/TickerList';
+import {
+    fetchTickerList,
+    selectTickerListsData,
+    selectTickerListsLoading,
+} from '@/src/redux/TickerList';
 import { TickerList } from '@/src/interfaces/TickerList';
 import { SpinerLoader } from '../common/Loader';
 import Link from 'next/link';
-import { selectLimitPage, setTotalPages } from '@/src/redux/TickerList';
+import {
+    selectLimitPage,
+} from '@/src/redux/TickerList';
 import StockTheadTable from './StcockTheadTable';
 
 const StockTable = () => {
     const dispatch = useAppDispatch();
     const selectTickerLists = useAppSelector(selectTickerListsData);
-    const [NowData, setNowData] = useState<TickerList[] | null>(null);
+    const [nowData, setNowData] = useState<TickerList[] | null>(null);
     const hasFetched = useRef(false);
+    
+    // Selectors
     const limitPagination = useAppSelector(selectLimitPage);
-    const TickerListsLoading = useAppSelector(selectTickerListsLoading);
+    const tickerListsLoading = useAppSelector(selectTickerListsLoading);
 
-    // Fetch API Lần đầu
+    // Initial data fetch
     useEffect(() => {
         if (!hasFetched.current) {
-            dispatch(fetchTickerList({ limit: limitPagination, offset: "", sortOn: "marketcap",  sortOrder: "desc" }));
+            Promise.all([
+                dispatch(fetchTickerList({
+                    limit: limitPagination,
+                    offset: "",
+                    sortOn: "marketcap",
+                    sortOrder: "desc"
+                })),
+            ]);
+            
             hasFetched.current = true;
         }
     }, [dispatch]);
-    
-    // Lưu data đã fetch
+
+    // Update local state when ticker list data changes
     useEffect(() => {
-        if (selectTickerLists !== null) {
+        if (selectTickerLists) {
             setNowData(selectTickerLists);
         }
     }, [selectTickerLists]);
-
-    // Set tổng số items để tạo ra danh sách trang
-    useEffect(()=> {
-        const total = 30;
-        if (typeof total === 'number') {
-            const totalItems: number = total;
-            const totalPages = Math.ceil(totalItems / limitPagination);
-            dispatch(setTotalPages(totalPages));
-        }    
-    }, []);
 
     return (
         <table className="table-fixed w-full relative">
@@ -59,12 +65,12 @@ const StockTable = () => {
             < StockTheadTable />
 
             {
-                TickerListsLoading ? (
+                tickerListsLoading ? (
                     <div className="flex w-full justify-center items-center h-[428px] absolute">
                         <SpinerLoader />
                     </div>
                 ) : (
-                    NowData?.map((val) => (
+                    nowData?.map((val) => (
                     <tbody>
                         <tr
                             className="border-b border-fintown-lnr-1 hover:bg-fintown-hvr-btn-1"
