@@ -1,7 +1,7 @@
-
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { RootState } from '../store';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -11,7 +11,8 @@ interface AuthState {
         email: string,
         avatar?: string,
         fullname?: string,
-        phone?: string
+        phone?: string,
+        scope?: string[]
     };
     token: string | null;
     emailVerified: boolean;
@@ -194,32 +195,32 @@ export const updateUserInformation = createAsyncThunk(
     }
   );
   
-  // Thunk to update user avatar
-  export const updateUserAvatar = createAsyncThunk(
+// Thunk to update user avatar
+export const updateUserAvatar = createAsyncThunk(
     "auth/updateAvatar",
     async (file: File, { rejectWithValue }) => {
-      try {
+        try {
         const token = Cookies.get("token");
-  
+
         const formData = new FormData();
         formData.append("avatar", file);
-  
+
         const response = await axios.post(
             `${apiUrl}/general/user/change-avatar`,
-          formData,
-          {
+            formData,
+            {
             headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "multipart/form-data",
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "multipart/form-data",
             },
-          }
+            }
         );
         return response.data;
-      } catch (error) {
+        } catch (error) {
         return rejectWithValue("Failed to update avatar");
-      }
+        }
     }
-  );
+);
 
 // Slice để quản lý trạng thái đăng nhập và thông tin người dùng
 const authSlice = createSlice({
@@ -310,6 +311,21 @@ const authSlice = createSlice({
             });
     },
 });
+
+// Selector để lấy token từ Redux state
+export const selectTokenFromRedux = (state: RootState): string | null => state.auth.token;
+
+// Selector để lấy token từ Cookies
+export const selectTokenFromCookies = (): string | null => Cookies.get("token") || null;
+
+// Selector ưu tiên token từ Redux, nếu không có thì lấy từ Cookies
+export const selectToken = (state: RootState): string | null => {
+    return selectTokenFromRedux(state) || selectTokenFromCookies();
+};
+
+// Selector để lấy thông tin user từ Redux state
+export const selectUser = (state: RootState) => state.auth.user;
+export const selecScope = (state: RootState) => state.auth.user?.scope;
 
 export const { logout } = authSlice.actions;
 export default authSlice.reducer;

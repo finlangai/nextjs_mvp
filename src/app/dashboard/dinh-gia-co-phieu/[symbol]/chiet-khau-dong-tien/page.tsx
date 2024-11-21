@@ -5,7 +5,9 @@ import SlidingTabs from "@/src/components/common/SlidingTabs";
 import PriceHistoryTab from '@/src/components/organisms/PriceHistoryTab';
 import useSetSelectedValuetionPage from '@/src/redux/hooks/useButtonValuetionPage';
 import { setHistorySelectedButton } from '@/src/redux/ValuetionPage/valuationHistorySlice';
-import { useAppDispatch } from '@/src/redux/hooks/useAppStore';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
+// import { selectToken } from "@/src/redux/auth";
+
 interface Tab {
     id: number;
     label: string;
@@ -50,6 +52,9 @@ export default function DiscountCashFlowPage({ params }: { params: { symbol: str
         { id: 0, label: "Máy tính" },
         { id: 1, label: "Lưu trữ định giá" }
     ];
+
+    // const token = useAppSelector(selectToken);
+    // console.log("Token:", token);
 
     return (
         <>

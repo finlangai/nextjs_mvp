@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useRef, useState } from 'react';
-import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import ChangeStockInput from '@/src/components/organisms/ChangeStock';
 import { selectSelectedButton } from '@/src/redux/ValuetionPage/valuetionPageSlice';
@@ -8,12 +7,69 @@ import { useAppSelector, useAppDispatch } from '@/src/redux/hooks/useAppStore';
 import useSetSelectedButtonSiderBar from '@/src/redux/hooks/useButtonsiderBar';
 import { setHistorySelectedButton, selectHistorySelectedButton } from '@/src/redux/ValuetionPage/valuationHistorySlice';
 import LogValuation from '@/src/components/organisms/LogValuation';
+import { selecScope } from "@/src/redux/auth";
+import LoginForm from '@/src/components/form/Login';
 
 export default function DinhGiaCoPhieuLayout({ children, params }: { children: React.ReactNode, params: { symbol: string } }){
+    const getScope = useAppSelector(selecScope);
     const symbol = params.symbol.toUpperCase();
     const isValidSymbol = /^[A-Z]{3}$/.test(symbol);
+    const formRef = useRef<HTMLDivElement>(null);
+    const linkRef = useRef<HTMLAnchorElement>(null);
+    
+    // Xử lý hiệu ứng trượt xuống khi modal xuất hiện
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    
+    useEffect(() => {
+        if (!getScope) {
+            const timer = setTimeout(() => setIsModalVisible(true), 0);
+            return () => clearTimeout(timer);
+        }
+    }, [getScope]);
+
     if (!isValidSymbol) {
-        redirect('/dashboard/'); 
+        linkRef.current?.click();
+        return null;
+    }
+
+    if (!getScope) {
+        return (
+            <div
+                className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70"
+                onClick={(event) => {
+                    if (formRef.current && !formRef.current.contains(event.target as Node)) {
+                        linkRef.current?.click();
+                    }
+                }}
+            >
+                <Link
+                    href="/dashboard"
+                    ref={linkRef}
+                    style={{ display: 'none' }}
+                >
+                    Go to Dashboard
+                </Link>
+
+                <div
+                    ref={formRef}
+                    className={`
+                        w-full
+                        max-w-md
+                        transform
+                        transition-all
+                        duration-500
+                        ${isModalVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'}
+                    `}
+                    style={{
+                        transform: isModalVisible ? 'translateY(0)' : 'translateY(-50px)',
+                        opacity: isModalVisible ? 1 : 0,
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    <LoginForm />
+                </div>
+            </div>
+        );
     }
 
     const dispatch = useAppDispatch();
