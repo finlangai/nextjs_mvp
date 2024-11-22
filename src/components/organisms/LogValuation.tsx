@@ -26,7 +26,10 @@ export default function LogValuation ({containerHeight} : {containerHeight: numb
             </div>
         </div>
 
-        <div className="overflow-y-auto custom-scrollbar pl-[30px] pr-[10px] mr-[30px]  flex flex-col gap-y-[20px] py-[20px]">
+        <div 
+        className="overflow-y-auto custom-scrollbar pl-[30px] pr-[10px] mr-[30px]  flex flex-col gap-y-[20px] py-[20px]"
+        style={{height: `${containerHeight}px`}}
+        >
             <div className="border-b border-b-fintown-br">
                 <div className="flex items-center mb-[15px]">
                     <div className="flex items-center">
@@ -204,8 +207,6 @@ export default function LogValuation ({containerHeight} : {containerHeight: numb
                 </div>
             </div>
         </div>
-
-
         </>
     )
 }

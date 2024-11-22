@@ -1,27 +1,46 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import FairValueCalculator from "@/src/components/organisms/FairValueCalculator";
 import SlidingTabs from "@/src/components/common/SlidingTabs";
 import PriceHistoryTab from '@/src/components/organisms/PriceHistoryTab';
 import useSetSelectedValuetionPage from '@/src/redux/hooks/useButtonValuetionPage';
 import { setHistorySelectedButton } from '@/src/redux/ValuetionPage/valuationHistorySlice';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
+import { fetchValuationParams } from '@/src/redux/ValuationParams/valuationParamsSlice';
+import { fetchValuationResult } from '@/src/redux/ValuationResult';
+import { selectToken } from "@/src/redux/auth";
 
 interface Tab {
     id: number;
     label: string;
 }
 
-export default function DiscountCashFlowPage({ params }: { params: { symbol: string } }) {
-    const dispatch = useAppDispatch();
-    useSetSelectedValuetionPage(0);
-    
+export default function HeSoPePage({ params }: { params: { symbol: string } }) {
     const { symbol } = params;
+    const dispatch = useAppDispatch();
+    useSetSelectedValuetionPage(3);
 
     const [activeTabIndex, setActiveTabIndex] = useState<number>(0);
     const [isPopupOpen, setIsPopupOpen] = useState(false); 
     const [isAnimating, setIsAnimating] = useState(false);
 
+    // FETCH API LẦN ĐẦU===============================================================
+    const hasFetched = useRef(false);
+    const token = useAppSelector(selectToken);
+    // console.log("Token:", token);
+
+    useEffect(() => {
+        if (!hasFetched.current) {
+            const name = 'price-to-earnings-relative-valuation';
+            if (token) {
+                dispatch(fetchValuationParams({ symbol: symbol, name: name, token: token }));
+                dispatch(fetchValuationResult({ symbol: symbol, name: name, token:token }));
+                hasFetched.current = true;
+            }
+        }
+    }, [dispatch]);
+
+    // POP UP THÊM KỊCH BẢN=============================================================
     useEffect(() => {
         if (isPopupOpen) {
             document.body.classList.add('overflow-hidden');
@@ -32,9 +51,15 @@ export default function DiscountCashFlowPage({ params }: { params: { symbol: str
         }
     }, [isPopupOpen]);
 
+    // SLIDING TAB======================================================================
     const handleTabChange = (index: number) => {
         setActiveTabIndex(index);
     };
+
+    const tabs: Tab[] = [
+        { id: 0, label: "Máy tính" },
+        { id: 1, label: "Lưu trữ định giá" }
+    ];
 
     const renderContent = () => {
         switch (activeTabIndex) {
@@ -49,21 +74,16 @@ export default function DiscountCashFlowPage({ params }: { params: { symbol: str
         }
     };
 
-    const tabs: Tab[] = [
-        { id: 0, label: "Máy tính" },
-        { id: 1, label: "Lưu trữ định giá" }
-    ];
-
     return (
         <>
             <div className='w-full'>
                 <div className='py-[30px] px-[24px] justify-between border-r border-b border-fintown-br'>
                     <div className='text-[20px] font-bold text-fintown-txt-1 mb-[16px]'>
-                        Mô hình chiết khấu dòng tiền (Discounted Cash Flow)
+                        Mô hình định giá theo hệ số P/E (Price to Earnings)
                     </div>
 
                     <div className="text-[14px] text-fintown-txt-1">
-                        Công thức: P0 = Σ (FCFt) / (1 + r)^t
+                        Công thức: P = EPS x P/E
                     </div>
                 </div>
 
