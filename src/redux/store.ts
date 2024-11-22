@@ -36,6 +36,7 @@ import SearchStockTechChartReducers from "./SearchStockTechChart/searchStockTech
 import TickerListOverviewReducers from "./TickerListOverview/tickerListOverviewSlice";
 import valuetionParamsReducers from './ValuationParams';
 import valuationResultReduces from "./ValuationResult/valuationResultSlice"
+import ScenariosReducers from "./Scenarios/scenariosSlice"
 
 const tickerListReducer = combineReducers({
   TickerList: TickerListReducer,
@@ -91,6 +92,7 @@ const store = configureStore({
     valuetionPage: valuetionReducers,
     valuationParams: valuetionParamsReducers,
     valuationResult: valuationResultReduces,
+    scenarios: ScenariosReducers,
 
     instrumentList: InstrumentListReducers,
     technicalChartOverview: TechnicalChartOverviewReducers,

@@ -4,6 +4,7 @@ import useSetSelectedValuetionPage from '@/src/redux/hooks/useButtonValuetionPag
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { fetchValuationParams } from '@/src/redux/ValuationParams/valuationParamsSlice';
 import { fetchValuationResult } from '@/src/redux/ValuationResult';
+import { fetchScenarios } from '@/src/redux/Scenarios';
 import { selectToken } from "@/src/redux/auth";
 import ValuationCentral from '@/src/components/organisms/ValuationCentral';
 
@@ -22,6 +23,7 @@ export default function HeSoPbPage({ params }: { params: { symbol: string } }) {
             if (token) {
                 dispatch(fetchValuationParams({ symbol: symbol, name: name, token: token }));
                 dispatch(fetchValuationResult({ symbol: symbol, name: name, token:token }));
+                dispatch(fetchScenarios({ symbol: symbol, name: name, token:token }));
                 hasFetched.current = true;
             }
         }

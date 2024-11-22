@@ -34,29 +34,24 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
     const [containerHeight, setContainerHeight] = useState<number>(0);
 
     useEffect(() => {
-        if(!getScope){
+        if (!getScope || !containerRef.current) {
             return;
         }
-
-        // Lấy chiều cao của phần tử cha sau khi component đã render
-        if (containerRef.current) {
+    
         setContainerHeight(containerRef.current.clientHeight);
-        }
-
-        // Thiết lập listener để cập nhật chiều cao khi có sự thay đổi kích thước
+    
         const handleResize = () => {
-        if (containerRef.current) {
-            setContainerHeight(containerRef.current.clientHeight);
-        }
+            if (containerRef.current) {
+                setContainerHeight(containerRef.current.clientHeight);
+            }
         };
-
+    
         window.addEventListener('resize', handleResize);
-
-        // Dọn dẹp listener khi component unmount
+    
         return () => {
-        window.removeEventListener('resize', handleResize);
+            window.removeEventListener('resize', handleResize);
         };
-    }, [containerRef]);
+    }, [getScope, containerRef.current, symbol]);
 
     // Xử lý hiệu ứng trượt xuống khi modal xuất hiện
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -117,10 +112,12 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
                         < ValuationHeader symbol={symbol} />
                     </div>
 
-                    <div className='flex border-r border-fintown-br'>
+                    <div className='flex border-r border-fintown-br' ref={containerRef} >
 
                         <div 
                         className='min-w-[265px] w-max pl-[40px] pt-[25px] pr-[24px] border-r border-fintown-br flex flex-col gap-y-[10px]' 
+                        
+
                         >
                             <Link href={`/dashboard/dinh-gia-co-phieu/${symbol}/chiet-khau-dong-tien`}>
                                 <div
@@ -171,7 +168,6 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
                         </div>
 
                         <div className='w-full h-full'
-                        ref={containerRef} 
                         >
                             {children}
                         </div>
