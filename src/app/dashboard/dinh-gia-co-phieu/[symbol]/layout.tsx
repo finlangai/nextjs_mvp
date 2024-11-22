@@ -158,13 +158,16 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
                                 </div>
                             </Link>
 
-                            <div
-                            className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${
-                                selectedButton === 4 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
-                            }`}
-                            >
-                            Hệ số P/B
-                            </div>
+                            <Link href={`/dashboard/dinh-gia-co-phieu/${symbol}/he-so-pb`}>
+                                <div
+                                className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${
+                                    selectedButton === 4 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
+                                }`}
+                                >
+                                Hệ số P/B
+                                </div>
+                            </Link>
+
                         </div>
 
                         <div className='w-full h-full'

@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-import { PeParams } from '@/src/interfaces/Valuation';
+import { PeParams, PbParams } from '@/src/interfaces/Valuation';
 
 interface ValuationParamsState {
-  data: PeParams | null;
+  data: PeParams | PbParams | null;
   loading: boolean;
   error: string | null;
 }

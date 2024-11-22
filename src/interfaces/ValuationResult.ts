@@ -1,3 +1,3 @@
 export interface ValuationResult {
-    valuationResult: number
+    valuationResult: number;
 }

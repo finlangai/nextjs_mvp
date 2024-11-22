@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import useSetSelectedValuetionPage from '@/src/redux/hooks/useButtonValuetionPage';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { fetchValuationParams } from '@/src/redux/ValuationParams/valuationParamsSlice';
@@ -7,10 +7,10 @@ import { fetchValuationResult } from '@/src/redux/ValuationResult';
 import { selectToken } from "@/src/redux/auth";
 import ValuationCentral from '@/src/components/organisms/ValuationCentral';
 
-export default function HeSoPePage({ params }: { params: { symbol: string } }) {
+export default function HeSoPbPage({ params }: { params: { symbol: string } }) {
     const { symbol } = params;
     const dispatch = useAppDispatch();
-    useSetSelectedValuetionPage(3);
+    useSetSelectedValuetionPage(4);
 
     // FETCH API LẦN ĐẦU===============================================================
     const hasFetched = useRef(false);
@@ -18,7 +18,7 @@ export default function HeSoPePage({ params }: { params: { symbol: string } }) {
 
     useEffect(() => {
         if (!hasFetched.current) {
-            const name = 'price-to-earnings-relative-valuation';
+            const name = 'price-to-book-relative-valuation';
             if (token) {
                 dispatch(fetchValuationParams({ symbol: symbol, name: name, token: token }));
                 dispatch(fetchValuationResult({ symbol: symbol, name: name, token:token }));
@@ -27,13 +27,12 @@ export default function HeSoPePage({ params }: { params: { symbol: string } }) {
         }
     }, [dispatch]);
 
-
     return (
         <>
-            < ValuationCentral
+            < ValuationCentral 
             symbol={symbol} 
-            name='Mô hình định giá theo hệ số P/E (Price to Earnings)'
-            formular='Công thức: P = EPS x P/E'
+            name='Mô hình định giá theo hệ số P/B (Price to Book)'
+            formular='Công thức: P = BVPS x P/B'
             />
         </>
     );

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { PeParamsComponent } from './ValuationParams';
+import { PeParamsComponent, PbParamsComponent } from './ValuationParams';
 import { selectSelectedButton } from '@/src/redux/ValuetionPage/valuetionPageSlice';
 import { useAppSelector, useAppDispatch } from '@/src/redux/hooks/useAppStore';
 import ValuationResult from './ValuationResult';
@@ -12,6 +12,9 @@ export default function FairValueCalculator({symbol} : {symbol: string}){
         <div className="px-[24px] py-[24px]">
             <div className="px-[24px] py-[24px] border border-fintown-br rounded-[8px] flex justify-between">
                 <div className="w-full pr-[24px] ">
+                    <div className="font-[500] text-[14px] text-fintown-txt-2 mb-[12px]">
+                        Giá trị thực:
+                    </div>
                     < ValuationResult />
                     
                     {
@@ -59,6 +62,12 @@ export default function FairValueCalculator({symbol} : {symbol: string}){
                             {
                                 selectButton === 3 && (
                                     < PeParamsComponent />
+                                )
+                            }
+
+                            {
+                                selectButton === 4 && (
+                                    < PbParamsComponent />
                                 )
                             }
                         </div>
