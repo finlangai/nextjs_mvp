@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
-import { PeParamsComponent, PbParamsComponent } from './ValuationParams';
+import { 
+    PeParamsComponent, 
+    PbParamsComponent, 
+    BenjaminGramhamParamsComponent, 
+    DDMParamsComponent 
+} from './ValuationParams';
 import { selectSelectedButton } from '@/src/redux/ValuetionPage/valuetionPageSlice';
 import { useAppSelector, useAppDispatch } from '@/src/redux/hooks/useAppStore';
 import ValuationResult from './ValuationResult';
@@ -59,6 +64,18 @@ export default function FairValueCalculator({symbol} : {symbol: string}){
                         </div>
 
                         <div>
+                            {
+                                selectButton === 1 && (
+                                    < DDMParamsComponent />
+                                )
+                            }
+
+                            {
+                                selectButton === 2 && (
+                                    < BenjaminGramhamParamsComponent />
+                                )
+                            }
+
                             {
                                 selectButton === 3 && (
                                     < PeParamsComponent />

@@ -8,19 +8,18 @@ import { fetchScenarios } from '@/src/redux/Scenarios';
 import { selectToken } from "@/src/redux/auth";
 import ValuationCentral from '@/src/components/organisms/valuetion/ValuationCentral';
 
-export default function HeSoPePage({ params }: { params: { symbol: string } }) {
+export default function BenjaminGrahamValuetionPage({ params }: { params: { symbol: string } }) {
     const { symbol } = params;
     const dispatch = useAppDispatch();
-    useSetSelectedValuetionPage(3);
+    useSetSelectedValuetionPage(2);
 
     // FETCH API LẦN ĐẦU===============================================================
     const hasFetched = useRef(false);
     const token = useAppSelector(selectToken);
-    console.log('token', token);
 
     useEffect(() => {
         if (!hasFetched.current) {
-            const name = 'price-to-earnings-relative-valuation';
+            const name = 'graham-intrinsic-value-formula';
             if (token) {
                 dispatch(fetchValuationParams({ symbol: symbol, name: name, token: token }));
                 dispatch(fetchValuationResult({ symbol: symbol, name: name, token: token }));
@@ -35,8 +34,8 @@ export default function HeSoPePage({ params }: { params: { symbol: string } }) {
         <>
             < ValuationCentral
                 symbol={symbol}
-                name='Mô hình định giá theo hệ số P/E (Price to Earnings)'
-                formular='Công thức: P = EPS x P/E'
+                name='Công thức định giá cổ phiếu của Benjamin Graham'
+                formular='Công thức: V = (E x (8.5 + 2g) x 4.4) / y'
             />
         </>
     );

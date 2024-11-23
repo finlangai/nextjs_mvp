@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { selectScenariosData, selectScenariosLoading } from '@/src/redux/Scenarios';
 import { useAppSelector, useAppDispatch } from '@/src/redux/hooks/useAppStore';
-import { SpinerLoader } from "../common/Loader";
+import { SpinerLoader } from "@/src/components/common/Loader";
 
 export default function LogValuation ({containerHeight} : {containerHeight: number}){
     const scenariosData = useAppSelector(selectScenariosData);
@@ -23,7 +23,7 @@ export default function LogValuation ({containerHeight} : {containerHeight: numb
                     Danh sách kịch bản định giá
                 </div>
                 <div className="text-[10px] text-fintown-txt-1 h-[20px] w-[20px] rounded-[2px] bg-[#656F79] flex items-center justify-center">
-                    <span className="h-max">36</span>
+                    <span className="h-max">{scenariosData?.length}</span>
                 </div>
             </div>
         </div>

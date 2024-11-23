@@ -5,7 +5,7 @@ import { selectSelectedButton } from '@/src/redux/ValuetionPage/valuetionPageSli
 import { useAppSelector, useAppDispatch } from '@/src/redux/hooks/useAppStore';
 import useSetSelectedButtonSiderBar from '@/src/redux/hooks/useButtonsiderBar';
 import { setHistorySelectedButton, selectHistorySelectedButton } from '@/src/redux/ValuetionPage/valuationHistorySlice';
-import LogValuation from '@/src/components/organisms/LogValuation';
+import LogValuation from '@/src/components/organisms/valuetion/LogValuation';
 import { selecScope } from "@/src/redux/auth";
 import LoginForm from '@/src/components/form/Login';
 import ValuationHeader from '@/src/components/organisms/valuetion/ValuationHeader';
@@ -128,19 +128,23 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
                                 </div>
                             </Link>
 
-                            <div
-                                className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${selectedButton === 1 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
-                                    }`}
-                            >
-                                Chiết khấu cổ tức
-                            </div>
+                            <Link href={`/dashboard/dinh-gia-co-phieu/${symbol}/chiet-khau-co-tuc`}>
+                                <div
+                                    className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${selectedButton === 1 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
+                                        }`}
+                                >
+                                    Chiết khấu cổ tức
+                                </div>
+                            </Link>
 
-                            <div
-                                className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${selectedButton === 2 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
-                                    }`}
-                            >
-                                Benjamin Graham
-                            </div>
+                            <Link href={`/dashboard/dinh-gia-co-phieu/${symbol}/benjamin-graham`}>
+                                <div
+                                    className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${selectedButton === 2 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
+                                        }`}
+                                >
+                                    Benjamin Graham
+                                </div>
+                            </Link>
 
                             <Link href={`/dashboard/dinh-gia-co-phieu/${symbol}/he-so-pe`}>
                                 <div

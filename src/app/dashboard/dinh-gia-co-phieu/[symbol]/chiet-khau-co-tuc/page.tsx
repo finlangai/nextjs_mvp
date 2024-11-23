@@ -8,19 +8,18 @@ import { fetchScenarios } from '@/src/redux/Scenarios';
 import { selectToken } from "@/src/redux/auth";
 import ValuationCentral from '@/src/components/organisms/valuetion/ValuationCentral';
 
-export default function HeSoPePage({ params }: { params: { symbol: string } }) {
+export default function DDMValuetionPage({ params }: { params: { symbol: string } }) {
     const { symbol } = params;
     const dispatch = useAppDispatch();
-    useSetSelectedValuetionPage(3);
+    useSetSelectedValuetionPage(1);
 
     // FETCH API LẦN ĐẦU===============================================================
     const hasFetched = useRef(false);
     const token = useAppSelector(selectToken);
-    console.log('token', token);
 
     useEffect(() => {
         if (!hasFetched.current) {
-            const name = 'price-to-earnings-relative-valuation';
+            const name = 'dividend-discount-model';
             if (token) {
                 dispatch(fetchValuationParams({ symbol: symbol, name: name, token: token }));
                 dispatch(fetchValuationResult({ symbol: symbol, name: name, token: token }));
@@ -35,8 +34,8 @@ export default function HeSoPePage({ params }: { params: { symbol: string } }) {
         <>
             < ValuationCentral
                 symbol={symbol}
-                name='Mô hình định giá theo hệ số P/E (Price to Earnings)'
-                formular='Công thức: P = EPS x P/E'
+                name='Mô hình chiết khấu cổ tức (Dividend Discount Model)'
+                formular='Công thức: P0 = D1 / (r - g)'
             />
         </>
     );
