@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { setHistorySelectedButton } from '@/src/redux/ValuetionPage/valuationHistorySlice';
-import FairValueCalculator from "@/src/components/organisms/FairValueCalculator";
-import PriceHistoryTab from '@/src/components/organisms/PriceHistoryTab';
+import FairValueCalculator from "@/src/components/organisms/valuetion/FairValueCalculator";
+import PriceHistoryTab from '@/src/components/organisms/valuetion/PriceHistoryTab';
 import SlidingTabs from "@/src/components/common/SlidingTabs";
 
 interface Tab {
@@ -10,9 +10,9 @@ interface Tab {
     label: string;
 }
 
-export default function ValuationCentral({symbol, name, formular} : {symbol: string; name: string; formular: string}){
+export default function ValuationCentral({ symbol, name, formular }: { symbol: string; name: string; formular: string }) {
     const [activeTabIndex, setActiveTabIndex] = useState<number>(0);
-    const [isPopupOpen, setIsPopupOpen] = useState(false); 
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [isAnimating, setIsAnimating] = useState(false);
     const dispatch = useAppDispatch();
 
@@ -65,11 +65,11 @@ export default function ValuationCentral({symbol, name, formular} : {symbol: str
 
                 <div className="flex items-center px-[24px] border-b border-fintown-br">
                     <div className='py-6'>
-                        <SlidingTabs onTabChange={handleTabChange} tabs={tabs} gap={"18px"} startIndex={0} fontsize='14px'/>
+                        <SlidingTabs onTabChange={handleTabChange} tabs={tabs} gap={"18px"} startIndex={0} fontsize='14px' />
                     </div>
                     {activeTabIndex === 0 && (
-                        <button 
-                            onClick={() => setIsPopupOpen(true)} 
+                        <button
+                            onClick={() => setIsPopupOpen(true)}
                             className="text-fintown-txt-1 text-[12px] rounded py-[7px] px-[17px] bg-fintown-btn-2 ml-auto">
                             Lưu kịch bản
                         </button>
@@ -133,7 +133,7 @@ export default function ValuationCentral({symbol, name, formular} : {symbol: str
                         </div>
                     </div>
                 </div>
-            )}        
+            )}
         </>
     )
 }

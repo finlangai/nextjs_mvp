@@ -6,7 +6,7 @@ import { fetchValuationParams } from '@/src/redux/ValuationParams/valuationParam
 import { fetchValuationResult } from '@/src/redux/ValuationResult';
 import { fetchScenarios } from '@/src/redux/Scenarios';
 import { selectToken } from "@/src/redux/auth";
-import ValuationCentral from '@/src/components/organisms/ValuationCentral';
+import ValuationCentral from '@/src/components/organisms/valuetion/ValuationCentral';
 
 export default function HeSoPbPage({ params }: { params: { symbol: string } }) {
     const { symbol } = params;
@@ -22,8 +22,8 @@ export default function HeSoPbPage({ params }: { params: { symbol: string } }) {
             const name = 'price-to-book-relative-valuation';
             if (token) {
                 dispatch(fetchValuationParams({ symbol: symbol, name: name, token: token }));
-                dispatch(fetchValuationResult({ symbol: symbol, name: name, token:token }));
-                dispatch(fetchScenarios({ symbol: symbol, name: name, token:token }));
+                dispatch(fetchValuationResult({ symbol: symbol, name: name, token: token }));
+                dispatch(fetchScenarios({ symbol: symbol, name: name, token: token }));
                 hasFetched.current = true;
             }
         }
@@ -31,10 +31,10 @@ export default function HeSoPbPage({ params }: { params: { symbol: string } }) {
 
     return (
         <>
-            < ValuationCentral 
-            symbol={symbol} 
-            name='Mô hình định giá theo hệ số P/B (Price to Book)'
-            formular='Công thức: P = BVPS x P/B'
+            < ValuationCentral
+                symbol={symbol}
+                name='Mô hình định giá theo hệ số P/B (Price to Book)'
+                formular='Công thức: P = BVPS x P/B'
             />
         </>
     );

@@ -8,16 +8,16 @@ import { setHistorySelectedButton, selectHistorySelectedButton } from '@/src/red
 import LogValuation from '@/src/components/organisms/LogValuation';
 import { selecScope } from "@/src/redux/auth";
 import LoginForm from '@/src/components/form/Login';
-import ValuationHeader from '@/src/components/organisms/ValuationHeader';
+import ValuationHeader from '@/src/components/organisms/valuetion/ValuationHeader';
 
-export default function DinhGiaCoPhieuLayout({ children, params }: { children: React.ReactNode, params: { symbol: string } }){
+export default function DinhGiaCoPhieuLayout({ children, params }: { children: React.ReactNode, params: { symbol: string } }) {
     const selectedButton = useAppSelector(selectSelectedButton);
     const selectedTabRight = useAppSelector(selectHistorySelectedButton);
     const dispatch = useAppDispatch();
     useSetSelectedButtonSiderBar(6);
 
     const getScope = useAppSelector(selecScope);
-    
+
     const symbol = params.symbol.toUpperCase();
     const isValidSymbol = /^[A-Z]{3}$/.test(symbol);
 
@@ -30,24 +30,24 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
         return null;
     }
 
-    const containerRef = useRef<HTMLDivElement | null>(null); 
+    const containerRef = useRef<HTMLDivElement | null>(null);
     const [containerHeight, setContainerHeight] = useState<number>(0);
 
     useEffect(() => {
         if (!getScope || !containerRef.current) {
             return;
         }
-    
+
         setContainerHeight(containerRef.current.clientHeight);
-    
+
         const handleResize = () => {
             if (containerRef.current) {
                 setContainerHeight(containerRef.current.clientHeight);
             }
         };
-    
+
         window.addEventListener('resize', handleResize);
-    
+
         return () => {
             window.removeEventListener('resize', handleResize);
         };
@@ -106,7 +106,7 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
 
     return (
         <>
-            <div className='flex h' >
+            <div className='flex ' >
                 <div className='w-full' >
                     <div className='pl-[40px] border-r border-b border-fintown-br '>
                         < ValuationHeader symbol={symbol} />
@@ -114,54 +114,49 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
 
                     <div className='flex border-r border-fintown-br' ref={containerRef} >
 
-                        <div 
-                        className='min-w-[265px] w-max pl-[40px] pt-[25px] pr-[24px] border-r border-fintown-br flex flex-col gap-y-[10px]' 
-                        
+                        <div
+                            className='min-w-[265px] w-max pl-[40px] pt-[25px] pr-[24px] border-r border-fintown-br flex flex-col gap-y-[10px]'
+
 
                         >
                             <Link href={`/dashboard/dinh-gia-co-phieu/${symbol}/chiet-khau-dong-tien`}>
                                 <div
-                                    className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${
-                                    selectedButton === 0 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
-                                    }`}
+                                    className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${selectedButton === 0 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
+                                        }`}
                                 >
                                     Chiết khấu dòng tiền
                                 </div>
                             </Link>
 
                             <div
-                            className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${
-                                selectedButton === 1 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
-                            }`}
+                                className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${selectedButton === 1 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
+                                    }`}
                             >
-                            Chiết khấu cổ tức
+                                Chiết khấu cổ tức
                             </div>
 
                             <div
-                            className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${
-                                selectedButton === 2 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
-                            }`}
+                                className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${selectedButton === 2 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
+                                    }`}
                             >
-                            Benjamin Graham
+                                Benjamin Graham
                             </div>
 
                             <Link href={`/dashboard/dinh-gia-co-phieu/${symbol}/he-so-pe`}>
                                 <div
-                                className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${
-                                    selectedButton === 3 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
-                                }`}
+                                    className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${selectedButton === 3 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
+                                        }`}
                                 >
-                                Hệ số P/E
+                                    Hệ số P/E
                                 </div>
                             </Link>
 
                             <Link href={`/dashboard/dinh-gia-co-phieu/${symbol}/he-so-pb`}>
                                 <div
-                                className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${
-                                    selectedButton === 4 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
-                                }`}
+                                    className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${selectedButton === 4 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
+                                        }`}
                                 >
-                                Hệ số P/B
+                                    Hệ số P/B
                                 </div>
                             </Link>
 
@@ -172,7 +167,7 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
                             {children}
                         </div>
 
-                    </div> 
+                    </div>
                 </div>
 
                 <div className='min-w-[300px] max-w-[300px]'>
@@ -180,5 +175,5 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
                 </div>
             </div>
         </>
-    );   
+    );
 }

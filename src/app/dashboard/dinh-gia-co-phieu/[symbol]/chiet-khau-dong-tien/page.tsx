@@ -1,8 +1,8 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import FairValueCalculator from "@/src/components/organisms/FairValueCalculator";
+import FairValueCalculator from "@/src/components/organisms/valuetion/FairValueCalculator";
 import SlidingTabs from "@/src/components/common/SlidingTabs";
-import PriceHistoryTab from '@/src/components/organisms/PriceHistoryTab';
+import PriceHistoryTab from '@/src/components/organisms/valuetion/PriceHistoryTab';
 import useSetSelectedValuetionPage from '@/src/redux/hooks/useButtonValuetionPage';
 import { setHistorySelectedButton } from '@/src/redux/ValuetionPage/valuationHistorySlice';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
@@ -15,11 +15,11 @@ interface Tab {
 export default function DiscountCashFlowPage({ params }: { params: { symbol: string } }) {
     const dispatch = useAppDispatch();
     useSetSelectedValuetionPage(0);
-    
+
     const { symbol } = params;
 
     const [activeTabIndex, setActiveTabIndex] = useState<number>(0);
-    const [isPopupOpen, setIsPopupOpen] = useState(false); 
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [isAnimating, setIsAnimating] = useState(false);
 
     useEffect(() => {
@@ -69,11 +69,11 @@ export default function DiscountCashFlowPage({ params }: { params: { symbol: str
 
                 <div className="flex items-center px-[24px] border-b border-fintown-br">
                     <div className='py-6'>
-                        <SlidingTabs onTabChange={handleTabChange} tabs={tabs} gap={"18px"} startIndex={0} fontsize='12px'/>
+                        <SlidingTabs onTabChange={handleTabChange} tabs={tabs} gap={"18px"} startIndex={0} fontsize='12px' />
                     </div>
                     {activeTabIndex === 0 && (
-                        <button 
-                            onClick={() => setIsPopupOpen(true)} 
+                        <button
+                            onClick={() => setIsPopupOpen(true)}
                             className="text-fintown-txt-1 text-[12px] rounded py-[7px] px-[17px] bg-fintown-btn-2 ml-auto">
                             Lưu kịch bản
                         </button>

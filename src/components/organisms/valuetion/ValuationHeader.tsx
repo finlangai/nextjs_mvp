@@ -3,9 +3,9 @@ import ChangeStockInput from '@/src/components/organisms/ChangeStock';
 import { fetchProfileSummaries, selectProfileSummaryData, selectProfileSummaryLoading } from '@/src/redux/ProfileSummary';
 import { useAppSelector, useAppDispatch } from '@/src/redux/hooks/useAppStore';
 import { ProfileSummary } from '@/src/interfaces/ProfileSummary';
-import { SpinerLoader } from '../common/Loader';
+import { SpinerLoader } from '../../common/Loader';
 
-export default function ValuationHeader({symbol} : {symbol:string}){
+export default function ValuationHeader({ symbol }: { symbol: string }) {
     const dispatch = useAppDispatch();
     const selectData = useAppSelector(selectProfileSummaryData);
     const selectLoading = useAppSelector(selectProfileSummaryLoading);
@@ -36,7 +36,7 @@ export default function ValuationHeader({symbol} : {symbol:string}){
         );
     }
 
-    return(
+    return (
         <>
             <div className='flex items-center justify-between'>
                 <div className='flex items-center py-[16px] border-r border-fintown-br w-full justify-between'>
@@ -63,10 +63,10 @@ export default function ValuationHeader({symbol} : {symbol:string}){
                 <div className='px-[24px] py-[21px] min-w-[214px]'>
                     <div className='flex items-center justify-between mb-[7px]'>
                         <div className='text-left text-[12px] font-bold text-fintown-txt-2 mr-[7px]'>
-                            Giá: 
+                            Giá:
                         </div>
                         <div className='text-right text-[12px] text-fintown-txt-1'>
-                        {nowData?.close.toLocaleString('en-US')}
+                            {nowData?.close.toLocaleString('en-US')}
                         </div>
                     </div>
 

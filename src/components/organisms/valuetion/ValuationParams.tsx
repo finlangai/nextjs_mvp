@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import CalculatorChart from "../charts/valuetion/CalculatorChart";
-import 
-{ 
-    selectValuationParamsData, 
-    selectValuationParamsError, 
-    selectValuationParamsLoading 
-} 
-from '@/src/redux/ValuationParams/valuationParamsSlice';
+import CalculatorChart from "../../charts/valuetion/CalculatorChart";
+import {
+selectValuationParamsData,
+selectValuationParamsError,
+selectValuationParamsLoading
+}
+    from '@/src/redux/ValuationParams/valuationParamsSlice';
 import { useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { PeParams, PbParams } from '@/src/interfaces/Valuation';
-import { SpinerLoader } from "../common/Loader";
+import { SpinerLoader } from "../../common/Loader";
 
 export function PeParamsComponent() {
     const [nowData, setNowData] = useState<PeParams | PbParams | null>(null);
@@ -110,7 +109,7 @@ export function PbParamsComponent() {
 }
 
 
-export function DcfParams(){
+export function DcfParams() {
     const [showChart, setShowChart] = useState(false);
     const handleMouseEnter = () => {
         setShowChart(true);
@@ -119,13 +118,13 @@ export function DcfParams(){
     const handleMouseLeave = (e: any) => {
         const tooltipEl = document.querySelector('.tooltip-container');
         const iconEl = document.querySelector('.icon-trigger');
-        
+
         if (!tooltipEl?.contains(e.relatedTarget) && !iconEl?.contains(e.relatedTarget)) {
-          setShowChart(false);
+            setShowChart(false);
         }
     }
 
-    return(
+    return (
         <div className="flex flex-col gap-y-[10px]">
             <div className="border border-fintown-br py-[15px] px-[17px] rounded-[8px] relative">
                 <div className="text-[12px] text-fintown-txt-1 mb-[7px]">
@@ -147,18 +146,18 @@ export function DcfParams(){
                 </div>
 
                 {showChart && (
-                    <div 
-                    className="px-[22px] py-[20px] absolute rounded-[10px] bg-fintown-bg-stn w-[385px] h-max right-[0] tooltip-container"
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}
+                    <div
+                        className="px-[22px] py-[20px] absolute rounded-[10px] bg-fintown-bg-stn w-[385px] h-max right-[0] tooltip-container"
+                        onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave}
                     >
-                    <div className="text-fintown-txt-1 text-[14px] font-[600] mb-[38px]">
-                        Dòng tiền tương lai dự kiến (Tỷ)
-                    </div>
+                        <div className="text-fintown-txt-1 text-[14px] font-[600] mb-[38px]">
+                            Dòng tiền tương lai dự kiến (Tỷ)
+                        </div>
 
-                    <div className="w-full">
-                        <CalculatorChart />
-                    </div>
+                        <div className="w-full">
+                            <CalculatorChart />
+                        </div>
                     </div>
                 )}
             </div>
