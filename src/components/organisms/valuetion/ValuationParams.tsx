@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import CalculatorChart from "../../charts/valuetion/CalculatorChart";
+import FreeCashFlowChart from "../../charts/valuetion/FreeCashFlowChart";
 import {
     selectValuationParamsData,
     selectValuationParamsError,
@@ -40,7 +40,7 @@ export function PeParamsComponent() {
                     <div className="flex items-center justify-between">
                         <div className="text-[14px] text-fintown-txt-1 font-bold text-right">EPS</div>
                         <div className="text-[14px] text-fintown-txt-1">
-                            {nowData?.earnings_per_share.toLocaleString('en-US')}
+                            {nowData?.earnings_per_share?.toLocaleString('en-US')}
                         </div>
                     </div>
                 </div>
@@ -87,7 +87,7 @@ export function PbParamsComponent() {
                     <div className="flex items-center justify-between">
                         <div className="text-[14px] text-fintown-txt-1 font-bold text-right">BVPS</div>
                         <div className="text-[14px] text-fintown-txt-1">
-                            {nowData?.book_value_per_share.toLocaleString('en-US')}
+                            {nowData?.book_value_per_share?.toLocaleString('en-US')}
                         </div>
                     </div>
                 </div>
@@ -143,7 +143,15 @@ export function BenjaminGramhamParamsComponent() {
                     <div className="text-[12px] text-fintown-txt-1 mb-[7px]">Tỷ lệ tăng trưởng EPS dự kiến 7-10 năm tới</div>
                     <div className="flex items-center justify-between">
                         <div className="text-[14px] text-fintown-txt-1 font-bold">g</div>
-                        <div className="text-[14px] text-fintown-txt-1">{nowData?.earnings_per_share_growth_rate.toFixed(4)}</div>
+                        <div className="text-[14px] text-fintown-txt-1">{nowData?.earnings_per_share_growth_rate?.toFixed(4)}</div>
+                    </div>
+                </div>
+
+                <div className="border border-fintown-br py-[15px] px-[17px] rounded-[8px]">
+                    <div className="text-[12px] text-fintown-txt-1 mb-[7px]">Lãi suất trái phiếu doanh nghiệp hạng A hiện tại</div>
+                    <div className="flex items-center justify-between">
+                        <div className="text-[14px] text-fintown-txt-1 font-bold">y</div>
+                        <div className="text-[14px] text-fintown-txt-1">{nowData?.bonds_yield}</div>
                     </div>
                 </div>
             </>
@@ -151,15 +159,35 @@ export function BenjaminGramhamParamsComponent() {
     );
 }
 
-export function DCFParams() {
+export function DCFParamsComponent() {
+    const [nowData, setNowData] = useState<ValuationParams | null>(null);
     const [showChart, setShowChart] = useState(false);
+
+    const valuationParamsLoading = useAppSelector(selectValuationParamsLoading);
+    const valuationParamsData = useAppSelector(selectValuationParamsData);
+
+    useEffect(() => {
+        if (valuationParamsData !== null) {
+            setNowData(valuationParamsData);
+        }
+    }, [valuationParamsData]);
+
+    if (valuationParamsLoading) {
+        return (
+            <div className="flex justify-center items-center h-[280px]">
+                <SpinerLoader />
+            </div>
+        );
+    }
+
+    // HOVER SHOW CHART
     const handleMouseEnter = () => {
         setShowChart(true);
     };
 
     const handleMouseLeave = (e: any) => {
-        const tooltipEl = document.querySelector('.tooltip-container');
         const iconEl = document.querySelector('.icon-trigger');
+        const tooltipEl = document.querySelector('.tooltip');
 
         if (!tooltipEl?.contains(e.relatedTarget) && !iconEl?.contains(e.relatedTarget)) {
             setShowChart(false);
@@ -198,7 +226,11 @@ export function DCFParams() {
                         </div>
 
                         <div className="w-full">
-                            <CalculatorChart />
+                            {
+                                (nowData?.fcf_forecasts) && (
+                                    <FreeCashFlowChart data={nowData?.fcf_forecasts}/>
+                                )
+                            }
                         </div>
                     </div>
                 )}
@@ -215,7 +247,7 @@ export function DCFParams() {
                     </div>
 
                     <div className="text-[14px] text-fintown-txt-1">
-                        10%
+                        {nowData?.r?.toFixed(4)}
                     </div>
                 </div>
             </div>
@@ -239,7 +271,7 @@ export function DCFParams() {
     )
 }
 
-export function DDMParamsComponent() {
+export function DDMParamsComponent({g} : {g:number}) {
     const [nowData, setNowData] = useState<ValuationParams | null>(null);
 
     const valuationParamsLoading = useAppSelector(selectValuationParamsLoading);
@@ -275,10 +307,18 @@ export function DDMParamsComponent() {
                 </div>
 
                 <div className="border border-fintown-br py-[15px] px-[17px] rounded-[8px]">
-                    <div className="text-[12px] text-fintown-txt-1 mb-[7px]">Tỷ suất yêu cầu</div>
+                    <div className="text-[12px] text-fintown-txt-1 mb-[7px]">Tỷ suất yêu cầu (CAPM)</div>
                     <div className="flex items-center justify-between">
                         <div className="text-[14px] text-fintown-txt-1 font-bold">r</div>
                         <div className="text-[14px] text-fintown-txt-1">{nowData?.r?.toFixed(4)}</div>
+                    </div>
+                </div>
+
+                <div className="border border-fintown-br py-[15px] px-[17px] rounded-[8px]">
+                    <div className="text-[12px] text-fintown-txt-1 mb-[7px]">Tỷ lệ tăng trưởng cổ tức</div>
+                    <div className="flex items-center justify-between">
+                        <div className="text-[14px] text-fintown-txt-1 font-bold">g</div>
+                        <div className="text-[14px] text-fintown-txt-1">{g}</div>
                     </div>
                 </div>
             </>

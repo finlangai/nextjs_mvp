@@ -1,17 +1,21 @@
-// CalculatorChart.tsx
 import React, { useEffect, useRef } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import { FcfForecasts } from '@/src/interfaces/ValuationParams';
 
-const CalculatorChart: React.FC = () => {
+const FreeCashFlowChart = ({ data } : {data: FcfForecasts[]}) => {
   const chartRef = useRef<HighchartsReact.RefObject>(null);
+
+  // Chuyển đổi dữ liệu nhận được thành các giá trị phù hợp cho chart
+  const years = data.map(item => item.year.toString());
+  const freeCashFlowData = data.map(item => item.free_cash_flow);
 
   // Cấu hình chart và data
   const options: Highcharts.Options = {
     chart: {
       type: 'column',
       backgroundColor: 'transparent',
-      height: 150
+      height: 150,
     },
     title: {
       text: '',
@@ -20,7 +24,7 @@ const CalculatorChart: React.FC = () => {
       },
     },
     xAxis: {
-      categories: ['2024', '2025', '2026', '2027', '2028', '2029', '2030'],
+      categories: years,
       labels: {
         style: {
           color: '#fff',
@@ -41,21 +45,21 @@ const CalculatorChart: React.FC = () => {
       },
       gridLineColor: '#2B3139',
       tickAmount: 3,
+      type: 'logarithmic', // Sử dụng scale logarithmic
     },
     legend: {
-        enabled: false, // Ẩn legend
-      },
+      enabled: false,
+    },
     credits: {
-        enabled: false
+      enabled: false,
     },
     series: [
       {
-        name: '',
-        data: [100, 200, 150, 300, 250, 200, 180],
+        name: 'Free Cash Flow',
+        data: freeCashFlowData,
         type: 'column',
         color: '#00FF88',
-        borderWidth: 0
-        // Màu của cột
+        borderWidth: 0,
       },
     ],
   };
@@ -85,4 +89,4 @@ const CalculatorChart: React.FC = () => {
   );
 };
 
-export default CalculatorChart;
+export default FreeCashFlowChart;

@@ -3,14 +3,40 @@ import {
     PeParamsComponent, 
     PbParamsComponent, 
     BenjaminGramhamParamsComponent, 
-    DDMParamsComponent 
+    DDMParamsComponent,
+    DCFParamsComponent 
 } from './ValuationParams';
 import { selectSelectedButton } from '@/src/redux/ValuetionPage/valuetionPageSlice';
 import { useAppSelector, useAppDispatch } from '@/src/redux/hooks/useAppStore';
 import ValuationResult from './ValuationResult';
+import SliderWithValue from './SliderWithValue';
+import { fetchValuationResult } from '@/src/redux/ValuationResult';
+import { selectToken } from "@/src/redux/auth";
 
 export default function FairValueCalculator({symbol} : {symbol: string}){
+    const dispatch = useAppDispatch();
+
     const selectButton = useAppSelector(selectSelectedButton);
+    const [sliderValue, setSliderValue] = useState(0.03);
+
+    // Hàm callback để nhận giá trị từ SliderWithValue
+    const handleSliderChange = (value: number) => {
+      setSliderValue(value);
+    };
+
+    // Hàm tính toán
+    const token = useAppSelector(selectToken);
+    const calculateValue = () => {
+        const name = 'dividend-discount-model';
+        if (token) {
+            dispatch(fetchValuationResult({ symbol: symbol, name: name, token: token, body: { g: sliderValue } }));
+        }
+    }
+
+    // Reset Tham số
+    const resetParams = () => {
+        setSliderValue(0.03);
+    }
 
     return (
         <>
@@ -20,12 +46,19 @@ export default function FairValueCalculator({symbol} : {symbol: string}){
                     <div className="font-[500] text-[14px] text-fintown-txt-2 mb-[12px]">
                         Giá trị thực:
                     </div>
+
                     < ValuationResult />
-                    
+
                     {
-                        selectButton === 0 ? (
+                        (selectButton === 0 || selectButton === 1) ? (
+                            <hr className='border-fintown-br mt-[20px]'/>
+                        ) : null
+                    }
+
+                    {
+                        selectButton === 0 && (
                             <>
-                                <div className="mb-[14px] text-[14px] text-fintown-txt-2">
+                                <div className="mb-[14px] text-[14px] text-fintown-txt-2 mt-[20px]">
                                     Thời gian chiết khấu mong muốn
                                 </div>
                                 
@@ -48,8 +81,37 @@ export default function FairValueCalculator({symbol} : {symbol: string}){
                                         </div>
                                     </div>
                                 </div>
+                            </>
+                        )
+                    }
 
-                                <button className="text-[14px] text-fintown-txt-1 py-[12px] rounded-[8px] bg-fintown-pr9 w-full mt-[32px]">
+                    {
+                        selectButton === 1 && (
+                        <div className='mt-[20px]'>
+                            <div className='text-fintown-txt-1 text-[14px] font-bold mb-[30px]'>
+                                Tỷ suất sinh lợi yêu cầu
+                            </div>
+                            <div>
+                                < SliderWithValue 
+                                min={0} 
+                                max={100} 
+                                step={1} 
+                                value={sliderValue} 
+                                onChange={handleSliderChange}
+                                tooltip={true} 
+                                />
+                            </div>
+                        </div>
+                        )
+                    }
+
+                    {
+                        (selectButton === 0 || selectButton === 1) ? (
+                            <> 
+                                <button 
+                                className="text-[14px] text-fintown-txt-1 py-[12px] rounded-[8px] bg-fintown-pr9 w-full mt-[32px]"
+                                onClick={() => calculateValue()}
+                                >
                                     Tính toán
                                 </button>
                             </>
@@ -65,8 +127,14 @@ export default function FairValueCalculator({symbol} : {symbol: string}){
 
                         <div>
                             {
+                                selectButton === 0 && (
+                                    < DCFParamsComponent />
+                                )
+                            }
+
+                            {
                                 selectButton === 1 && (
-                                    < DDMParamsComponent />
+                                    < DDMParamsComponent g={sliderValue} />
                                 )
                             }
 
@@ -78,7 +146,7 @@ export default function FairValueCalculator({symbol} : {symbol: string}){
 
                             {
                                 selectButton === 3 && (
-                                    < PeParamsComponent />
+                                    < PeParamsComponent/>
                                 )
                             }
 
@@ -90,8 +158,11 @@ export default function FairValueCalculator({symbol} : {symbol: string}){
                         </div>
                     </div>
                     {
-                        selectButton === 0 ? (
-                            <button className="text-[14px] text-fintown-txt-1 py-[12px] rounded-[8px] bg-fintown-btn-2 w-full">
+                        (selectButton === 0 || selectButton === 1) ? (
+                            <button 
+                            className="text-[14px] text-fintown-txt-1 py-[12px] rounded-[8px] bg-fintown-btn-2 w-full"
+                            onClick={() => resetParams()}
+                            >
                                 Đặt lại
                             </button>
                         ) : null

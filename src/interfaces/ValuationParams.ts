@@ -1,3 +1,8 @@
+export interface FcfForecasts { 
+    year: number;
+    free_cash_flow: number;
+}
+
 export interface ValuationParams {
     earnings_per_share: number,
     price_to_earnings: number,
@@ -5,5 +10,7 @@ export interface ValuationParams {
     book_value_per_share: number,
     price_to_book: number,
     r: number,
-    D1: number
+    D1: number,
+    bonds_yield: number,
+    fcf_forecasts: FcfForecasts[]
 }

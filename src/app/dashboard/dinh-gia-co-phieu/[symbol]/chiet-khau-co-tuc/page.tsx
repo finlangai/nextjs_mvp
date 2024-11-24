@@ -22,13 +22,12 @@ export default function DDMValuetionPage({ params }: { params: { symbol: string 
             const name = 'dividend-discount-model';
             if (token) {
                 dispatch(fetchValuationParams({ symbol: symbol, name: name, token: token }));
-                dispatch(fetchValuationResult({ symbol: symbol, name: name, token: token }));
+                dispatch(fetchValuationResult({ symbol: symbol, name: name, token: token, body: { g: 0.03 } }));
                 dispatch(fetchScenarios({ symbol: symbol, name: name, token: token }));
                 hasFetched.current = true;
             }
         }
     }, [dispatch]);
-
 
     return (
         <>

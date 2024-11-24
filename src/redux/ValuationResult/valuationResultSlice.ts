@@ -18,7 +18,7 @@ const initialState: ValuationResultState = {
 export const fetchValuationResult = createAsyncThunk(
   'valuationResult/fetch',
   async (
-    { symbol, name, token }: { symbol: string; name: string; token: string },
+    { symbol, name, token, body = null }: { symbol: string; name: string; token: string; body?: Record<string, any> | null; },
     { rejectWithValue }
   ) => {
     const api = `${apiUrl}/valuation/${name}/${symbol}/calculate`;
@@ -34,6 +34,7 @@ export const fetchValuationResult = createAsyncThunk(
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
+        body: body ? JSON.stringify(body) : null,
       });
 
       if (!response.ok) {

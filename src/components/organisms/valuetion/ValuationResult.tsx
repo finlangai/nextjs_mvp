@@ -29,27 +29,22 @@ export default function ValuationResult() {
 
     return (
         <>
-            {/* <div className="font-[500] text-[14px] text-fintown-txt-2 mb-[12px]">
-                Giá trị thực:
-            </div> */}
-
-            <div className="flex items-end mb-[22px]">
+            <div className="flex items-end pb-[20px] border-b border-b-fintown-br">
                 <div className="font-bold text-[36px] text-fintown-txt-1 mr-[10px] leading-none">
-                    {valuationResultData?.valuationResult.toLocaleString('en-US')}
+                    {valuationResultData?.valuationResult?.toLocaleString('en-US')}
                 </div>
                 <div className="text-[12px] text-fintown-txt-2 pb-[2px]">
                     VNĐ/cổ phiếu
                 </div>
             </div>
 
-            <div className="mb-[40px]">
+            <div className={`pb-[10px] mb-[20px] border-b border-b-fintown-br mt-[20px]`}>
                 <UpsideRangerSlider value={upside} />
             </div>
 
             <div
                 className={`
                 text-[14px] text-fintown-txt-2 text-justify overflow-hidden
-                ${selectButton === 0 ? 'border-b border-fintown-br' : ''}  
                 `}
             >
                 Tỷ lệ sinh lợi tiềm năng sau khi định giá là
