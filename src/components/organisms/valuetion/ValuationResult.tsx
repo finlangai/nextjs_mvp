@@ -8,14 +8,22 @@ import { SpinerLoader } from "../../common/Loader";
 export default function ValuationResult() {
     const selectButton = useAppSelector(selectSelectedButton);
     const valuationResultData = useAppSelector(selectValuationResultData);
-    const selectPrice = useAppSelector(selectProfileSummaryClosePrice);
+    const selectPrice = useAppSelector(selectProfileSummaryClosePrice) ?? 0;
     const valuationResultLoading = useAppSelector(selectValuationResultLoading);
+
+    // Tính toán giá cuối cùng dựa trên tỷ lệ tăng trưởng nếu selectButton > 4
+    const adjustedPrice =
+    selectButton > 4 && valuationResultData?.valuationResult
+        ? selectPrice * (1 + valuationResultData.valuationResult / 100)
+        : selectPrice;
 
     // Tính toán upside
     const upside =
-        selectPrice && valuationResultData?.valuationResult
+        selectButton > 4
+            ? valuationResultData?.valuationResult ?? 0 // Trường hợp selectButton > 4
+            : selectPrice && valuationResultData?.valuationResult
             ? ((valuationResultData.valuationResult - selectPrice) / selectPrice) * 100
-            : 0;
+            : 0; // Trường hợp selectButton <= 4
 
     if (valuationResultLoading) {
         return (
@@ -31,7 +39,16 @@ export default function ValuationResult() {
         <>
             <div className="flex items-end pb-[20px] border-b border-b-fintown-br">
                 <div className="font-bold text-[36px] text-fintown-txt-1 mr-[10px] leading-none">
-                    {valuationResultData?.valuationResult?.toLocaleString('en-US')}
+                    {
+                        (selectButton > 4) && (
+                            adjustedPrice.toLocaleString('en-US')
+                        )
+                    }
+                    {
+                        (selectButton < 5) && (
+                            valuationResultData?.valuationResult?.toLocaleString('en-US')
+                        )
+                    }
                 </div>
                 <div className="text-[12px] text-fintown-txt-2 pb-[2px]">
                     VNĐ/cổ phiếu
@@ -56,12 +73,13 @@ export default function ValuationResult() {
                                     'text-purple-500'}`}>
                     {upside.toFixed(2)}%
                 </span>{`
-                ${upside < 0 ? ', với kết quả âm bạn không nên nghĩ đến cổ phiếu này nữa. Việc có lợi nhuận từ những cổ phiếu có giá trị sinh lợi âm thật sự mong manh như mẫu giấy.' :
-                        upside === 0 ? ', như vậy giá cổ phiếu hiện tại đã phản ánh chính xác giá trị thực tế, bạn không nên đầu tư lúc này vì khả năng sẽ không đem lại thu hoạch.' :
-                            upside <= 10 ? ', đây là mức sinh lời được xem là vượt qua ngưỡng trung bình phổ biến. Tuy nhiên nên cân nhắc chi phí thời gian trong lúc đợi chờ thu hoạch.' :
-                                upside <= 25 ? ', mức sinh lời này được coi là khá tốt khi vượt qua ngưỡng sinh lợi trung bình phổ biến. Có thể cân nhắc đưa cổ phiếu này vào chiến lược đầu tư của bạn.' :
-                                    upside < 50 ? ', mức sinh lợi này thật sự không tồi, ở ngưỡng này bạn ít nhất đã cách được ba bậc thang so với việc thua lỗ. Chừa một chỗ cho cổ phiếu này trong danh mục sẽ không uổng phí.' :
-                                        '. Rất tuyệt vời, bạn sẽ đạt được ít nhất 50% lợi nhuận từ việc đầu tư, đây là ngưỡng mơ ước với nhiều nhà đầu tư.'}`
+                    ${upside < 0 ? ', với kết quả âm bạn không nên nghĩ đến cổ phiếu này nữa. Việc có lợi nhuận từ những cổ phiếu có giá trị sinh lợi âm thật sự mong manh như mẫu giấy.' :
+                    upside === 0 ? ', như vậy giá cổ phiếu hiện tại đã phản ánh chính xác giá trị thực tế, bạn không nên đầu tư lúc này vì khả năng sẽ không đem lại thu hoạch.' :
+                    upside <= 5 ? ', bạn đang đứng trước khả năng có thể thu được lợi nhuận với cổ phiếu này. Tuy nhiên cần cân nhắc mức độ lợi nhuận có xứng đáng với chi phí thời gian bạn dành cho cổ phiếu này không.' :
+                    upside <= 10 ? ', đây là mức sinh lời có thể xem là đạt ngưỡng trung bình phổ biến. Tuy nhiên nên cân nhắc chi phí thời gian trong lúc đợi chờ thu hoạch.' :
+                    upside <= 25 ? ', mức sinh lời này được coi là khá tốt khi vượt qua ngưỡng sinh lợi trung bình phổ biến. Có thể cân nhắc đưa cổ phiếu này vào chiến lược đầu tư của bạn.' :
+                    upside < 50 ? ', mức sinh lợi này thật sự không tồi, ở ngưỡng này bạn ít nhất đã cách được ba bậc thang so với việc thua lỗ. Chừa một chỗ cho cổ phiếu này trong danh mục sẽ không uổng phí.' :
+                    '. Rất tuyệt vời, bạn sẽ đạt được ít nhất 50% lợi nhuận từ việc đầu tư, đây là một mức lợi nhuận mơ ước với bất kỳ ai.'}`
                 }
             </div>
         </>

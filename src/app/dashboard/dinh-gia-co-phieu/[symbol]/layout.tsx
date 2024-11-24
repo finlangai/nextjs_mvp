@@ -164,10 +164,27 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
                                 </div>
                             </Link>
 
+                            <Link href={`/dashboard/dinh-gia-co-phieu/${symbol}/phuong-phap-peg`}>
+                                <div
+                                    className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${selectedButton === 5 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
+                                        }`}
+                                >
+                                    Phương pháp PEG
+                                </div>
+                            </Link>
+
+                            <Link href={`/dashboard/dinh-gia-co-phieu/${symbol}/mo-hinh-capm`}>
+                                <div
+                                    className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${selectedButton === 6 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
+                                        }`}
+                                >
+                                    Mô hình CAPM
+                                </div>
+                            </Link>
+
                         </div>
 
-                        <div className='w-full h-full'
-                        >
+                        <div className='w-full h-full'>
                             {children}
                         </div>
 

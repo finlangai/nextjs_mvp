@@ -12,5 +12,7 @@ export interface ValuationParams {
     r: number,
     D1: number,
     bonds_yield: number,
-    fcf_forecasts: FcfForecasts[]
+    fcf_forecasts: FcfForecasts[],
+    beta: number,
+    risk_free_rate: number,
 }

@@ -8,10 +8,10 @@ import { fetchScenarios } from '@/src/redux/Scenarios';
 import { selectToken } from "@/src/redux/auth";
 import ValuationCentral from '@/src/components/organisms/valuetion/ValuationCentral';
 
-export default function HeSoPePage({ params }: { params: { symbol: string } }) {
+export default function PhuongPhapPEGPage({ params }: { params: { symbol: string } }) {
     const { symbol } = params;
     const dispatch = useAppDispatch();
-    useSetSelectedValuetionPage(3);
+    useSetSelectedValuetionPage(5);
 
     // FETCH API LẦN ĐẦU===============================================================
     const hasFetched = useRef(false);
@@ -19,7 +19,7 @@ export default function HeSoPePage({ params }: { params: { symbol: string } }) {
 
     useEffect(() => {
         if (!hasFetched.current) {
-            const name = 'price-to-earnings-relative-valuation';
+            const name = 'price-earnings-to-growth-ratio';
             if (token) {
                 dispatch(fetchValuationParams({ symbol: symbol, name: name, token: token }));
                 dispatch(fetchValuationResult({ symbol: symbol, name: name, token: token }));
@@ -29,13 +29,12 @@ export default function HeSoPePage({ params }: { params: { symbol: string } }) {
         }
     }, [dispatch]);
 
-
     return (
         <>
             < ValuationCentral
                 symbol={symbol}
-                name='Mô hình định giá theo hệ số P/E (Price to Earnings)'
-                formular='Công thức: P = EPS x P/E'
+                name='Phương pháp định giá theo hệ số PEG (Price/Earnings to Growth)'
+                formular='Công thức: PEG = (P/E) / G'
             />
         </>
     );

@@ -8,10 +8,10 @@ import { fetchScenarios } from '@/src/redux/Scenarios';
 import { selectToken } from "@/src/redux/auth";
 import ValuationCentral from '@/src/components/organisms/valuetion/ValuationCentral';
 
-export default function HeSoPePage({ params }: { params: { symbol: string } }) {
+export default function DCFValuetionPage({ params }: { params: { symbol: string } }) {
     const { symbol } = params;
     const dispatch = useAppDispatch();
-    useSetSelectedValuetionPage(3);
+    useSetSelectedValuetionPage(6);
 
     // FETCH API LẦN ĐẦU===============================================================
     const hasFetched = useRef(false);
@@ -19,23 +19,22 @@ export default function HeSoPePage({ params }: { params: { symbol: string } }) {
 
     useEffect(() => {
         if (!hasFetched.current) {
-            const name = 'price-to-earnings-relative-valuation';
+            const name = 'capital-asset-pricing-model';
             if (token) {
                 dispatch(fetchValuationParams({ symbol: symbol, name: name, token: token }));
-                dispatch(fetchValuationResult({ symbol: symbol, name: name, token: token }));
+                dispatch(fetchValuationResult({ symbol: symbol, name: name, token: token, body: { Rm: 0.15 } }));
                 dispatch(fetchScenarios({ symbol: symbol, name: name, token: token }));
                 hasFetched.current = true;
             }
         }
     }, [dispatch]);
 
-
     return (
         <>
             < ValuationCentral
                 symbol={symbol}
-                name='Mô hình định giá theo hệ số P/E (Price to Earnings)'
-                formular='Công thức: P = EPS x P/E'
+                name='Mô hình chiết khấu dòng tiền (Discounted Cash Flow)'
+                formular='Công thức: P0 = Σ (FCFt) / (1 + r)^t'
             />
         </>
     );
