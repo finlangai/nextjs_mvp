@@ -53,7 +53,7 @@ export default function PriceHistoryTab() {
                 </div>
             </div>
 
-            <div className="px-[24px] py-[24px] border-b border-b-fintown-br">
+            <div className="px-[24px] py-[24px] h-full">
                 <div className="font-bold text-[14px] text-fintown-txt-1 mb-[12px] flex items-center">
                     <div className="mr-[5px]">Ghi chú của bạn</div>
                     <i className='bx bx-edit text-fintown-txt-2 mr-[10px] text-[18px] cursor-pointer'></i>

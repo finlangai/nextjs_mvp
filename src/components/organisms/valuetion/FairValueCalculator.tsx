@@ -19,25 +19,36 @@ export default function FairValueCalculator({symbol} : {symbol: string}){
     const dispatch = useAppDispatch();
 
     const selectButton = useAppSelector(selectSelectedButton);
-    const [sliderValue, setSliderValue] = useState(0.03);
+    const [sliderValueDDM, setSliderValueDDM] = useState(30);
+    const [sliderValueCAPM, setSliderValueCAPM] = useState(15);
 
     // Hàm callback để nhận giá trị từ SliderWithValue
     const handleSliderChange = (value: number) => {
-      setSliderValue(value);
+        setSliderValueDDM(value);
+        setSliderValueCAPM(value);
     };
 
     // Hàm tính toán
     const token = useAppSelector(selectToken);
     const calculateValue = () => {
-        const name = 'dividend-discount-model';
         if (token) {
-            dispatch(fetchValuationResult({ symbol: symbol, name: name, token: token, body: { g: sliderValue } }));
+            if (selectButton === 1) {
+                const finalValue = sliderValueDDM / 100;
+                const name = 'dividend-discount-model';
+                dispatch(fetchValuationResult({ symbol: symbol, name: name, token: token, body: { g: finalValue } }));
+            }
+            if (selectButton === 6) {
+                const finalValue = sliderValueCAPM / 100;
+                const name = 'capital-asset-pricing-model';
+                dispatch(fetchValuationResult({ symbol: symbol, name: name, token: token, body: { Rm: finalValue } }));
+            }
         }
     }
 
     // Reset Tham số
     const resetParams = () => {
-        setSliderValue(0.03);
+        setSliderValueDDM(30);
+        setSliderValueCAPM(15);
     }
 
     return (
@@ -97,27 +108,54 @@ export default function FairValueCalculator({symbol} : {symbol: string}){
                     }
 
                     {
-                        selectButton === 1 && (
+                        (selectButton === 1 || selectButton === 6) && (
                         <div className='mt-[20px]'>
                             <div className='text-fintown-txt-1 text-[14px] font-bold mb-[30px]'>
-                                Tỷ suất sinh lợi yêu cầu
+                                {
+                                    (selectButton === 1) && (
+                                        "Tỷ suất sinh lợi yêu cầu"
+                                    )   
+                                }
+
+                                {
+                                    (selectButton === 6) && (
+                                        "Lợi suất kỳ vọng của thị trường"
+                                    )
+                                }
                             </div>
                             <div>
-                                < SliderWithValue 
-                                min={0} 
-                                max={100} 
-                                step={1} 
-                                value={sliderValue} 
-                                onChange={handleSliderChange}
-                                tooltip={true} 
-                                />
+                                {
+                                    (selectButton === 1) && (
+                                        < SliderWithValue 
+                                            min={0} 
+                                            max={100} 
+                                            step={1} 
+                                            value={sliderValueDDM} 
+                                            onChange={handleSliderChange}
+                                            tooltip={true} 
+                                        />
+                                    )   
+                                }
+
+                                {
+                                    (selectButton === 6) && (
+                                        < SliderWithValue 
+                                            min={0} 
+                                            max={100} 
+                                            step={1} 
+                                            value={sliderValueCAPM} 
+                                            onChange={handleSliderChange}
+                                            tooltip={true} 
+                                        />
+                                    )
+                                }
                             </div>
                         </div>
                         )
                     }
 
                     {
-                        (selectButton === 0 || selectButton === 1) ? (
+                        (selectButton === 0 || selectButton === 1 || selectButton === 6) ? (
                             <> 
                                 <button 
                                 className="text-[14px] text-fintown-txt-1 py-[12px] rounded-[8px] bg-fintown-pr9 w-full mt-[32px]"
@@ -145,7 +183,7 @@ export default function FairValueCalculator({symbol} : {symbol: string}){
 
                             {
                                 selectButton === 1 && (
-                                    < DDMParamsComponent g={sliderValue} />
+                                    < DDMParamsComponent g={sliderValueDDM} />
                                 )
                             }
 
@@ -175,13 +213,13 @@ export default function FairValueCalculator({symbol} : {symbol: string}){
 
                             {
                                 selectButton === 6 && (
-                                    < CAPMParamsComponent Rm={0.15} />
+                                    < CAPMParamsComponent Rm={sliderValueCAPM} />
                                 )
                             }
                         </div>
                     </div>
                     {
-                        (selectButton === 0 || selectButton === 1) ? (
+                        (selectButton === 0 || selectButton === 1 || selectButton === 6) ? (
                             <button 
                             className="text-[14px] text-fintown-txt-1 py-[12px] rounded-[8px] bg-fintown-btn-2 w-full"
                             onClick={() => resetParams()}
