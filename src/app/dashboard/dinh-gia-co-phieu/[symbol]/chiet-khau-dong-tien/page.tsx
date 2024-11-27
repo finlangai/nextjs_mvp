@@ -34,7 +34,7 @@ export default function DCFValuetionPage({ params }: { params: { symbol: string 
             < ValuationCentral
                 symbol={symbol}
                 name='Mô hình chiết khấu dòng tiền (Discounted Cash Flow)'
-                formular='Công thức: P0 = Σ (FCFt) / (1 + r)^t'
+                formular='Công thức: P0 = Σ (FCFE_t) / (1 + r)^t'
             />
         </>
     );

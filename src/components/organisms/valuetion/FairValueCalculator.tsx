@@ -14,6 +14,7 @@ import ValuationResult from './ValuationResult';
 import SliderWithValue from './SliderWithValue';
 import { fetchValuationResult } from '@/src/redux/ValuationResult';
 import { selectToken } from "@/src/redux/auth";
+import QuarterYearSelector from './QuarterYearSelector';
 
 export default function FairValueCalculator({symbol} : {symbol: string}){
     const dispatch = useAppDispatch();
@@ -22,16 +23,38 @@ export default function FairValueCalculator({symbol} : {symbol: string}){
     const [sliderValueDDM, setSliderValueDDM] = useState(30);
     const [sliderValueCAPM, setSliderValueCAPM] = useState(15);
 
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentQuarter = Math.ceil((currentDate.getMonth() + 1) / 3);
+
+    const [selectFCFt, setSelectFCFt] = useState(1);
+    const [sQuarter, setQuarter] = useState(currentQuarter);
+    const [sYear, setYear] = useState(currentYear);
+
     // Hàm callback để nhận giá trị từ SliderWithValue
     const handleSliderChange = (value: number) => {
         setSliderValueDDM(value);
         setSliderValueCAPM(value);
     };
 
+    // Hàm callbank nhận dữ liệu từ select
+    const handleSelect = (data: { quarter: number; year: number; totalQuarters: number }) => {
+        setSelectFCFt(data.totalQuarters);
+        setQuarter(data.quarter);
+        setYear(data.year);
+        // console.log('Selected Quarter:', data.quarter);
+        // console.log('Selected Year:', data.year);
+        // console.log('Total Quarters to Selected Date:', data.totalQuarters);
+    };
+
     // Hàm tính toán
     const token = useAppSelector(selectToken);
     const calculateValue = () => {
         if (token) {
+            if (selectButton === 0) {
+                const name = 'discounted-cash-flow';
+                dispatch(fetchValuationResult({ symbol: symbol, name: name, token: token, body: { t: selectFCFt } }));
+            }
             if (selectButton === 1) {
                 const finalValue = sliderValueDDM / 100;
                 const name = 'dividend-discount-model';
@@ -49,6 +72,9 @@ export default function FairValueCalculator({symbol} : {symbol: string}){
     const resetParams = () => {
         setSliderValueDDM(30);
         setSliderValueCAPM(15);
+        setSelectFCFt(1);
+        setQuarter(currentQuarter);
+        setYear(currentYear);
     }
 
     return (
@@ -72,37 +98,19 @@ export default function FairValueCalculator({symbol} : {symbol: string}){
                     < ValuationResult />
 
                     {
-                        (selectButton === 0 || selectButton === 1) ? (
+                        (selectButton === 0 || selectButton === 1) &&(
                             <hr className='border-fintown-br mt-[20px]'/>
-                        ) : null
+                        )
                     }
 
                     {
                         selectButton === 0 && (
                             <>
-                                <div className="mb-[14px] text-[14px] text-fintown-txt-2 mt-[20px]">
-                                    Thời gian chiết khấu mong muốn
-                                </div>
-                                
-                                <div className="flex items-center">
-                                    <div className="rounded border border-fintown-br flex items-center px-[16px] w-full max-w-[120px] justify-between mr-[14px] cursor-pointer">
-                                        <div className="text-fintown-txt-1 text-[12px] py-[12px] font-[600]">
-                                            Quý 3
-                                        </div>
-                                        <div>
-                                            <i className='bx bx-chevron-down text-fintown-txt-1'></i>
-                                        </div>
-                                    </div>
-
-                                    <div className="rounded border border-fintown-br flex items-center px-[16px] w-full max-w-[120px] justify-between cursor-pointer">
-                                        <div className="text-fintown-txt-1 text-[12px] py-[12px] font-[600]">
-                                            Năm 2024
-                                        </div>
-                                        <div>
-                                            <i className='bx bx-chevron-down text-fintown-txt-1'></i>
-                                        </div>
-                                    </div>
-                                </div>
+                                < QuarterYearSelector 
+                                    onSelect={handleSelect} 
+                                    currentYear={sYear} 
+                                    currentQuarter={sQuarter}
+                                />
                             </>
                         )
                     }
@@ -155,7 +163,7 @@ export default function FairValueCalculator({symbol} : {symbol: string}){
                     }
 
                     {
-                        (selectButton === 0 || selectButton === 1 || selectButton === 6) ? (
+                        (selectButton === 0 || selectButton === 1 || selectButton === 6) &&(
                             <> 
                                 <button 
                                 className="text-[14px] text-fintown-txt-1 py-[12px] rounded-[8px] bg-fintown-pr9 w-full mt-[32px]"
@@ -164,20 +172,23 @@ export default function FairValueCalculator({symbol} : {symbol: string}){
                                     Tính toán
                                 </button>
                             </>
-                        ) : null
+                        )
                     }
                 </div>
 
                 <div className="w-full max-w-[350px] flex flex-col justify-between">
                     <div>
-                        <div className="font-bold text-[14px] text-fintown-txt-1 mb-[17px] ">
+                        <div className="font-bold text-[14px] text-fintown-txt-2 mb-[17px] ">
                         Các tham số
                         </div>
 
                         <div>
                             {
                                 selectButton === 0 && (
-                                    < DCFParamsComponent />
+                                    < DCFParamsComponent 
+                                    sYear={sYear} 
+                                    sQuarter={sQuarter} 
+                                    />
                                 )
                             }
 

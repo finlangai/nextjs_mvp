@@ -33,8 +33,8 @@ export default function DCFValuetionPage({ params }: { params: { symbol: string 
         <>
             < ValuationCentral
                 symbol={symbol}
-                name='Mô hình chiết khấu dòng tiền (Discounted Cash Flow)'
-                formular='Công thức: P0 = Σ (FCFt) / (1 + r)^t'
+                name='Mô hình CAPM (Capital Asset Pricing Model)'
+                formular='Công thức: Ra = Rf + βa * (Rm - Rf)'
             />
         </>
     );

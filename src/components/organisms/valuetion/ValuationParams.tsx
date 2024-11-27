@@ -159,7 +159,7 @@ export function BenjaminGramhamParamsComponent() {
     );
 }
 
-export function DCFParamsComponent() {
+export function DCFParamsComponent({sYear, sQuarter} : {sYear:number; sQuarter:number}) {
     const [nowData, setNowData] = useState<ValuationParams | null>(null);
     const [showChart, setShowChart] = useState(false);
 
@@ -203,7 +203,7 @@ export function DCFParamsComponent() {
 
                 <div className="flex items-center justify-between">
                     <div className="text-[14px] text-fintown-txt-1 font-bol flex items-centerd">
-                        D1
+                        FCFE_t
                     </div>
 
                     <div className="text-[14px] text-fintown-txt-1 text-right flex items-center">
@@ -221,7 +221,7 @@ export function DCFParamsComponent() {
                         onMouseEnter={handleMouseEnter}
                         onMouseLeave={handleMouseLeave}
                     >
-                        <div className="text-fintown-txt-1 text-[14px] font-[600] mb-[38px]">
+                        <div className="text-fintown-txt-1 text-[14px] font-[600] mb-[30px]">
                             Dòng tiền tương lai dự kiến (Tỷ)
                         </div>
 
@@ -263,7 +263,7 @@ export function DCFParamsComponent() {
                     </div>
 
                     <div className="text-[14px] text-fintown-txt-1">
-                        Đến Q3 2025
+                        Đến Q{sQuarter} {sYear}
                     </div>
                 </div>
             </div>

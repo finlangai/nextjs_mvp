@@ -45,7 +45,7 @@ const FreeCashFlowChart = ({ data } : {data: FcfForecasts[]}) => {
       },
       gridLineColor: '#2B3139',
       tickAmount: 3,
-      type: 'logarithmic', // Sử dụng scale logarithmic
+      // type: 'logarithmic', // Sử dụng scale logarithmic
     },
     legend: {
       enabled: false,
