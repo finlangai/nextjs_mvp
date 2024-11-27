@@ -230,14 +230,14 @@ export default function FairValueCalculator({symbol} : {symbol: string}){
                         </div>
                     </div>
                     {
-                        (selectButton === 0 || selectButton === 1 || selectButton === 6) ? (
+                        (selectButton === 0 || selectButton === 1 || selectButton === 6) && (
                             <button 
                             className="text-[14px] text-fintown-txt-1 py-[12px] rounded-[8px] bg-fintown-btn-2 w-full"
                             onClick={() => resetParams()}
                             >
                                 Đặt lại
                             </button>
-                        ) : null
+                        )
                     }
                 </div>
             </div>

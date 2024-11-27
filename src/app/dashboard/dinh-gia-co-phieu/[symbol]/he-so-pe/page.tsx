@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import useSetSelectedValuetionPage from '@/src/redux/hooks/useButtonValuetionPage';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { fetchValuationParams } from '@/src/redux/ValuationParams/valuationParamsSlice';

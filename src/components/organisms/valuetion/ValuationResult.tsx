@@ -4,6 +4,7 @@ import { selectSelectedButton } from '@/src/redux/ValuetionPage/valuetionPageSli
 import { selectValuationResultData, selectValuationResultLoading } from '@/src/redux/ValuationResult';
 import { selectProfileSummaryClosePrice } from '@/src/redux/ProfileSummary';
 import { SpinerLoader } from "../../common/Loader";
+import { upsideCalculator } from "@/src/utils/upsideCalculator";
 
 export default function ValuationResult() {
     const selectButton = useAppSelector(selectSelectedButton);
@@ -11,19 +12,13 @@ export default function ValuationResult() {
     const selectPrice = useAppSelector(selectProfileSummaryClosePrice) ?? 0;
     const valuationResultLoading = useAppSelector(selectValuationResultLoading);
 
+    const result = valuationResultData
+    ? upsideCalculator(selectButton, valuationResultData, selectPrice)
+    : { upside: 0, adjustedPrice: 0 };
     // Tính toán giá cuối cùng dựa trên tỷ lệ tăng trưởng nếu selectButton > 4
-    const adjustedPrice =
-    selectButton > 4 && valuationResultData?.valuationResult
-        ? selectPrice * (1 + valuationResultData.valuationResult / 100)
-        : selectPrice;
-
+    const adjustedPrice = result.adjustedPrice;
     // Tính toán upside
-    const upside =
-        selectButton > 4
-            ? valuationResultData?.valuationResult ?? 0 // Trường hợp selectButton > 4
-            : selectPrice && valuationResultData?.valuationResult
-            ? ((valuationResultData.valuationResult - selectPrice) / selectPrice) * 100
-            : 0; // Trường hợp selectButton <= 4
+    const upside = result.upside;
 
     if (valuationResultLoading) {
         return (

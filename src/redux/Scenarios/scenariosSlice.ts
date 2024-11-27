@@ -15,6 +15,7 @@ const initialState: ScenariosState = {
   error: null,
 };
 
+// FETCH
 export const fetchScenarios = createAsyncThunk(
   'scenarios/fetch',
   async (
@@ -48,12 +49,49 @@ export const fetchScenarios = createAsyncThunk(
   }
 );
 
+// POST
+export const postScenario = createAsyncThunk(
+  'scenarios/post',
+  async (
+    { symbol, name, token, data }: { symbol: string; name: string; token: string; data: Partial<Scenarios> },
+    { rejectWithValue }
+  ) => {
+    const api = `${apiUrl}/valuation/${name}/${symbol}/scenarios`;
+
+    if (!token) {
+      return rejectWithValue('Token không tồn tại');
+    }
+
+    try {
+      const response = await fetch(api, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        return rejectWithValue(errorData.message || `HTTP error! status: ${response.status}`);
+      }
+
+      return response.json();
+    } catch (error: any) {
+      return rejectWithValue(error.message || 'Đã xảy ra lỗi không xác định');
+    }
+  }
+);
+
+// SLICE
 const scenariosSlice = createSlice({
   name: 'scenarios',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
+      // Fetch Scenarios
       .addCase(fetchScenarios.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -63,6 +101,20 @@ const scenariosSlice = createSlice({
         state.data = action.payload;
       })
       .addCase(fetchScenarios.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string || 'Đã xảy ra lỗi';
+
+      // Post Scenario
+      })
+      .addCase(postScenario.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(postScenario.fulfilled, (state, action) => {
+        state.loading = false;
+        state.data.push(action.payload);
+      })
+      .addCase(postScenario.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string || 'Đã xảy ra lỗi';
       });

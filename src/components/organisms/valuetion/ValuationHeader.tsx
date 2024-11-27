@@ -20,7 +20,6 @@ export default function ValuationHeader({ symbol }: { symbol: string }) {
         }
     }, [dispatch, symbol]);
 
-
     // Lưu data đã fetch
     useEffect(() => {
         if (selectData !== null) {

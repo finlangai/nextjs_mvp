@@ -152,7 +152,7 @@ const ChangeStockInput = ({symbol} : {symbol: string}) => {
 
     return (
         <div className='flex relative' ref={containerRef}>
-            <div className='text-fintown-txt-2 text-sm mr-[16px]'>Đổi cổ phiếu</div>
+            {/* <div className='text-fintown-txt-2 text-sm mr-[16px]'>Đổi cổ phiếu</div> */}
             <div 
                 className='flex items-center h-[48px] rounded-[8px] border border-fintown-btn-disable w-[183px] max-w-[183px] hover:border-fintown-btn-active-1'
                 onClick={handleDropdownToggle}

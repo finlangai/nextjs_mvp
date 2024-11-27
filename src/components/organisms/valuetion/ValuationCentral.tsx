@@ -4,6 +4,12 @@ import { setHistorySelectedButton } from '@/src/redux/ValuetionPage/valuationHis
 import FairValueCalculator from "@/src/components/organisms/valuetion/FairValueCalculator";
 import PriceHistoryTab from '@/src/components/organisms/valuetion/PriceHistoryTab';
 import SlidingTabs from "@/src/components/common/SlidingTabs";
+import { fetchScenarios, postScenario } from '@/src/redux/Scenarios';
+import { selectValuationResultData } from '@/src/redux/ValuationResult';
+import { selectProfileSummaryClosePrice } from '@/src/redux/ProfileSummary';
+import { upsideCalculator } from "@/src/utils/upsideCalculator";
+import { selectSelectedButton } from '@/src/redux/ValuetionPage/valuetionPageSlice';
+import { selectToken } from "@/src/redux/auth";
 
 interface Tab {
     id: number;
@@ -11,10 +17,29 @@ interface Tab {
 }
 
 export default function ValuationCentral({ symbol, name, formular }: { symbol: string; name: string; formular: string }) {
+    const dispatch = useAppDispatch();
+    const valuationResultData = useAppSelector(selectValuationResultData);
+    const selectPrice = useAppSelector(selectProfileSummaryClosePrice) ?? 0;
+    const selectButton = useAppSelector(selectSelectedButton);
+    const token = useAppSelector(selectToken);
+
+    const result = valuationResultData
+    ? upsideCalculator(selectButton, valuationResultData, selectPrice)
+    : { upside: 0, adjustedPrice: 0 };
+    // Tính toán giá cuối cùng dựa trên tỷ lệ tăng trưởng nếu selectButton > 4
+    const adjustedPrice = result.adjustedPrice;
+    // Tính toán upside
+    const upside = result.upside;
+
+    // ANIMATION POPUP
     const [activeTabIndex, setActiveTabIndex] = useState<number>(0);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [isAnimating, setIsAnimating] = useState(false);
-    const dispatch = useAppDispatch();
+
+    // VALIDATION
+    const [scenarioName, setScenarioName] = useState('');
+    const [notes, setNotes] = useState('');
+    const [errors, setErrors] = useState({ scenarioName: '', notes: '' });
 
     // POP UP THÊM KỊCH BẢN=============================================================
     useEffect(() => {
@@ -50,6 +75,67 @@ export default function ValuationCentral({ symbol, name, formular }: { symbol: s
         }
     };
 
+    //CÁC HÀM VALIDATE===================================================================
+    const handleSave = () => {
+        let valid = true;
+        const newErrors = { scenarioName: '', notes: '' };
+
+        // Validate Tên kịch bản
+        if (!scenarioName.trim()) {
+            valid = false;
+            newErrors.scenarioName = 'Tên kịch bản không được bỏ trống.';
+        } else if (scenarioName.length > 50) {
+            valid = false;
+            newErrors.scenarioName = 'Tên kịch bản không được vượt quá 50 ký tự.';
+        }
+
+        // Validate Ghi chú
+        if (!notes.trim()) {
+            valid = false;
+            newErrors.notes = 'Ghi chú không được bỏ trống.';
+        } else if (notes.length > 1000) {
+            valid = false;
+            newErrors.notes = 'Ghi chú không được vượt quá 1000 ký tự.';
+        }
+
+        setErrors(newErrors);
+
+        if (valid) {
+            const data = { 
+                title: scenarioName,
+                potential: upside,
+                valuated: adjustedPrice,
+                note: notes
+            };
+
+            console.log('Saving...', data);
+
+            let name = '';
+            if (selectButton === 0) {
+                name = 'discounted-cash-flow';
+            } else if (selectButton === 1) {
+                name = 'dividend-discount-model';
+            } else if (selectButton === 2) {
+                name = 'graham-intrinsic-value-formula';
+            } else if (selectButton === 3) {
+                name = 'price-to-earnings-relative-valuation';
+            } else if (selectButton === 4) {
+                name = 'price-to-book-relative-valuation';
+            } else if (selectButton === 5) {
+                name = 'price-earnings-to-growth-ratio';
+            } else if (selectButton === 6) {
+                name = 'capital-asset-pricing-model';
+            }          
+
+            if (token) {
+                dispatch(postScenario({ symbol: symbol, name: name, token: token, data: data}));
+                dispatch(fetchScenarios({ symbol: symbol, name: name, token: token }));
+            }
+
+            setIsPopupOpen(false);
+        }
+    };
+
     return (
         <>
             <div className='w-full'>
@@ -82,52 +168,65 @@ export default function ValuationCentral({ symbol, name, formular }: { symbol: s
             </div>
 
             {(isPopupOpen || isAnimating) && (
-                <div className={`fixed w-full h-full top-0 left-0 z-[60] flex justify-center items-start 
-                    bg-black bg-opacity-50 transition-opacity duration-300 ease-in-out 
-                    ${isPopupOpen ? 'opacity-100' : 'opacity-0'}`}>
+                <div
+                className={`fixed w-full h-full top-0 left-0 z-[60] flex justify-center items-start 
+                bg-black bg-opacity-50 transition-opacity duration-300 ease-in-out 
+                ${isPopupOpen ? 'opacity-100' : 'opacity-0'}`}>
+                    <div
+                    className={`w-[400px] bg-fintown-bg-stn rounded-[8px] py-[32px] px-[32px] max-h-max
+                    transform transition-all duration-500 ease-out
+                    ${isPopupOpen ? 'mt-[100px] translate-y-0 opacity-100' : 'mt-0 -translate-y-12 opacity-0'}`}>
 
-                    <div className={`w-[400px] bg-fintown-bg-stn rounded-[8px] py-[32px] px-[32px] max-h-max
-                                            transform transition-all duration-500 ease-out
-                                            ${isPopupOpen ? 'mt-[100px] translate-y-0 opacity-100' : 'mt-0 -translate-y-12 opacity-0'}`}>
+                    <div className="text-[16px] text-fintown-txt-1 font-[600] mb-[10px]">
+                        Lưu trữ kết quả tính toán của bạn
+                    </div>
+                    <div className="text-[12px] text-fintown-txt-2 mb-[33px]">
+                        Bằng cách lưu lại kịch bản định giá này, bạn có thể kiểm xem lại và so sánh với diễn biến thực tế của cổ phiếu.
+                    </div>
 
-                        <div className='text-[16px] text-fintown-txt-1 font-[600] mb-[10px]'>
+                    {/* Tên kịch bản */}
+                    <div className="mb-[10px] text-[14px] text-fintown-txt-1 font-[600]">Tên cho kịch bản này</div>
+                    <div className={`py-[13px] px-[16px] rounded-[8px] border 
+                    ${errors.scenarioName ? 'border-[#E03C4A]' : 'border-fintown-br'}
+                    `}>
+                        <input
+                            className="text-[14px] text-fintown-txt-1 block w-full placeholder:text-fintown-txt-2 bg-transparent outline-none"
+                            placeholder="Ví dụ: Kết quả ước tính cho FPT - Q2/2025"
+                            value={scenarioName}
+                            onChange={(e) => setScenarioName(e.target.value)}
+                        />
+                    </div>
+                    {errors.scenarioName && (
+                        <div className="text-red-500 text-[12px] mt-[5px]">{errors.scenarioName}</div>
+                    )}
 
-                            Lưu trữ kết quả tính toán của bạn
-                        </div>
-                        <div className='text-[12px] text-fintown-txt-2 mb-[33px]'>
-                            Bằng cách lưu lại kịch bản định giá này, bạn có thể kiểm xem lại và so sánh với diễn biến thực tế của cổ phiếu.
-                        </div>
+                    <div className='mb-[32px]'></div>
 
-                        <div className='mb-[10px] text-[14px] text-fintown-txt-1 font-[600]'>
-                            Tên cho kịch bản này
-                        </div>
-                        <div className='py-[13px] px-[16px] rounded border border-fintown-br mb-[32px]'>
-                            <input
-                                className='text-[14px] text-fintown-txt-1 block w-full placeholder:text-fintown-txt-2 bg-transparent outline-none'
-                                placeholder='Ví dụ: Kết quả ước tính cho FPT - Q2/2025'
-                            />
-                        </div>
-
-                        <div className='mb-[10px] text-[14px] text-fintown-txt-1 font-[600]'>
-                            Ghi chú
-                        </div>
-                        <div className='py-[13px] px-[16px] rounded border border-fintown-br mb-[33px]'>
+                    {/* Ghi chú */}
+                    <div className="mb-[10px] text-[14px] text-fintown-txt-1 font-[600]">Ghi chú</div>
+                        <div 
+                        className={`py-[13px] px-[16px] rounded-[8px] border mb-[33px]
+                        ${errors.notes ? 'border-[#E03C4A]' : 'border-fintown-br'}`}>
                             <textarea
-                                className='text-[14px] text-fintown-txt-1 block w-full placeholder:text-fintown-txt-2 bg-transparent outline-none'
-                                placeholder='Hãy viết vài dòng ghi chú ngắn gọn'
-                                rows={4}
+                                className="text-[14px] text-fintown-txt-1 block w-full placeholder:text-fintown-txt-2 bg-transparent outline-none custom-scrollbarmini2"
+                                placeholder="Hãy viết vài dòng ghi chú ngắn gọn"
+                                rows={6}
+                                value={notes}
+                                onChange={(e) => setNotes(e.target.value)}
                             />
+                            {errors.notes && <div className="text-red-500 text-[12px] mt-[4px]">{errors.notes}</div>}
                         </div>
 
-                        <div className='flex justify-end'>
+                        {/* Buttons */}
+                        <div className="flex justify-end">
                             <button
                                 onClick={() => setIsPopupOpen(false)}
-                                className='py-[10px] text-fintown-txt-1 text-[12px] px-[23px] border border-fintown-br rounded mr-[10px]'>
+                                className="py-[10px] text-fintown-txt-1 text-[12px] px-[23px] border border-fintown-br rounded-[8px] mr-[10px]">
                                 Để sau vậy
                             </button>
                             <button
-                                onClick={() => setIsPopupOpen(false)}
-                                className='py-[10px] text-fintown-txt-1 text-[12px] px-[23px] bg-fintown-pr9 rounded'>
+                                onClick={handleSave}
+                                className="py-[10px] text-fintown-txt-1 text-[12px] px-[23px] bg-fintown-pr9 rounded-[8px]">
                                 Lưu kịch bản
                             </button>
                         </div>
