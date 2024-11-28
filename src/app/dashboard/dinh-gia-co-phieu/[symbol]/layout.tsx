@@ -9,6 +9,7 @@ import LogValuation from '@/src/components/organisms/valuetion/LogValuation';
 import { selecScope } from "@/src/redux/auth";
 import LoginForm from '@/src/components/form/Login';
 import ValuationHeader from '@/src/components/organisms/valuetion/ValuationHeader';
+import UpgradeNotice from '@/src/components/common/UpgradeNotice';
 
 export default function DinhGiaCoPhieuLayout({ children, params }: { children: React.ReactNode, params: { symbol: string } }) {
     const selectedButton = useAppSelector(selectSelectedButton);
@@ -39,7 +40,7 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
         }
 
         setContainerHeight(containerRef.current.clientHeight);
-
+        console.log('containerHeight', containerHeight)
         const handleResize = () => {
             if (containerRef.current) {
                 setContainerHeight(containerRef.current.clientHeight);
@@ -58,6 +59,7 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
 
     // CHECK SCOPE============================================================
     useEffect(() => {
+        console.log(getScope)
         if (!getScope) {
             const timer = setTimeout(() => setIsModalVisible(true), 0);
             return () => clearTimeout(timer);
@@ -102,23 +104,18 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
                 </div>
             </div>
         );
-    }
+    };
 
     return (
         <>
             <div className='flex ' >
                 <div className='w-full' >
-                    <div className='pl-[40px] border-r border-b border-fintown-br ' ref={containerRef} >
+                    <div className='pl-[40px] border-r border-b border-fintown-br ' >
                         < ValuationHeader symbol={symbol} />
                     </div>
 
                     <div className='flex border-r border-fintown-br' >
-
-                        <div
-                            className='min-w-[265px] w-max pl-[40px] pt-[25px] pr-[24px] border-r border-fintown-br flex flex-col gap-y-[10px]'
-
-
-                        >
+                        <div className='min-w-[265px] w-max pl-[40px] pt-[25px] pr-[24px] border-r border-fintown-br flex flex-col gap-y-[10px]' ref={containerRef}>
                             <Link href={`/dashboard/dinh-gia-co-phieu/${symbol}/chiet-khau-dong-tien`}>
                                 <div
                                     className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${selectedButton === 0 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
@@ -181,13 +178,11 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
                                     Mô hình CAPM
                                 </div>
                             </Link>
-
                         </div>
 
                         <div className='w-full h-full'>
                             {children}
                         </div>
-
                     </div>
                 </div>
 
@@ -195,6 +190,10 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
                     < LogValuation containerHeight={containerHeight} />
                 </div>
             </div>
+
+            {!getScope.includes('valuation-read') && (
+                <UpgradeNotice containerHeight={containerHeight} />
+            )}
         </>
     );
 }

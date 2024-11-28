@@ -108,14 +108,14 @@ export default function DashboardHeader({isTechnicalChart} : {isTechnicalChart: 
                 ) : user ? (
                     <div className="flex items-center gap-x-3">
                         <div>
-                            <div className={`${user.role === 'basic' ? 'text-[yellow]' : 'text-fintown-pr9'} text-[10px] flex items-center gap-x-[5px]`}>
+                            <div className={`${user?.role === 'basic' ? 'text-[yellow]' : 'text-fintown-pr9'} text-[10px] flex items-center gap-x-[5px]`}>
                                 <i className='bx bx-cube text-[14px]'></i>
-                                <div className="capitalize font-bold">{user.role}</div>
+                                <div className="capitalize font-bold">{user?.role}</div>
                             </div>
-                            <div className="text-fintown-txt-1 text-sm text-right">{user.fullname || user.email}</div>
+                            <div className="text-fintown-txt-1 text-sm text-right">{user.fullname}</div>
                         </div>
 
-                       <div className="w-[1px] bg-fintown-br h-[25px] ml-[10px] mr-[10px]"></div>
+                        <div className="w-[1px] bg-fintown-br h-[25px] ml-[5px] mr-[5px]"></div>
                         
                         <div className="relative" ref={dropdownRef}>
                             {/* href="/profile/information" */}
@@ -136,32 +136,32 @@ export default function DashboardHeader({isTechnicalChart} : {isTechnicalChart: 
 
                                         <li className="border-b border-b-fintown-br py-[14px] flex items-center gap-x-[12px] min-w-max hover:text-fintown-pr9">
                                             <i className='bx bx-user-circle text-[24px]' ></i>
-                                            <Link href="/">Thông tin cá nhân</Link>
+                                            <Link href="/" className="text-[14px]">Thông tin cá nhân</Link>
                                         </li>
 
                                         <li className="border-b border-b-fintown-br py-[14px] flex items-center gap-x-[12px] min-w-max hover:text-fintown-pr9">
                                             <i className='bx bx-cube text-[24px]' ></i>
-                                            <Link href="/">Quyền hạn sử dụng</Link>
+                                            <Link href="/" className="text-[14px]">Quyền hạn sử dụng</Link>
                                         </li>
 
                                         <li className="py-[14px] flex items-center gap-x-[12px] min-w-max hover:text-fintown-pr9">
                                             <i className='bx bx-history text-[24px]' ></i>
-                                            <Link href="/">Lịch sử thanh toán</Link>
+                                            <Link href="/" className="text-[14px]">Lịch sử thanh toán</Link>
                                         </li>
 
-                                        <li className="mt-[20px]">
-                                            <button className="py-[10px] w-full bg-fintown-pr9 text-fintown-txt-1 rounded-[8px]" onClick={() => handleLogout()}>Đăng xuất</button>
+                                        <li className="mt-[12px]">
+                                            <button className="py-[10px] w-full bg-fintown-pr9 text-fintown-txt-1 rounded-[8px] text-[14px]" onClick={() => handleLogout()}>Đăng xuất</button>
                                         </li>
                                     </ul>
                                 </div>
                             )}
                         </div>
 
-                        <div className="w-[1px] bg-fintown-br h-[25px] ml-[10px] mr-[10px]"></div>
+                        <div className="w-[1px] bg-fintown-br h-[25px] ml-[5px] mr-[5px]"></div>
 
                         < NotificationsComponent />
 
-                        <div className="w-[1px] bg-fintown-br h-[25px] ml-[10px] mr-[10px]"></div>
+                        <div className="w-[1px] bg-fintown-br h-[25px] ml-[5px] mr-[5px]"></div>
 
                         <Link href="/pricing">
                             <button className="text-fintown-txt-1 text-sm rounded-md bg-fintown-pr9 px-[19px] py-[6px]">
