@@ -80,10 +80,20 @@ export default function DivendensTable({symbol} : {symbol: string}){
             </div>
 
             <div className="min-w-[400px] ml-[50px]">
-                <div className="h-[60px] flex items-center justify-between border-b border-b-fintown-br text-fintown-txt-2 text-[12px] text-fintown-txt-2 text-[12px]">
-                    <div className="w-full">
+                <div className='mb-[35px]'>
+                    <div className="mb-[30px] h-[60px] flex items-center justify-between border-b border-b-fintown-br text-fintown-txt-2 text-[12px] text-fintown-txt-2 text-[12px]">
                         Cổ tức bằng tiền (đ)
                     </div>
+
+                    < DividendsChart data={cashLegend} color='#FEDA33' toolip='Tiền' />
+                </div>
+
+                <div>
+                    <div className="mb-[30px] h-[60px] flex items-center justify-between border-b border-b-fintown-br text-fintown-txt-2 text-[12px] text-fintown-txt-2 text-[12px]">
+                        Cổ tức bằng cổ phiếu (%)
+                    </div>
+
+                    < DividendsChart data={stockLegend} color='#25B770' toolip='Cổ phiếu' />
                 </div>
             </div>
         </div>
