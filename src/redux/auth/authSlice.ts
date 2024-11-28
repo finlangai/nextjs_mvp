@@ -12,7 +12,8 @@ interface AuthState {
         avatar?: string,
         fullname?: string,
         phone?: string,
-        scope?: string[]
+        scope?: string[],
+        role?: string;
     };
     token: string | null;
     emailVerified: boolean;

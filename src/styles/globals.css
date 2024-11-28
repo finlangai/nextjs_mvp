@@ -74,6 +74,18 @@ body::-webkit-scrollbar-thumb:hover {
   background-color: transparent; /* Màu nền của track */
 }
 
+/* ----------------------------------------------------------------------- */
+
+.truncate-text {
+  display: -webkit-box; /* Đặt chế độ hiển thị cho element như một box flex */
+  -webkit-box-orient: vertical; /* Đặt hướng chiều dọc */
+  overflow: hidden; /* Ẩn phần văn bản vượt quá */
+  -webkit-line-clamp: 2; /* Giới hạn số dòng hiển thị (thay số 3 bằng số dòng bạn muốn) */
+  line-height: 1.5; /* Điều chỉnh độ cao của dòng */
+  max-height: 4.5em; /* Đảm bảo rằng số dòng cố định */
+}
+
+
 #BarsLoader {
   width: 45px;
   aspect-ratio: 1;

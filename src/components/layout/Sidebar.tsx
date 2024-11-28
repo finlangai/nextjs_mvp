@@ -36,7 +36,7 @@ export default function Sidebar() {
                         <BtnSidebar class_icon="bx bx-left-indent" active={selectedButton === 2} />
                     </Link>
 
-                    <div onClick={() => handleClick(3)} className="relative group">
+                    <div className="relative group">
                         {/* BtnSidebar - phần tử cha */}
                         <BtnSidebar class_icon="bx bx-bar-chart" active={selectedButton === 3} />
 
@@ -74,14 +74,9 @@ export default function Sidebar() {
                         </div>
                     </div>
 
-                    <Link href="/dashboard/bieu-do-ky-thuat/VCB/" onClick={() => handleClick(5)}>
-                        <BtnSidebar class_icon="bx bx-candles" active={selectedButton === 5} />
-                    </Link>
-
-                    <div onClick={() => handleClick(6)} className="relative group">
+                    <div className="relative group">
                         <BtnSidebar class_icon="bx bxs-calculator" active={selectedButton === 6} />
-
-                        
+                 
                         <div className="text-[14px] absolute left-full top-0 hidden group-hover:block bg-[#1E2329] shadow-lg rounded-tr-lg rounded-br-lg border border-fintown-br min-w-[200px]">
                             <HoverArrowLink 
                             href="/dashboard/dinh-gia-co-phieu/VCB/chiet-khau-dong-tien" 
@@ -119,6 +114,10 @@ export default function Sidebar() {
                             />
                         </div>
                     </div>
+                    
+                    <Link href="/dashboard/bieu-do-ky-thuat/VCB/" onClick={() => handleClick(5)}>
+                        <BtnSidebar class_icon="bx bx-equalizer" active={selectedButton === 5} />
+                    </Link>
                 </div>
             </div>
 
