@@ -57,62 +57,62 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     // CHECK SCOPE============================================================
-    // useEffect(() => {
-    //     if (!getScope) {
-    //         const timer = setTimeout(() => setIsModalVisible(true), 0);
-    //         return () => clearTimeout(timer);
-    //     }
-    // }, [getScope]);
+    useEffect(() => {
+        if (!getScope) {
+            const timer = setTimeout(() => setIsModalVisible(true), 0);
+            return () => clearTimeout(timer);
+        }
+    }, [getScope]);
 
-    // if (!getScope) {
-    //     return (
-    //         <div
-    //             className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70"
-    //             onClick={(event) => {
-    //                 if (formRef.current && !formRef.current.contains(event.target as Node)) {
-    //                     linkRef.current?.click();
-    //                 }
-    //             }}
-    //         >
-    //             <Link
-    //                 href="/dashboard"
-    //                 ref={linkRef}
-    //                 style={{ display: 'none' }}
-    //             >
-    //                 Go to Dashboard
-    //             </Link>
+    if (!getScope) {
+        return (
+            <div
+                className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70"
+                onClick={(event) => {
+                    if (formRef.current && !formRef.current.contains(event.target as Node)) {
+                        linkRef.current?.click();
+                    }
+                }}
+            >
+                <Link
+                    href="/dashboard"
+                    ref={linkRef}
+                    style={{ display: 'none' }}
+                >
+                    Go to Dashboard
+                </Link>
 
-    //             <div
-    //                 ref={formRef}
-    //                 className={`
-    //                     w-full
-    //                     max-w-md
-    //                     transform
-    //                     transition-all
-    //                     duration-500
-    //                     ${isModalVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'}
-    //                 `}
-    //                 style={{
-    //                     transform: isModalVisible ? 'translateY(0)' : 'translateY(-50px)',
-    //                     opacity: isModalVisible ? 1 : 0,
-    //                 }}
-    //                 onClick={(e) => e.stopPropagation()}
-    //             >
-    //                 <LoginForm />
-    //             </div>
-    //         </div>
-    //     );
-    // }
+                <div
+                    ref={formRef}
+                    className={`
+                        w-full
+                        max-w-md
+                        transform
+                        transition-all
+                        duration-500
+                        ${isModalVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'}
+                    `}
+                    style={{
+                        transform: isModalVisible ? 'translateY(0)' : 'translateY(-50px)',
+                        opacity: isModalVisible ? 1 : 0,
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    <LoginForm />
+                </div>
+            </div>
+        );
+    }
 
     return (
         <>
             <div className='flex ' >
                 <div className='w-full' >
-                    <div className='pl-[40px] border-r border-b border-fintown-br '>
+                    <div className='pl-[40px] border-r border-b border-fintown-br ' ref={containerRef} >
                         < ValuationHeader symbol={symbol} />
                     </div>
 
-                    <div className='flex border-r border-fintown-br' ref={containerRef} >
+                    <div className='flex border-r border-fintown-br' >
 
                         <div
                             className='min-w-[265px] w-max pl-[40px] pt-[25px] pr-[24px] border-r border-fintown-br flex flex-col gap-y-[10px]'
