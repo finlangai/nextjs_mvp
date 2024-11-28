@@ -23,6 +23,10 @@ export const fetchValuationResult = createAsyncThunk(
   ) => {
     const api = `${apiUrl}/valuation/${name}/${symbol}/calculate`;
 
+    // if (!getScope.includes('valuation-read')) {
+    //   return rejectWithValue('Bạn không có quyền đọc dữ liệu định giá');
+    // }
+
     if (!token) {
       return rejectWithValue('Token không tồn tại');
     }
