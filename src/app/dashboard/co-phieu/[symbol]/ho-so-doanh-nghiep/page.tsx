@@ -1,7 +1,6 @@
 "use client";
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import useSetSelectedButtonSiderBar from '@/src/redux/hooks/useButtonsiderBar';
 import useSetSelectedButtonStockPage from '@/src/redux/hooks/useButtonstockPage';
 import CompanyDescription from '@/src/components/organisms/CompanyDescription';
 import OfficersComponent from '@/src/components/organisms/Officers';
@@ -11,7 +10,6 @@ export default function HoSoDoanhNghiepPage ({ params }: { params: { symbol: str
     const { symbol } = params;
 
     // Xác định UI của trang đang ở
-    useSetSelectedButtonSiderBar(3);
     useSetSelectedButtonStockPage(2);
 
     const sidebarRef = useRef<HTMLDivElement>(null);

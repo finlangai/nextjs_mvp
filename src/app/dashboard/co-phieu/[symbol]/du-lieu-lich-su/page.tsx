@@ -1,6 +1,5 @@
 "use client";
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
-import useSetSelectedButtonSiderBar from '@/src/redux/hooks/useButtonsiderBar';
 import { selectSelectedButton, setSelectedButtonAndText } from '@/src/redux/HistoricalDataPage';
 import useSetSelectedButtonStockPage from '@/src/redux/hooks/useButtonstockPage';
 import HistoricalDataTable from '@/src/components/organisms/HistoricalDataTable';
@@ -12,7 +11,6 @@ export default function DuLieuLichSuPage({ params }: { params: { symbol: string 
     const selectedButton = useAppSelector(selectSelectedButton);
 
     // Xác định UI của trang đang ở
-    useSetSelectedButtonSiderBar(3);
     useSetSelectedButtonStockPage(4);
 
     const handleButtonClick = (button: number, text: string) => {

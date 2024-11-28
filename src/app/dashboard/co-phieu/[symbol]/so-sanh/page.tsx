@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
-import useSetSelectedButtonSiderBar from '@/src/redux/hooks/useButtonsiderBar';
 import useSetSelectedButtonStockPage from '@/src/redux/hooks/useButtonstockPage';
 import CompareChart from '@/src/components/charts/CompareChart';
 import SlidingTabs from '@/src/components/common/SlidingTabs';
@@ -20,7 +19,6 @@ export default function SoSanhPage({ params }: { params: { symbol: string } }) {
     const [activeTabIndex, setActiveTabIndex] = useState<number>(0);
 
     // Xác định UI của trang đang ở
-    useSetSelectedButtonSiderBar(3);
     useSetSelectedButtonStockPage(5);
 
     const tabs: Tab[] = [

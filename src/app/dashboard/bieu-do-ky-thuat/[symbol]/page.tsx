@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import useSetSelectedButtonSiderBar from '@/src/redux/hooks/useButtonsiderBar';
 import TechnicalChart from '@/src/components/charts/TechnicalChart/TechnicalChart';
 import { 
@@ -37,7 +37,7 @@ export default function BieuDoKyThuatPage({ params }: { params: { symbol: string
     const symbol = params.symbol.toUpperCase();
     const isValidSymbol = /^[A-Z]{3}$/.test(symbol);
     if (!isValidSymbol) {
-        redirect('/dashboard/'); 
+        notFound(); 
     }
 
     useSetSelectedButtonSiderBar(5);

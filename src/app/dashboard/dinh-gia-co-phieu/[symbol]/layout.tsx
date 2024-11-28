@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import { selectSelectedButton } from '@/src/redux/ValuetionPage/valuetionPageSlice';
 import { useAppSelector, useAppDispatch } from '@/src/redux/hooks/useAppStore';
 import useSetSelectedButtonSiderBar from '@/src/redux/hooks/useButtonsiderBar';
@@ -16,7 +17,6 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
     const selectedTabRight = useAppSelector(selectHistorySelectedButton);
     const dispatch = useAppDispatch();
     useSetSelectedButtonSiderBar(6);
-
     const getScope = useAppSelector(selecScope);
 
     const symbol = params.symbol.toUpperCase();
@@ -27,13 +27,13 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
 
     // =========================================================================
     if (!isValidSymbol) {
-        linkRef.current?.click();
-        return null;
+        notFound();
     }
 
     const containerRef = useRef<HTMLDivElement | null>(null);
     const [containerHeight, setContainerHeight] = useState<number>(0);
 
+    // CHECK SCOPE============================================================
     useEffect(() => {
         if (!getScope || !containerRef.current) {
             return;
@@ -57,9 +57,8 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
     // Xử lý hiệu ứng trượt xuống khi modal xuất hiện
     const [isModalVisible, setIsModalVisible] = useState(false);
 
-    // CHECK SCOPE============================================================
     useEffect(() => {
-        console.log(getScope)
+        // console.log(getScope)
         if (!getScope) {
             const timer = setTimeout(() => setIsModalVisible(true), 0);
             return () => clearTimeout(timer);
@@ -77,7 +76,7 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
                 }}
             >
                 <Link
-                    href="/dashboard"
+                    href={`/dashboard`}
                     ref={linkRef}
                     style={{ display: 'none' }}
                 >
@@ -192,7 +191,7 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
             </div>
 
             {!getScope.includes('valuation-read') && (
-                <UpgradeNotice containerHeight={containerHeight} />
+                <UpgradeNotice containerHeight={`${containerHeight}px`} />
             )}
         </>
     );
