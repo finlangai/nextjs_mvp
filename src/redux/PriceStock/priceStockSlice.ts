@@ -21,7 +21,7 @@ export const fetchPriceStocks = createAsyncThunk(
   'priceStock/fetch',
   async ({symbol, start, end, interval, type, limit}: { symbol: string; start: number, end: number, interval: string, type: number, limit: number}) => {
     const api = `${apiUrl}/symbols/${symbol}/quotes?start=${start}&end=${end}&interval=${interval}&type=${type}&limit=${limit}`;
-    console.log('api', api)
+    // console.log('api', api)
     const response = await fetch(api);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);

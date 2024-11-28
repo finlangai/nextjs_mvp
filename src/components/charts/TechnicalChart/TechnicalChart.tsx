@@ -47,39 +47,42 @@ const CandlestickChart = ({symbol} : {symbol: string}) => {
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<Highcharts.Chart | null>(null);
   const selectPriceStocks = useAppSelector(selectPriceStocksData);
-  const [data, setStockData] = useState<PriceStock[]>([]);
+  const [seriesData, setSeriesData] = useState<number[][]>([]);
+  const [volumeData, setVolumeData] = useState<{ x: number; y: number; color: string }[]>([]);  
 
   // LẦN ĐẦU CALL API LẤY YTD
   useEffect(() => {
     const fetchInitialData = async () => {
       const now = getCurrentUnixTimestamp();
       const start = getStartOfYear(); 
-      await dispatch(fetchPriceStocks({ symbol, start, end: now, interval: '1D', type: 1, limit: 90 }));
+      await dispatch(fetchPriceStocks({ symbol, start, end: now, interval: '1D', type: 1, limit: 500 }));
     };
     fetchInitialData(); 
   }, [dispatch, symbol]);
-  
-  useEffect(() => {
-    setStockData(selectPriceStocks);
-  }, [selectPriceStocks]);
 
-  // TẠO CHART===========================================
-  useEffect(() => {
-    const seriesData = data.map((point) => [
-      point.time,
+  useEffect(()=> {
+    const x = selectPriceStocks.map((point) => [
+      Math.floor(point.time / 86400) * 86400 * 1000, // Làm tròn về đầu ngày và chuyển sang mili-giây
       point.open,
       point.high,
       point.low,
       point.close,
     ]);
+    setSeriesData(x);
 
     // Tính toán màu cho volume dựa trên giá đóng cửa và mở cửa
-    const volumeData = data.map((point) => ({
-      x: point.time,
+    const f = selectPriceStocks.map((point) => ({
+      x: Math.floor(point.time / 86400) * 86400 * 1000, // Làm tròn về đầu ngày
       y: point.volume,
-      color: point.close >= point.open ? '#0ECB81' : '#F6465D'
+      color: point.close >= point.open ? '#0ECB81' : '#F6465D',
     }));
+    setVolumeData(f);
 
+  }, [selectPriceStocks])
+
+  // TẠO CHART===========================================
+  useEffect(() => {
+    console.log('seriesData', seriesData)
     if (chartContainerRef.current) {
       const chartOptions: Highcharts.Options = {
         stockTools: {
@@ -107,7 +110,6 @@ const CandlestickChart = ({symbol} : {symbol: string}) => {
           },
         },
         annotations: [ {
-
           labels: [],
           shapes: [],
           draggable: 'xy',
@@ -118,19 +120,19 @@ const CandlestickChart = ({symbol} : {symbol: string}) => {
         }],
         chart: {
           backgroundColor: 'rgb(24 26 32)',
-          renderTo: chartContainerRef.current,
+          renderTo: chartContainerRef.current
         },       
         tooltip: {
           useHTML: true,
           backgroundColor: 'none', 
           formatter: function () {
             const point = this as any;
-            // console.log("Tooltip context", point.point);
+            console.log("Tooltip context", point.point.options);
         
-            const open = point.point.open !== undefined ? point.point.open : 'N/A';
-            const high = point.point.high !== undefined ? point.point.high : 'N/A';
-            const low = point.point.low !== undefined ? point.point.low : 'N/A';
-            const close = point.point.close !== undefined ? point.point.close : 'N/A';
+            const open = point.point.options.open !== undefined ? point.point.options.open : 'N/A';
+            const high = point.point.options.high !== undefined ? point.point.options.high : 'N/A';
+            const low = point.point.options.low !== undefined ? point.point.options.low : 'N/A';
+            const close = point.point.options.close !== undefined ? point.point.options.close : 'N/A';
         
             return `
               <div style="display:flex; column-gap: 10px;">
@@ -140,7 +142,11 @@ const CandlestickChart = ({symbol} : {symbol: string}) => {
                     Ngày:
                   </div>
                   <div style="color: white;">
-                    ${this.x !== undefined ? Highcharts.dateFormat('%e %b, %Y', this.x as number) : 'N/A'}
+                    ${point.point.options.x !== undefined ? new Date(point.point.options.x * 1000).toLocaleDateString('vi-VN', { 
+                      day: 'numeric', 
+                      month: 'short', 
+                      year: 'numeric' 
+                    }) : 'N/A'}                  
                   </div>
                 </div>
 
@@ -192,7 +198,8 @@ const CandlestickChart = ({symbol} : {symbol: string}) => {
               y: 10   // Khoảng cách từ đỉnh màn hình
             };
           }
-        },     
+        },   
+          
         plotOptions: {
           series: {
             showInNavigator: false,
@@ -227,22 +234,33 @@ const CandlestickChart = ({symbol} : {symbol: string}) => {
             color: '#0ECB81',       
           },
         },
+
         series: [
           {
             type: 'candlestick',
             id: `${symbol}-ohlc`,
             name: `${symbol} Stock Price`,
-            data: seriesData,
-          }, {
+            data:  seriesData,
+            cropThreshold: 1000,
+            turboThreshold: 5000,    
+            dataGrouping: {
+              enabled:false
+            }
+          }, 
+          {
             type: 'column',
             id: `${symbol}-Volume`,
             name: `${symbol} Volume`,
             data: volumeData,
-            yAxis: 1
+            yAxis: 1,
+            cropThreshold: 1000,
+            turboThreshold: 5000,  
+            dataGrouping: {
+              enabled:false
+            }
           }
         ],
         xAxis: {
-          
           type: 'datetime',
           gridLineColor: '#2B3139',
           labels: {
@@ -260,8 +278,7 @@ const CandlestickChart = ({symbol} : {symbol: string}) => {
             color: '#FF0000',
             width: 2,
             value: 5.5
-        }]
-
+          }],
         },
         yAxis: [
           {
@@ -299,7 +316,10 @@ const CandlestickChart = ({symbol} : {symbol: string}) => {
         navigator: {
           enabled: false
         },
-        rangeSelector: {
+        scrollbar: {
+          enabled: false
+        },
+        rangeSelector:{
           selected: 4,
           enabled: false,
         },
@@ -312,10 +332,22 @@ const CandlestickChart = ({symbol} : {symbol: string}) => {
         credits: {
           enabled: false
         },
+        responsive: {
+          rules: [{
+              condition: {
+                  maxWidth: 800
+              },
+              chartOptions: {
+                  rangeSelector: {
+                      inputEnabled: false
+                  }
+              }
+          }]
+        }
       };
       chartRef.current = Highcharts.stockChart(chartOptions);
     }
-  }, [data]);
+  }, [seriesData, volumeData]);
 
   return <div id='container-technical-chart-azz' ref={chartContainerRef} style={{ height: '600px', width: '100%' }} />;
 };
