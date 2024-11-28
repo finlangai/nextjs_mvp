@@ -2,8 +2,9 @@
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { selectSelectedButton, setSelectedButtonAndText } from '@/src/redux/HistoricalDataPage';
 import useSetSelectedButtonStockPage from '@/src/redux/hooks/useButtonstockPage';
-import HistoricalDataTable from '@/src/components/organisms/HistoricalDataTable';
+import TransactionTable from '@/src/components/organisms/TransactionTable';
 import FilterRangeTimeTransaction from '@/src/components/organisms/FilterRangeTimeTransaction';
+import DivendensTable from '@/src/components/organisms/DivendensTable';
 
 export default function DuLieuLichSuPage({ params }: { params: { symbol: string } }) {
     const { symbol } = params;
@@ -21,31 +22,35 @@ export default function DuLieuLichSuPage({ params }: { params: { symbol: string 
         <>
             <div className='px-[40px] py-[22px] flex items-center gap-x-[50px] mb-[28px]'>
                 <button 
-                    className={`text-[14px] py-[10px] px-[16px] rounded-[7px] ${selectedButton === 0 ? 'bg-fintown-btn-active-3 text-fintown-pr9' : 'text-fintown-txt-2'}`} 
-                    onClick={() => handleButtonClick(0, 'Lịch sử giá')}>
-                    Lịch sử giá
+                    className={`text-[14px] py-[10px] px-[26px] rounded-[7px] ${selectedButton === 0 ? 'bg-fintown-btn-active-3 text-fintown-pr9' : 'text-fintown-txt-2'}`} 
+                    onClick={() => handleButtonClick(0, 'Cổ tức')}>
+                    Cổ tức
                 </button>
                 <button 
                     className={`text-[14px] py-[10px] px-[16px] rounded-[7px] ${selectedButton === 1 ? 'bg-fintown-btn-active-3 text-fintown-pr9' : 'text-fintown-txt-2'}`} 
-                    onClick={() => handleButtonClick(1, 'Lịch sử khớp lệnh')}>
-                    Lịch sử khớp lệnh
-                </button>
-                <button 
-                    className={`text-[14px] py-[10px] px-[16px] rounded-[7px] ${selectedButton === 2 ? 'bg-fintown-btn-active-3 text-fintown-pr9' : 'text-fintown-txt-2'}`} 
-                    onClick={() => handleButtonClick(2, 'Cổ đông và nội bộ')}>
+                    onClick={() => handleButtonClick(1, 'Cổ đông và nội bộ')}>
                     Cổ đông và nội bộ
                 </button>
             </div>
 
             {/* =========================================FILTER============================================== */}
-
-            < FilterRangeTimeTransaction symbol={symbol}/>
+            {
+                selectedButton === 1 && (
+                    < FilterRangeTimeTransaction symbol={symbol}/>
+                )
+            }
 
             {/* =========================================FILTER============================================== */}
             <div className='px-[40px] mb-[40px]'>
                 {
-                    selectedButton === 2 && (
-                        < HistoricalDataTable symbol={symbol}/>
+                    selectedButton === 0 && (
+                        < DivendensTable symbol={symbol}/>
+                    )
+                }
+
+                {
+                    selectedButton === 1 && (
+                        < TransactionTable symbol={symbol}/>
                     )
                 }
             </div>

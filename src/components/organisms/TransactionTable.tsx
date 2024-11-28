@@ -13,7 +13,7 @@ import { convertUnixToDate } from "@/src/utils/convertUnixToDate";
 import Pagination from "./Pagination";
 import { selectLimitPage, setTotalPages, selectTotalPages } from '@/src/redux/HistoricalDataPage';
 
-export default function HistoricalDataTable({symbol} : {symbol: string}) {
+export default function TransactionTable({symbol} : {symbol: string}) {
     const dispatch = useAppDispatch();
     const companyTransactionRecords = useAppSelector(selectcompanyTransactionRecords);
     const companyTransactionTotal = useAppSelector(selectcompanyTransactionTotal);

@@ -37,6 +37,7 @@ import TickerListOverviewReducers from "./TickerListOverview/tickerListOverviewS
 import valuetionParamsReducers from './ValuationParams';
 import valuationResultReduces from "./ValuationResult/valuationResultSlice"
 import ScenariosReducers from "./Scenarios/scenariosSlice"
+import DividendsReducers from "./Dividends/dividendsSlice";
 
 const tickerListReducer = combineReducers({
   TickerList: TickerListReducer,
@@ -79,7 +80,8 @@ const store = configureStore({
 
     historicalDataPage: historicalDataPageReducer,
     companyTransaction: CompanyTransactionReducer,
-    
+    dividends: DividendsReducers,
+
     forecastingPage: ForecastingPageReducers,
     topStocks: TopStocksReducers,
     forecastingOverallAssessment: ForecastingOverallAssessmentReducers,
