@@ -1,12 +1,13 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import useSetSelectedButtonStockPage from '@/src/redux/hooks/useButtonstockPage';
 import CompareChart from '@/src/components/charts/CompareChart';
 import SlidingTabs from '@/src/components/common/SlidingTabs';
-import AddItemsLeftBarCompare from '@/src/components/organisms/AddItemsLeftBarCompare';
-import CompareItemsRow from '@/src/components/organisms/CompareItemsRow';
-import CompareTable from '@/src/components/organisms/forecasting/CompareTable';
+import AddItemsLeftBarCompare from '@/src/components/organisms/comparison/AddItemsLeftBarCompare';
+import CompareItemsRow from '@/src/components/organisms/comparison/CompareItemsRow';
+import CompareTable from '@/src/components/organisms/comparison/CompareTable';
+import { fetchCompanyData } from '@/src/redux/Comparison';
 
 interface Tab {
     id: number;
@@ -17,6 +18,7 @@ export default function SoSanhPage({ params }: { params: { symbol: string } }) {
     const { symbol } = params;
     const dispatch = useAppDispatch();
     const [activeTabIndex, setActiveTabIndex] = useState<number>(0);
+    const hasFetched = useRef(false);
 
     // Xác định UI của trang đang ở
     useSetSelectedButtonStockPage(5);
@@ -29,6 +31,14 @@ export default function SoSanhPage({ params }: { params: { symbol: string } }) {
     const handleTabChange = (index: number) => {
         setActiveTabIndex(index);
     };
+
+    // Fetch API Lần đầu
+    // useEffect(() => {
+    //     if (!hasFetched.current) {
+    //         dispatch(fetchCompanyData(symbol: symbol, ));
+    //         hasFetched.current = true;
+    //     }
+    // }, [dispatch]);
 
     return (
         <>

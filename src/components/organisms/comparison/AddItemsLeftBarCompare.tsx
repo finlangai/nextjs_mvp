@@ -7,19 +7,19 @@ export default function AddItemsLeftBarCompare() {
     return (
         <>
             <div className='flex flex-col gap-y-[24px]'>
-                <div className='w-[55px] h-[55px] flex items-center justify-center border border-fintown-pr9 rounded-[50%]'>
+                <div className='w-[55px] h-[55px] flex items-center justify-center border-[2px] border-fintown-pr9 rounded-[50%]'>
                     <div className='h-[30px] w-[30px] rounded-[50%] overflow-hidden flex items-center justify-center bg-white'>
                         <img className='w-full h-full object-contain' src="/imgs/logo_cty/vcb.png" alt="" />
                     </div>
                 </div>
 
-                <div className='w-[55px] h-[55px] flex items-center justify-center border border-fintown-pr9 rounded-[50%]'>
+                <div className='w-[55px] h-[55px] flex items-center justify-center border-[2px] border-fintown-pr9 rounded-[50%]'>
                     <div className='h-[30px] w-[30px] rounded-[50%] overflow-hidden flex items-center justify-center bg-white'>
                         <img className='w-full h-full object-contain' src="/imgs/logo_cty/vcb.png" alt="" />
                     </div>
                 </div>
 
-                <div className='w-[55px] h-[55px] flex items-center justify-center border border-fintown-pr9 rounded-[50%]'>
+                <div className='w-[55px] h-[55px] flex items-center justify-center border-[2px] border-fintown-pr9 rounded-[50%]'>
                     <div className='h-[30px] w-[30px] rounded-[50%] overflow-hidden flex items-center justify-center bg-white'>
                         <img className='w-full h-full object-contain' src="/imgs/logo_cty/vcb.png" alt="" />
                     </div>

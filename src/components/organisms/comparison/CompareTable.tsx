@@ -23,11 +23,12 @@ export default function CompareTable() {
                     Doanh thu & Lợi nhuận
                 </div>
             </div>
+
             <div className='flex items-center text-fintown-txt-1 text-[14px] pb-[15px] border-b border-b-fintown-br mb-[18px]'>
                 <div className='min-w-[129px] w-full text-right flex items-center'>
                     <div className='flex items-center w-[75px] justify-between '>
                         <div className='text-fintown-txt-1 font-bold'>VCB</div>
-                        <div className='min-h-[20px] min-w-[20px] max-h-[20px] max-w-[20px] rounded-[50%] overflow-hidden flex items-center justify-center bg-white'>
+                        <div className='min-h-[30px] min-w-[30px] max-h-[30px] max-w-[30px] rounded-[50%] overflow-hidden flex items-center justify-center bg-white'>
                             <img className='w-full h-full object-contain' src="/imgs/logo_cty/vcb.png" alt="" />
                         </div>
                     </div>
@@ -48,56 +49,7 @@ export default function CompareTable() {
                 7.55
                 </div>
             </div>
-            <div className='flex items-center text-fintown-txt-1 text-[14px] pb-[15px] border-b border-b-fintown-br mb-[18px]'>
-                <div className='min-w-[129px] w-full text-right flex items-center'>
-                    <div className='flex items-center w-[75px] justify-between '>
-                        <div className='text-fintown-txt-1 font-bold'>VCB</div>
-                        <div className='min-h-[20px] min-w-[20px] max-h-[20px] max-w-[20px] rounded-[50%] overflow-hidden flex items-center justify-center bg-white'>
-                            <img className='w-full h-full object-contain' src="/imgs/logo_cty/vcb.png" alt="" />
-                        </div>
-                    </div>
-                    <div className='ml-auto'>
-                        7.55
-                    </div>
-                </div>
 
-                <div className='min-w-[129px] w-full text-right'>
-                7.55
-                </div>
-
-                <div className='min-w-[129px] w-full text-right'>
-                7.55
-                </div>
-
-                <div className='min-w-[129px] w-full text-right'>
-                7.55
-                </div>
-            </div>
-            <div className='flex items-center text-fintown-txt-1 text-[14px] pb-[15px] border-b border-b-fintown-br mb-[18px]'>
-                <div className='min-w-[129px] w-full text-right flex items-center'>
-                    <div className='flex items-center w-[75px] justify-between '>
-                        <div className='text-fintown-txt-1 font-bold'>VCB</div>
-                        <div className='min-h-[20px] min-w-[20px] max-h-[20px] max-w-[20px] rounded-[50%] overflow-hidden flex items-center justify-center bg-white'>
-                            <img className='w-full h-full object-contain' src="/imgs/logo_cty/vcb.png" alt="" />
-                        </div>
-                    </div>
-                    <div className='ml-auto'>
-                        7.55
-                    </div>
-                </div>
-
-                <div className='min-w-[129px] w-full text-right'>
-                7.55
-                </div>
-
-                <div className='min-w-[129px] w-full text-right'>
-                7.55
-                </div>
-
-                <div className='min-w-[129px] w-full text-right'>
-                7.55
-                </div>
-            </div>
         </div>
 
         <div className='flex items-center gap-x-[5px] justify-end'>
