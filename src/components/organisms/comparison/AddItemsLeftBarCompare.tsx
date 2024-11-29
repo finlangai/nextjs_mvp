@@ -1,29 +1,38 @@
 import React, { useState, useEffect } from 'react';
+import { selectCompanyData } from '@/src/redux/Comparison';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 
 export default function AddItemsLeftBarCompare() {
     const [isPopupOpen, setIsPopupOpen] = useState(false); 
     const [isAnimating, setIsAnimating] = useState(false);
+    const colors = ['#64E766', '#E7E575', '#E565A1', '#9552CF', '#66BED6'];
+
+    const companyData = useAppSelector(selectCompanyData);
 
     return (
         <>
             <div className='flex flex-col gap-y-[24px]'>
-                <div className='w-[55px] h-[55px] flex items-center justify-center border-[2px] border-fintown-pr9 rounded-[50%]'>
-                    <div className='h-[30px] w-[30px] rounded-[50%] overflow-hidden flex items-center justify-center bg-white'>
-                        <img className='w-full h-full object-contain' src="/imgs/logo_cty/vcb.png" alt="" />
-                    </div>
-                </div>
 
-                <div className='w-[55px] h-[55px] flex items-center justify-center border-[2px] border-fintown-pr9 rounded-[50%]'>
-                    <div className='h-[30px] w-[30px] rounded-[50%] overflow-hidden flex items-center justify-center bg-white'>
-                        <img className='w-full h-full object-contain' src="/imgs/logo_cty/vcb.png" alt="" />
-                    </div>
-                </div>
+                {
+                    companyData?.map((val, index) => (
+                        <div
+                        key={val?.symbol}
+                        className="w-[55px] h-[55px] flex items-center justify-center rounded-[50%]"
+                        style={{
+                            border: `2px solid ${colors[index % colors.length]}`,
+                        }}
+                        >
+                        <div className="h-[35px] w-[35px] rounded-[50%] overflow-hidden flex items-center justify-center bg-white border-[2px] border-fintown-txt-1">
+                            <img
+                            className="w-full h-full object-contain "
+                            src={val?.logo}
+                            alt={val?.symbol || ''}
+                            />
+                        </div>
+                        </div>
+                    ))
+                }
 
-                <div className='w-[55px] h-[55px] flex items-center justify-center border-[2px] border-fintown-pr9 rounded-[50%]'>
-                    <div className='h-[30px] w-[30px] rounded-[50%] overflow-hidden flex items-center justify-center bg-white'>
-                        <img className='w-full h-full object-contain' src="/imgs/logo_cty/vcb.png" alt="" />
-                    </div>
-                </div>
 
                 <div 
                 onClick={() => setIsPopupOpen(true)}  
@@ -162,7 +171,7 @@ export default function AddItemsLeftBarCompare() {
                         </div>
 
 
-                        <div className='flex justify-end'>
+                        <div className='flex justify-end pr-[28px]'>
                             <button
                                 onClick={() => setIsPopupOpen(false)}
                                 className='py-[10px] text-fintown-txt-1 text-[12px] px-[23px] border border-fintown-br rounded mr-[10px]'>

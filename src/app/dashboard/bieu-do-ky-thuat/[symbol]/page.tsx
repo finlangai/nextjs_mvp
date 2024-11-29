@@ -99,7 +99,7 @@ export default function BieuDoKyThuatPage({ params }: { params: { symbol: string
                             </div>
                             <div className='pl-[24px] flex items-center gap-x-[28px] py-[18px] w-full '>
                                 <button className='text-[12px] font-bold text-fintown-pr9'>
-                                    1D
+                                    1M
                                 </button>
 
                                 <button className='text-fintown-txt-2 text-[12px] font-bold'>
@@ -107,11 +107,15 @@ export default function BieuDoKyThuatPage({ params }: { params: { symbol: string
                                 </button>
 
                                 <button className='text-fintown-txt-2 text-[12px] font-bold'>
-                                    1Y
+                                    6M
                                 </button>
 
                                 <button className='text-fintown-txt-2 text-[12px] font-bold'>
                                     YTD
+                                </button>
+
+                                <button className='text-fintown-txt-2 text-[12px] font-bold'>
+                                    Tất cả
                                 </button>
                             </div>
                         </div>
@@ -145,8 +149,7 @@ export default function BieuDoKyThuatPage({ params }: { params: { symbol: string
                 </div>
             </div>
         </div>
-
-        
+    
         {(isPopupOpen || isAnimating) && (
             <div className={`fixed w-full h-full top-0 left-0 z-[999999] flex justify-center items-start 
                 bg-black bg-opacity-50 transition-opacity duration-300 ease-in-out 

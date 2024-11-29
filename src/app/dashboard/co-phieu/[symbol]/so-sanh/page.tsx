@@ -1,13 +1,13 @@
 "use client";
 import React, { useState, useRef, useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
+import { useAppDispatch } from '@/src/redux/hooks/useAppStore';
 import useSetSelectedButtonStockPage from '@/src/redux/hooks/useButtonstockPage';
 import CompareChart from '@/src/components/charts/CompareChart';
 import SlidingTabs from '@/src/components/common/SlidingTabs';
 import AddItemsLeftBarCompare from '@/src/components/organisms/comparison/AddItemsLeftBarCompare';
 import CompareItemsRow from '@/src/components/organisms/comparison/CompareItemsRow';
 import CompareTable from '@/src/components/organisms/comparison/CompareTable';
-import { fetchCompanyData } from '@/src/redux/Comparison';
+import { fetchGetComparison } from '@/src/redux/Comparison';
 
 interface Tab {
     id: number;
@@ -33,12 +33,12 @@ export default function SoSanhPage({ params }: { params: { symbol: string } }) {
     };
 
     // Fetch API Lần đầu
-    // useEffect(() => {
-    //     if (!hasFetched.current) {
-    //         dispatch(fetchCompanyData(symbol: symbol, ));
-    //         hasFetched.current = true;
-    //     }
-    // }, [dispatch]);
+    useEffect(() => {
+        if (!hasFetched.current) {
+            dispatch(fetchGetComparison(symbol));
+            hasFetched.current = true;
+        }
+    }, [dispatch]);
 
     return (
         <>
@@ -52,12 +52,12 @@ export default function SoSanhPage({ params }: { params: { symbol: string } }) {
             </div>
 
             <div className='pt-[30px] w-full pr-[40px]'>
-                <div className='flex justify-between pb-[33px] items-center'>
+                {/* <div className='flex justify-between pb-[33px] items-center'>
                     <SlidingTabs onTabChange={handleTabChange} tabs={tabs} gap={"18px"} startIndex={0} fontsize={'14px'}/>
                     <div className='text-fintown-txt-1 text-[14px]'>*Kỳ tính toán: Quý 2 - 2024</div>
-                </div>
+                </div> */}
 
-                < CompareItemsRow />
+                {/* < CompareItemsRow /> */}
 
                 < CompareTable />
             </div>

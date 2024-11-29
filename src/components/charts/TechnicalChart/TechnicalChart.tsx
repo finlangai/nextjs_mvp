@@ -55,7 +55,7 @@ const CandlestickChart = ({symbol} : {symbol: string}) => {
     const fetchInitialData = async () => {
       const now = getCurrentUnixTimestamp();
       const start = getStartOfYear(); 
-      await dispatch(fetchPriceStocks({ symbol, start, end: now, interval: '1D', type: 1, limit: 500 }));
+      await dispatch(fetchPriceStocks({ symbol, start, end: now, interval: '1D', type: 1, limit: 900 }));
     };
     fetchInitialData(); 
   }, [dispatch, symbol]);
@@ -142,7 +142,7 @@ const CandlestickChart = ({symbol} : {symbol: string}) => {
                     Ngày:
                   </div>
                   <div style="color: white;">
-                    ${point.point.options.x !== undefined ? new Date(point.point.options.x * 1000).toLocaleDateString('vi-VN', { 
+                    ${point.point.options.x !== undefined ? new Date(point.point.options.x).toLocaleDateString('vi-VN', { 
                       day: 'numeric', 
                       month: 'short', 
                       year: 'numeric' 
@@ -198,8 +198,7 @@ const CandlestickChart = ({symbol} : {symbol: string}) => {
               y: 10   // Khoảng cách từ đỉnh màn hình
             };
           }
-        },   
-          
+        },       
         plotOptions: {
           series: {
             showInNavigator: false,
@@ -234,7 +233,6 @@ const CandlestickChart = ({symbol} : {symbol: string}) => {
             color: '#0ECB81',       
           },
         },
-
         series: [
           {
             type: 'candlestick',
@@ -257,7 +255,8 @@ const CandlestickChart = ({symbol} : {symbol: string}) => {
             turboThreshold: 5000,  
             dataGrouping: {
               enabled:false
-            }
+            },
+
           }
         ],
         xAxis: {
@@ -321,7 +320,7 @@ const CandlestickChart = ({symbol} : {symbol: string}) => {
         },
         rangeSelector:{
           selected: 4,
-          enabled: false,
+          enabled: false
         },
         title: {
           text: undefined

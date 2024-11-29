@@ -1,12 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../store';
-import { Company } from '@/src/interfaces/Comparison';
+import { Company, CompanyList } from '@/src/interfaces/Comparison';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-// Định nghĩa trạng thái ban đầu
 interface CompanyState {
-  data: Company[];
+  data: CompanyList;
   loading: boolean;
   error: string | null;
 }
@@ -17,56 +16,104 @@ const initialState: CompanyState = {
   error: null,
 };
 
-// Async action để fetch dữ liệu công ty
-export const fetchCompanyData = createAsyncThunk(
-    'company/fetch',
-    async (
-      { symbol, payload }: { symbol: string; payload: { symbols: string[] } },
-      { rejectWithValue }
-    ) => {
-      try {
-        const api = `${apiUrl}/${symbol}/comparison`;
-        const response = await fetch(api, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload),
-        });
-  
-        if (!response.ok) {
-          return rejectWithValue(`HTTP error! status: ${response.status}`);
-        }
-  
-        return await response.json();
-      } catch (error: any) {
-        return rejectWithValue(error.message || 'Something went wrong');
+//(POST)
+export const fetchPostComparison= createAsyncThunk(
+  'company/fetch',
+  async (
+    { payload }: { symbol: string; payload: { symbols: string[] } },
+    { rejectWithValue }
+  ) => {
+    try {
+      const api = `${apiUrl}/symbols/comparison`;
+      const response = await fetch(api, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        return rejectWithValue(`HTTP error! status: ${response.status}`);
       }
+
+      return await response.json();
+    } catch (error: any) {
+      return rejectWithValue(error.message || 'Something went wrong');
     }
+  }
 );
-   
+
+//(GET)
+export const fetchGetComparison = createAsyncThunk< any, string >(
+  'company/fetchAll',
+  async (symbol, { rejectWithValue }) => {
+    try {
+      const api = `${apiUrl}/symbols/${symbol}/comparison`;
+      const response = await fetch(api);
+
+      if (!response.ok) {
+        return rejectWithValue(`HTTP error! status: ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error: any) {
+      return rejectWithValue(error.message || 'Something went wrong');
+    }
+  }
+);
+
 
 // Tạo slice cho Company
 const companySlice = createSlice({
   name: 'company',
   initialState,
-  reducers: {},
+  reducers: {
+    // Reducer xóa công ty theo symbol
+    removeCompany: (state, action) => {
+      state.data = state.data.filter((company) => company.symbol !== action.payload);
+    },
+  },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchCompanyData.pending, (state) => {
+      // Fetch dữ liệu công ty (POST)
+      .addCase(fetchPostComparison.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchCompanyData.fulfilled, (state, action) => {
+      .addCase(fetchPostComparison.fulfilled, (state, action) => {
+        const newCompany: Company = action.payload;
+        const exists = state.data.some((company) => company.symbol === newCompany.symbol);
+
+        if (!exists) {
+          state.data.push(newCompany);
+        }
+
+        state.loading = false;
+      })
+      .addCase(fetchPostComparison.rejected, (state, action) => {
+        state.error = action.payload as string;
+        state.loading = false;
+      })
+
+      // Fetch tất cả công ty (GET)
+      .addCase(fetchGetComparison.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchGetComparison.fulfilled, (state, action) => {
         state.data = action.payload || [];
         state.loading = false;
       })
-      .addCase(fetchCompanyData.rejected, (state, action) => {
-        state.error = action.error.message || null;
+      .addCase(fetchGetComparison.rejected, (state, action) => {
+        state.error = action.payload as string;
         state.loading = false;
       });
   },
 });
+
+// Export actions
+export const { removeCompany } = companySlice.actions;
 
 // Selectors
 export const selectCompanyData = (state: RootState) => state.comparison.data;
