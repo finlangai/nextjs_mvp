@@ -24,6 +24,11 @@ export default function AddItemPopup({
 
     const selectSymbols = useAppSelector(selectCompanySymbols);
 
+    // Tính toán số lượng chỗ còn trống dựa trên cả symbol đã chọn và selectedStocks
+    const remainingSlots = 5 - (selectSymbols.length + selectedStocks.filter(symbol => 
+        !selectSymbols.includes(symbol)
+    ).length);
+
     // Mở modal khi isPopupOpen thay đổi
     useEffect(() => {
         if (isPopupOpen) {
@@ -54,11 +59,20 @@ export default function AddItemPopup({
 
     // Xử lý chọn/bỏ chọn stock
     const handleToggleStock = (symbol: string) => {
-        setSelectedStocks(prev => 
-            prev.includes(symbol) 
-                ? prev.filter(s => s !== symbol)
-                : [...prev, symbol]
-        );
+        setSelectedStocks(prev => {
+            // Nếu symbol đã được chọn thì bỏ chọn
+            if (prev.includes(symbol)) {
+                return prev.filter(s => s !== symbol);
+            }
+            
+            // Nếu còn slot trống thì mới cho chọn
+            if (remainingSlots > 0) {
+                return [...prev, symbol];
+            }
+            
+            // Không còn slot trống
+            return prev;
+        });
     };
 
     // Xử lý thêm vào danh sách
@@ -113,11 +127,19 @@ export default function AddItemPopup({
                     </div>
 
                     <div className='flex items-center mb-[24px] px-[32px]'>
-                        <div className='text-fintown-txt-2 mr-[5px] text-[12px]'>
-                            Còn trống:
+                        <div className={`
+                            text-fintown-txt-2 
+                            mr-[5px] 
+                            text-[12px]
+                            ${remainingSlots === 0 ? 'text-red-500 cursor-not-allowed' : ''}
+                        `}>
+                            Số chỗ còn trống:
                         </div>
-                        <div className='text-fintown-txt-1 text-[12px]'>
-                            {5 - selectSymbols.length}
+                        <div className={`
+                            text-[12px]
+                            ${remainingSlots === 0 ? 'text-red-500 font-bold' : 'text-fintown-txt-1'}
+                        `}>
+                            {remainingSlots}
                         </div>
                     </div>
 
@@ -126,13 +148,26 @@ export default function AddItemPopup({
                         <div className="text-center text-fintown-txt-2">Đang tải...</div>
                     ) : (
                         searchResults?.map((stock, index) => {
-                        // Kiểm tra xem symbol có nằm trong danh sách đã chọn không
+                            // Kiểm tra xem symbol có nằm trong danh sách đã chọn không
                             const isAdded = selectSymbols.includes(stock?.symbol);
+                            const isSelectedInCurrentSession = selectedStocks.includes(stock?.symbol);
+                            
+                            // Kiểm tra xem stock có thể được chọn không
+                            const isSelectable = !isAdded && 
+                                (remainingSlots > 0 || isSelectedInCurrentSession);
 
                             return (
                                 <div
                                 key={stock?.symbol}
-                                className="py-[12px] border-b border-b-fintown-br flex items-center justify-between"
+                                className={`
+                                    py-[12px] 
+                                    border-b 
+                                    border-b-fintown-br 
+                                    flex 
+                                    items-center 
+                                    justify-between
+                                    ${!isSelectable ? 'opacity-50 cursor-not-allowed' : ''}
+                                `}
                                 >
                                 <div className="flex items-center">
                                     <div className="h-[30px] w-[30px] rounded-[50%] overflow-hidden flex items-center justify-center bg-white mr-[14px]">
@@ -161,26 +196,26 @@ export default function AddItemPopup({
                                         bg-fintown-txt-2 
                                         border-fintown-txt-2 
                                         cursor-no-drop
-                                        }
                                     `}
                                     >
                                     <i className="bx bx-check text-white"></i>
                                     </div>
                                 ) : (
                                     <div
-                                    onClick={() => handleToggleStock(stock?.symbol)}
+                                    onClick={() => isSelectable && handleToggleStock(stock?.symbol)}
                                     className={`
                                         w-[20px] h-[20px] 
                                         rounded border 
-                                        cursor-pointer 
                                         flex items-center 
                                         justify-center
-                                        ${selectedStocks.includes(stock?.symbol) 
-                                        ? 'bg-fintown-pr9 border-fintown-pr9' 
-                                        : 'border-fintown-pr9'}
+                                        ${!isSelectable 
+                                            ? 'border-gray-300 cursor-not-allowed' 
+                                            : isSelectedInCurrentSession 
+                                                ? 'bg-fintown-pr9 border-fintown-pr9 cursor-pointer' 
+                                                : 'border-fintown-pr9 cursor-pointer'}
                                     `}
                                     >
-                                    {selectedStocks.includes(stock?.symbol) && (
+                                    {isSelectedInCurrentSession && (
                                         <i className="bx bx-check text-white"></i>
                                     )}
                                     </div>
@@ -190,7 +225,6 @@ export default function AddItemPopup({
                         })
                     )}
                     </div>
-
 
                     <div className='flex justify-end pr-[28px]'>
                         <button
@@ -209,7 +243,7 @@ export default function AddItemPopup({
                                 rounded 
                                 ${selectedStocks.length > 0 
                                     ? 'bg-fintown-pr9 hover:bg-[#34A36A]' 
-                                    : 'bg-gray-300 cursor-not-allowed'}
+                                    : 'bg-[#9CA3AF] cursor-not-allowed'}
                             `}
                         >
                             Thêm vào danh sách

@@ -74,6 +74,7 @@ export default function CompareItemsRow() {
                             +
                         </div>
                     </div>
+                    
                     <div className='relative w-[55px] h-[55px] flex items-center justify-center border border-fintown-br rounded-[50%] cursor-pointer overflow-hidden group'>
                         <div className='h-[30px] w-[30px] rounded-[50%] overflow-hidden flex items-center justify-center bg-white'>
                             <img className='w-full h-full object-contain' src="/imgs/logo_cty/vcb.png" alt="" />

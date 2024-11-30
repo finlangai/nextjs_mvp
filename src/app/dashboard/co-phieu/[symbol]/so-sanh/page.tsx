@@ -45,7 +45,7 @@ export default function SoSanhPage({ params }: { params: { symbol: string } }) {
         <>
         <div className='flex pb-[50px]'>
             <div className='pl-[40px] pt-[30px] pr-[26px]'>
-                < AddItemsLeftBarCompare />
+                < AddItemsLeftBarCompare symbol={symbol} />
             </div>
 
             <div className='pt-[30px] pr-[34px]'>
