@@ -23,16 +23,17 @@ export default function SoSanhPage({ params }: { params: { symbol: string } }) {
     // Xác định UI của trang đang ở
     useSetSelectedButtonStockPage(5);
 
-    const tabs: Tab[] = [
-        { id: 0, label: "So sánh đôi" },
-        { id: 1, label: "So sánh tổng hợp" }
-    ];
+    // const tabs: Tab[] = [
+    //     { id: 0, label: "So sánh đôi" },
+    //     { id: 1, label: "So sánh tổng hợp" }
+    // ];
 
-    const handleTabChange = (index: number) => {
-        setActiveTabIndex(index);
-    };
+    // const handleTabChange = (index: number) => {
+    //     setActiveTabIndex(index);
+    // };
 
     // Fetch API Lần đầu
+    
     useEffect(() => {
         if (!hasFetched.current) {
             dispatch(fetchGetComparison(symbol));

@@ -33,6 +33,8 @@ export default function KetQuaDuBaoPage({ params }: { params: { symbol: string }
     };
 
     // CHECK SCOPE============================================================
+
+    // Lấy chiều cao
     useEffect(() => {
         if (!getScope || !containerRef.current) {
             return;
@@ -57,7 +59,7 @@ export default function KetQuaDuBaoPage({ params }: { params: { symbol: string }
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     useEffect(() => {
-        console.log(getScope)
+        // console.log(getScope)
         if (!getScope) {
             const timer = setTimeout(() => setIsModalVisible(true), 0);
             return () => clearTimeout(timer);

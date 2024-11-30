@@ -167,7 +167,7 @@ const ChangeStockInput = ({symbol} : {symbol: string}) => {
             </div>
 
             {isDropdownOpen && (
-                <div className='absolute w-full top-[50px] z-40'>
+                <div className='absolute min-w-[200px] left-[-85%] top-[50px] z-40'>
                     <div className='bg-fintown-bg-stn rounded pb-[10px]'>
                         <div className='flex justify-between px-[12px] py-[8px]'>
                             <div className='flex justify-between border border-fintown-btn-2 rounded w-full h-[40px] hover:border-fintown-pr9 items-center'>
@@ -205,7 +205,7 @@ const ChangeStockInput = ({symbol} : {symbol: string}) => {
                                 stockList.map(stock => (
                                     <li 
                                         key={stock.symbol}
-                                        className='py-[10px] list-none flex items-center cursor-pointer hover:bg-fintown-hvr-btn-2'
+                                        className='py-[10px] list-none flex items-center justify-between cursor-pointer hover:bg-fintown-hvr-btn-2'
                                         onClick={() => handleStockSelect(stock)}
                                     >
                                         <div className='px-[14px] text-fintown-txt-1 text-sm'>{stock.symbol}</div>

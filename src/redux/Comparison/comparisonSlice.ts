@@ -16,11 +16,11 @@ const initialState: CompanyState = {
   error: null,
 };
 
-//(POST)
-export const fetchPostComparison= createAsyncThunk(
+// (POST) Fetch và thêm công ty vào danh sách
+export const fetchPostComparison = createAsyncThunk(
   'company/fetch',
   async (
-    { payload }: { symbol: string; payload: { symbols: string[] } },
+    { symbols }: { symbols: string[] },
     { rejectWithValue }
   ) => {
     try {
@@ -30,22 +30,22 @@ export const fetchPostComparison= createAsyncThunk(
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({ symbols }),
       });
 
       if (!response.ok) {
         return rejectWithValue(`HTTP error! status: ${response.status}`);
       }
 
-      return await response.json();
+      return await response.json(); // Trả về mảng các công ty
     } catch (error: any) {
       return rejectWithValue(error.message || 'Something went wrong');
     }
   }
 );
 
-//(GET)
-export const fetchGetComparison = createAsyncThunk< any, string >(
+// (GET) Fetch tất cả dữ liệu công ty dựa trên symbol
+export const fetchGetComparison = createAsyncThunk<any, string>(
   'company/fetchAll',
   async (symbol, { rejectWithValue }) => {
     try {
@@ -63,31 +63,32 @@ export const fetchGetComparison = createAsyncThunk< any, string >(
   }
 );
 
-
-// Tạo slice cho Company
+// Slice quản lý dữ liệu công ty
 const companySlice = createSlice({
   name: 'company',
   initialState,
   reducers: {
-    // Reducer xóa công ty theo symbol
+    // Xóa công ty khỏi danh sách
     removeCompany: (state, action) => {
       state.data = state.data.filter((company) => company.symbol !== action.payload);
     },
   },
   extraReducers: (builder) => {
     builder
-      // Fetch dữ liệu công ty (POST)
+      // Fetch POST: Thêm công ty
       .addCase(fetchPostComparison.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(fetchPostComparison.fulfilled, (state, action) => {
-        const newCompany: Company = action.payload;
-        const exists = state.data.some((company) => company.symbol === newCompany.symbol);
+        const newCompanies: Company[] = action.payload; // API trả về mảng các công ty
 
-        if (!exists) {
-          state.data.push(newCompany);
-        }
+        newCompanies.forEach((newCompany) => {
+          const exists = state.data.some((company) => company.symbol === newCompany.symbol);
+          if (!exists) {
+            state.data.push(newCompany);
+          }
+        });
 
         state.loading = false;
       })
@@ -96,7 +97,7 @@ const companySlice = createSlice({
         state.loading = false;
       })
 
-      // Fetch tất cả công ty (GET)
+      // Fetch GET: Lấy danh sách công ty
       .addCase(fetchGetComparison.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -120,11 +121,15 @@ export const selectCompanyData = (state: RootState) => state.comparison.data;
 export const selectCompanyLoading = (state: RootState) => state.comparison.loading;
 export const selectCompanyError = (state: RootState) => state.comparison.error;
 
-// Selector để lấy thông tin chi tiết
+// Selector lấy công ty theo symbol
 export const selectCompanyBySymbol = (state: RootState, symbol: string) =>
   state.comparison.data.find((company) => company.symbol === symbol);
 
-// Selector để lấy tất cả thông tin
+// Selector lấy danh sách symbol
+export const selectCompanySymbols = (state: RootState) =>
+  state.comparison.data.map((company) => company.symbol);
+
+// Selector toàn bộ thông tin
 export const selectAllCompanyInfo = (state: RootState) => ({
   data: state.comparison.data,
   loading: state.comparison.loading,

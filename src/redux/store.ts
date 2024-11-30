@@ -39,6 +39,7 @@ import valuationResultReduces from "./ValuationResult/valuationResultSlice"
 import ScenariosReducers from "./Scenarios/scenariosSlice"
 import DividendsReducers from "./Dividends/dividendsSlice";
 import ComparisonReducers from "./Comparison/comparisonSlice"
+import SearchStockComparisonReducers from "./SearchStockComparison/searchStockComparisonSlice"
 
 const tickerListReducer = combineReducers({
   TickerList: TickerListReducer,
@@ -91,6 +92,7 @@ const store = configureStore({
     forecastingToggle: ForecastingToggleReducer,
 
     comparison: ComparisonReducers,
+    searchStockComparison: SearchStockComparisonReducers,
 
     bestNPM: BestNPMReducer,
 
