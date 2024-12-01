@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { setHistorySelectedButton } from '@/src/redux/ValuetionPage/valuationHistorySlice';
 import FairValueCalculator from "@/src/components/organisms/valuetion/FairValueCalculator";
@@ -16,7 +16,8 @@ interface Tab {
     label: string;
 }
 
-export default function ValuationCentral({ symbol, name, formular }: { symbol: string; name: string; formular: string }) {
+export default function ValuationCentralComponent({ symbol, name, formular }: { symbol: string; name: string; formular: string }) {
+    
     const dispatch = useAppDispatch();
     const valuationResultData = useAppSelector(selectValuationResultData);
     const selectPrice = useAppSelector(selectProfileSummaryClosePrice) ?? 0;
@@ -64,10 +65,10 @@ export default function ValuationCentral({ symbol, name, formular }: { symbol: s
 
     const renderContent = () => {
         switch (activeTabIndex) {
-            case 0:
+            case 1:
                 dispatch(setHistorySelectedButton({ button: 0 }));
                 return <FairValueCalculator symbol={symbol} />;
-            case 1:
+            case 0:
                 dispatch(setHistorySelectedButton({ button: 1 }));
                 return <PriceHistoryTab />;
             default:
@@ -76,7 +77,7 @@ export default function ValuationCentral({ symbol, name, formular }: { symbol: s
     };
 
     //CÁC HÀM VALIDATE===================================================================
-    const handleSave = () => {
+    const handleSave = async () => {
         let valid = true;
         const newErrors = { scenarioName: '', notes: '' };
 
@@ -128,7 +129,7 @@ export default function ValuationCentral({ symbol, name, formular }: { symbol: s
             }          
 
             if (token) {
-                dispatch(postScenario({ symbol: symbol, name: name, token: token, data: data}));
+                await dispatch(postScenario({ symbol: symbol, name: name, token: token, data: data}));
                 dispatch(fetchScenarios({ symbol: symbol, name: name, token: token }));
             }
 
@@ -139,7 +140,7 @@ export default function ValuationCentral({ symbol, name, formular }: { symbol: s
     return (
         <>
             <div className='w-full'>
-                <div className='py-[30px] px-[24px] justify-between border-r border-b border-fintown-br'>
+                <div className='py-[30px] px-[24px] justify-between border-b border-fintown-br'>
                     <div className='text-[20px] font-bold text-fintown-txt-1 mb-[16px]'>
                         {name}
                     </div>

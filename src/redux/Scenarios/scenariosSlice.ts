@@ -125,4 +125,20 @@ export const selectScenariosData = (state: RootState) => state.scenarios.data;
 export const selectScenariosLoading = (state: RootState) => state.scenarios.loading;
 export const selectScenariosError = (state: RootState) => state.scenarios.error;
 
+export const selectNewestScenario = (state: RootState): Scenarios | null => {
+  if (state.scenarios.data.length === 0) return null;
+
+  const parseDate = (dateStr: string) => {
+    const [day, month, year] = dateStr.split('/').map(Number);
+    return new Date(year, month - 1, day);
+  };
+
+  const newestScenario = [...state.scenarios.data].sort((a, b) =>
+    parseDate(b.saveAt).getTime() - parseDate(a.saveAt).getTime()
+  )[0];
+
+  return newestScenario || null;
+};
+
+
 export default scenariosSlice.reducer;

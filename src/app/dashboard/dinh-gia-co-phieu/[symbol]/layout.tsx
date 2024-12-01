@@ -113,8 +113,8 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
                         < ValuationHeader symbol={symbol} />
                     </div>
 
-                    <div className='flex border-r border-fintown-br' >
-                        <div className='min-w-[265px] w-max pl-[40px] pt-[25px] pr-[24px] border-r border-fintown-br flex flex-col gap-y-[10px]' ref={containerRef}>
+                    <div className='flex' >
+                        <div className='min-w-[265px] w-max pl-[40px] pt-[25px] pr-[24px] flex flex-col gap-y-[10px]' ref={containerRef}>
                             <Link href={`/dashboard/dinh-gia-co-phieu/${symbol}/chiet-khau-dong-tien`}>
                                 <div
                                     className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${selectedButton === 0 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
@@ -179,13 +179,13 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
                             </Link>
                         </div>
 
-                        <div className='w-full h-full'>
+                        <div className='w-full h-full  border-l border-fintown-br'>
                             {children}
                         </div>
                     </div>
                 </div>
 
-                <div className='min-w-[300px] max-w-[300px]'>
+                <div className='min-w-[300px] max-w-[300px] border-l border-fintown-br'>
                     < LogValuation containerHeight={containerHeight} />
                 </div>
             </div>

@@ -22,7 +22,7 @@ export const fetchValuationResult = createAsyncThunk(
     { rejectWithValue }
   ) => {
     const api = `${apiUrl}/valuation/${name}/${symbol}/calculate`;
-
+    // console.log(api)
     // if (!getScope.includes('valuation-read')) {
     //   return rejectWithValue('Bạn không có quyền đọc dữ liệu định giá');
     // }

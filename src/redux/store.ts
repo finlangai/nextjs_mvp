@@ -40,6 +40,7 @@ import ScenariosReducers from "./Scenarios/scenariosSlice"
 import DividendsReducers from "./Dividends/dividendsSlice";
 import ComparisonReducers from "./Comparison/comparisonSlice"
 import SearchStockComparisonReducers from "./SearchStockComparison/searchStockComparisonSlice"
+import IdScenariosReducers from "./Scenarios/idScenariosSlice";
 
 const tickerListReducer = combineReducers({
   TickerList: TickerListReducer,
@@ -100,6 +101,7 @@ const store = configureStore({
     valuationParams: valuetionParamsReducers,
     valuationResult: valuationResultReduces,
     scenarios: ScenariosReducers,
+    idScenario: IdScenariosReducers,
 
     instrumentList: InstrumentListReducers,
     technicalChartOverview: TechnicalChartOverviewReducers,

@@ -1,8 +1,8 @@
 export interface Scenarios {
     symbol: string,
     title: string,
-    potential: string | number,
-    valuated: string | number,
+    potential: number,
+    valuated: number,
     note: string,
     id: string,
     saveAt: string

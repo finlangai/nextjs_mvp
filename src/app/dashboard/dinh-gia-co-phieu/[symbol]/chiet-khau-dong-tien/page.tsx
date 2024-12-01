@@ -6,7 +6,7 @@ import { fetchValuationParams } from '@/src/redux/ValuationParams/valuationParam
 import { fetchValuationResult } from '@/src/redux/ValuationResult';
 import { fetchScenarios } from '@/src/redux/Scenarios';
 import { selectToken } from "@/src/redux/auth";
-import ValuationCentral from '@/src/components/organisms/valuetion/ValuationCentral';
+import ValuationCentralComponent from '@/src/components/organisms/valuetion/ValuationCentral';
 
 export default function DCFValuetionPage({ params }: { params: { symbol: string } }) {
     const { symbol } = params;
@@ -31,7 +31,7 @@ export default function DCFValuetionPage({ params }: { params: { symbol: string 
 
     return (
         <>
-            < ValuationCentral
+            < ValuationCentralComponent
                 symbol={symbol}
                 name='Mô hình chiết khấu dòng tiền (Discounted Cash Flow)'
                 formular='Công thức: P0 = Σ (FCFE_t) / (1 + r)^t'

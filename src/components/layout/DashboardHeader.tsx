@@ -108,9 +108,9 @@ export default function DashboardHeader({isTechnicalChart} : {isTechnicalChart: 
                 ) : user ? (
                     <div className="flex items-center gap-x-3">
                         <div>
-                            <div className={`${user?.role === 'basic' ? 'text-[yellow]' : 'text-fintown-pr9'} text-[10px] flex items-center gap-x-[5px]`}>
+                            <div className={`${user?.role === 'basic' ? 'text-[yellow]' : 'text-fintown-pr9'} text-[10px] flex items-center gap-x-[5px] justify-end`}>
                                 <i className='bx bx-cube text-[14px]'></i>
-                                <div className="capitalize font-bold">{user?.role}</div>
+                                <div className="capitalize font-bold text-right">{user?.role}</div>
                             </div>
                             <div className="text-fintown-txt-1 text-sm text-right">{user.fullname}</div>
                         </div>

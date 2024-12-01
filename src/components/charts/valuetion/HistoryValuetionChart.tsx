@@ -1,15 +1,29 @@
 import React from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import { getPotentialClass } from '@/src/utils/getPotentialClass';
+import { Scenarios } from '@/src/interfaces/Scenarios';
+import { selectProfileSummaryClosePrice } from '@/src/redux/ProfileSummary';
+import { useAppSelector } from '@/src/redux/hooks/useAppStore';
 
 type DataLabelsFormatterContextObject = {
-  y?: number; // Giá trị y của dữ liệu
-  x?: number; // Giá trị x của dữ liệu (nếu có)
-  [key: string]: any; // Cho phép các thuộc tính khác (linh hoạt với Highcharts)
+  y?: number; 
+  x?: number;
+  [key: string]: any;
 };
 
 
-const HistoryValuetionChart = () => {
+const HistoryValuetionChart = ({ data }: { data: Scenarios | undefined }) => {
+  const selectPrice = useAppSelector(selectProfileSummaryClosePrice) ?? 0;
+
+  // Tính toán min và max cho trục y
+  const chartValues = [selectPrice, data?.valuated || 0];
+  const minValue = Math.min(...chartValues);
+  const maxValue = Math.max(...chartValues);
+  const padding = 10; // Khoảng đệm cho trục y
+  const calculatedMin = minValue - padding;
+  const calculatedMax = maxValue + padding;
+
   const options = {
     chart: {
       type: 'column',
@@ -17,22 +31,21 @@ const HistoryValuetionChart = () => {
       height: 250,
     },
     title: {
-      text: null, 
+      text: null,
     },
     xAxis: {
       categories: ['Q2-2024', 'Q3-2024'],
       labels: {
         style: {
-          color: '#ffffff', 
+          color: '#ffffff',
         },
       },
       gridLineColor: '#2B3139',
-
     },
     yAxis: {
       tickAmount: 5,
-      min: 0,
-      max: 60,
+      min: calculatedMin,
+      max: calculatedMax,
       gridLineColor: '#2B3139',
       title: {
         text: null,
@@ -45,13 +58,13 @@ const HistoryValuetionChart = () => {
       plotLines: [
         {
           color: '#66b2ff',
-          value: 33.55,
+          value: selectPrice,
           width: 2,
           dashStyle: 'Dash',
           zIndex: 5,
           label: {
-            text: '<div style="background-color: blue; color: #ffffff; padding: 5px 10px; border-radius: 5px;">33,55</div>',
-            useHTML: true, 
+            text: `<div style="background-color: blue; color: #ffffff; padding: 5px 10px; border-radius: 5px;">${selectPrice?.toLocaleString('en-US')}</div>`,
+            useHTML: true,
             align: 'right',
             style: {
               fontSize: '12px',
@@ -59,15 +72,14 @@ const HistoryValuetionChart = () => {
             },
           },
         },
-      ],      
+      ],
     },
-
     series: [
       {
-        name: 'Giá',
+        name: '',
         data: [
           {
-            y: 38.56,
+            y: data?.valuated,
             color: '#ffffff',
             dataLabels: {
               enabled: true,
@@ -78,22 +90,23 @@ const HistoryValuetionChart = () => {
                   <div
                     style='
                       padding: 8px 12px;
-                      borderRadius: 6px;
-                      fontSize: 14px;
-                      fontWeight: 500;
+                      border-radius: 6px;
+                      font-size: 14px;
+                      font-weight: 500;
                       color: white;
-                      whiteSpace: nowrap;
-                      backgroundColor: #ef4444;
+                      white-space: nowrap;
+                      background-color: #ffffff;
+                      color: black;
                     '>
-                    ${this.y?.toFixed(2)}%
+                    ${this.y?.toLocaleString('en-US')}
                   </div>
                   <div
                     style='
                       width: 0;
                       height: 0;
-                      borderLeft: 4px solid transparent;
-                      borderRight: 4px solid transparent;
-                      borderTop: 4px solid #ef4444;
+                      border-left: 4px solid transparent;
+                      border-right: 4px solid transparent;
+                      border-top: 4px solid #ffffff;
                       margin: 0 auto;
                     '
                   />
@@ -103,8 +116,8 @@ const HistoryValuetionChart = () => {
             },
           },
           {
-            y: 38.56,
-            color: '#9b5de5',
+            y: data?.valuated,
+            color: getPotentialClass(data?.potential),
             dataLabels: {
               enabled: true,
               useHTML: true,
@@ -114,22 +127,22 @@ const HistoryValuetionChart = () => {
                   <div
                     style='
                       padding: 8px 12px;
-                      borderRadius: 6px;
-                      fontSize: 14px;
-                      fontWeight: 500;
+                      border-radius: 6px;
+                      font-size: 14px;
+                      font-weight: 500;
                       color: white;
-                      whiteSpace: nowrap;
-                      backgroundColor: #9b5de5;
+                      white-space: nowrap;
+                      background-color: ${getPotentialClass(data?.potential)};
                     '>
-                    ${this.y?.toFixed(2)}%
+                    ${this.y?.toLocaleString('en-US')}
                   </div>
                   <div
                     style='
                       width: 0;
                       height: 0;
-                      borderLeft: 4px solid transparent;
-                      borderRight: 4px solid transparent;
-                      borderTop: 4px solid #9b5de5;
+                      border-left: 4px solid transparent;
+                      border-right: 4px solid transparent;
+                      border-top: 4px solid #9b5de5;
                       margin: 0 auto;
                     '
                   />
@@ -140,8 +153,7 @@ const HistoryValuetionChart = () => {
           },
         ],
       },
-    ],    
-
+    ],
     plotOptions: {
       column: {
         borderRadius: 0,
@@ -150,7 +162,7 @@ const HistoryValuetionChart = () => {
       },
     },
     tooltip: {
-      enabled: false, 
+      enabled: false,
     },
     legend: {
       enabled: false,
@@ -160,11 +172,7 @@ const HistoryValuetionChart = () => {
     },
   };
 
-  return(
-    <>
-    <HighchartsReact highcharts={Highcharts} options={options} />;
-    </>
-  )
+  return <HighchartsReact highcharts={Highcharts} options={options} />;
 };
 
 export default HistoryValuetionChart;
