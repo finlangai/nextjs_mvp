@@ -23,7 +23,6 @@ export const fetchIdScenario = createAsyncThunk(
     { rejectWithValue }
   ) => {
     const api = `${apiUrl}/valuation/${name}/${symbol}/scenarios/${id}`;
-    // console.log('api', api)
     if (!token) {
       return rejectWithValue('Token không tồn tại');
     }
@@ -57,7 +56,8 @@ export const deleteScenario = createAsyncThunk(
     { rejectWithValue }
   ) => {
     const api = `${apiUrl}/valuation/${name}/${symbol}/scenarios/${id}`;
-    
+    console.log('api', api)
+
     if (!token) {
       return rejectWithValue('Token không tồn tại');
     }
@@ -83,7 +83,6 @@ export const deleteScenario = createAsyncThunk(
   }
 );
 
-
 // SLICE
 const idScenarioSlice = createSlice({
   name: 'idScenario',
@@ -91,34 +90,34 @@ const idScenarioSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-    // Fetch IdScenario
-    .addCase(fetchIdScenario.pending, (state) => {
-      state.loading = true;
-      state.error = null;
-    })
-    .addCase(fetchIdScenario.fulfilled, (state, action) => {
-      state.loading = false;
-      state.data = action.payload;
-    })
-    .addCase(fetchIdScenario.rejected, (state, action) => {
-      state.loading = false;
-      state.error = (action.payload as string) || 'Đã xảy ra lỗi';
-    })
-    // Delete Scenario
-    .addCase(deleteScenario.pending, (state) => {
-      state.loading = true;
-      state.error = null;
-    })
-    .addCase(deleteScenario.fulfilled, (state, action) => {
-      state.loading = false;
-      if (state.data?.id === action.payload.id) {
-        state.data = null; // Xóa data khỏi state nếu ID trùng khớp
-      }
-    })
-    .addCase(deleteScenario.rejected, (state, action) => {
-      state.loading = false;
-      state.error = (action.payload as string) || 'Đã xảy ra lỗi khi xóa';
-    });
+      // Fetch IdScenario
+      .addCase(fetchIdScenario.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchIdScenario.fulfilled, (state, action) => {
+        state.loading = false;
+        state.data = action.payload;
+      })
+      .addCase(fetchIdScenario.rejected, (state, action) => {
+        state.loading = false;
+        state.error = (action.payload as string) || 'Đã xảy ra lỗi';
+      })
+      // Delete Scenario
+      .addCase(deleteScenario.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteScenario.fulfilled, (state, action) => {
+        state.loading = false;
+        if (state.data?.id === action.payload.id) {
+          state.data = null; 
+        }
+      })
+      .addCase(deleteScenario.rejected, (state, action) => {
+        state.loading = false;
+        state.error = (action.payload as string) || 'Đã xảy ra lỗi khi xóa';
+      });
   }
   
 });

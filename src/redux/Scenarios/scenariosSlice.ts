@@ -88,7 +88,11 @@ export const postScenario = createAsyncThunk(
 const scenariosSlice = createSlice({
   name: 'scenarios',
   initialState,
-  reducers: {},
+  reducers: {
+    deleteScenarioById: (state, action) => {
+      state.data = state.data.filter((scenario) => scenario.id !== action.payload);
+    },
+  },
   extraReducers: (builder) => {
     builder
       // Fetch Scenarios
@@ -129,9 +133,21 @@ export const selectNewestScenario = (state: RootState): Scenarios | null => {
   if (state.scenarios.data.length === 0) return null;
 
   const parseDate = (dateStr: string) => {
+    if (!dateStr || typeof dateStr !== 'string') {
+      console.warn('Invalid date string:', dateStr);
+      return new Date(0); // Trả về một giá trị mặc định nếu dateStr không hợp lệ
+    }
+  
     const [day, month, year] = dateStr.split('/').map(Number);
+  
+    if (!day || !month || !year) {
+      console.warn('Invalid date components in:', dateStr);
+      return new Date(0);
+    }
+  
     return new Date(year, month - 1, day);
   };
+  
 
   const newestScenario = [...state.scenarios.data].sort((a, b) =>
     parseDate(b.saveAt).getTime() - parseDate(a.saveAt).getTime()
@@ -140,5 +156,6 @@ export const selectNewestScenario = (state: RootState): Scenarios | null => {
   return newestScenario || null;
 };
 
+export const { deleteScenarioById } = scenariosSlice.actions;
 
 export default scenariosSlice.reducer;

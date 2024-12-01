@@ -1,5 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { selectNewestScenario, selectScenariosData, selectScenariosLoading, fetchIdScenario, deleteScenario } from '@/src/redux/Scenarios';
+import React, { useEffect, useState } from 'react';
+import { 
+    selectNewestScenario, 
+    selectScenariosData, 
+    selectScenariosLoading, 
+
+    fetchIdScenario, 
+    deleteScenario, 
+    deleteScenarioById 
+} from '@/src/redux/Scenarios';
 import { useAppSelector, useAppDispatch } from '@/src/redux/hooks/useAppStore';
 import { SpinerLoader } from "@/src/components/common/Loader";
 import { getPotentialClass } from '@/src/utils/getPotentialClass';
@@ -50,6 +58,11 @@ export default function LogValuation ({containerHeight} : {containerHeight: numb
         if (token) {
             let name = getModelNameValuation(selectButton);
             await dispatch(deleteScenario({ symbol: symbolDelete, name: name, token: token, id: idDelete }));
+            await dispatch(deleteScenarioById(idDelete));
+            if (idScenarioinArrayFirtChild?.id) {
+                await dispatch(fetchIdScenario({ symbol: symbolDelete, name: name, token: token, id: idScenarioinArrayFirtChild?.id }));
+                await setCheckId(idScenarioinArrayFirtChild.id);
+            }
             setIsPopupOpen(false);
         }
     }
@@ -116,7 +129,7 @@ export default function LogValuation ({containerHeight} : {containerHeight: numb
                                         Tỷ lệ sinh lời tiềm năng:
                                     </div>
                                     <div className={`text-[12px] text-right font-[600]`} style={{ color: getPotentialClass(items?.potential) }}>
-                                        {items?.potential.toFixed(2)}%
+                                        {items?.potential?.toFixed(2)}%
                                     </div>
                                 </div>
 
@@ -204,7 +217,7 @@ export default function LogValuation ({containerHeight} : {containerHeight: numb
                                 Hủy bỏ
                             </button>
                             <button
-                                onClick={()=> deleteById}
+                                onClick={()=> deleteById()}
                                 className="py-[12px] w-full text-fintown-txt-1 text-[14px] px-[23px] bg-[#ef4444] rounded-[8px]">
                                 Xác nhận xóa
                             </button>
