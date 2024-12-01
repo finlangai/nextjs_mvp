@@ -52,4 +52,7 @@ export const selectProfileSummaryData = (state: RootState) => state.profileSumma
 export const selectProfileSummaryLoading = (state: RootState) => state.profileSummary.loading;
 export const selectProfileSummaryError = (state: RootState) => state.profileSummary.error;
 
+export const selectProfileSummaryClosePrice = (state: RootState): number | null =>
+  state.profileSummary.data?.close || null;
+
 export default profileSummarySlice.reducer;

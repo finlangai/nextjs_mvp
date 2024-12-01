@@ -2,160 +2,169 @@ import React from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 
-interface PriceData {
-  date: string;
-  actualPrice: number;
-  valuationPrice: number;
-}
-
-interface Props {
-  data?: PriceData[];
-  width?: string | number;
-  height?: string | number;
-}
-
-const sampleData: PriceData[] = [
-  { date: '01/10', actualPrice: 28.5, valuationPrice: 29.2 },
-  { date: '02/10', actualPrice: 28.7, valuationPrice: 29.3 },
-  { date: '03/10', actualPrice: 29.1, valuationPrice: 29.4 },
-  { date: '04/10', actualPrice: 29.3, valuationPrice: 29.5 },
-  { date: '05/10', actualPrice: 29.2, valuationPrice: 29.6 },
-  { date: '08/10', actualPrice: 29.4, valuationPrice: 29.8 },
-  { date: '09/10', actualPrice: 29.8, valuationPrice: 30.0 },
-  { date: '10/10', actualPrice: 30.1, valuationPrice: 30.2 },
-  { date: '11/10', actualPrice: 30.3, valuationPrice: 30.4 },
-  { date: '12/10', actualPrice: 30.0, valuationPrice: 30.5 },
-  { date: '15/10', actualPrice: 29.8, valuationPrice: 30.3 },
-  { date: '16/10', actualPrice: 29.6, valuationPrice: 30.2 },
-  { date: '17/10', actualPrice: 29.9, valuationPrice: 30.4 },
-  { date: '18/10', actualPrice: 30.2, valuationPrice: 30.6 },
-  { date: '19/10', actualPrice: 30.4, valuationPrice: 30.8 },
-  { date: '22/10', actualPrice: 30.6, valuationPrice: 31.0 },
-  { date: '23/10', actualPrice: 30.8, valuationPrice: 31.2 },
-  { date: '24/10', actualPrice: 30.7, valuationPrice: 31.1 },
-  { date: '25/10', actualPrice: 30.9, valuationPrice: 31.3 },
-  { date: '26/10', actualPrice: 31.2, valuationPrice: 31.5 },
-];
-
-const ValuetionChart: React.FC<Props> = ({ 
-  data = sampleData,
-  width = '100%',
-  height = 400
-}) => {
-  const options: Highcharts.Options = {
-    chart: {
-      type: 'spline',
-      width: width === '100%' ? undefined : Number(width),
-      height: Number(height),
-      backgroundColor: 'transparent',
-      style: {
-        fontFamily: 'inherit'
-      }
-    },
-    title: {
-      text: undefined
-    },
-    xAxis: {
-      categories: data.map(item => item.date),
-      labels: {
-        style: {
-          color: '#9CA3AF'
-        }
-      },
-      lineColor: '#2B3139',
-      tickLength: 0,
-      crosshair: {
-        color: '#cccccc',
-        width: 1,
-        dashStyle: 'ShortDot'
-      }
-    },
-    yAxis: {
-        title: {
-          text: ''
-        },
-        labels: {
-          style: {
-            color: 'white'
-          },
-          formatter: function (this: Highcharts.AxisLabelsFormatterContextObject): string {
-            return this.value.toString(); // Không thêm %
-          }
-        },
-        gridLineColor: '#2B3139',
-        tickAmount: 7,
-    },    
-    legend: {
-      enabled: false
-    },
-    tooltip: {
-      shared: true,
-      backgroundColor: 'rgba(255, 255, 255, 0.9)',
-      borderWidth: 0,
-      shadow: true,
-      style: {
-        fontSize: '12px'
-      },
-      formatter: function() {
-        if (!this.points) return '';
-        return this.points.reduce((acc: string, point) => {
-          const seriesName = point.series.name === 'Actual Price' ? 'Thực tế' : 'Định giá';
-          const value = typeof point.y === 'number' ? point.y.toFixed(2) : 'N/A';
-          return acc + `<span style="color:black;">${seriesName}: ${value}</span><br/>`;
-        }, '');
-      }
-    },
-    plotOptions: {
-      spline: {
-        marker: {
-          enabled: false
-        },
-        lineWidth: 2,
-        states: {
-          hover: {
-            lineWidth: 3
-          }
-        }
-      },
-      series: {
-        animation: {
-          duration: 1000
-        }
-      }
-    },
-    series: [
-      {
-        type: 'spline',
-        name: 'Actual Price',
-        data: data.map(item => item.actualPrice),
-        color: 'white',
-        tooltip: {
-          valueDecimals: 2
-        }
-      },
-      {
-        type: 'spline',
-        name: 'Valuation Price',
-        data: data.map(item => item.valuationPrice),
-        color: '#10B981',
-        tooltip: {
-          valueDecimals: 2
-        }
-      }
-    ],
-    credits: {
-      enabled: false
-    }
-  };
-
-  return (
-    <div>
-      <HighchartsReact
-        highcharts={Highcharts}
-        options={options}
-      />
-    </div>
-  );
+type DataLabelsFormatterContextObject = {
+  y?: number; // Giá trị y của dữ liệu
+  x?: number; // Giá trị x của dữ liệu (nếu có)
+  [key: string]: any; // Cho phép các thuộc tính khác (linh hoạt với Highcharts)
 };
 
-export default ValuetionChart;
+
+const HistoryValuetionChart = () => {
+  const options = {
+    chart: {
+      type: 'column',
+      backgroundColor: 'none',
+      height: 250,
+    },
+    title: {
+      text: null, 
+    },
+    xAxis: {
+      categories: ['Q2-2024', 'Q3-2024'],
+      labels: {
+        style: {
+          color: '#ffffff', 
+        },
+      },
+      gridLineColor: '#2B3139',
+
+    },
+    yAxis: {
+      tickAmount: 5,
+      min: 0,
+      max: 60,
+      gridLineColor: '#2B3139',
+      title: {
+        text: null,
+      },
+      labels: {
+        style: {
+          color: '#ffffff',
+        },
+      },
+      plotLines: [
+        {
+          color: '#66b2ff',
+          value: 33.55,
+          width: 2,
+          dashStyle: 'Dash',
+          zIndex: 5,
+          label: {
+            text: '<div style="background-color: blue; color: #ffffff; padding: 5px 10px; border-radius: 5px;">33,55</div>',
+            useHTML: true, 
+            align: 'right',
+            style: {
+              fontSize: '12px',
+              fontWeight: 'bold',
+            },
+          },
+        },
+      ],      
+    },
+
+    series: [
+      {
+        name: 'Giá',
+        data: [
+          {
+            y: 38.56,
+            color: '#ffffff',
+            dataLabels: {
+              enabled: true,
+              useHTML: true,
+              formatter: function (this: DataLabelsFormatterContextObject): string {
+                return `
+                <div>
+                  <div
+                    style='
+                      padding: 8px 12px;
+                      borderRadius: 6px;
+                      fontSize: 14px;
+                      fontWeight: 500;
+                      color: white;
+                      whiteSpace: nowrap;
+                      backgroundColor: #ef4444;
+                    '>
+                    ${this.y?.toFixed(2)}%
+                  </div>
+                  <div
+                    style='
+                      width: 0;
+                      height: 0;
+                      borderLeft: 4px solid transparent;
+                      borderRight: 4px solid transparent;
+                      borderTop: 4px solid #ef4444;
+                      margin: 0 auto;
+                    '
+                  />
+                </div>
+                `;
+              },
+            },
+          },
+          {
+            y: 38.56,
+            color: '#9b5de5',
+            dataLabels: {
+              enabled: true,
+              useHTML: true,
+              formatter: function (this: DataLabelsFormatterContextObject): string {
+                return `
+                <div>
+                  <div
+                    style='
+                      padding: 8px 12px;
+                      borderRadius: 6px;
+                      fontSize: 14px;
+                      fontWeight: 500;
+                      color: white;
+                      whiteSpace: nowrap;
+                      backgroundColor: #9b5de5;
+                    '>
+                    ${this.y?.toFixed(2)}%
+                  </div>
+                  <div
+                    style='
+                      width: 0;
+                      height: 0;
+                      borderLeft: 4px solid transparent;
+                      borderRight: 4px solid transparent;
+                      borderTop: 4px solid #9b5de5;
+                      margin: 0 auto;
+                    '
+                  />
+                </div>
+                `;
+              },
+            },
+          },
+        ],
+      },
+    ],    
+
+    plotOptions: {
+      column: {
+        borderRadius: 0,
+        pointWidth: 50,
+        borderWidth: 0,
+      },
+    },
+    tooltip: {
+      enabled: false, 
+    },
+    legend: {
+      enabled: false,
+    },
+    credits: {
+      enabled: false,
+    },
+  };
+
+  return(
+    <>
+    <HighchartsReact highcharts={Highcharts} options={options} />;
+    </>
+  )
+};
+
+export default HistoryValuetionChart;

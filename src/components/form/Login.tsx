@@ -80,7 +80,7 @@ const LoginForm = () => {
             <span className="text-fintown-txt-1 text-sm">Đăng nhập</span>
           </button>
           <div className="flex justify-between mb-[27px]">
-            <Link href="/" className="text-sm">
+            <Link href="/" className="text-sm text-fintown-txt-2">
               Quên mật khẩu?
             </Link>
 
@@ -89,7 +89,7 @@ const LoginForm = () => {
                 <i className='bx bx-check text-fintown-txt-1 w-full h-full'></i>
               </div>
 
-              <div className="text-fintown-txt-1 text-sm">Ghi nhớ</div>
+              <div className="text-fintown-txt-2 text-sm">Ghi nhớ</div>
             </div>
           </div>
 

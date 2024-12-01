@@ -28,7 +28,6 @@ export default function TopStocksTable() {
         }
     }, [TopStockssData]);
 
-
     return (
         <div className='min-h-[460px]'>
             <table className="table-fixed w-full relative">

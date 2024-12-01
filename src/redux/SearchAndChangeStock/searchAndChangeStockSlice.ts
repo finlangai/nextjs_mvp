@@ -80,8 +80,8 @@ const searchVn30StockSlice = createSlice({
 });
 
 // Selectors
-export const selectSearchVn30StockData = (state: RootState) => state.searchVn30Stock.vn30;  // Lấy dữ liệu VN30
-export const selectSearchStockData = (state: RootState) => state.searchVn30Stock.data;      // Lấy dữ liệu tìm kiếm
+export const selectSearchVn30StockData = (state: RootState) => state.searchVn30Stock.vn30; 
+export const selectSearchStockData = (state: RootState) => state.searchVn30Stock.data;      
 export const selectSearchStockLoading = (state: RootState) => state.searchVn30Stock.loading;
 export const selectSearchStockError = (state: RootState) => state.searchVn30Stock.error;
 

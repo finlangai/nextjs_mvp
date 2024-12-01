@@ -30,7 +30,10 @@ const EBITDAGrowthRateChart = ({data}: {data: Metric[]}) => {
   const chartOptions = {
     chart: {
       type: 'column', // Biểu đồ cột
-      backgroundColor: 'transparent'
+      backgroundColor: 'transparent',
+      spacing: [0, 0, 0, 0], // Loại bỏ tất cả khoảng cách
+      margin: [0, 0, 0, 0], // [Top, Right, Bottom, Left]
+
     },
     title: {
       text: ''  
@@ -58,6 +61,8 @@ const EBITDAGrowthRateChart = ({data}: {data: Metric[]}) => {
       }],
     },
     yAxis: {
+      spacing: [0, 0, 0, 0], // Loại bỏ tất cả khoảng cách
+
       min: Math.floor(minValue),
       max: Math.ceil(maxValue),
       title: {

@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { ProfileSummary } from "@/src/interfaces/ProfileSummary";
 import { selectProfileSummaryData } from '@/src/redux/ProfileSummary';
 import { useAppSelector } from '@/src/redux/hooks/useAppStore';
-import { SpinerLoader, BarsLoader } from '../common/Loader';
+import { BarsLoader } from '../common/Loader';
 import Link from 'next/link';
 
 const StockProfileSummary = () => {

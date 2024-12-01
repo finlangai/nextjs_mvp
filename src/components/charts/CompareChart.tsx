@@ -2,7 +2,9 @@
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import HighchartsMore from 'highcharts/highcharts-more';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
+import { selectCompanyData } from '@/src/redux/Comparison';
+import { useAppSelector } from '@/src/redux/hooks/useAppStore';
 
 // Initialize the Spiderweb (Radar) chart module
 if (typeof Highcharts === 'object') {
@@ -10,29 +12,32 @@ if (typeof Highcharts === 'object') {
 }
 
 const CompareChart: React.FC = () => {
+  const companyData = useAppSelector(selectCompanyData);
+  const colors = ['#64E766', '#E7E575', '#E565A1', '#9552CF', '#66BED6'];
+
+  const chartData = useMemo(() => {
+    return companyData.map((company, index) => ({
+      name: company.symbol,
+      type: 'area' as const,
+      data: [
+        parseFloat(company?.comparison?.revenueProfit?.toFixed(2)),
+        parseFloat(company?.comparison?.momentum?.toFixed(2)),
+        parseFloat(company?.comparison?.dividend?.toFixed(2)),
+        parseFloat(company?.comparison?.trending?.toFixed(2)),
+        parseFloat(company?.comparison?.returns?.toFixed(2)),
+      ],
+      pointPlacement: 'on',
+      color: colors[index % colors.length], 
+      fillColor: `${colors[index % colors.length]}80`,
+    }));
+  }, [companyData, colors]);
+  
   const options: Highcharts.Options = {
-    series: [
-        {
-          name: 'Car A',
-          type: 'area',
-          data: [80, 90, 70, 85, 60],
-          pointPlacement: 'on',
-          color: '#FF5733', 
-          fillColor: 'rgba(255, 87, 51, 0.5)',
-        },
-        {
-          name: 'Car B',
-          type: 'area',
-          data: [70, 80, 90, 75, 85],
-          pointPlacement: 'on',
-          color: '#33FF57', 
-          fillColor: 'rgba(51, 255, 87, 0.5)',
-        },
-    ],
+    series: chartData,
     chart: {
       polar: true,
       type: 'area',
-      backgroundColor: "transparent"
+      backgroundColor: 'transparent',
     },
     title: {
       text: '',
@@ -41,42 +46,81 @@ const CompareChart: React.FC = () => {
       size: '90%',
     },
     xAxis: {
-      categories: ['Tài sản & vốn chủ sở hữu ', 'Khả năng thanh toán', 'Hiệu quả sinh lời', 'Doanh thu & lợi nhuận', 'Dòng tiền'],
+      categories: [
+        'Doanh thu & lợi nhuận',
+        'Hiệu suất giá',
+        'Cổ tức',
+        'Xu hướng',
+        'Thu nhập',
+      ],
       tickmarkPlacement: 'on',
-      gridLineColor: '#848E9C', 
+      gridLineColor: '#848E9C',
       lineWidth: 0,
       labels: {
         style: {
-            color: '#ffffff',
-            distance: 20 
-        }
-      }
+          color: '#ffffff',
+          distance: 20,
+        },
+      },
     },
     yAxis: {
       gridLineInterpolation: 'polygon',
-      gridLineColor: '#848E9C', 
+      gridLineColor: '#848E9C',
       lineWidth: 0,
       min: 0,
       labels: {
         style: {
-            color: '#ffffff',
-            distance: 20 
+          color: '#ffffff',
+          distance: 20,
         },
-        enabled: false
-      }
+        enabled: false,
+      },
     },
+
     tooltip: {
-      shared: true,
-      pointFormat: '<span style="color:{series.color}">{series.name}: <b>{point.y}</b><br/>',
+      shared: true, // Hiển thị tất cả series trong một tooltip
+      useHTML: true, // Dùng HTML để tùy chỉnh
+      backgroundColor: 'transparent', // Xóa màu nền
+
+      formatter: function () {
+        const xAxisLabel = this.x || ''; 
+        let tooltipHTML = `
+          <div style="font-size: 14px; color: #ffffff; margin-bottom: 20px;">
+            <b>${xAxisLabel}</b>
+          </div>`; 
+    
+        // Kiểm tra `this.points` để tránh undefined
+        if (this.points) {
+          this.points.forEach((point) => {
+            const seriesName = `
+            <span style="color:${point.color}; font-weight: bold;">
+              ${point.series?.name || 'Unknown'}
+            </span>`;
+            const pointValue = `
+            <span style="font-size: 14px; color: #dddddd;">
+              ${point.y?.toFixed(2) || 'N/A'}
+            </span>`;
+            tooltipHTML += `
+            <div style="padding: 10px 0px; border-top: 1px solid; display:flex; align-items: center; ">
+              <div style="marginRight:10px;">${seriesName}<b style="color:white;">: </b> </div>
+              <div>${pointValue}</div>
+            </div>`;
+          });
+        }
+    
+        return `<div style="background-color: #1E2329; padding: 20px; border-radius: 5px; width: 200px; opacity: 0.7;">
+            ${tooltipHTML}
+          </div>`;
+      },
     },
+      
     legend: {
-        enabled: false
+      enabled: false,
     },
     credits: {
-        enabled: false
-    }
-
-  };
+      enabled: false,
+    },
+  };  
 
   return (
     <div>

@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../store';
-import { BestNPMData } from '@/src/interfaces/BestNPM'; // Sử dụng interface đã định nghĩa
+import { BestNPMData } from '@/src/interfaces/BestNPM';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 

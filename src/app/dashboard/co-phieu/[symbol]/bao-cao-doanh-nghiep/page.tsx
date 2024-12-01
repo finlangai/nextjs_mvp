@@ -4,7 +4,6 @@ import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { fetchFinancialStatements, selectFinancialStatementsData } from '@/src/redux/FinancialStatement';
 import { fetchFinancialMetrics, selectFinancialMetricsData } from '@/src/redux/FinancialMetric';
 import { setSelectedButtonAndText, selectSelectedButton } from '@/src/redux/ReportPage';
-import useSetSelectedButtonSiderBar from '@/src/redux/hooks/useButtonsiderBar';
 import useSetSelectedButtonStockPage from '@/src/redux/hooks/useButtonstockPage';
 import FinancialStatementTable from '@/src/components/IndexDetailLevelComponent/FinancialStatementTable';
 import BtnNextPrevReportPage from '@/src/components/common/BtnNextPrevReportPage';
@@ -20,7 +19,6 @@ export default function BaoCaoDoanhNghiepPage({ params }: { params: { symbol: st
   const dispatch = useAppDispatch();
 
   // Xác định UI của trang đang ở
-  useSetSelectedButtonSiderBar(3);
   useSetSelectedButtonStockPage(1);
 
   // Button đổi loại báo cáo tài chính & chỉ số tài chính

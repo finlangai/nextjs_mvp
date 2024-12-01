@@ -18,7 +18,7 @@ const CustomGaugeChart= ({ signals } : {signals: SignalInterface[]; title?: stri
       enabled: false
     },
     exporting: {
-      enabled: false // Ẩn nút menu
+      enabled: false
     },
     chart: {
       type: 'gauge',
@@ -36,6 +36,7 @@ const CustomGaugeChart= ({ signals } : {signals: SignalInterface[]; title?: stri
         color: '#fff'
       }
     },
+    tooltip: { enabled: false },
     pane: {
       startAngle: -130,
       endAngle: 130,

@@ -1,21 +1,23 @@
 "use client";
 import React, { useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import { setSelectedButtonActive, selectSelectedButton } from '@/src/redux/StockPage/stockPageSlice';
 import Breadcrumbs from '@/src/components/common/Breadcrumbs';
 import StockProfileSummary from '@/src/components/organisms/StockProfileSummary';
 import StockMetricsSummary from '@/src/components/organisms/StockMetricsSummary';
 import { fetchProfileSummaries } from '@/src/redux/ProfileSummary';
 import { useAppSelector, useAppDispatch } from '@/src/redux/hooks/useAppStore';
+import useSetSelectedButtonSiderBar from '@/src/redux/hooks/useButtonsiderBar';
 
 export default function MaCoPhieuLayout({ children, params }: { children: React.ReactNode, params: { symbol: string } }) {
     const symbol = params.symbol.toUpperCase();
     const isValidSymbol = /^[A-Z]{3}$/.test(symbol);
     if (!isValidSymbol) {
-        redirect('/dashboard/'); 
+        notFound();
     }
 
+    useSetSelectedButtonSiderBar(3);
     const selectedButton = useAppSelector(selectSelectedButton);
     const dispatch = useAppDispatch();
 

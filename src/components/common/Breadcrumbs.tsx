@@ -18,6 +18,10 @@ const Breadcrumbs = ({symbol} : {symbol: string;}) => {
             setNamePage('Hồ sơ doanh nghiệp');
         } else if (selectedButton === 3) {
             setNamePage('Kết quả dự báo');
+        } else if (selectedButton === 4) {
+            setNamePage('Dữ liệu lịch sử');
+        } else if (selectedButton === 5) {
+            setNamePage('So sánh');
         }
     }, [selectedButton]);    
 
