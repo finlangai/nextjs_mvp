@@ -15,7 +15,7 @@ import { getPotentialClass } from '@/src/utils/getPotentialClass';
 import { selectToken } from "@/src/redux/auth";
 import { selectSelectedButton } from '@/src/redux/ValuetionPage/valuetionPageSlice';
 import { getModelNameValuation } from '@/src/utils/getModelNameValuation';
-import { setHistorySelectedButton, selectHistorySelectedButton } from '@/src/redux/ValuetionPage/valuationHistorySlice';
+import { setHistorySelectedButton } from '@/src/redux/ValuetionPage/valuationHistorySlice';
 
 export default function LogValuation ({containerHeight} : {containerHeight: number}){
     const dispatch = useAppDispatch();
@@ -24,7 +24,6 @@ export default function LogValuation ({containerHeight} : {containerHeight: numb
     const scenariosLoading = useAppSelector(selectScenariosLoading);
     const idScenario = useAppSelector(selectIdScenario);
     const token = useAppSelector(selectToken);
-    const selectedTabScenarios = useAppSelector(selectHistorySelectedButton);
 
     // LẤY ID
     const idScenarioinArrayFirtChild = useAppSelector(selectNewestScenario);
@@ -45,10 +44,6 @@ export default function LogValuation ({containerHeight} : {containerHeight: numb
         }
     };  
 
-    // useEffect(()=>{
-    //     console.log('selectedTabScenarios ở bên này', selectedTabScenarios)
-    // }, [selectedTabScenarios])
-
     // POP XÓA KỊCH BẢN=============================================================
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [isAnimating, setIsAnimating] = useState(false);
@@ -68,10 +63,6 @@ export default function LogValuation ({containerHeight} : {containerHeight: numb
             let name = getModelNameValuation(selectButton);
             await dispatch(deleteScenario({ symbol: symbolDelete, name: name, token: token, id: idDelete }));
             await dispatch(deleteScenarioById(idDelete));
-            if (idScenarioinArrayFirtChild?.id) {
-                await dispatch(fetchIdScenario({ symbol: symbolDelete, name: name, token: token, id: idScenarioinArrayFirtChild?.id }));
-                await setCheckId(idScenarioinArrayFirtChild.id);
-            }
             setIsPopupOpen(false);
         }
     }

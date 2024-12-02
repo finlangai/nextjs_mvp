@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import HistoryValuetionChart from "../../charts/valuetion/HistoryValuetionChart"
 import { 
     selectNewestScenario, 
+    selectScenariosData,
     fetchScenarios,
 
     fetchIdScenario,
@@ -20,6 +21,7 @@ import { getModelNameValuation } from '@/src/utils/getModelNameValuation';
 
 export default function PriceHistoryTab({symbol} : {symbol: string}) {
     const dispatch = useAppDispatch();
+    const scenariosData = useAppSelector(selectScenariosData);
     const newestScenario = useAppSelector(selectNewestScenario);
     const idScenario = useAppSelector(selectIdScenario);
     const idScenarioLoading = useAppSelector(selectIdScenarioLoading);
@@ -107,6 +109,19 @@ export default function PriceHistoryTab({symbol} : {symbol: string}) {
             setNowData(idScenario);
         };    
     }, [idScenario]);
+
+    // NẾU CÓ THAY ĐỔI VỀ DỮ LIỆU LIST KỊCH BẢN (CÓ THỂ DO USER THỰC HIỆN LỌC HOẶC XÓA) THÌ LẠI LẤY KỊCH BẢN MỚI NHẤT HIỂN THỊ
+    useEffect(()=> {
+        if (scenariosData.length > 0) {
+            const name = getModelNameValuation(selectButton);
+            if (token) {
+                if (newestScenario?.id) {
+                    dispatch(fetchIdScenario({ symbol, name: name, token: token, id: newestScenario?.id }));
+                    hasFetched.current = true;
+                }
+            }
+        }
+    }, [scenariosData])
 
     // CẬP NHẬT DATA CHO POPUP SỬA 
     useEffect(()=> {
