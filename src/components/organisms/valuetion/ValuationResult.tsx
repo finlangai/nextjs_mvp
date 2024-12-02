@@ -11,11 +11,11 @@ export default function ValuationResult() {
     const valuationResultData = useAppSelector(selectValuationResultData);
     const selectPrice = useAppSelector(selectProfileSummaryClosePrice) ?? 0;
     const valuationResultLoading = useAppSelector(selectValuationResultLoading);
-
+    
+    // Tính toán giá cuối cùng dựa trên tỷ lệ tăng trưởng nếu selectButton > 4
     const result = valuationResultData
     ? upsideCalculator(selectButton, valuationResultData, selectPrice)
     : { upside: 0, adjustedPrice: 0 };
-    // Tính toán giá cuối cùng dựa trên tỷ lệ tăng trưởng nếu selectButton > 4
     const adjustedPrice = result.adjustedPrice;
     // Tính toán upside
     const upside = result.upside;
