@@ -1,7 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { selectHistorySelectedButton } from '@/src/redux/ValuetionPage/valuationHistorySlice';
+import { useAppSelector } from '@/src/redux/hooks/useAppStore';
 
-const SlidingTabs = ({ onTabChange, tabs, gap, startIndex, fontsize } : {onTabChange: (index: number, api: string) => void; tabs: any[]; gap: string; startIndex:number; fontsize: string;}) => {
+const SlidingTabs = (
+  { onTabChange, tabs, gap, startIndex, fontsize } : 
+  {onTabChange: (index: number, api: string) => void; tabs: any[]; gap: string; startIndex:number; fontsize: string;}
+) => {
   const [activeTab, setActiveTab] = useState(startIndex);
+  const selectedTabScenarios = useAppSelector(selectHistorySelectedButton);
+
   const [indicatorStyle, setIndicatorStyle] = useState({
     transform: 'translateX(0px)'
   });
@@ -26,6 +33,11 @@ const SlidingTabs = ({ onTabChange, tabs, gap, startIndex, fontsize } : {onTabCh
   useEffect(() => {
     tabRefs.current = tabRefs.current.slice(0, tabs.length);
   }, [tabs.length]);
+
+  // Ở TAB ĐỊNH GIÁ NẾU KÍCH HOẠT XEM CHI TIẾT MỘT KỊCH BẢN
+  useEffect(()=>{
+    setActiveTab(selectedTabScenarios);
+  }, [selectedTabScenarios])
 
   return (
     <div className="relative">

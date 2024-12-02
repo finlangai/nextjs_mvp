@@ -3,9 +3,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { selectSelectedButton } from '@/src/redux/ValuetionPage/valuetionPageSlice';
-import { useAppSelector, useAppDispatch } from '@/src/redux/hooks/useAppStore';
+import { useAppSelector } from '@/src/redux/hooks/useAppStore';
 import useSetSelectedButtonSiderBar from '@/src/redux/hooks/useButtonsiderBar';
-import { setHistorySelectedButton, selectHistorySelectedButton } from '@/src/redux/ValuetionPage/valuationHistorySlice';
 import LogValuation from '@/src/components/organisms/valuetion/LogValuation';
 import { selecScope } from "@/src/redux/auth";
 import LoginForm from '@/src/components/form/Login';
@@ -14,8 +13,6 @@ import UpgradeNotice from '@/src/components/common/UpgradeNotice';
 
 export default function DinhGiaCoPhieuLayout({ children, params }: { children: React.ReactNode, params: { symbol: string } }) {
     const selectedButton = useAppSelector(selectSelectedButton);
-    const selectedTabRight = useAppSelector(selectHistorySelectedButton);
-    const dispatch = useAppDispatch();
     useSetSelectedButtonSiderBar(6);
     const getScope = useAppSelector(selecScope);
 

@@ -15,6 +15,7 @@ import { getPotentialClass } from '@/src/utils/getPotentialClass';
 import { selectToken } from "@/src/redux/auth";
 import { selectSelectedButton } from '@/src/redux/ValuetionPage/valuetionPageSlice';
 import { getModelNameValuation } from '@/src/utils/getModelNameValuation';
+import { setHistorySelectedButton, selectHistorySelectedButton } from '@/src/redux/ValuetionPage/valuationHistorySlice';
 
 export default function LogValuation ({containerHeight} : {containerHeight: number}){
     const dispatch = useAppDispatch();
@@ -23,6 +24,7 @@ export default function LogValuation ({containerHeight} : {containerHeight: numb
     const scenariosLoading = useAppSelector(selectScenariosLoading);
     const idScenario = useAppSelector(selectIdScenario);
     const token = useAppSelector(selectToken);
+    const selectedTabScenarios = useAppSelector(selectHistorySelectedButton);
 
     // LẤY ID
     const idScenarioinArrayFirtChild = useAppSelector(selectNewestScenario);
@@ -45,8 +47,13 @@ export default function LogValuation ({containerHeight} : {containerHeight: numb
             let name = getModelNameValuation(selectButton);
             await dispatch(fetchIdScenario({ symbol, name: name, token: token, id }));
             setCheckId(id);
+            dispatch(setHistorySelectedButton({ button: 1 }));
         }
     };  
+
+    // useEffect(()=>{
+    //     console.log('selectedTabScenarios ở bên này', selectedTabScenarios)
+    // }, [selectedTabScenarios])
 
     // POP XÓA KỊCH BẢN=============================================================
     const [isPopupOpen, setIsPopupOpen] = useState(false);

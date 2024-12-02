@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
-import { setHistorySelectedButton } from '@/src/redux/ValuetionPage/valuationHistorySlice';
 import FairValueCalculator from "@/src/components/organisms/valuetion/FairValueCalculator";
 import PriceHistoryTab from '@/src/components/organisms/valuetion/PriceHistoryTab';
 import SlidingTabs from "@/src/components/common/SlidingTabs";
@@ -11,6 +10,7 @@ import { upsideCalculator } from "@/src/utils/upsideCalculator";
 import { selectSelectedButton } from '@/src/redux/ValuetionPage/valuetionPageSlice';
 import { selectToken } from "@/src/redux/auth";
 import { getModelNameValuation } from '@/src/utils/getModelNameValuation';
+import { selectHistorySelectedButton } from '@/src/redux/ValuetionPage/valuationHistorySlice';
 
 interface Tab {
     id: number;
@@ -18,12 +18,12 @@ interface Tab {
 }
 
 export default function ValuationCentralComponent({ symbol, name, formular }: { symbol: string; name: string; formular: string }) {
-    
     const dispatch = useAppDispatch();
     const valuationResultData = useAppSelector(selectValuationResultData);
     const selectPrice = useAppSelector(selectProfileSummaryClosePrice) ?? 0;
     const selectButton = useAppSelector(selectSelectedButton);
     const token = useAppSelector(selectToken);
+    const selectedTabScenarios = useAppSelector(selectHistorySelectedButton);
 
     const result = valuationResultData
     ? upsideCalculator(selectButton, valuationResultData, selectPrice)
@@ -67,15 +67,18 @@ export default function ValuationCentralComponent({ symbol, name, formular }: { 
     const renderContent = () => {
         switch (activeTabIndex) {
             case 0:
-                dispatch(setHistorySelectedButton({ button: 0 }));
                 return <FairValueCalculator symbol={symbol} />;
             case 1:
-                dispatch(setHistorySelectedButton({ button: 1 }));
                 return <PriceHistoryTab symbol={symbol} />;
             default:
                 return null;
         }
     };
+
+    useEffect(()=>{
+        console.log('selectedTabScenarios ở bên kia ', selectedTabScenarios)
+        handleTabChange(selectedTabScenarios);
+    }, [selectedTabScenarios])
 
     //CÁC HÀM VALIDATE===================================================================
     const handleSave = async () => {
@@ -122,7 +125,7 @@ export default function ValuationCentralComponent({ symbol, name, formular }: { 
             setIsPopupOpen(false);
         }
     };
-
+    
     return (
         <>
             <div className='w-full'>
@@ -138,7 +141,7 @@ export default function ValuationCentralComponent({ symbol, name, formular }: { 
 
                 <div className="flex items-center px-[24px] border-b border-fintown-br">
                     <div className='py-6'>
-                        <SlidingTabs onTabChange={handleTabChange} tabs={tabs} gap={"18px"} startIndex={0} fontsize='14px' />
+                        <SlidingTabs onTabChange={handleTabChange} tabs={tabs} gap={"18px"} startIndex={0} fontsize='14px'/>
                     </div>
                     {activeTabIndex === 0 && (
                         <button
