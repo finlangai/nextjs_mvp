@@ -80,76 +80,76 @@ const HistoryValuetionChart = ({ data }: { data: Scenarios | undefined }) => {
         data: [
           {
             y: data?.valuated,
-            color: '#ffffff',
-            dataLabels: {
-              enabled: true,
-              useHTML: true,
-              formatter: function (this: DataLabelsFormatterContextObject): string {
-                return `
-                <div>
-                  <div
-                    style='
-                      padding: 8px 12px;
-                      border-radius: 6px;
-                      font-size: 14px;
-                      font-weight: 500;
-                      color: white;
-                      white-space: nowrap;
-                      background-color: #ffffff;
-                      color: black;
-                    '>
-                    ${this.y?.toLocaleString('en-US')}
-                  </div>
-                  <div
-                    style='
-                      width: 0;
-                      height: 0;
-                      border-left: 4px solid transparent;
-                      border-right: 4px solid transparent;
-                      border-top: 4px solid #ffffff;
-                      margin: 0 auto;
-                    '
-                  />
-                </div>
-                `;
-              },
-            },
+            color: '#684D74',
+            // dataLabels: {
+            //   enabled: true,
+            //   useHTML: true,
+            //   // formatter: function (this: DataLabelsFormatterContextObject): string {
+            //   //   return `
+            //   //   <div>
+            //   //     <div
+            //   //       style='
+            //   //         padding: 8px 12px;
+            //   //         border-radius: 6px;
+            //   //         font-size: 14px;
+            //   //         font-weight: 500;
+            //   //         color: white;
+            //   //         white-space: nowrap;
+            //   //         background-color: #ffffff;
+            //   //         color: black;
+            //   //       '>
+            //   //       ${this.y?.toLocaleString('en-US')}
+            //   //     </div>
+            //   //     <div
+            //   //       style='
+            //   //         width: 0;
+            //   //         height: 0;
+            //   //         border-left: 4px solid transparent;
+            //   //         border-right: 4px solid transparent;
+            //   //         border-top: 4px solid #ffffff;
+            //   //         margin: 0 auto;
+            //   //       '
+            //   //     />
+            //   //   </div>
+            //   //   `;
+            //   // },
+            // },
           },
           {
             y: data?.valuated,
             color: getPotentialClass(data?.potential),
-            dataLabels: {
-              enabled: true,
-              useHTML: true,
-              formatter: function (this: DataLabelsFormatterContextObject): string {
-                return `
-                <div>
-                  <div
-                    style='
-                      padding: 8px 12px;
-                      border-radius: 6px;
-                      font-size: 14px;
-                      font-weight: 500;
-                      color: white;
-                      white-space: nowrap;
-                      background-color: ${getPotentialClass(data?.potential)};
-                    '>
-                    ${this.y?.toLocaleString('en-US')}
-                  </div>
-                  <div
-                    style='
-                      width: 0;
-                      height: 0;
-                      border-left: 4px solid transparent;
-                      border-right: 4px solid transparent;
-                      border-top: 4px solid #9b5de5;
-                      margin: 0 auto;
-                    '
-                  />
-                </div>
-                `;
-              },
-            },
+            // dataLabels: {
+            //   enabled: true,
+            //   useHTML: true,
+            //   // formatter: function (this: DataLabelsFormatterContextObject): string {
+            //   //   return `
+            //   //   <div>
+            //   //     <div
+            //   //       style='
+            //   //         padding: 8px 12px;
+            //   //         border-radius: 6px;
+            //   //         font-size: 14px;
+            //   //         font-weight: 500;
+            //   //         color: white;
+            //   //         white-space: nowrap;
+            //   //         background-color: ${getPotentialClass(data?.potential)};
+            //   //       '>
+            //   //       ${this.y?.toLocaleString('en-US')}
+            //   //     </div>
+            //   //     <div
+            //   //       style='
+            //   //         width: 0;
+            //   //         height: 0;
+            //   //         border-left: 4px solid transparent;
+            //   //         border-right: 4px solid transparent;
+            //   //         border-top: 4px solid #9b5de5;
+            //   //         margin: 0 auto;
+            //   //       '
+            //   //     />
+            //   //   </div>
+            //   //   `;
+            //   // },
+            // },
           },
         ],
       },
@@ -161,9 +161,9 @@ const HistoryValuetionChart = ({ data }: { data: Scenarios | undefined }) => {
         borderWidth: 0,
       },
     },
-    tooltip: {
-      enabled: false,
-    },
+    // tooltip: {
+    //   enabled: false,
+    // },
     legend: {
       enabled: false,
     },

@@ -56,7 +56,7 @@ export const deleteScenario = createAsyncThunk(
     { rejectWithValue }
   ) => {
     const api = `${apiUrl}/valuation/${name}/${symbol}/scenarios/${id}`;
-    console.log('api', api)
+    // console.log('api', api)
 
     if (!token) {
       return rejectWithValue('Token không tồn tại');
@@ -83,6 +83,41 @@ export const deleteScenario = createAsyncThunk(
   }
 );
 
+// PATCH
+export const patchScenario = createAsyncThunk(
+  'idScenario/patch',
+  async (
+    { symbol, name, token, id, updatedData }: { symbol: string; name: string; token: string; id: string; updatedData: Partial<Scenarios> },
+    { rejectWithValue }
+  ) => {
+    const api = `${apiUrl}/valuation/${name}/${symbol}/scenarios/${id}`;
+
+    if (!token) {
+      return rejectWithValue('Token không tồn tại');
+    }
+
+    try {
+      const response = await fetch(api, {
+        method: 'PATCH',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        return rejectWithValue(errorData.message || `HTTP error! status: ${response.status}`);
+      }
+
+      return response.json();
+    } catch (error: any) {
+      return rejectWithValue(error.message || 'Đã xảy ra lỗi không xác định');
+    }
+  }
+);
+
 // SLICE
 const idScenarioSlice = createSlice({
   name: 'idScenario',
@@ -90,34 +125,51 @@ const idScenarioSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Fetch IdScenario
-      .addCase(fetchIdScenario.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchIdScenario.fulfilled, (state, action) => {
-        state.loading = false;
-        state.data = action.payload;
-      })
-      .addCase(fetchIdScenario.rejected, (state, action) => {
-        state.loading = false;
-        state.error = (action.payload as string) || 'Đã xảy ra lỗi';
-      })
-      // Delete Scenario
-      .addCase(deleteScenario.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(deleteScenario.fulfilled, (state, action) => {
-        state.loading = false;
-        if (state.data?.id === action.payload.id) {
-          state.data = null; 
-        }
-      })
-      .addCase(deleteScenario.rejected, (state, action) => {
-        state.loading = false;
-        state.error = (action.payload as string) || 'Đã xảy ra lỗi khi xóa';
-      });
+    // Fetch IdScenario
+    .addCase(fetchIdScenario.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(fetchIdScenario.fulfilled, (state, action) => {
+      state.loading = false;
+      state.data = action.payload;
+    })
+    .addCase(fetchIdScenario.rejected, (state, action) => {
+      state.loading = false;
+      state.error = (action.payload as string) || 'Đã xảy ra lỗi';
+    })
+    
+    // Delete Scenario
+    .addCase(deleteScenario.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(deleteScenario.fulfilled, (state, action) => {
+      state.loading = false;
+      if (state.data?.id === action.payload.id) {
+        state.data = null; 
+      }
+    })
+    .addCase(deleteScenario.rejected, (state, action) => {
+      state.loading = false;
+      state.error = (action.payload as string) || 'Đã xảy ra lỗi khi xóa';
+    })
+
+    // PATCH Scenario
+    .addCase(patchScenario.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(patchScenario.fulfilled, (state, action) => {
+      state.loading = false;
+      if (state.data && state.data.id === action.payload.id) {
+        state.data = { ...state.data, ...action.payload }; // Cập nhật state với dữ liệu mới
+      }
+    })
+    .addCase(patchScenario.rejected, (state, action) => {
+      state.loading = false;
+      state.error = (action.payload as string) || 'Đã xảy ra lỗi khi sửa dữ liệu';
+    });
   }
   
 });

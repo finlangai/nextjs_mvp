@@ -10,6 +10,7 @@ import { selectProfileSummaryClosePrice } from '@/src/redux/ProfileSummary';
 import { upsideCalculator } from "@/src/utils/upsideCalculator";
 import { selectSelectedButton } from '@/src/redux/ValuetionPage/valuetionPageSlice';
 import { selectToken } from "@/src/redux/auth";
+import { getModelNameValuation } from '@/src/utils/getModelNameValuation';
 
 interface Tab {
     id: number;
@@ -45,11 +46,11 @@ export default function ValuationCentralComponent({ symbol, name, formular }: { 
     // POP UP THÊM KỊCH BẢN=============================================================
     useEffect(() => {
         if (isPopupOpen) {
-            document.body.classList.add('overflow-hidden');
+            // document.body.classList.add('overflow-hidden');
             setIsAnimating(true);
         } else {
             setTimeout(() => setIsAnimating(false), 300);
-            document.body.classList.remove('overflow-hidden');
+            // document.body.classList.remove('overflow-hidden');
         }
     }, [isPopupOpen]);
 
@@ -65,12 +66,12 @@ export default function ValuationCentralComponent({ symbol, name, formular }: { 
 
     const renderContent = () => {
         switch (activeTabIndex) {
-            case 1:
+            case 0:
                 dispatch(setHistorySelectedButton({ button: 0 }));
                 return <FairValueCalculator symbol={symbol} />;
-            case 0:
+            case 1:
                 dispatch(setHistorySelectedButton({ button: 1 }));
-                return <PriceHistoryTab />;
+                return <PriceHistoryTab symbol={symbol} />;
             default:
                 return null;
         }
@@ -111,22 +112,7 @@ export default function ValuationCentralComponent({ symbol, name, formular }: { 
 
             console.log('Saving...', data);
 
-            let name = '';
-            if (selectButton === 0) {
-                name = 'discounted-cash-flow';
-            } else if (selectButton === 1) {
-                name = 'dividend-discount-model';
-            } else if (selectButton === 2) {
-                name = 'graham-intrinsic-value-formula';
-            } else if (selectButton === 3) {
-                name = 'price-to-earnings-relative-valuation';
-            } else if (selectButton === 4) {
-                name = 'price-to-book-relative-valuation';
-            } else if (selectButton === 5) {
-                name = 'price-earnings-to-growth-ratio';
-            } else if (selectButton === 6) {
-                name = 'capital-asset-pricing-model';
-            }          
+            let name = getModelNameValuation(selectButton);               
 
             if (token) {
                 await dispatch(postScenario({ symbol: symbol, name: name, token: token, data: data}));
@@ -170,10 +156,12 @@ export default function ValuationCentralComponent({ symbol, name, formular }: { 
 
             {(isPopupOpen || isAnimating) && (
                 <div
+                onClick={() => setIsPopupOpen(false)}
                 className={`fixed w-full h-full top-0 left-0 z-[60] flex justify-center items-start 
                 bg-black bg-opacity-50 transition-opacity duration-300 ease-in-out 
                 ${isPopupOpen ? 'opacity-100' : 'opacity-0'}`}>
                     <div
+                    onClick={(e) => e.stopPropagation()}
                     className={`w-[400px] bg-fintown-bg-stn rounded-[8px] py-[32px] px-[32px] max-h-max
                     transform transition-all duration-500 ease-out
                     ${isPopupOpen ? 'mt-[100px] translate-y-0 opacity-100' : 'mt-0 -translate-y-12 opacity-0'}`}>

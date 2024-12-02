@@ -34,24 +34,39 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
     const [containerHeight, setContainerHeight] = useState<number>(0);
 
     // CHECK SCOPE============================================================
-    useEffect(() => {
-        if (!getScope || !containerRef.current) {
-            return;
-        }
-
-        setContainerHeight(containerRef.current.clientHeight);
-        console.log('containerHeight', containerHeight)
-        const handleResize = () => {
-            if (containerRef.current) {
-                setContainerHeight(containerRef.current.clientHeight);
-            }
+    useEffect(() => { 
+        if (!getScope || !containerRef.current) { 
+            return; 
+        } 
+    
+        // Function to update container height
+        const updateContainerHeight = () => {
+            if (containerRef.current) { 
+                const newHeight = containerRef.current.clientHeight;
+                setContainerHeight(newHeight);
+                // console.log('containerHeight', newHeight);
+            } 
         };
-
-        window.addEventListener('resize', handleResize);
-
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
+    
+        // Initial height update
+        updateContainerHeight();
+    
+        // Resize event listener
+        const handleResize = () => { 
+            updateContainerHeight();
+        }; 
+    
+        // Periodic interval check every 500ms
+        const intervalId = setInterval(updateContainerHeight, 500);
+    
+        // Add resize event listener
+        window.addEventListener('resize', handleResize); 
+    
+        // Cleanup function
+        return () => { 
+            window.removeEventListener('resize', handleResize); 
+            clearInterval(intervalId);
+        }; 
     }, [getScope, containerRef.current, symbol]);
 
     // Xử lý hiệu ứng trượt xuống khi modal xuất hiện
