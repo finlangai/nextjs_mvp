@@ -26,6 +26,7 @@ export default function PriceHistoryTab({symbol} : {symbol: string}) {
     const scenariosLoading = useAppSelector(selectScenariosLoading);
     const selectButton = useAppSelector(selectSelectedButton);
     const token = useAppSelector(selectToken);
+    const hasFetched = useRef(false);
 
     const [nowData, setNowData] = useState<Scenarios>();
 
@@ -83,17 +84,25 @@ export default function PriceHistoryTab({symbol} : {symbol: string}) {
             }
         }
     };
-    
+
     // LẦN ĐẦU VÀO TRANG LẤY KỊCH BẢN MỚI NHẤT HIỂN THỊ
-    useEffect(()=> {
-        if (newestScenario) {
-            setNowData(newestScenario);
-        };    
-    }, [newestScenario, selectButton]);
+    useEffect(() => {
+        if (idScenario) {
+            return;
+        }
+        if (!hasFetched.current) {
+            const name = getModelNameValuation(selectButton);
+            if (token) {
+                if (newestScenario?.id) {
+                    dispatch(fetchIdScenario({ symbol, name: name, token: token, id: newestScenario?.id }));
+                    hasFetched.current = true;
+                }
+            }
+        }
+    }, [dispatch]);
 
     // NẾU CÓ DỮ LIỆU Ở ID TỨC USER MỞ CHỌN XEM KỊCH BẢN KHÁC THÌ LẤY DỮ LIỆU ĐÓ CẬP NHẬT
     useEffect(()=> {
-        // console.log('idScenario', idScenario)
         if (idScenario) {
             setNowData(idScenario);
         };    

@@ -28,13 +28,7 @@ export default function LogValuation ({containerHeight} : {containerHeight: numb
 
     // LẤY ID
     const idScenarioinArrayFirtChild = useAppSelector(selectNewestScenario);
-    const [checkId, setCheckId] = useState('abc');
-    useEffect(()=> {
-        if (idScenarioinArrayFirtChild?.id) {
-            setCheckId(idScenarioinArrayFirtChild.id);
-        }
-    }, [idScenarioinArrayFirtChild])
-
+    const [checkId, setCheckId] = useState('');
     useEffect(()=> {
         if (idScenario) {
             setCheckId(idScenario?.id);
