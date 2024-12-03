@@ -6,18 +6,11 @@ import { Scenarios } from '@/src/interfaces/Scenarios';
 import { selectProfileSummaryClosePrice } from '@/src/redux/ProfileSummary';
 import { useAppSelector } from '@/src/redux/hooks/useAppStore';
 
-type DataLabelsFormatterContextObject = {
-  y?: number; 
-  x?: number;
-  [key: string]: any;
-};
-
-
 const HistoryValuetionChart = ({ data }: { data: Scenarios | undefined }) => {
   const selectPrice = useAppSelector(selectProfileSummaryClosePrice) ?? 0;
 
   // Tính toán min và max cho trục y
-  const chartValues = [selectPrice, data?.valuated || 0];
+  const chartValues = [selectPrice, data?.valuated || 0, data?.actual || 0];
   const minValue = Math.min(...chartValues);
   const maxValue = Math.max(...chartValues);
   const padding = 10; // Khoảng đệm cho trục y
@@ -34,7 +27,7 @@ const HistoryValuetionChart = ({ data }: { data: Scenarios | undefined }) => {
       text: null,
     },
     xAxis: {
-      categories: ['Q2-2024', 'Q3-2024'],
+      categories: [data?.createdAt, data?.expectedDate],
       labels: {
         style: {
           color: '#ffffff',
@@ -79,7 +72,7 @@ const HistoryValuetionChart = ({ data }: { data: Scenarios | undefined }) => {
         name: '',
         data: [
           {
-            y: data?.valuated,
+            y: data?.actual,
             color: '#684D74',
             // dataLabels: {
             //   enabled: true,
@@ -118,38 +111,6 @@ const HistoryValuetionChart = ({ data }: { data: Scenarios | undefined }) => {
           {
             y: data?.valuated,
             color: getPotentialClass(data?.potential),
-            // dataLabels: {
-            //   enabled: true,
-            //   useHTML: true,
-            //   // formatter: function (this: DataLabelsFormatterContextObject): string {
-            //   //   return `
-            //   //   <div>
-            //   //     <div
-            //   //       style='
-            //   //         padding: 8px 12px;
-            //   //         border-radius: 6px;
-            //   //         font-size: 14px;
-            //   //         font-weight: 500;
-            //   //         color: white;
-            //   //         white-space: nowrap;
-            //   //         background-color: ${getPotentialClass(data?.potential)};
-            //   //       '>
-            //   //       ${this.y?.toLocaleString('en-US')}
-            //   //     </div>
-            //   //     <div
-            //   //       style='
-            //   //         width: 0;
-            //   //         height: 0;
-            //   //         border-left: 4px solid transparent;
-            //   //         border-right: 4px solid transparent;
-            //   //         border-top: 4px solid #9b5de5;
-            //   //         margin: 0 auto;
-            //   //       '
-            //   //     />
-            //   //   </div>
-            //   //   `;
-            //   // },
-            // },
           },
         ],
       },

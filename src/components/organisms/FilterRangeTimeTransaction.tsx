@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import BasicDateRangePicker from "./DateRangePicker";
-import dayjs, { Dayjs } from "dayjs";
+import { Dayjs } from "dayjs";
 import { 
     fetchcompanyTransaction, 
 } from "@/src/redux/CompanyTransactions";

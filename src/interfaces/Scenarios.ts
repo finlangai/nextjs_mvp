@@ -5,5 +5,8 @@ export interface Scenarios {
     valuated: number,
     note: string,
     id: string,
-    saveAt: string
+    actual: number,
+    expectedDate: string,
+    createdAt: string,
+    saveAt: string,
 }

@@ -76,7 +76,7 @@ export default function ValuationCentralComponent({ symbol, name, formular }: { 
     };
 
     useEffect(()=>{
-        console.log('selectedTabScenarios ở bên kia ', selectedTabScenarios)
+        // console.log('selectedTabScenarios ở bên kia ', selectedTabScenarios)
         handleTabChange(selectedTabScenarios);
     }, [selectedTabScenarios])
 
@@ -106,20 +106,34 @@ export default function ValuationCentralComponent({ symbol, name, formular }: { 
         setErrors(newErrors);
 
         if (valid) {
+
+            let valuated;
+
+            if (selectButton > 4) {
+                valuated = adjustedPrice;
+            }
+
+            if (selectButton < 5) {
+                valuated =  valuationResultData?.valuationResult;
+            }
+
             const data = { 
                 title: scenarioName,
                 potential: upside,
-                valuated: adjustedPrice,
-                note: notes
+                valuated: valuated,
+                note: notes,
+                actual: selectPrice,
+                expectedDate: 'Q3 2024'
             };
 
-            console.log('Saving...', data);
-
-            let name = getModelNameValuation(selectButton);               
+            // console.log('Saving...', data);
 
             if (token) {
+                const name = getModelNameValuation(selectButton);
+                const year = new Date().getFullYear();
+                const filter = `year=${year}`;
                 await dispatch(postScenario({ symbol: symbol, name: name, token: token, data: data}));
-                dispatch(fetchScenarios({ symbol: symbol, name: name, token: token }));
+                dispatch(fetchScenarios({ symbol: symbol, name: name, token: token, filter: filter }));
             }
 
             setIsPopupOpen(false);

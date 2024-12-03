@@ -8,7 +8,7 @@ interface ValuetionPageState {
 
 // State ban đầu
 const initialState: ValuetionPageState = {
-  selectedButton: 1,
+  selectedButton: 0,
 };
 
 // Tạo slice cho ValuationPage

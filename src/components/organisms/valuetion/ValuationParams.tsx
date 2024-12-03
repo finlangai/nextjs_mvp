@@ -278,6 +278,7 @@ export function DDMParamsComponent({g} : {g:number}) {
     const valuationParamsData = useAppSelector(selectValuationParamsData);
 
     useEffect(() => {
+        console.log(valuationParamsData)
         if (valuationParamsData !== null) {
             setNowData(valuationParamsData);
         }

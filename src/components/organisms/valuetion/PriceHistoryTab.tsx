@@ -74,13 +74,14 @@ export default function PriceHistoryTab({symbol} : {symbol: string}) {
 
             // console.log('Saving...', data);
 
-            let name = getModelNameValuation(selectButton);       
-
             if (nowData?.id) {
+                const name = getModelNameValuation(selectButton);
+                const year = new Date().getFullYear();
+                const filter = `year=${year}`;
                 if (token) {
                     await dispatch(patchScenario({ symbol: symbol, name: name, token: token, id: nowData?.id, updatedData: data}));
-                    await dispatch(fetchScenarios({ symbol: symbol, name: name, token: token }));
-                    await dispatch(fetchIdScenario({ symbol: symbol, name: name, token: token, id: nowData?.id }));
+                    dispatch(fetchScenarios({ symbol: symbol, name: name, token: token, filter: filter }));
+                    dispatch(fetchIdScenario({ symbol: symbol, name: name, token: token, id: nowData?.id }));
                 }
                 setIsPopupOpen(false);
             }
@@ -89,42 +90,26 @@ export default function PriceHistoryTab({symbol} : {symbol: string}) {
 
     // LẦN ĐẦU VÀO TRANG LẤY KỊCH BẢN MỚI NHẤT HIỂN THỊ
     useEffect(() => {
-        if (idScenario) {
-            return;
-        }
         if (!hasFetched.current) {
-            const name = getModelNameValuation(selectButton);
+            if (idScenario) {
+                setNowData(idScenario);
+                hasFetched.current = true;
+                return;
+            }
+            // console.log('hinh nhu')
             if (token) {
                 if (newestScenario?.id) {
+                    const name = getModelNameValuation(selectButton);
                     dispatch(fetchIdScenario({ symbol, name: name, token: token, id: newestScenario?.id }));
                     hasFetched.current = true;
                 }
             }
         }
-    }, [dispatch]);
-
-    // NẾU CÓ DỮ LIỆU Ở ID TỨC USER MỞ CHỌN XEM KỊCH BẢN KHÁC THÌ LẤY DỮ LIỆU ĐÓ CẬP NHẬT
-    useEffect(()=> {
-        if (idScenario) {
-            setNowData(idScenario);
-        };    
-    }, [idScenario]);
-
-    // NẾU CÓ THAY ĐỔI VỀ DỮ LIỆU LIST KỊCH BẢN (CÓ THỂ DO USER THỰC HIỆN LỌC HOẶC XÓA) THÌ LẠI LẤY KỊCH BẢN MỚI NHẤT HIỂN THỊ
-    useEffect(()=> {
-        if (scenariosData.length > 0) {
-            const name = getModelNameValuation(selectButton);
-            if (token) {
-                if (newestScenario?.id) {
-                    dispatch(fetchIdScenario({ symbol, name: name, token: token, id: newestScenario?.id }));
-                    hasFetched.current = true;
-                }
-            }
-        }
-    }, [scenariosData])
+    }, [dispatch, idScenario]);
 
     // CẬP NHẬT DATA CHO POPUP SỬA 
     useEffect(()=> {
+        // console.log('capp', nowData)
         if (nowData) {
             setScenarioName(nowData?.title);
             setNotes(nowData?.note);
@@ -140,6 +125,14 @@ export default function PriceHistoryTab({symbol} : {symbol: string}) {
             </>
         )
     };
+
+    if (scenariosData.length === 0) {
+        return(
+            <div className='text-fintown-txt-2 h-[400px] text-center flex justify-center items-center'>
+                Bạn chưa lưu kịch bản nào!
+            </div>
+        )
+    }
 
     return (
         <>

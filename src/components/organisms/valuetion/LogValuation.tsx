@@ -16,6 +16,8 @@ import { selectToken } from "@/src/redux/auth";
 import { selectSelectedButton } from '@/src/redux/ValuetionPage/valuetionPageSlice';
 import { getModelNameValuation } from '@/src/utils/getModelNameValuation';
 import { setHistorySelectedButton } from '@/src/redux/ValuetionPage/valuationHistorySlice';
+import FilterTimeScenariors from './FilterTimeScenariors';
+import dayjs, { Dayjs } from 'dayjs';
 
 export default function LogValuation ({containerHeight} : {containerHeight: number}){
     const dispatch = useAppDispatch();
@@ -24,11 +26,13 @@ export default function LogValuation ({containerHeight} : {containerHeight: numb
     const scenariosLoading = useAppSelector(selectScenariosLoading);
     const idScenario = useAppSelector(selectIdScenario);
     const token = useAppSelector(selectToken);
+    const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
 
     // LẤY ID
     const idScenarioinArrayFirtChild = useAppSelector(selectNewestScenario);
     const [checkId, setCheckId] = useState('');
     useEffect(()=> {
+        // console.log('idScenario', idScenario)
         if (idScenario) {
             setCheckId(idScenario?.id);
         }
@@ -57,7 +61,7 @@ export default function LogValuation ({containerHeight} : {containerHeight: numb
             setTimeout(() => setIsAnimating(false), 500);
         }
     }, [isPopupOpen]);
-
+    
     const deleteById = async () => {
         if (token) {
             let name = getModelNameValuation(selectButton);
@@ -66,6 +70,13 @@ export default function LogValuation ({containerHeight} : {containerHeight: numb
             setIsPopupOpen(false);
         }
     }
+
+    // BỘ LỌC=========================================================================
+    const handleStartDateChange = (newDate: dayjs.Dayjs | null) => {
+        console.log('Ngày đã chọn:', newDate ? newDate.format('DD/MM/YYYY') : null);
+        setSelectedDate(newDate);
+    };
+
 
     if (scenariosLoading) {
         return (
@@ -88,17 +99,7 @@ export default function LogValuation ({containerHeight} : {containerHeight: numb
             </div>
         </div>
 
-        <div className="py-[13px] pl-[30px] pr-[30px] flex items-center justify-between border-b border-fintown-br">
-            <div className="text-fintown-txt-1 text-[12px]">
-                Lọc theo tháng
-            </div>
-            <div className="flex items-center w-full max-w-[117px] px-[12px] py-[7px] rounded border border-fintown-br justify-between cursor-pointer">
-                <i className='bx bx-calendar-event text-[18px] text-fintown-txt-2'></i>
-                <div className="text-fintown-txt-2 text-[12px]">
-                    12/07/2024
-                </div>
-            </div>
-        </div>
+        < FilterTimeScenariors onDateChange={handleStartDateChange}/>
 
         <div 
         className="overflow-y-auto custom-scrollbarmini2 pl-[30px] pr-[10px] pr-[30px] mr-[10px] flex flex-col gap-y-[20px] py-[20px]"

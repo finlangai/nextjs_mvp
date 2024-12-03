@@ -3,9 +3,9 @@ export function upsideCalculator(
   valuationResultData: { valuationResult?: number } | null,
   selectPrice: number
 ): { upside: number; adjustedPrice: number } {
-  console.log('selectButton', selectButton)
-  console.log('valuationResultData', valuationResultData)
-  console.log('selectPrice', selectPrice)
+  // console.log('selectButton', selectButton)
+  // console.log('valuationResultData', valuationResultData)
+  // console.log('selectPrice', selectPrice)
 
   if (valuationResultData && valuationResultData.valuationResult !== undefined && selectPrice) {
     const adjustedPrice =

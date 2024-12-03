@@ -19,10 +19,11 @@ const initialState: ScenariosState = {
 export const fetchScenarios = createAsyncThunk(
   'scenarios/fetch',
   async (
-    { symbol, name, token }: { symbol: string; name: string, token: string },
+    { symbol, name, token, filter }: { symbol: string; name: string, token: string, filter: string | '' },
     { rejectWithValue }
   ) => {
-    const api = `${apiUrl}/valuation/${name}/${symbol}/scenarios`;
+    const api = `${apiUrl}/valuation/${name}/${symbol}/scenarios?${filter}`;
+    // console.log('api', api)
 
     if (!token) {
       return rejectWithValue('Token không tồn tại');
@@ -57,6 +58,8 @@ export const postScenario = createAsyncThunk(
     { rejectWithValue }
   ) => {
     const api = `${apiUrl}/valuation/${name}/${symbol}/scenarios`;
+    // console.log('api', api)
+    // console.log('body', data)
 
     if (!token) {
       return rejectWithValue('Token không tồn tại');
@@ -135,7 +138,7 @@ export const selectNewestScenario = (state: RootState): Scenarios | null => {
   const parseDate = (dateStr: string) => {
     if (!dateStr || typeof dateStr !== 'string') {
       console.warn('Invalid date string:', dateStr);
-      return new Date(0); // Trả về một giá trị mặc định nếu dateStr không hợp lệ
+      return new Date(0);
     }
   
     const [day, month, year] = dateStr.split('/').map(Number);
