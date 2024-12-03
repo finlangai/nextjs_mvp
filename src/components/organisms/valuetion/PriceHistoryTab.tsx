@@ -166,7 +166,7 @@ export default function PriceHistoryTab({symbol} : {symbol: string}) {
                 <div className="w-full border-r border-r-fintown-br">
                     <div className="flex items-center gap-x-[24px] py-[18px] border-b border-b-fintown-br px-[27px] ">
                         <div className="flex items-center">
-                            <div className="h-[10px] w-[10px] rounded-[50%] bg-[#684D74] mr-[8px]"></div>
+                            <div className="h-[10px] w-[10px] rounded-[50%] bg-[white] mr-[8px]"></div>
                             <div className="text-[14px] text-fintown-txt-2">Giá cổ phiếu tại thời điểm định giá</div>
                         </div>
 

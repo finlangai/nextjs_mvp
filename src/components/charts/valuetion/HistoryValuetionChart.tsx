@@ -73,40 +73,7 @@ const HistoryValuetionChart = ({ data }: { data: Scenarios | undefined }) => {
         data: [
           {
             y: data?.actual,
-            color: '#684D74',
-            // dataLabels: {
-            //   enabled: true,
-            //   useHTML: true,
-            //   // formatter: function (this: DataLabelsFormatterContextObject): string {
-            //   //   return `
-            //   //   <div>
-            //   //     <div
-            //   //       style='
-            //   //         padding: 8px 12px;
-            //   //         border-radius: 6px;
-            //   //         font-size: 14px;
-            //   //         font-weight: 500;
-            //   //         color: white;
-            //   //         white-space: nowrap;
-            //   //         background-color: #ffffff;
-            //   //         color: black;
-            //   //       '>
-            //   //       ${this.y?.toLocaleString('en-US')}
-            //   //     </div>
-            //   //     <div
-            //   //       style='
-            //   //         width: 0;
-            //   //         height: 0;
-            //   //         border-left: 4px solid transparent;
-            //   //         border-right: 4px solid transparent;
-            //   //         border-top: 4px solid #ffffff;
-            //   //         margin: 0 auto;
-            //   //       '
-            //   //     />
-            //   //   </div>
-            //   //   `;
-            //   // },
-            // },
+            color: 'white',
           },
           {
             y: data?.valuated,
@@ -122,9 +89,22 @@ const HistoryValuetionChart = ({ data }: { data: Scenarios | undefined }) => {
         borderWidth: 0,
       },
     },
-    // tooltip: {
-    //   enabled: false,
-    // },
+    tooltip: {
+      backgroundColor: '#333333', // Màu nền của tooltip
+      borderColor: '#666666', // Màu viền
+      style: {
+        color: '#ffffff', // Màu chữ
+        fontSize: '12px', // Kích thước chữ
+      },
+      useHTML: true,
+      formatter: function (this: Highcharts.TooltipFormatterContextObject): string {
+        return `
+          <div style="display: flex; align-items: center;">
+            <div style="width: 10px; height: 10px; border-radius: 50%; background-color: ${this.color}; margin-right: 8px;"></div>
+            <span><b>${this.series.name}</b>: ${this.y?.toLocaleString('en-US')}</span>
+          </div>`;
+      },
+    },    
     legend: {
       enabled: false,
     },
@@ -132,6 +112,7 @@ const HistoryValuetionChart = ({ data }: { data: Scenarios | undefined }) => {
       enabled: false,
     },
   };
+  
 
   return <HighchartsReact highcharts={Highcharts} options={options} />;
 };
