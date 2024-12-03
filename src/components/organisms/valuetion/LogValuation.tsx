@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { 
+    fetchScenarios,
     selectNewestScenario, 
     selectScenariosData, 
     selectScenariosLoading, 
@@ -19,7 +20,7 @@ import { setHistorySelectedButton } from '@/src/redux/ValuetionPage/valuationHis
 import FilterTimeScenariors from './FilterTimeScenariors';
 import dayjs, { Dayjs } from 'dayjs';
 
-export default function LogValuation ({containerHeight} : {containerHeight: number}){
+export default function LogValuation ({containerHeight, symbol} : {containerHeight: number; symbol: string}){
     const dispatch = useAppDispatch();
     const selectButton = useAppSelector(selectSelectedButton);
     const scenariosData = useAppSelector(selectScenariosData);
@@ -72,19 +73,16 @@ export default function LogValuation ({containerHeight} : {containerHeight: numb
     }
 
     // BỘ LỌC=========================================================================
-    const handleStartDateChange = (newDate: dayjs.Dayjs | null) => {
-        console.log('Ngày đã chọn:', newDate ? newDate.format('DD/MM/YYYY') : null);
-        setSelectedDate(newDate);
+    const handleStartDateChange = (month: string, year: string) => {
+        if (token) {
+            const filter = `year=${year}&month=${month}`;
+            let name = getModelNameValuation(selectButton);         
+            dispatch(fetchScenarios({ symbol: symbol, name: name, token: token, filter: filter }));
+        }
     };
 
 
-    if (scenariosLoading) {
-        return (
-            <div className="flex justify-center items-center h-[280px]">
-                <SpinerLoader />
-            </div>
-        );
-    }
+    // RENDER=========================================================================
 
     return (
         <>
@@ -99,14 +97,26 @@ export default function LogValuation ({containerHeight} : {containerHeight: numb
             </div>
         </div>
 
-        < FilterTimeScenariors onDateChange={handleStartDateChange}/>
+        <FilterTimeScenariors onDateChange={handleStartDateChange}/>
 
         <div 
         className="overflow-y-auto custom-scrollbarmini2 pl-[30px] pr-[10px] pr-[30px] mr-[10px] flex flex-col gap-y-[20px] py-[20px]"
         style={{height: `${containerHeight - 60}px`}}
         >
+
             {
-                scenariosData && scenariosData.length > 0 ? (
+                scenariosLoading && (
+                    (
+                        <div className="flex justify-center items-center h-[280px]">
+                            <SpinerLoader />
+                        </div>
+                    )
+                )
+            }
+
+
+            {
+                scenariosData && scenariosData.length > 0 &&(
                     scenariosData.map((items) => (
                         <div className="border-b border-b-fintown-br" key={items.id}>
                             <div className="flex items-center mb-[15px]">
@@ -182,7 +192,11 @@ export default function LogValuation ({containerHeight} : {containerHeight: numb
                             </div>
                         </div>
                     ))
-                ) : (
+                )
+            }
+
+            {
+                scenariosData.length === 0 && !scenariosLoading && (
                     <div className="text-fintown-txt-2 text-[14px] text-center py-[20px]">
                         Không có dữ liệu để hiển thị.
                     </div>

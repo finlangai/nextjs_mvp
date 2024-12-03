@@ -198,7 +198,7 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
                 </div>
 
                 <div className='min-w-[300px] max-w-[300px] border-l border-fintown-br'>
-                    < LogValuation containerHeight={containerHeight} />
+                    < LogValuation containerHeight={containerHeight} symbol={symbol} />
                 </div>
             </div>
 
