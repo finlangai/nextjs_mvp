@@ -95,10 +95,12 @@ const scenariosSlice = createSlice({
     deleteScenarioById: (state, action) => {
       state.data = state.data.filter((scenario) => scenario.id !== action.payload);
     },
+    resetScenarios: (state) => {
+      state.data = [];
+    },
   },
   extraReducers: (builder) => {
     builder
-      // Fetch Scenarios
       .addCase(fetchScenarios.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -110,8 +112,6 @@ const scenariosSlice = createSlice({
       .addCase(fetchScenarios.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string || 'Đã xảy ra lỗi';
-
-      // Post Scenario
       })
       .addCase(postScenario.pending, (state) => {
         state.loading = true;
@@ -159,6 +159,10 @@ export const selectNewestScenario = (state: RootState): Scenarios | null => {
   return newestScenario || null;
 };
 
-export const { deleteScenarioById } = scenariosSlice.actions;
+export const selectIsScenariosEmpty = (state: RootState): boolean =>
+  state.scenarios.data.length === 0;
+
+
+export const { deleteScenarioById, resetScenarios } = scenariosSlice.actions;
 
 export default scenariosSlice.reducer;

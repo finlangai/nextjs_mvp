@@ -1,21 +1,24 @@
 "use client";
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import useSetSelectedValuetionPage from '@/src/redux/hooks/useButtonValuetionPage';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { fetchValuationParams } from '@/src/redux/ValuationParams/valuationParamsSlice';
 import { fetchValuationResult } from '@/src/redux/ValuationResult';
-import { fetchScenarios } from '@/src/redux/Scenarios';
+import { fetchScenarios, resetScenarios, resetIdScenario } from '@/src/redux/Scenarios';
 import { selectToken } from "@/src/redux/auth";
 import ValuationCentral from '@/src/components/organisms/valuetion/ValuationCentral';
-import { getModelNameValuation } from '@/src/utils/getModelNameValuation';
 import { selectSelectedButton } from '@/src/redux/ValuetionPage/valuetionPageSlice';
+import { setHistorySelectedButton } from '@/src/redux/ValuetionPage/valuationHistorySlice';
 
 export default function PhuongPhapPEGPage({ params }: { params: { symbol: string } }) {
     const { symbol } = params;
     const dispatch = useAppDispatch();
     useSetSelectedValuetionPage(5);
+    
+    dispatch(setHistorySelectedButton({ button: 0 }));
+    dispatch(resetIdScenario());
+    dispatch(resetScenarios());
     const selectButton = useAppSelector(selectSelectedButton);
-
     // FETCH API LẦN ĐẦU===============================================================
     const hasFetched = useRef(false);
     const token = useAppSelector(selectToken);

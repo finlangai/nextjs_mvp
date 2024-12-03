@@ -122,7 +122,12 @@ export const patchScenario = createAsyncThunk(
 const idScenarioSlice = createSlice({
   name: 'idScenario',
   initialState,
-  reducers: {},
+  reducers: {
+    resetIdScenario: (state) => {
+      state.data = null;
+      state.error = null; // Nếu cần, bạn cũng có thể reset `error` về null
+    },
+  },
   extraReducers: (builder) => {
     builder
     // Fetch IdScenario
@@ -181,5 +186,7 @@ export const selectIdScenarioError = (state: RootState) => state.idScenario.erro
 
 // LẤY ID
 export const selectIdScenarioId = (state: RootState) => state.idScenario.data?.id || null;
+
+export const { resetIdScenario } = idScenarioSlice.actions;
 
 export default idScenarioSlice.reducer;

@@ -10,6 +10,8 @@ import {
     selectIdScenarioLoading, 
     selectScenariosLoading, 
     selectIdScenario,
+
+    resetIdScenario
 } from '@/src/redux/Scenarios';
 import { useAppSelector, useAppDispatch } from '@/src/redux/hooks/useAppStore';
 import { getPotentialClass } from '@/src/utils/getPotentialClass';
@@ -29,7 +31,6 @@ export default function PriceHistoryTab({symbol} : {symbol: string}) {
     const selectButton = useAppSelector(selectSelectedButton);
     const token = useAppSelector(selectToken);
     const hasFetched = useRef(false);
-
     const [nowData, setNowData] = useState<Scenarios>();
 
     // ANIMATION POPUP
@@ -91,12 +92,11 @@ export default function PriceHistoryTab({symbol} : {symbol: string}) {
     // LẦN ĐẦU VÀO TRANG LẤY KỊCH BẢN MỚI NHẤT HIỂN THỊ
     useEffect(() => {
         if (!hasFetched.current) {
-            if (idScenario) {
+            if (idScenario && idScenario !== null) {
                 setNowData(idScenario);
                 hasFetched.current = true;
                 return;
-            }
-            // console.log('hinh nhu')
+            }    
             if (token) {
                 if (newestScenario?.id) {
                     const name = getModelNameValuation(selectButton);
@@ -105,7 +105,30 @@ export default function PriceHistoryTab({symbol} : {symbol: string}) {
                 }
             }
         }
-    }, [dispatch, idScenario]);
+    }, [dispatch]);
+
+    useEffect(()=> {
+        // console.log('idScenario', idScenario)
+        if (idScenario && idScenario !== null) {
+            setNowData(idScenario);
+            hasFetched.current = true;
+            return;
+        }  
+    }, [idScenario]);
+
+    
+    useEffect(()=> {
+        if (scenariosData?.[0]?.id === idScenario?.id) {
+            return;
+        };
+
+        if (token) {
+            if (scenariosData?.[0]?.id) {
+                const name = getModelNameValuation(selectButton);
+                dispatch(fetchIdScenario({ symbol, name: name, token: token, id: scenariosData?.[0]?.id }));
+            }
+        }
+    }, [scenariosData])
 
     // CẬP NHẬT DATA CHO POPUP SỬA 
     useEffect(()=> {

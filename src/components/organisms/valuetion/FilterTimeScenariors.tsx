@@ -55,7 +55,7 @@ export default function FilterTimeScenariors({
                 >
                     <i className='bx bx-calendar-event text-[18px] '></i>
                     <div className=" text-[12px]">
-                        {selectedDate ? selectedDate.format('MM/YYYY') : '07/2024'}
+                        {selectedDate ? selectedDate.format('MM/YYYY') : dayjs().format('MM/YYYY')}
                     </div>
                 </div>
 

@@ -4,15 +4,21 @@ import useSetSelectedValuetionPage from '@/src/redux/hooks/useButtonValuetionPag
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { fetchValuationParams } from '@/src/redux/ValuationParams/valuationParamsSlice';
 import { fetchValuationResult } from '@/src/redux/ValuationResult';
-import { fetchScenarios } from '@/src/redux/Scenarios';
+import { fetchScenarios, resetScenarios, resetIdScenario } from '@/src/redux/Scenarios';
 import { selectToken } from "@/src/redux/auth";
-import ValuationCentralComponent from '@/src/components/organisms/valuetion/ValuationCentral';
+import ValuationCentral from '@/src/components/organisms/valuetion/ValuationCentral';
 import { selectSelectedButton } from '@/src/redux/ValuetionPage/valuetionPageSlice';
+import { setHistorySelectedButton } from '@/src/redux/ValuetionPage/valuationHistorySlice';
 
 export default function DCFValuetionPage({ params }: { params: { symbol: string } }) {
     const { symbol } = params;
     const dispatch = useAppDispatch();
     useSetSelectedValuetionPage(0);
+    
+    dispatch(setHistorySelectedButton({ button: 0 }));
+    dispatch(resetIdScenario());
+    dispatch(resetScenarios());
+
     const selectButton = useAppSelector(selectSelectedButton);
 
     // FETCH API LẦN ĐẦU===============================================================
@@ -38,7 +44,7 @@ export default function DCFValuetionPage({ params }: { params: { symbol: string 
 
     return (
         <>
-            < ValuationCentralComponent
+            < ValuationCentral
                 symbol={symbol}
                 name='Mô hình chiết khấu dòng tiền (Discounted Cash Flow)'
                 formular='Công thức: P0 = Σ (FCFE_t) / (1 + r)^t'

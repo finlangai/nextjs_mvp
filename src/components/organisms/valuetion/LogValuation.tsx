@@ -8,7 +8,10 @@ import {
     fetchIdScenario, 
     deleteScenario,
     selectIdScenario,
-    deleteScenarioById 
+    deleteScenarioById,
+
+    resetScenarios,
+    resetIdScenario
 } from '@/src/redux/Scenarios';
 import { useAppSelector, useAppDispatch } from '@/src/redux/hooks/useAppStore';
 import { SpinerLoader } from "@/src/components/common/Loader";
@@ -18,7 +21,6 @@ import { selectSelectedButton } from '@/src/redux/ValuetionPage/valuetionPageSli
 import { getModelNameValuation } from '@/src/utils/getModelNameValuation';
 import { setHistorySelectedButton } from '@/src/redux/ValuetionPage/valuationHistorySlice';
 import FilterTimeScenariors from './FilterTimeScenariors';
-import dayjs, { Dayjs } from 'dayjs';
 
 export default function LogValuation ({containerHeight, symbol} : {containerHeight: number; symbol: string}){
     const dispatch = useAppDispatch();
@@ -27,24 +29,25 @@ export default function LogValuation ({containerHeight, symbol} : {containerHeig
     const scenariosLoading = useAppSelector(selectScenariosLoading);
     const idScenario = useAppSelector(selectIdScenario);
     const token = useAppSelector(selectToken);
-    const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
 
-    // LẤY ID
-    const idScenarioinArrayFirtChild = useAppSelector(selectNewestScenario);
-    const [checkId, setCheckId] = useState('');
-    useEffect(()=> {
-        // console.log('idScenario', idScenario)
-        if (idScenario) {
-            setCheckId(idScenario?.id);
-        }
-    }, [idScenario])
+    // FILTER 
+    const [monthFt, setMonthFt] = useState('');
+    const [yearFt, setYearFt] = useState('');
+
+    useEffect(() => {
+        const currentDate = new Date();
+        const currentMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Tháng bắt đầu từ 0
+        const currentYear = currentDate.getFullYear().toString();
+    
+        setMonthFt(currentMonth); // Cập nhật tháng hiện tại
+        setYearFt(currentYear);  // Cập nhật năm hiện tại
+    }, []);
 
     // HÀM MỞ CHART XEM CHI TIẾT
     const OpenDetail = async (symbol: string, id: string) => {
         if (token) {
             let name = getModelNameValuation(selectButton);
             await dispatch(fetchIdScenario({ symbol, name: name, token: token, id }));
-            setCheckId(id);
             dispatch(setHistorySelectedButton({ button: 1 }));
         }
     };  
@@ -67,20 +70,25 @@ export default function LogValuation ({containerHeight, symbol} : {containerHeig
         if (token) {
             let name = getModelNameValuation(selectButton);
             await dispatch(deleteScenario({ symbol: symbolDelete, name: name, token: token, id: idDelete }));
-            await dispatch(deleteScenarioById(idDelete));
+
+            const filter = `year=${yearFt}&month=${monthFt}`;
+            await dispatch(fetchScenarios({ symbol: symbol, name: name, token: token, filter: filter }));
+
             setIsPopupOpen(false);
         }
     }
 
     // BỘ LỌC=========================================================================
     const handleStartDateChange = (month: string, year: string) => {
+        setMonthFt(month);
+        setYearFt(year);
+        dispatch(dispatch(resetScenarios()));
         if (token) {
-            const filter = `year=${year}&month=${month}`;
+            const filter = `year=${yearFt}&month=${monthFt}`;
             let name = getModelNameValuation(selectButton);         
             dispatch(fetchScenarios({ symbol: symbol, name: name, token: token, filter: filter }));
         }
     };
-
 
     // RENDER=========================================================================
 
@@ -116,7 +124,7 @@ export default function LogValuation ({containerHeight, symbol} : {containerHeig
 
 
             {
-                scenariosData && scenariosData.length > 0 &&(
+                (scenariosData && scenariosData.length > 0 && !scenariosLoading) && (
                     scenariosData.map((items) => (
                         <div className="border-b border-b-fintown-br" key={items.id}>
                             <div className="flex items-center mb-[15px]">
@@ -178,10 +186,10 @@ export default function LogValuation ({containerHeight, symbol} : {containerHeig
 
                                 <button 
                                 onClick={()=> OpenDetail(items?.symbol, items?.id)}
-                                disabled={ checkId === items?.id}
+                                disabled={ idScenario?.id === items?.id}
                                 className={`
                                     text-fintown-txt-1 text-[12px] py-[6px] px-[13px] rounded 
-                                    ${ checkId === items?.id 
+                                    ${ idScenario?.id === items?.id 
                                         ? 'bg-[#9CA3AF] cursor-not-allowed' 
                                         : 'bg-fintown-pr9'
                                     }  
