@@ -123,7 +123,7 @@ export default function ValuationCentralComponent({ symbol, name, formular }: { 
                 valuated: valuated,
                 note: notes,
                 actual: selectPrice,
-                expectedDate: 'Q3 2024'
+                // expectedDate: 'Q3 2024'
             };
 
             // console.log('Saving...', data);

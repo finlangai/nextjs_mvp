@@ -10,8 +10,6 @@ import {
     selectIdScenarioLoading, 
     selectScenariosLoading, 
     selectIdScenario,
-
-    resetIdScenario
 } from '@/src/redux/Scenarios';
 import { useAppSelector, useAppDispatch } from '@/src/redux/hooks/useAppStore';
 import { getPotentialClass } from '@/src/utils/getPotentialClass';

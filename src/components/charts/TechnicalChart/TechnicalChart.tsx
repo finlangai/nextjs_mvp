@@ -9,10 +9,8 @@ import fullScreen from "highcharts/modules/full-screen";
 import stockTools from "highcharts/modules/stock-tools";
 import hollowCandlestick from 'highcharts/modules/hollowcandlestick';
 import heikinAshi from 'highcharts/modules/heikinashi';
-import { PriceStock } from '@/src/interfaces/PriceStock';
-import { fetchPriceStocks, selectPriceStocksData } from '@/src/redux/PriceStock';
-import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
-import { getStartOfYear, getCurrentUnixTimestamp} from '@/src/utils/getTimeRanges';
+import { selectPriceStocksData } from '@/src/redux/PriceStock';
+import { useAppSelector } from '@/src/redux/hooks/useAppStore';
 
 // Kích hoạt các module
 indicatorsAll(Highcharts);
@@ -42,23 +40,11 @@ Highcharts.setOptions({
 });
 
 const CandlestickChart = ({symbol} : {symbol: string}) => {
-  const dispatch = useAppDispatch();
-
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<Highcharts.Chart | null>(null);
   const selectPriceStocks = useAppSelector(selectPriceStocksData);
   const [seriesData, setSeriesData] = useState<number[][]>([]);
   const [volumeData, setVolumeData] = useState<{ x: number; y: number; color: string }[]>([]);  
-
-  // LẦN ĐẦU CALL API LẤY YTD
-  useEffect(() => {
-    const fetchInitialData = async () => {
-      const now = getCurrentUnixTimestamp();
-      const start = getStartOfYear(); 
-      await dispatch(fetchPriceStocks({ symbol, start, end: now, interval: '1D', type: 1, limit: 900 }));
-    };
-    fetchInitialData(); 
-  }, [dispatch, symbol]);
 
   useEffect(()=> {
     const x = selectPriceStocks.map((point) => [

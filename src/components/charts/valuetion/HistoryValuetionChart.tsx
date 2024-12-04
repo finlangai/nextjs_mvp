@@ -8,7 +8,7 @@ import { useAppSelector } from '@/src/redux/hooks/useAppStore';
 
 const HistoryValuetionChart = ({ data }: { data: Scenarios | undefined }) => {
   const selectPrice = useAppSelector(selectProfileSummaryClosePrice) ?? 0;
-
+  // console.log(data)
   // Tính toán min và max cho trục y
   const chartValues = [selectPrice, data?.valuated || 0, data?.actual || 0];
   const minValue = Math.min(...chartValues);

@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '@/src/redux/hooks/useAppStore';
 import { fetchProfileSummaries, selectProfileSummaryData, selectProfileSummaryLoading } from '@/src/redux/ProfileSummary';
 import { ProfileSummary } from '@/src/interfaces/ProfileSummary';
-import { SpinerLoader } from '../common/Loader';
+import { SpinerLoader } from '../../common/Loader';
 import { toggleWatchlist, selectWatchlist, selectIsInWatchlist } from '@/src/redux/WatchList';
 
 export default function StockSummaryTechChart({ symbol }: { symbol: string }) {
@@ -76,16 +76,15 @@ export default function StockSummaryTechChart({ symbol }: { symbol: string }) {
 
                 <div className='flex-1 py-[16px] px-[16px] border-r border-r-fintown-br'>
                     <div className='text-fintown-txt-2 text-[12px] font-bold mb-[9px]'>Thay đổi 24h</div>
-                    <div 
-                        className={`font-bold text-[12px] ${
-                            NowData?.delta !== undefined
+                    <div
+                        className={`font-bold text-[12px] ${NowData?.delta !== undefined
                                 ? NowData.delta > 0
                                     ? 'text-fintown-stt-buy'
                                     : NowData.delta < 0
-                                    ? 'text-fintown-stt-sell'
-                                    : 'text-fintown-txt-1'
+                                        ? 'text-fintown-stt-sell'
+                                        : 'text-fintown-txt-1'
                                 : 'text-fintown-txt-1'
-                        }`}
+                            }`}
                     >
                         {NowData?.delta}%
                     </div>

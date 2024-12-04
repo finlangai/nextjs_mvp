@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { selectHistorySelectedButton } from '@/src/redux/ValuetionPage/valuationHistorySlice';
 import { useAppSelector } from '@/src/redux/hooks/useAppStore';
+import { setSelectedButtonActive, selectSelectedButton } from '@/src/redux/SiderBar';
 
 const SlidingTabs = (
   { onTabChange, tabs, gap, startIndex, fontsize } : 
@@ -8,6 +9,7 @@ const SlidingTabs = (
 ) => {
   const [activeTab, setActiveTab] = useState(startIndex);
   const selectedTabScenarios = useAppSelector(selectHistorySelectedButton);
+  const selectedButton = useAppSelector(selectSelectedButton);
 
   const [indicatorStyle, setIndicatorStyle] = useState({
     transform: 'translateX(0px)'
@@ -36,7 +38,9 @@ const SlidingTabs = (
 
   // Ở TAB ĐỊNH GIÁ NẾU KÍCH HOẠT XEM CHI TIẾT MỘT KỊCH BẢN
   useEffect(()=>{
-    setActiveTab(selectedTabScenarios);
+    if (selectedButton === 6) {
+      setActiveTab(selectedTabScenarios);
+    }
   }, [selectedTabScenarios])
 
   return (
