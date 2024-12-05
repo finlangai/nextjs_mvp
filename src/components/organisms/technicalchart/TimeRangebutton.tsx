@@ -43,7 +43,7 @@ export default function TimeRangeButton({ symbol }: { symbol: string }) {
 
     return (
         <>
-          <div className="pl-[24px] flex items-center gap-x-[28px] py-[18px] w-full">
+          <div className="px-[24px] flex items-center gap-x-[28px] py-[18px] w-full border-r border-r-fintown-br">
             {timeRanges.map((range) => (
               <button
                 key={range.label}

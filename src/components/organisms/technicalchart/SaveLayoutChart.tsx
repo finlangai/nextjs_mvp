@@ -58,7 +58,7 @@ export default function SaveLayoutChart() {
     <>
       <i
           onClick={() => setIsPopupOpen(true)}
-          className='bx bx-cloud-download text-fintown-txt-2 text-[24px] mr-[20px] cursor-pointer hover:text-fintown-pr9'>
+          className='bx bx-cloud-download text-fintown-txt-2 text-[24px] cursor-pointer hover:text-fintown-pr9'>
       </i>
 
       {isPopupOpen && (

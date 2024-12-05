@@ -65,7 +65,7 @@ export default function ListLayoutChartSaved() {
         <>
             <i 
                 onClick={() => setIsPopupOpen(true)} 
-                className='bx bx-list-check text-fintown-txt-2 text-[26px] mr-[20px] cursor-pointer hover:text-fintown-pr9'
+                className='bx bx-list-check text-fintown-txt-2 text-[26px] cursor-pointer hover:text-fintown-pr9'
             >
             </i>
 

@@ -1,6 +1,5 @@
 "use client";
 import dynamic from 'next/dynamic';
-import React, { useState } from 'react';
 import { notFound } from 'next/navigation';
 import useSetSelectedButtonSiderBar from '@/src/redux/hooks/useButtonsiderBar';
 import {
@@ -31,6 +30,8 @@ import StockSummaryTechChart from '@/src/components/organisms/technicalchart/Sto
 import TimeRangebutton from '@/src/components/organisms/technicalchart/TimeRangebutton'; 
 import SaveLayoutChart from '@/src/components/organisms/technicalchart/SaveLayoutChart';
 import ListLayoutChartSaved from '@/src/components/organisms/technicalchart/ListLayoutChartSaved';
+import { setSelectedLayout } from '@/src/redux/LayoutTechChart';
+import { useAppDispatch } from '@/src/redux/hooks/useAppStore';
 
 const TechnicalChart = dynamic(() => import('@/src/components/charts/TechnicalChart/TechnicalChartComponent'), {
     ssr: false,
@@ -42,6 +43,7 @@ export default function BieuDoKyThuatPage({ params }: { params: { symbol: string
     if (!isValidSymbol) {
         notFound();
     }
+    const dispatch = useAppDispatch();
     useSetSelectedButtonSiderBar(5);
     // =================CHỌN FULL SREEN==================================
 
@@ -70,6 +72,13 @@ export default function BieuDoKyThuatPage({ params }: { params: { symbol: string
     useColorPickerForOuterBackgroundStroke();
     useColorPickerForOuterBackgroundFill();
 
+
+    // Handle layout selection
+    const resetLayout = () => {
+        const layout = { name: '', layout: [], createdAt: '' }
+        dispatch(setSelectedLayout(layout));
+    };
+
     return (
         <>
             <div id='technical-chart-page' className='border-r border-r-fintown-br w-full bg-fintown-bg'>
@@ -81,8 +90,8 @@ export default function BieuDoKyThuatPage({ params }: { params: { symbol: string
                         < StockSummaryTechChart symbol={symbol} />
 
                         <div className='border-b border-b-fintown-br flex'>
-                            <div className='flex min-w-[430px]'>
-                                <div className='pl-[24px] flex items-center'>
+                            <div className='flex'>
+                                <div className='px-[24px] flex items-center border-r border-r-fintown-br'>
                                     <i
                                         onClick={() => handedleLeftBarClick(true)}
                                         id='show-leftbar-search'
@@ -95,16 +104,29 @@ export default function BieuDoKyThuatPage({ params }: { params: { symbol: string
                                         className='bx bxs-arrow-to-right text-fintown-txt-2 text-[20px] cursor-pointer hover:text-fintown-pr9'>
                                     </i>
                                 </div>
+
                                 < TimeRangebutton symbol={symbol} />
+                            </div>
+
+                            <div className='flex items-center gap-x-[28px] px-[24px] w-full'>
+                                <div className='flex items-center gap-x-[5px] cursor-pointer'>
+                                    <i className='bx bx-revision text-fintown-txt-2 text-[22px] hover:text-fintown-pr9' onClick={(()=> resetLayout())}></i>
+                                    <div className='text-[12px] text-fintown-txt-2'>Đặt lại</div>
+                                </div>
+
+                                <div className='flex items-center gap-x-[5px]'>
+                                    < ListLayoutChartSaved />
+                                    <div className='text-[12px] text-fintown-txt-2'>Danh sách bố cục</div>
+                                </div>
+
+                                <div className='flex items-center gap-x-[5px]'>
+                                    < SaveLayoutChart />
+                                    <div className='text-[12px] text-fintown-txt-2'>Lưu bố cục</div>
+                                </div>
                             </div>
 
                             <div className='flex items-center w-full'>
                                 <div className='flex items-center ml-auto pr-[24px]'>
-
-                                    < ListLayoutChartSaved />
-
-                                    < SaveLayoutChart />
-
                                     <i className='bx bx-camera text-fintown-txt-2 text-[22px] mr-[20px] cursor-pointer hover:text-fintown-pr9' ></i>
 
                                     <i
@@ -119,7 +141,6 @@ export default function BieuDoKyThuatPage({ params }: { params: { symbol: string
                                         onClick={handleExitFullScreenClick}
                                         style={{ display: 'none' }}
                                     ></i>
-
                                 </div>
                             </div>
                         </div>
