@@ -105,13 +105,13 @@ export default function SaveLayoutChart() {
             <div className="flex justify-end mt-[20px]">
               <button
                 onClick={() => setIsPopupOpen(false)}
-                className="py-[10px] text-fintown-txt-1 text-[12px] px-[23px] border border-fintown-br rounded mr-[10px]"
+                className="py-[10px] text-fintown-txt-1 text-[14px] px-[23px] border border-fintown-br rounded mr-[10px]"
               >
                 Để sau vậy
               </button>
               <button
                 onClick={handleSaveLayout}
-                className="py-[10px] text-fintown-txt-1 text-[12px] px-[23px] bg-fintown-pr9 rounded hover:bg-[#34A36A]"
+                className="py-[10px] text-fintown-txt-1 text-[14px] px-[23px] bg-fintown-pr9 rounded hover:bg-[#34A36A]"
               >
                 Lưu bố cục
               </button>

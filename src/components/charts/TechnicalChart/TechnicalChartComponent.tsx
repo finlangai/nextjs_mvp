@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Highcharts from 'highcharts/highstock';
 import dynamic from 'next/dynamic';
+import cloneDeep from 'lodash/cloneDeep';
 
 // Import các module cần thiết
 import indicatorsAll from "highcharts/indicators/indicators-all";
@@ -12,6 +13,7 @@ import hollowCandlestick from 'highcharts/modules/hollowcandlestick';
 import heikinAshi from 'highcharts/modules/heikinashi';
 import { selectPriceStocksData } from '@/src/redux/PriceStock';
 import { useAppSelector } from '@/src/redux/hooks/useAppStore';
+import { selectSelectedLayout } from '@/src/redux/LayoutTechChart';
 
 // Kích hoạt các module
 indicatorsAll(Highcharts);
@@ -52,6 +54,7 @@ const TechnicalChartComponent = ({symbol} : {symbol: string}) => {
   const selectPriceStocks = useAppSelector(selectPriceStocksData);
   const [seriesData, setSeriesData] = useState<number[][]>([]);
   const [volumeData, setVolumeData] = useState<{ x: number; y: number; color: string }[]>([]);  
+  const selectedLayout = useAppSelector(selectSelectedLayout);
 
   useEffect(()=> {
     const x = selectPriceStocks.map((point) => [
@@ -75,8 +78,8 @@ const TechnicalChartComponent = ({symbol} : {symbol: string}) => {
 
   // TẠO CHART===========================================
   useEffect(() => {
-    // console.log('seriesData', seriesData)
     if (chartContainerRef.current) {
+      // console.log('xe', layoutData)
       const chartOptions: Highcharts.Options = {
         stockTools: {
           gui: {
@@ -102,15 +105,7 @@ const TechnicalChartComponent = ({symbol} : {symbol: string}) => {
             ],
           },
         },
-        annotations: [ {
-          labels: [],
-          shapes: [],
-          draggable: 'xy',
-          shapeOptions: {
-            stroke: 'orange',
-            strokeWidth: 2,
-          },
-        }],
+        annotations: selectedLayout?.layout || [],
         chart: {
           backgroundColor: 'rgb(24 26 32)',
           renderTo: chartContainerRef.current
@@ -337,9 +332,23 @@ const TechnicalChartComponent = ({symbol} : {symbol: string}) => {
           }]
         }
       };
-      chartRef.current = Highcharts.stockChart(chartOptions);
+
+      // Tạo bản sao của `chartOptions` trước khi truyền
+      const clonedOptions = cloneDeep(chartOptions);
+      if (clonedOptions.chart) {
+        delete clonedOptions.chart.renderTo; // Loại bỏ tham chiếu đến DOM
+      }
+
+      chartRef.current = Highcharts.stockChart({
+        ...clonedOptions,
+        chart: {
+          ...(clonedOptions.chart || {}),
+          renderTo: chartContainerRef.current, // Thêm lại tham chiếu DOM sau khi sao chép
+        },
+      });
+
     }
-  }, [seriesData, volumeData]);
+  }, [seriesData, volumeData, selectedLayout]);
 
   // Lưu annotations vào sessionStorage
   const saveAnnotationsToSession = () => {
