@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Highcharts from 'highcharts/highstock';
+import dynamic from 'next/dynamic';
 
 // Import các module cần thiết
 import indicatorsAll from "highcharts/indicators/indicators-all";
@@ -39,7 +40,13 @@ Highcharts.setOptions({
   }
 });
 
-const CandlestickChart = ({symbol} : {symbol: string}) => {
+const TechnicalChart = dynamic(() => {
+  return import('./TechnicalChartComponent').then(mod => mod.default);
+}, {
+  ssr: false, // Tắt SSR cho component này
+});
+
+const TechnicalChartComponent = ({symbol} : {symbol: string}) => {
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<Highcharts.Chart | null>(null);
   const selectPriceStocks = useAppSelector(selectPriceStocksData);
@@ -68,7 +75,7 @@ const CandlestickChart = ({symbol} : {symbol: string}) => {
 
   // TẠO CHART===========================================
   useEffect(() => {
-    console.log('seriesData', seriesData)
+    // console.log('seriesData', seriesData)
     if (chartContainerRef.current) {
       const chartOptions: Highcharts.Options = {
         stockTools: {
@@ -113,7 +120,7 @@ const CandlestickChart = ({symbol} : {symbol: string}) => {
           backgroundColor: 'none', 
           formatter: function () {
             const point = this as any;
-            console.log("Tooltip context", point.point.options);
+            // console.log("Tooltip context", point.point.options);
         
             const open = point.point.options.open !== undefined ? point.point.options.open : 'N/A';
             const high = point.point.options.high !== undefined ? point.point.options.high : 'N/A';
@@ -334,7 +341,27 @@ const CandlestickChart = ({symbol} : {symbol: string}) => {
     }
   }, [seriesData, volumeData]);
 
+  // Lưu annotations vào sessionStorage
+  const saveAnnotationsToSession = () => {
+    const annotations = chartRef.current?.options.annotations || [];
+    sessionStorage.setItem('chartAnnotations', JSON.stringify(annotations));
+    // console.log('Annotations saved:', annotations);
+  };
+
+  // Lưu tự động sau 500ms không hoạt động
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      saveAnnotationsToSession();
+      // console.log('Annotations auto-saved to sessionStorage.');
+    }, 500); // Lặp lại mỗi 500ms
+  
+    // Dọn dẹp khi component bị unmount
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+
   return <div id='container-technical-chart-azz' ref={chartContainerRef} style={{ height: '600px', width: '100%' }} />;
 };
 
-export default CandlestickChart;
+export default TechnicalChartComponent;
