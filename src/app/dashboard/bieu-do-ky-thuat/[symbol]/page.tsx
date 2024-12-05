@@ -72,7 +72,6 @@ export default function BieuDoKyThuatPage({ params }: { params: { symbol: string
     useColorPickerForOuterBackgroundStroke();
     useColorPickerForOuterBackgroundFill();
 
-
     // Handle layout selection
     const resetLayout = () => {
         const layout = { name: '', layout: [], createdAt: '' }
@@ -127,7 +126,7 @@ export default function BieuDoKyThuatPage({ params }: { params: { symbol: string
 
                             <div className='flex items-center w-full'>
                                 <div className='flex items-center ml-auto pr-[24px]'>
-                                    <i className='bx bx-camera text-fintown-txt-2 text-[22px] mr-[20px] cursor-pointer hover:text-fintown-pr9' ></i>
+                                    {/* <i className='bx bx-camera text-fintown-txt-2 text-[22px] mr-[20px] cursor-pointer hover:text-fintown-pr9' ></i> */}
 
                                     <i
                                         id='in-full-sreen'
