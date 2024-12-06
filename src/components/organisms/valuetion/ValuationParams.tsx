@@ -163,10 +163,12 @@ export function DCFParamsComponent({sYear, sQuarter} : {sYear:number; sQuarter:n
     const [nowData, setNowData] = useState<ValuationParams | null>(null);
     const [showChart, setShowChart] = useState(false);
 
+
     const valuationParamsLoading = useAppSelector(selectValuationParamsLoading);
     const valuationParamsData = useAppSelector(selectValuationParamsData);
 
     useEffect(() => {
+        console.log('xx', valuationParamsData)
         if (valuationParamsData !== null) {
             setNowData(valuationParamsData);
         }

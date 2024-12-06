@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
     PeParamsComponent, 
     PbParamsComponent, 
@@ -15,21 +15,34 @@ import SliderWithValue from './SliderWithValue';
 import { fetchValuationResult } from '@/src/redux/ValuationResult';
 import { selectToken } from "@/src/redux/auth";
 import QuarterYearSelector from './QuarterYearSelector';
+import { selectValuationParamsData } from '@/src/redux/ValuationParams/valuationParamsSlice';
+import { setQuarterSlice, setYearSlice } from '@/src/redux/ValuetionPage/valuetionSelectTimeSlice';
 
 export default function FairValueCalculator({symbol} : {symbol: string}){
     const dispatch = useAppDispatch();
+    const valuationParamsData = useAppSelector(selectValuationParamsData);
 
     const selectButton = useAppSelector(selectSelectedButton);
     const [sliderValueDDM, setSliderValueDDM] = useState(30);
     const [sliderValueCAPM, setSliderValueCAPM] = useState(15);
 
-    const currentDate = new Date();
-    const currentYear = currentDate.getFullYear();
-    const currentQuarter = Math.ceil((currentDate.getMonth() + 1) / 3);
-
     const [selectFCFt, setSelectFCFt] = useState(1);
-    const [sQuarter, setQuarter] = useState(currentQuarter);
-    const [sYear, setYear] = useState(currentYear);
+    const [sQuarter, setQuarter] = useState(0);
+    const [sYear, setYear] = useState(0);
+
+    // CẬP NHẬT QUÝ VÀ NĂM LẦN ĐẦU TIÊN
+    useEffect(()=> {
+        if (valuationParamsData && valuationParamsData !== null) {
+            setQuarter(valuationParamsData?.quarter);
+            setYear(valuationParamsData?.year);
+        }
+    }, [valuationParamsData]);
+
+    // CẬP NHẬT MỐC THỜI GIAN ĐỊNH GIÁ
+    useEffect(()=>{
+        dispatch(setQuarterSlice({ quarter: sQuarter })); 
+        dispatch(setYearSlice({ year: sYear })); 
+    }, [sQuarter, sYear]);
 
     // Hàm callback để nhận giá trị từ SliderWithValue
     const handleSliderChange = (value: number) => {
@@ -73,8 +86,10 @@ export default function FairValueCalculator({symbol} : {symbol: string}){
         setSliderValueDDM(30);
         setSliderValueCAPM(15);
         setSelectFCFt(1);
-        setQuarter(currentQuarter);
-        setYear(currentYear);
+        if (valuationParamsData && valuationParamsData !== null) {
+            setQuarter(valuationParamsData?.quarter);
+            setYear(valuationParamsData?.year);
+        }
     }
 
     return (

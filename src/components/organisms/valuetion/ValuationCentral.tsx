@@ -11,6 +11,7 @@ import { selectSelectedButton } from '@/src/redux/ValuetionPage/valuetionPageSli
 import { selectToken } from "@/src/redux/auth";
 import { getModelNameValuation } from '@/src/utils/getModelNameValuation';
 import { selectHistorySelectedButton } from '@/src/redux/ValuetionPage/valuationHistorySlice';
+import { selectYear, selectQuarter } from '@/src/redux/ValuetionPage/valuetionSelectTimeSlice';
 
 interface Tab {
     id: number;
@@ -24,6 +25,9 @@ export default function ValuationCentralComponent({ symbol, name, formular }: { 
     const selectButton = useAppSelector(selectSelectedButton);
     const token = useAppSelector(selectToken);
     const selectedTabScenarios = useAppSelector(selectHistorySelectedButton);
+
+    const selectYearTime = useAppSelector(selectYear);
+    const selectQuarterTime = useAppSelector(selectQuarter);
 
     const result = valuationResultData
     ? upsideCalculator(selectButton, valuationResultData, selectPrice)
@@ -117,13 +121,20 @@ export default function ValuationCentralComponent({ symbol, name, formular }: { 
                 valuated =  valuationResultData?.valuationResult;
             }
 
+            let expectedDate;
+            if (selectButton === 0) {
+                expectedDate = `Q${selectQuarterTime} Năm ${selectYearTime}`;
+            } else {
+                expectedDate = `Kết quả định giá`;
+            }
+
             const data = { 
                 title: scenarioName,
                 potential: upside,
                 valuated: valuated,
                 note: notes,
                 actual: selectPrice,
-                // expectedDate: 'Q3 2024'
+                expectedDate: expectedDate
             };
 
             // console.log('Saving...', data);
