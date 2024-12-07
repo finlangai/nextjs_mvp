@@ -38,21 +38,21 @@ const StockProfileSummary = () => {
         <>
         <div className="w-full">
             <div className='flex items-center mb-[5px]'>
-                <div className='w-[40px] h-[40px] overflow-hidden rounded-full bg-white mr-[14px]'>
+                <div className='w-[40px] h-[40px] overflow-hidden rounded-full bg-white mr-[14px] border border-fintown-br dark:border border-fintown-br-light'>
                     <img className='w-full h-full object-contain' src={NowData?.logo} alt="vcb" />
                 </div>
 
-                <h2 className='text-[40px] font-bold text-fintown-txt-1 mr-[14px]'>{NowData?.symbol}</h2>
-                <p className='text-[24px] text-fintown-txt-1'>({NowData?.exchange})</p>
+                <h2 className='text-[40px] font-bold text-fintown-txt-1 dark:text-fintown-txt-1-light mr-[14px]'>{NowData?.symbol}</h2>
+                <p className='text-[24px] text-fintown-txt-1 dark:text-fintown-txt-1-light'>({NowData?.exchange})</p>
             </div>
 
-            <h1 className='text-fintown-txt-1 text-[20px] mb-[20px]'>{NowData?.companyName}</h1>
+            <h1 className='text-fintown-txt-1 dark:text-fintown-txt-1-light text-[20px] mb-[20px]'>{NowData?.companyName}</h1>
 
-            <button className='text-sm text-fintown-txt-1 rounded-[6px] py-[6px] px-[9px] bg-fintown-btn-2 mb-[20px]'>{NowData?.industry}</button>
+            <button className='text-sm text-fintown-txt-1 dark:text-fintown-txt-1-light rounded-[6px] py-[6px] px-[9px] bg-fintown-btn-2 dark:bg-fintown-btn-2-light mb-[20px]'>{NowData?.industry}</button>
 
             <div
                 ref={overviewRef}
-                className="text-sm text-fintown-txt-1 mb-[30px] text-justify overflow-hidden"
+                className="text-sm text-fintown-txt-1 dark:text-fintown-txt-1-light mb-[30px] text-justify overflow-hidden"
                 style={{
                     display: '-webkit-box',
                     WebkitBoxOrient: 'vertical',
@@ -71,17 +71,18 @@ const StockProfileSummary = () => {
 
             <div className='flex items-center gap-x-[10px]'>
                 <a href={`https://${NowData?.website}`} target="_blank" rel="noopener noreferrer">
-                    <button className='text-sm text-fintown-txt-1 rounded-[6px] py-[6px] px-[9px] bg-fintown-btn-2 flex items-center'>
+                    <button className='text-sm text-fintown-txt-1 dark:text-fintown-txt-1-light rounded-[6px] py-[6px] px-[9px] bg-fintown-btn-2 dark:bg-fintown-btn-2-light flex items-center'>
                         <i className='bx bx-link-alt mr-[7px]'></i> 
                         <span>Website công ty</span>
                     </button>
                 </a>
-
-
-                <button className='text-sm text-fintown-txt-1 rounded-[6px] py-[6px] px-[9px] bg-fintown-btn-2 flex items-center'>
-                    <i className='bx bx-tv mr-[7px]'></i>
-                    <span>Biểu đồ kỹ thuật</span>
-                </button>
+                
+                < Link href={`/dashboard/bieu-do-ky-thuat/${NowData?.symbol}`}>
+                    <button className='text-sm text-fintown-txt-1 dark:text-fintown-txt-1-light rounded-[6px] py-[6px] px-[9px] bg-fintown-btn-2 dark:bg-fintown-btn-2-light flex items-center'>
+                        <i className='bx bx-equalizer mr-[7px]'></i>
+                        <span>Biểu đồ kỹ thuật</span>
+                    </button>
+                </Link>
             </div>
         </div>
         </>

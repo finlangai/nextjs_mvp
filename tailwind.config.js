@@ -36,7 +36,7 @@ module.exports = {
             tit9: {
               1: {
                 DEFAULT: '#D9D9D9', 
-                light: '#EAECEF',
+                light: '#101010',
               },
               2: {
                 DEFAULT: '#D9D9D9', 
@@ -45,12 +45,9 @@ module.exports = {
             },
             1: {
               DEFAULT: '#EAECEF', 
-              light: '#848E9C',
+              light: '#101010',
             },
-            2: {
-              DEFAULT: '#848E9C', 
-              light: '#5A979E',
-            },
+            2: '#848E9C',
             3: {
               DEFAULT: '#5A979E', 
               light: '#202630',
@@ -68,7 +65,7 @@ module.exports = {
             },
             2: {
               DEFAULT: '#2B3139', 
-              light: '#2B3139',
+              light: '#EAECEF',
             },
             3: {
               DEFAULT: '#23252A', 
@@ -85,7 +82,7 @@ module.exports = {
               },
               2: {
                 DEFAULT: '#EAECEF', 
-                light: '#25B770',
+                light: '#EAECEF',
               },
               3: {
                 DEFAULT: '#1B2323', 
@@ -95,11 +92,11 @@ module.exports = {
 
           bg: {
             DEFAULT: '#181A20',
-            light: '#E0E3E8', 
+            light: '#FFFFFF', 
 
             stn: {
               DEFAULT: '#1E2329', 
-              light: '#2B3139',
+              light: '#FFFFFF',
             },
 
             card: {
@@ -114,7 +111,7 @@ module.exports = {
 
           br: {
             DEFAULT: '#2B3139',
-            light: '#848E9C',
+            light: '#D9D9D9',
 
             btn: {
               DEFAULT: '#2B3139', 
@@ -153,11 +150,11 @@ module.exports = {
             btn: {
               1: {
                 DEFAULT: '#1E2026', 
-                light: '#2B3139',
+                light: '#F3F3F3',
               },
               2: {
                 DEFAULT: '#2B3139', 
-                light: '#333545',
+                light: '#F3F3F3',
               },
               3: {
                 DEFAULT: '#4F5660', 

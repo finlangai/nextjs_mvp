@@ -15,7 +15,7 @@ export default function Dashboard() {
 
     <div id="dashboard-page" className="pt-[50px]">
 
-      <h1 className="font-bold text-[50px] text-fintown-txt-tit9-1 px-[40px] mb-[43px]">Dashboard</h1>
+      <h1 className="font-bold text-[50px] text-fintown-txt-tit9-1 dark:text-fintown-txt-tit9-1-light px-[40px] mb-[43px]">Dashboard</h1>
 
       <section className="px-[40px] mb-[106px]">
         < BannerDashboard />
@@ -29,7 +29,7 @@ export default function Dashboard() {
 
       <section className="px-[40px] mb-[106px]">
         <div className="flex justify-between items-center mb-[24px]">
-          <h2 className="font-bold text-fintown-txt-1 text-[40px]">Top cổ phiếu</h2>
+          <h2 className="font-bold text-fintown-txt-1 dark:text-fintown-txt-1-light text-[40px]">Top cổ phiếu</h2>
           <Link href={'/dashboard/co-phieu'}>
             <button className="text-fintown-txt-1 text-sm bg-fintown-btn-2 rounded px-[18px] py-[6px] max-h-[32px]">
               Xem thêm
@@ -43,7 +43,7 @@ export default function Dashboard() {
 
       <section className="px-[40px] mb-[106px]">
         <div className="mb-[24px]">
-          <h2 className="font-bold text-fintown-txt-1 text-[40px]">Chỉ số thị trường</h2>
+          <h2 className="font-bold text-[40px] text-fintown-txt-1 dark:text-fintown-txt-1-light">Chỉ số thị trường</h2>
         </div>
 
         < SectionMarketOverview />

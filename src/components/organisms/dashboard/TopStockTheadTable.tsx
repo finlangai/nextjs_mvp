@@ -70,7 +70,7 @@ export default function TopStockTheadTable() {
                 <tr>
                     <th className="bg-fintown-bg-stn rounded-l-[10px] p-[12px]">
                         <div className="text-left">
-                            <span className="text-sm font-normal text-fintown-txt-1">Mã cổ phiếu</span>
+                            <span className="text-sm font-normal text-fintown-txt-1 ">Mã cổ phiếu</span>
                         </div>
                     </th>
 

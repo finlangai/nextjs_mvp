@@ -73,12 +73,12 @@ const StockTable = () => {
                     nowData?.map((val) => (
                         <tbody>
                             <tr
-                                className="border-b border-fintown-lnr-1 hover:bg-fintown-hvr-btn-1"
+                                className="border-b border-b-fintown-br dark:border-b-fintown-br-light hover:bg-fintown-hvr-btn-1 hover:bg-fintown-hvr-btn-1 hover:dark:bg-fintown-hvr-btn-1-light"
                                 key={val.symbol}
                             >
                                 <td className="py-[21px] px-[12px]">
                                     <div className="flex">
-                                        <div className="overflow-hidden min-w-[40px] max-w-[40px] min-h-[40px] max-h-[40px] rounded-[50%] bg-white mr-[10px]">
+                                        <div className="border border-fintown-br dark:border-fintown-br-light overflow-hidden min-w-[40px] max-w-[40px] min-h-[40px] max-h-[40px] rounded-[50%] bg-white mr-[10px]">
                                             <img
                                                 className="w-full h-full object-contain"
                                                 src={val.logo}
@@ -87,20 +87,20 @@ const StockTable = () => {
                                         </div>
                                         <div className="w-full">
                                             <Link href={`/dashboard/co-phieu/${val.symbol}`}>
-                                                <p className="text-fintown-txt-1 text-sm hover:text-fintown-pr9 font-bold">
+                                                <p className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-sm hover:text-fintown-pr9 font-bold">
                                                     {val.symbol}
                                                 </p>
                                             </Link>
-                                            <div className="text-fintown-txt-1 text-xs overflow-hidden whitespace-nowrap text-ellipsis mr-[20px]">
+                                            <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-xs overflow-hidden whitespace-nowrap text-ellipsis mr-[20px]">
                                                 {val.companyName}
                                             </div>
                                         </div>
                                     </div>
                                 </td>
-                                <td className="py-[21px] px-[12px] text-fintown-txt-1 text-right text-sm">
+                                <td className="py-[21px] px-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-right text-sm">
                                     {val.marketCap.toLocaleString('en-US')}T
                                 </td>
-                                <td className="py-[21px] px-[12px] text-fintown-txt-1 text-right text-sm">
+                                <td className="py-[21px] px-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-right text-sm">
                                     {val.price.toLocaleString('en-US')}
                                 </td>
                                 <td
@@ -108,7 +108,7 @@ const StockTable = () => {
                                             ? 'text-fintown-stt-buy'
                                             : val.dailyDelta < 0
                                                 ? 'text-fintown-stt-sell'
-                                                : 'text-fintown-txt-1'
+                                                : 'text-fintown-txt-1 dark:text-fintown-txt-1-light'
                                         }`}
                                 >
                                     {val.dailyDelta}%
@@ -118,7 +118,7 @@ const StockTable = () => {
                                             ? 'text-fintown-stt-buy'
                                             : val.weeklyDelta < 0
                                                 ? 'text-fintown-stt-sell'
-                                                : 'text-fintown-txt-1'
+                                                : 'text-fintown-txt-1 dark:text-fintown-txt-1-light'
                                         }`}
                                 >
                                     {val.weeklyDelta}%
@@ -128,24 +128,24 @@ const StockTable = () => {
                                             ? 'text-fintown-stt-buy'
                                             : val.yearlyDelta < 0
                                                 ? 'text-fintown-stt-sell'
-                                                : 'text-fintown-txt-1'
+                                                : 'text-fintown-txt-1 dark:text-fintown-txt-1-light'
                                         }`}
                                 >
                                     {val.yearlyDelta}%
                                 </td>
-                                <td className="py-[21px] px-[12px] text-fintown-txt-1 text-right text-sm">
+                                <td className="py-[21px] px-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-right text-sm">
                                     {val.pe}
                                 </td>
-                                <td className="py-[21px] px-[12px] text-fintown-txt-1 text-right text-sm">
+                                <td className="py-[21px] px-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-right text-sm">
                                     {val.pb}
                                 </td>
-                                <td className="py-[21px] px-[12px] text-fintown-txt-1 text-right text-sm">
+                                <td className="py-[21px] px-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-right text-sm">
                                     {val.roe}
                                 </td>
-                                <td className="py-[21px] px-[12px] text-fintown-txt-1 text-right text-sm">
+                                <td className="py-[21px] px-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-right text-sm">
                                     {val.exchange}
                                 </td>
-                                <td className="py-[21px] px-[12px] text-fintown-txt-1 text-right text-sm">
+                                <td className="py-[21px] px-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-right text-sm">
                                     {val.industry}
                                 </td>
                             </tr>

@@ -62,11 +62,11 @@ export default function TopStocksTable() {
                         NowData?.map((val) => (
                             <tbody key={val.symbol}>
                                 <tr
-                                    className="border-b border-fintown-lnr-1 hover:bg-fintown-hvr-btn-1"
+                                    className="border-b border-b-fintown-br dark:border-b-fintown-br-light hover:dark:bg-fintown-hvr-btn-1-light"
                                 >
                                     <td className="py-[21px] px-[12px]">
                                         <div className="flex">
-                                            <div className="overflow-hidden min-w-[40px] max-w-[40px] min-h-[40px] max-h-[40px] rounded-[50%] bg-white mr-[10px]">
+                                            <div className="overflow-hidden min-w-[40px] max-w-[40px] min-h-[40px] max-h-[40px] rounded-[50%] bg-white mr-[10px] border border-fintown-br dark:border-fintown-br-light">
                                                 <img
                                                     className="w-full h-full object-contain"
                                                     src={val.logo}
@@ -75,20 +75,20 @@ export default function TopStocksTable() {
                                             </div>
                                             <div className="w-full">
                                                 <Link href={`/dashboard/co-phieu/${val.symbol}`}>
-                                                    <p className="text-fintown-txt-1 text-sm hover:text-fintown-pr9 font-bold">
+                                                    <p className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-sm hover:text-fintown-pr9 font-bold">
                                                         {val.symbol}
                                                     </p>
                                                 </Link>
-                                                <div className="text-fintown-txt-1 text-xs overflow-hidden whitespace-nowrap text-ellipsis mr-[20px]">
+                                                <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-xs overflow-hidden whitespace-nowrap text-ellipsis mr-[20px]">
                                                     {val.companyName}
                                                 </div>
                                             </div>
                                         </div>
                                     </td>
-                                    <td className="py-[21px] px-[12px] text-fintown-txt-1 text-right text-sm">
+                                    <td className="py-[21px] px-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-right text-sm">
                                         {val.marketCap.toLocaleString('en-US')}T
                                     </td>
-                                    <td className="py-[21px] px-[12px] text-fintown-txt-1 text-right text-sm">
+                                    <td className="py-[21px] px-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-right text-sm">
                                         {val.price.toLocaleString('en-US')}
                                     </td>
                                     <td
@@ -121,19 +121,19 @@ export default function TopStocksTable() {
                                     >
                                         {val.yearlyDelta}%
                                     </td>
-                                    <td className="py-[21px] px-[12px] text-fintown-txt-1 text-right text-sm">
+                                    <td className="py-[21px] px-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-right text-sm">
                                         {val.pe}
                                     </td>
-                                    <td className="py-[21px] px-[12px] text-fintown-txt-1 text-right text-sm">
+                                    <td className="py-[21px] px-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-right text-sm">
                                         {val.pb}
                                     </td>
-                                    <td className="py-[21px] px-[12px] text-fintown-txt-1 text-right text-sm">
+                                    <td className="py-[21px] px-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-right text-sm">
                                         {val.roe}
                                     </td>
-                                    <td className="py-[21px] px-[12px] text-fintown-txt-1 text-right text-sm">
+                                    <td className="py-[21px] px-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-right text-sm">
                                         {val.exchange}
                                     </td>
-                                    <td className="py-[21px] px-[12px] text-fintown-txt-1 text-right text-sm">
+                                    <td className="py-[21px] px-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-right text-sm">
                                         {val.industry}
                                     </td>
                                 </tr>

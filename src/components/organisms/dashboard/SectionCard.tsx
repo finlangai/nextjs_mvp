@@ -130,7 +130,7 @@ export default function SectionCard({ endpoint, nameSection, dashboard }: { endp
 
     return (
         <>
-            <div className="text-[24px] font-bold text-fintown-txt-1 px-[40px] mb-[35px]">
+            <div className="text-[24px] font-bold text-fintown-txt-1 dark:text-fintown-txt-1-light px-[40px] mb-[35px]">
                 {nameSection}
             </div>
 
@@ -142,10 +142,10 @@ export default function SectionCard({ endpoint, nameSection, dashboard }: { endp
                             disabled={!canSlideMore}
                             className={`flex items-center justify-center w-[40px] h-[40px] absolute rounded-[50%] ml-[-18px] top-[40%] z-30 transition-all duration-300
                         ${canSlideMore
-                                    ? 'bg-fintown-btn-2 cursor-pointer hover:opacity-80'
+                                    ? 'bg-fintown-btn-2 dark:bg-fintown-btn-2-light cursor-pointer hover:opacity-80'
                                     : 'hidden'}`}
                         >
-                            <i className={`bx bx-chevron-left text-[24px] ${canSlideMore ? 'text-white' : 'text-gray-500'}`}></i>
+                            <i className={`bx bx-chevron-left text-[24px] ${canSlideMore ? 'text-fintown-txt-1 dark:text-fintown-txt-1-light' : 'text-gray-500'}`}></i>
                         </button>
                     )
                 }
@@ -156,16 +156,16 @@ export default function SectionCard({ endpoint, nameSection, dashboard }: { endp
                         disabled={!canSlideBack}
                         className={`flex items-center justify-center w-[40px] h-[40px] absolute rounded-[50%] right-[18px] top-[40%] z-30 transition-all duration-300
                         ${canSlideBack
-                                ? 'bg-fintown-btn-2 cursor-pointer hover:opacity-80'
+                                ? 'bg-fintown-btn-2 dark:bg-fintown-btn-2-light cursor-pointer hover:opacity-80'
                                 : 'bg-gray-300 cursor-not-allowed'}`}
                     >
-                        <i className={`bx bx-chevron-right text-[24px] ${canSlideBack ? 'text-white' : 'text-gray-500'}`}></i>
+                        <i className={`bx bx-chevron-right text-[24px] ${canSlideBack ? 'text-fintown-txt-1 dark:text-fintown-txt-1-light' : 'text-gray-500'}`}></i>
                     </button>
                 )}
 
                 <div
                     ref={sliderRef}
-                    className="flex items-center gap-[20px] cursor-grab active:cursor-grabbing"
+                    className="flex items-center gap-[20px]"
                     style={{
                         marginLeft: `-${slidePosition}px`,
                         transition: isDragging ? 'none' : 'margin-left 0.2s ease-in-out',
@@ -174,21 +174,21 @@ export default function SectionCard({ endpoint, nameSection, dashboard }: { endp
                 >
                     {
                         stockData.map((x) => (
-                            <div key={x.symbol} className="rounded-xl border border-fintown-br max-w-[380px] max-h-[240px] min-w-[380px] ">
+                            <div key={x.symbol} className="rounded-xl border border-fintown-br dark:border-fintown-br-light max-w-[380px] max-h-[240px] min-w-[380px] ">
                                 <div className="flex px-6 pt-[24px]">
-                                    <div className="overflow-hidden min-w-[40px] max-w-[40px] h-[40px] rounded-full bg-white mr-[10px]">
+                                    <div className="overflow-hidden min-w-[40px] max-w-[40px] h-[40px] rounded-full bg-white mr-[10px] border border-fintown-br dark:border-fintown-br-light">
                                         <img className="w-full h-full object-contain" src={x.logo} alt={x.symbol} />
                                     </div>
                                     <div className='w-full min-w-0'>
                                         <div className="flex">
-                                            <Link href={`/dashboard/co-phieu/${x.symbol}/`}><p className="text-fintown-txt-1 font-bold mr-[5px] hover:text-fintown-pr9">{x.symbol}</p></Link>
-                                            <Link href={`/dashboard/co-phieu/${x.symbol}/`}><p className="text-fintown-txt-1">({x.exchange})</p></Link>
+                                            <Link href={`/dashboard/co-phieu/${x.symbol}/`}><p className="text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold mr-[5px] hover:text-fintown-pr9">{x.symbol}</p></Link>
+                                            <Link href={`/dashboard/co-phieu/${x.symbol}/`}><p className="text-fintown-txt-1 dark:text-fintown-txt-1-light">({x.exchange})</p></Link>
                                         </div>
-                                        <div className="text-fintown-txt-1 text-sm overflow-hidden whitespace-nowrap text-ellipsis">{x.companyName}</div>
+                                        <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-sm overflow-hidden whitespace-nowrap text-ellipsis">{x.companyName}</div>
                                     </div>
                                 </div>
                                 <div className="flex items-center mt-[16px]">
-                                    <p className="text-fintown-txt-1 font-bold text-xl ml-[69px] mr-[10px]">{x.price.toLocaleString('en-US')}</p>
+                                    <p className="text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold text-xl ml-[69px] mr-[10px]">{x.price.toLocaleString('en-US')}</p>
                                     <div
                                         className={`flex items-center py-[5px] px-[5px] rounded-[8px] w-max text-white ${x?.delta === undefined
                                             ? 'bg-fintown-stt-hold'   // Nếu delta là undefined, mặc định là hold

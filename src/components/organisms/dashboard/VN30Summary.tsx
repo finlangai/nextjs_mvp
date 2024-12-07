@@ -38,12 +38,12 @@ export default function VN30Summary() {
 
     return (
         <>
-            <div className="w-full pb-[27px] border-b border-b-fintown-br" >
+            <div className="w-full pb-[27px] border-b border-b-fintown-br dark:border-b-fintown-br-light" >
                 <div className="flex justify-between w-full">
                     <div>
                         <div className="text-[14px] text-fintown-txt-2 mb-[10px]">Vốn hóa</div>
                         <div className="flex items-end">
-                            <div className="text-[20px] font-bold text-fintown-txt-1 mr-[10px]">
+                            <div className="text-[20px] font-bold text-fintown-txt-1 dark:text-fintown-txt-1-light mr-[10px]">
                                 {NowData?.marketcap.toLocaleString('en-US')}
                             </div>
                             <div className="text-[12px] font-bold text-fintown-txt-2 pb-[4px]">
@@ -55,7 +55,7 @@ export default function VN30Summary() {
                     <div>
                         <div className="text-[14px] text-fintown-txt-2 mb-[10px]">Doanh thu</div>
                         <div className="flex items-end">
-                            <div className="text-[20px] font-bold text-fintown-txt-1 mr-[10px]">
+                            <div className="text-[20px] font-bold text-fintown-txt-1 dark:text-fintown-txt-1-light mr-[10px]">
                                 {NowData?.revenue.toLocaleString('en-US')}
                             </div>
                             <div className="text-[12px] font-bold text-fintown-txt-2 pb-[4px]">
@@ -67,7 +67,7 @@ export default function VN30Summary() {
                     <div>
                         <div className="text-[14px] text-fintown-txt-2 mb-[10px]">Lợi nhuận</div>
                         <div className="flex items-end">
-                            <div className="text-[20px] font-bold text-fintown-txt-1 mr-[10px]">
+                            <div className="text-[20px] font-bold text-fintown-txt-1 dark:text-fintown-txt-1-light mr-[10px]">
                                 {NowData?.earnings.toLocaleString('en-US')}
                             </div>
                             <div className="text-[12px] font-bold text-fintown-txt-2 pb-[4px]">
@@ -79,7 +79,7 @@ export default function VN30Summary() {
                     <div>
                         <div className="text-[14px] text-fintown-txt-2 mb-[10px]">Chỉ số P/E</div>
                         <div className="flex items-end">
-                            <div className="text-[20px] font-bold text-fintown-txt-1 mr-[10px]">
+                            <div className="text-[20px] font-bold text-fintown-txt-1 dark:text-fintown-txt-1-light mr-[10px]">
                                 {NowData?.pe}
                             </div>
                         </div>
@@ -88,7 +88,7 @@ export default function VN30Summary() {
                     <div>
                         <div className="text-[14px] text-fintown-txt-2 mb-[10px]">Chỉ số P/B</div>
                         <div className="flex items-end">
-                            <div className="text-[20px] font-bold text-fintown-txt-1 mr-[10px]">
+                            <div className="text-[20px] font-bold text-fintown-txt-1 dark:text-fintown-txt-1-light mr-[10px]">
                                 {NowData?.pb}
                             </div>
                         </div>
@@ -97,7 +97,7 @@ export default function VN30Summary() {
                     <div>
                         <div className="text-[14px] text-fintown-txt-2 mb-[10px]">TBĐ 52 tuần</div>
                         <div className="flex items-end">
-                            <div className="text-[20px] font-bold text-fintown-txt-1 mr-[10px]">
+                            <div className="text-[20px] font-bold text-fintown-txt-1 dark:text-fintown-txt-1-light mr-[10px]">
                                 {NowData?.avg52w}
                             </div>
                         </div>

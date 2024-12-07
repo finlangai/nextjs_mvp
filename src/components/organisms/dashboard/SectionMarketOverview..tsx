@@ -44,13 +44,13 @@ export default function SectionMarketOverview() {
   return (
     <>
       <div>
-        <div className='flex items-center pb-[20px] border-b border-b-fintown-br mb-[42px]'>
-          <div className='flex items-center mr-[24px] border-r border-r-fintown-br pr-[20px]'>
+        <div className='flex items-center pb-[20px] border-b border-b-fintown-br dark:border-b-fintown-br-light mb-[42px]'>
+          <div className='flex items-center mr-[24px] border-r border-r-fintown-br dark:border-r-fintown-br-light pr-[20px]'>
             <div className='border border-fintown-br rounded-[50%] w-[30px] h-[30px] flex items-center justify-center mr-[10px] bg-fintown-txt-1'>
               <i className='bx bxs-star text-fintown-txt-2 text-[20px]' ></i>
             </div>
 
-            <div className='text-fintown-txt-1 text-[16px] font-bold'>
+            <div className='text-fintown-txt-1 dark:text-fintown-txt-1-light text-[16px] font-bold'>
               VN30
             </div>
           </div>
@@ -66,7 +66,7 @@ export default function SectionMarketOverview() {
           {
             !selectOverviewLoading ? (
               <div className="flex items-center ml-auto">
-                <p className="text-fintown-txt-1 font-bold text-[24px] mr-[10px]">
+                <p className="text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold text-[24px] mr-[10px]">
                   {selectDataOverview?.vn30LastClosed}
                 </p>
                 <div
@@ -120,7 +120,7 @@ export default function SectionMarketOverview() {
             )
           }
         </div>
-        <div className='pb-[38px] mb-[24px] border-b border-b-fintown-br'>
+        <div className='pb-[38px] mb-[24px] border-b border-b-fintown-br dark:border-b-fintown-br-light'>
           <MarketIndicatorChart data={data} />
         </div>
         < VN30Summary />

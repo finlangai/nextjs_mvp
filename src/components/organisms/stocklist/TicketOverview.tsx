@@ -38,13 +38,13 @@ export default function TicketOverview(){
 
     return(
         <>
-            <div className="flex items-center py-[20px] gap-x-[50px] border-b border-fintown-lnr-1 mb-[80px] px-[40px]">
+            <div className="flex items-center py-[20px] gap-x-[50px] border-b border-b-fintown-br dark:border-b-fintown-br-light mb-[80px] px-[40px]">
 
                 <div className="flex items-center ">
                     <div className="mr-[5px] text-fintown-txt-2 text-[14px]">
                         Vốn hóa:
                     </div>
-                    <div className="text-fintown-txt-1 text-[14px]">
+                    <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px]">
                         {NowData?.marketcap.toLocaleString('en-US')} tỷ
                     </div>
                 </div>
@@ -53,7 +53,7 @@ export default function TicketOverview(){
                     <div className="mr-[5px] text-fintown-txt-2 text-[14px]">
                         Số lượng cổ phiếu:
                     </div>
-                    <div className="text-fintown-txt-1 text-[14px]">
+                    <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px]">
                         {NowData?.total}
                     </div>                   
                 </div>
@@ -62,7 +62,7 @@ export default function TicketOverview(){
                     <div className="mr-[5px] text-fintown-txt-2 text-[14px]">
                         P/E:
                     </div>
-                    <div className="text-fintown-txt-1 text-[14px]">
+                    <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px]">
                         {NowData?.pe}
                     </div>                
                 </div>
@@ -71,12 +71,12 @@ export default function TicketOverview(){
                     <div className="mr-[5px] text-fintown-txt-2 text-[14px]">
                         P/B:
                     </div>
-                    <div className="text-fintown-txt-1 text-[14px]">
+                    <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px]">
                         {NowData?.pb}
                     </div>
                 </div>
 
-                </div>
+            </div>
         
         </>
     )

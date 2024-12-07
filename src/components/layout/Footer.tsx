@@ -11,7 +11,7 @@ export default function Footer({ backgroundColor }: FooterProps) {
                 <div className="logo mr-[60px]">
                     <Link href="/" className="flex h-[51px] items-center">
                         <img className='w-[42px] h-[42px]' src="/imgs/logo.png" alt="logo fintown" />
-                        <p className='font-bold text-2xl text-fintown-txt-1'>fintown</p>
+                        <p className='font-bold text-2xl text-fintown-txt-1 dark:text-fintown-txt-1-light'>fintown</p>
                     </Link>
                 </div>
                 <div className='flex items-center gap-x-[50px]'>
@@ -32,10 +32,10 @@ export default function Footer({ backgroundColor }: FooterProps) {
                     </Link>
                 </div>
             </div>
-            <hr className='border-fintown-lnr-1 mb-[39px]' />
+            <hr className='border-fintown-br dark:border-fintown-br-light mb-[39px]' />
             <div className='flex items-center gap-x-[17px]'>
                 <Link href="/" className='text-base text-fintown-txt-2 hover:text-fintown-pr9'>Tùy chọn cookie</Link>
-                <div className='w-[1px] h-[25px] bg-fintown-lnr-1'></div>
+                <div className='w-[1px] h-[25px] bg-fintown-br dark:bg-fintown-br-light'></div>
                 <Link href="/" className='flex items-center text-base text-fintown-txt-2 hover:text-fintown-pr9'>
                     <p className='m-3'>Quay lại đầu trang</p> <i className='bx bx-caret-up'></i>
                 </Link>
