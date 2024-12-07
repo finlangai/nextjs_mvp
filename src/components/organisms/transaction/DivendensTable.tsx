@@ -34,7 +34,7 @@ export default function DivendensTable({symbol} : {symbol: string}){
         <>
         <div className="flex">
             <div className="w-full">
-                <div className="h-[60px] flex items-center justify-between border-b border-b-fintown-br text-fintown-txt-2 text-[12px] text-fintown-txt-2 text-[12px]">
+                <div className="h-[60px] flex items-center justify-between border-b border-b-fintown-br dark:border-b-fintown-br-light text-fintown-txt-2 text-[12px] text-fintown-txt-2 text-[12px]">
                     <div className="w-full max-w-[100px]">
                         GD KHQ
                     </div>

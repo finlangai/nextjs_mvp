@@ -77,12 +77,12 @@ const StockMetricsSummary = ({ symbol } : {symbol: string;}) => {
                     {/* Thanh tiến trình */}
                     <div className="w-full max-w-[356px] relative">
                         {/* Nền của thanh */}
-                        <div className="h-[6px] w-full bg-fintown-btn-disable dark:bg-fintown-btn-active-2 rounded"></div>
+                        <div className="h-[6px] w-full bg-fintown-btn-4 dark:bg-fintown-btn-active-2 rounded"></div>
 
                         {/* Thanh tiến trình dựa trên giá trị close */}
                         {NowData?.close !== undefined && NowData?.low !== undefined && NowData?.high !== undefined && (
                             <div
-                            className="h-[6px] bg-fintown-btn-active-2 dark:bg-fintown-btn-disable rounded absolute inset-0"
+                            className="h-[6px] bg-fintown-btn-active-2 dark:bg-fintown-btn-4 rounded absolute inset-0"
                             style={{
                                 width: `${((NowData.close - NowData.low) / (NowData.high - NowData.low)) * 100}%`,
                             }}
@@ -92,7 +92,7 @@ const StockMetricsSummary = ({ symbol } : {symbol: string;}) => {
                         {/* Icon chỉ vị trí hiện tại */}
                         {NowData?.close !== undefined && NowData?.low !== undefined && NowData?.high !== undefined && (
                             <i
-                            className="bx bxs-up-arrow text-fintown-btn-active-2 dark:text-fintown-btn-disable absolute top-[1px]"
+                            className="bx bxs-up-arrow text-fintown-btn-active-2 dark:text-fintown-btn-4 absolute top-[1px]"
                             style={{
                                 left: `${((NowData.close - NowData.low) / (NowData.high - NowData.low)) * 100}%`,
                                 transform: 'translateX(-50%)', // Giúp icon căn giữa tại vị trí
@@ -109,10 +109,10 @@ const StockMetricsSummary = ({ symbol } : {symbol: string;}) => {
                         {NowData?.high !== undefined ? NowData.high.toLocaleString('en-US') : 'N/A'}
                         </div>
                     </div>
-                    </div>
+                </div>
 
 
-                <hr className='w-full border-fintown-btn-disable mb-[27px]' />
+                <hr className='w-full border-fintown-br dark:border-fintown-br-light mb-[27px]' />
 
                 <div className='grid grid-cols-3 gap-4 gap-y-[24px] mb-[27px]'>
                     <div>

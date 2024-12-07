@@ -62,7 +62,7 @@ export default function HoSoDoanhNghiepPage({ params }: { params: { symbol: stri
     };
 
     const linkClass = (link: string) => (
-        `cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] text-left ${activeLink === link ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
+        `cursor-pointer text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] text-left ${activeLink === link ? 'bg-fintown-btn-2 dark:bg-fintown-btn-2-light text-fintown-txt-1 dark:text-fintown-txt-1-light' : 'hover:bg-fintown-btn-2 hover:dark:bg-fintown-btn-2-light text-fintown-txt-2'
         }`
     );
 
@@ -127,7 +127,7 @@ export default function HoSoDoanhNghiepPage({ params }: { params: { symbol: stri
                     </div>
                 </div>
 
-                <div className='pl-[40px] mt-[50px] pb-[20px] flex flex-col flex-1 overflow-y-auto custom-scrollbarmini scroll-moot border-l border-fintown-lnr-1'>
+                <div className='pl-[40px] mt-[50px] pb-[20px] flex flex-col flex-1 overflow-y-auto custom-scrollbarmini scroll-moot border-l border-fintown-br dark:border-fintown-br-light'>
 
                     <CompanyDescription symbol={symbol} />
 

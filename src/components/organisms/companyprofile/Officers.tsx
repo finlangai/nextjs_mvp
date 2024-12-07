@@ -38,18 +38,18 @@ export default function OfficersComponent({symbol} : {symbol: string}){
     return (
         <>
             <div id="officers"  className='pr-[20px] anchor-section'>
-                <div className='text-fintown-txt-1 font-bold text-[20px] mb-[12px]'>
+                <div className='text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold text-[20px] mb-[12px]'>
                     Ban lãnh đạo
                 </div>
 
                 <div className="flex flex-wrap gap-[20px]">
                     {companyData?.map((items) => (
-                        <div key={items.name} className="flex flex-grow items-center px-[14px] py-[14px] border border-fintown-lnr-1 rounded-[8px] w-full md:w-[calc(33.333%-20px)]">
+                        <div key={items.name} className="flex flex-grow items-center px-[14px] py-[14px] border border-fintown-br dark:border-fintown-br-light rounded-[8px] w-full md:w-[calc(33.333%-20px)]">
                         <div className="w-[60px] h-[60px] overflow-hidden rounded-[50%] mr-[20px]">
                             <img className="w-full h-full object-contain" src={items.avatar} />
                         </div>
                         <div>
-                            <div className="text-fintown-txt-1 font-bold">{items.name}</div>
+                            <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold">{items.name}</div>
                             <div className="text-fintown-txt-2 text-[14px]">{items.position}</div>
                         </div>
                         </div>

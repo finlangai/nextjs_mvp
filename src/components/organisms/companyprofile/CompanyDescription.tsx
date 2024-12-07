@@ -45,16 +45,16 @@ export default function CompanyDescriptionComponent({symbol} : {symbol: string})
         <>
         <div className='flex flex-col'>
             <div id="overview" className='pr-[20px] pb-[100px] anchor-section ' >
-                <div className='text-fintown-txt-1 font-bold text-[20px] mb-[12px]'>
+                <div className='text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold text-[20px] mb-[12px]'>
                     Tổng quan
                 </div>
-                <div className='text-xm text-fintown-txt-1 text-justify'>
+                <div className='text-xm text-fintown-txt-1 dark:text-fintown-txt-1-light text-justify'>
                     {companyData?.summary?.overview }
                 </div>
             </div>
 
             <div id="history" className='pr-[20px] pb-[100px] anchor-section'>
-                <div className='text-fintown-txt-1 font-bold text-[20px] mb-[12px]'>
+                <div className='text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold text-[20px] mb-[12px]'>
                     Lịch sử phát triển
                 </div>
                 <div className='flex flex-col gap-y-[12px]'>
@@ -62,9 +62,9 @@ export default function CompanyDescriptionComponent({symbol} : {symbol: string})
                         companyData.summary?.historyDev.map((items, index) => (
                             <div className='flex gap-x-[10px] items-start mb-[5px]' key={index}>
                                 {Array.isArray(companyData?.summary?.historyDev) && companyData.summary?.historyDev.length >= 2 && (
-                                    <div className='h-[6px] min-w-[6px] bg-fintown-txt-1 rounded-[50%] mt-[8px]'></div>
+                                    <div className='h-[6px] min-w-[6px] bg-fintown-txt-1 dark:bg-fintown-txt-1-light rounded-[50%] mt-[8px]'></div>
                                 )}
-                                <div className='text-xm text-fintown-txt-1 text-justify'>
+                                <div className='text-xm text-fintown-txt-1 dark:text-fintown-txt-1-light text-justify'>
                                     {items}
                                 </div>
                             </div>
@@ -76,7 +76,7 @@ export default function CompanyDescriptionComponent({symbol} : {symbol: string})
             </div>
             
             <div id="promise" className='pr-[20px] pb-[100px] anchor-section'>
-                <div className='text-fintown-txt-1 font-bold text-[20px] mb-[12px]'>
+                <div className='text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold text-[20px] mb-[12px]'>
                     Lời hứa
                 </div>
                 <div className='flex flex-col gap-y-[12px]'>
@@ -86,7 +86,7 @@ export default function CompanyDescriptionComponent({symbol} : {symbol: string})
                                 {Array.isArray(companyData?.summary?.companyPromise) && companyData.summary?.companyPromise.length >= 2 && (
                                     <div className='h-[6px] min-w-[6px] bg-fintown-txt-1 rounded-[50%] mt-[8px]'></div>
                                 )}
-                                <div className='text-xm text-fintown-txt-1 text-justify'>
+                                <div className='text-xm text-fintown-txt-1 dark:text-fintown-txt-1-light text-justify'>
                                     {items}
                                 </div>
                             </div>
@@ -98,7 +98,7 @@ export default function CompanyDescriptionComponent({symbol} : {symbol: string})
             </div>
 
             <div id="businessrisk" className='pr-[20px] pb-[100px] anchor-section'>
-                <div className='text-fintown-txt-1 font-bold text-[20px] mb-[12px]'>
+                <div className='text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold text-[20px] mb-[12px]'>
                     Thách thức
                 </div>
                 <div className='flex flex-col gap-y-[12px]'>
@@ -106,9 +106,9 @@ export default function CompanyDescriptionComponent({symbol} : {symbol: string})
                         companyData.summary?.businessRisk.map((items, index) => (
                             <div className='flex gap-x-[10px] items-start mb-[5px]' key={index}>
                                 {Array.isArray(companyData.summary?.businessRisk) && companyData.summary?.businessRisk.length >= 2 && (
-                                    <div className='h-[6px] min-w-[6px] bg-fintown-txt-1 rounded-[50%] mt-[8px]'></div>
+                                    <div className='h-[6px] min-w-[6px] bg-fintown-txt-1 dark:bg-fintown-txt-1-light rounded-[50%] mt-[8px]'></div>
                                 )}
-                                <div className='text-xm text-fintown-txt-1 text-justify'>
+                                <div className='text-xm text-fintown-txt-1 dark:text-fintown-txt-1-light text-justify'>
                                     {items}
                                 </div>
                             </div>
@@ -120,7 +120,7 @@ export default function CompanyDescriptionComponent({symbol} : {symbol: string})
             </div>
 
             <div id="keydevelopments" className='pr-[20px] pb-[100px] anchor-section'>
-                <div className='text-fintown-txt-1 font-bold text-[20px] mb-[12px]'>
+                <div className='text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold text-[20px] mb-[12px]'>
                     Chiến lược kinh doanh
                 </div>
                 <div className='flex flex-col gap-y-[12px]'>
@@ -130,7 +130,7 @@ export default function CompanyDescriptionComponent({symbol} : {symbol: string})
                                 {Array.isArray(companyData?.summary?.keyDevelopments) && companyData.summary?.keyDevelopments.length >= 2 && (
                                     <div className='h-[6px] min-w-[6px] bg-fintown-txt-1 rounded-[50%] mt-[8px]'></div>
                                 )}
-                                <div className='text-xm text-fintown-txt-1 text-justify'>
+                                <div className='text-xm text-fintown-txt-1 dark:text-fintown-txt-1-light text-justify'>
                                     {items}
                                 </div>
                             </div>
@@ -142,97 +142,97 @@ export default function CompanyDescriptionComponent({symbol} : {symbol: string})
             </div>
 
             <div id="basic" className='pr-[20px] pb-[100px] anchor-section'>
-                <div className='text-fintown-txt-1 font-bold text-[20px] mb-[12px]'>
+                <div className='text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold text-[20px] mb-[12px]'>
                     Thông tin cơ bản
                 </div>
                 
                 <div className='flex flex-col gap-y-[12px]'>
                     <div className='flex gap-x-[5px] items-start'>
-                        <div className='text-xm text-fintown-txt-1 text-justify font-bold'>
+                        <div className='text-xm text-fintown-txt-1 dark:text-fintown-txt-1-light text-justify font-bold'>
                             Mã SIC:
                         </div>
-                        <div className='text-xm text-fintown-txt-1 text-justify'>
+                        <div className='text-xm text-fintown-txt-1 dark:text-fintown-txt-1-light text-justify'>
                             {companyData?.fundamental.sic}         
                         </div>
                     </div>
 
                     <div className='flex gap-x-[5px] items-start'>
-                        <div className='text-xm text-fintown-txt-1 text-justify font-bold'>
+                        <div className='text-xm text-fintown-txt-1 dark:text-fintown-txt-1-light text-justify font-bold'>
                             Mã ICB:
                         </div>
-                        <div className='text-xm text-fintown-txt-1 text-justify'>
+                        <div className='text-xm text-fintown-txt-1 dark:text-fintown-txt-1-light text-justify'>
                             {companyData?.fundamental.icbCode}         
                         </div>
                     </div>
 
                     <div className='flex gap-x-[5px] items-start'>
-                        <div className='text-xm text-fintown-txt-1 text-justify font-bold'>
+                        <div className='text-xm text-fintown-txt-1 dark:text-fintown-txt-1-light text-justify font-bold'>
                             Tên quốc tế:
                         </div>
-                        <div className='text-xm text-fintown-txt-1 text-justify'>
+                        <div className='text-xm text-fintown-txt-1 dark:text-fintown-txt-1-light text-justify'>
                             {companyData?.fundamental.internationName}         
                         </div>
                     </div>
 
                     <div className='flex gap-x-[5px] items-start'>
-                        <div className='text-xm text-fintown-txt-1 text-justify font-bold'>
+                        <div className='text-xm text-fintown-txt-1 dark:text-fintown-txt-1-light text-justify font-bold'>
                             Trụ sở chính:
                         </div>
-                        <div className='text-xm text-fintown-txt-1 text-justify'>
+                        <div className='text-xm text-fintown-txt-1 dark:text-fintown-txt-1-light text-justify'>
                             {companyData?.fundamental?.headQuarters}         
                         </div>
                     </div>
 
                     <div className='flex gap-x-[5px] items-start'>
-                        <div className='text-xm text-fintown-txt-1 text-justify font-bold'>
+                        <div className='text-xm text-fintown-txt-1 dark:text-fintown-txt-1-light text-justify font-bold'>
                             Số điện thoại:
                         </div>
-                        <div className='text-xm text-fintown-txt-1 text-justify'>
+                        <div className='text-xm text-fintown-txt-1 dark:text-fintown-txt-1-light text-justify'>
                             {companyData?.fundamental?.phone}         
                         </div>
                     </div>
 
                     <div className='flex gap-x-[5px] items-start'>
-                        <div className='text-xm text-fintown-txt-1 text-justify font-bold'>
+                        <div className='text-xm text-fintown-txt-1 dark:text-fintown-txt-1-light text-justify font-bold'>
                             Fax:
                         </div>
-                        <div className='text-xm text-fintown-txt-1 text-justify'>
+                        <div className='text-xm text-fintown-txt-1 dark:text-fintown-txt-1-light text-justify'>
                             {companyData?.fundamental?.fax}         
                         </div>
                     </div>
 
                     <div className='flex gap-x-[5px] items-start'>
-                        <div className='text-xm text-fintown-txt-1 text-justify font-bold'>
+                        <div className='text-xm text-fintown-txt-1 dark:text-fintown-txt-1-light text-justify font-bold'>
                             Email:
                         </div>
-                        <div className='text-xm text-fintown-txt-1 text-justify'>
+                        <div className='text-xm text-fintown-txt-1 dark:text-fintown-txt-1-light text-justify'>
                             {companyData?.fundamental?.email}         
                         </div>
                     </div>
 
                     <div className='flex gap-x-[5px] items-start'>
-                        <div className='text-xm text-fintown-txt-1 text-justify font-bold'>
+                        <div className='text-xm text-fintown-txt-1 dark:text-fintown-txt-1-light text-justify font-bold'>
                             Mã số thuế:
                         </div>
-                        <div className='text-xm text-fintown-txt-1 text-justify'>
+                        <div className='text-xm text-fintown-txt-1 dark:text-fintown-txt-1-light text-justify'>
                             {companyData?.fundamental?.taxIdNumber}         
                         </div>
                     </div>
 
                     <div className='flex gap-x-[5px] items-start'>
-                        <div className='text-xm text-fintown-txt-1 text-justify font-bold'>
+                        <div className='text-xm text-fintown-txt-1 dark:text-fintown-txt-1-light text-justify font-bold'>
                             Số lượng nhân sự:
                         </div>
-                        <div className='text-xm text-fintown-txt-1 text-justify'>
+                        <div className='text-xm text-fintown-txt-1 dark:text-fintown-txt-1-light text-justify'>
                             {companyData?.fundamental?.employees?.toLocaleString('US')}         
                         </div>
                     </div>
 
                     <div className='flex gap-x-[5px] items-start'>
-                        <div className='text-xm text-fintown-txt-1 text-justify font-bold'>
+                        <div className='text-xm text-fintown-txt-1 dark:text-fintown-txt-1-light text-justify font-bold'>
                             Vốn điều lệ:
                         </div>
-                        <div className='text-xm text-fintown-txt-1 text-justify'>
+                        <div className='text-xm text-fintown-txt-1 dark:text-fintown-txt-1-light text-justify'>
                             {(Number((companyData?.fundamental?.charterCapital / 1_000_000_000).toFixed(0))).toLocaleString('en-US')}  Tỷ                       
                         </div>
                     </div>
@@ -240,52 +240,52 @@ export default function CompanyDescriptionComponent({symbol} : {symbol: string})
             </div>
 
             <div id="listing" className='pr-[20px] pb-[100px] anchor-section'>
-                <div className='text-fintown-txt-1 font-bold text-[20px] mb-[12px]'>
+                <div className='text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold text-[20px] mb-[12px]'>
                     Thông tin niêm yết
                 </div>
                 
                 <div className='flex flex-col gap-y-[12px]'>
                     <div className='flex gap-x-[5px] items-start'>
-                        <div className='text-xm text-fintown-txt-1 text-justify font-bold'>
+                        <div className='text-xm text-fintown-txt-1 dark:text-fintown-txt-1-light text-justify font-bold'>
                             Sàn niêm yết:
                         </div>
-                        <div className='text-xm text-fintown-txt-1 text-justify'>
+                        <div className='text-xm text-fintown-txt-1 dark:text-fintown-txt-1-light text-justify'>
                         {companyData?.listingInfo.exchange}                                 
                         </div>
                     </div>
 
                     <div className='flex gap-x-[5px] items-start'>
-                        <div className='text-xm text-fintown-txt-1 text-justify font-bold'>
+                        <div className='text-xm text-fintown-txt-1 dark:text-fintown-txt-1-light text-justify font-bold'>
                             Ngày niêm yết:
                         </div>
-                        <div className='text-xm text-fintown-txt-1 text-justify'>
+                        <div className='text-xm text-fintown-txt-1 dark:text-fintown-txt-1-light text-justify'>
                         {companyData?.listingInfo.dateOfListing}                                                                 
                         </div>
                     </div>
 
                     <div className='flex gap-x-[5px] items-start'>
-                        <div className='text-xm text-fintown-txt-1 text-justify font-bold'>
+                        <div className='text-xm text-fintown-txt-1 dark:text-fintown-txt-1-light text-justify font-bold'>
                             Giá chào sàn:
                         </div>
-                        <div className='text-xm text-fintown-txt-1 text-justify'>
+                        <div className='text-xm text-fintown-txt-1 dark:text-fintown-txt-1-light text-justify'>
                             {companyData?.listingInfo.initialListingPrice.toLocaleString('US')}                                                           
                         </div>
                     </div>
 
                     <div className='flex gap-x-[5px] items-start'>
-                        <div className='text-xm text-fintown-txt-1 text-justify font-bold'>
+                        <div className='text-xm text-fintown-txt-1 dark:text-fintown-txt-1-light text-justify font-bold'>
                             Lần cuối phát hành:
                         </div>
-                        <div className='text-xm text-fintown-txt-1 text-justify'>
+                        <div className='text-xm text-fintown-txt-1 dark:text-fintown-txt-1-light text-justify'>
                         {companyData?.listingInfo.dateOfIssue}                                 
                         </div>
                     </div>
 
                     <div className='flex gap-x-[5px] items-start'>
-                        <div className='text-xm text-fintown-txt-1 text-justify font-bold'>
+                        <div className='text-xm text-fintown-txt-1 dark:text-fintown-txt-1-light text-justify font-bold'>
                             Khối lượng đang niêm yết:
                         </div>
-                        <div className='text-xm text-fintown-txt-1 text-justify'>
+                        <div className='text-xm text-fintown-txt-1 dark:text-fintown-txt-1-light text-justify'>
                         {companyData?.listingInfo.listingVolume.toLocaleString('US')}                                 
                         </div>
                     </div>

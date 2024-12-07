@@ -37,29 +37,29 @@ export default function HolderList({ symbol }: { symbol: string }) {
     return (
         <>
             <div id="holders" className='pr-[20px] pb-[100px] anchor-section'>
-                <div className='text-fintown-txt-1 font-bold text-[20px] mb-[12px]'>
+                <div className='text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold text-[20px] mb-[12px]'>
                     Danh sách cổ đông
                 </div>
 
-                <div className='w-full bg-fintown-bg-stn rounded-[8px]'>
+                <div className='w-full bg-fintown-btn-2 dark:bg-fintown-btn-2-light rounded-[8px]'>
                     <div className='px-[24px] py-[20px] flex items-center justify-between'>
-                        <div className='text-fintown-txt-1 text-[14px] pr-[10px] flex-grow-0 flex-shrink-0 basis-[252px]'>
+                        <div className='text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px] pr-[10px] flex-grow-0 flex-shrink-0 basis-[252px]'>
                             Tên cổ đông
                         </div>
 
-                        <div className='text-fintown-txt-1 w-max text-right text-[14px] pr-[10px] flex-grow-0 flex-shrink-0 basis-[110px]'>
+                        <div className='text-fintown-txt-1 dark:text-fintown-txt-1-light w-max text-right text-[14px] pr-[10px] flex-grow-0 flex-shrink-0 basis-[110px]'>
                             Số cổ phần
                         </div>
 
-                        <div className='text-fintown-txt-1 w-max text-[14px] text-right pr-[10px] flex-grow-0 flex-shrink-0 basis-[110px]'>
+                        <div className='text-fintown-txt-1 dark:text-fintown-txt-1-light w-max text-[14px] text-right pr-[10px] flex-grow-0 flex-shrink-0 basis-[110px]'>
                             Loại cổ đông
                         </div>
 
-                        <div className='text-fintown-txt-1 w-max text-[14px] text-right pr-[10px] flex-grow-0 flex-shrink-0 basis-[110px]'>
+                        <div className='text-fintown-txt-1 dark:text-fintown-txt-1-light w-max text-[14px] text-right pr-[10px] flex-grow-0 flex-shrink-0 basis-[110px]'>
                             Tỷ lệ sở hữu
                         </div>
 
-                        <div className='text-fintown-txt-1 w-max text-[14px] text-right flex-grow-0 flex-shrink-0 basis-[110px]'>
+                        <div className='text-fintown-txt-1 dark:text-fintown-txt-1-light w-max text-[14px] text-right flex-grow-0 flex-shrink-0 basis-[110px]'>
                             Nguồn gốc
                         </div>
                     </div>
@@ -67,25 +67,25 @@ export default function HolderList({ symbol }: { symbol: string }) {
 
                 <div>
                     {companyData?.map((items) => (
-                        <div key={items.name} className='w-full  border-b border-fintown-lnr-1'>
+                        <div key={items.name} className='w-full border-b border-fintown-br dark:border-fintown-br-light'>
                             <div className='px-[24px] py-[20px] flex items-center justify-between'>
-                                <div className='text-fintown-txt-1 text-[14px] pr-[10px] flex-grow-0 flex-shrink-0 basis-[252px]'>
+                                <div className='text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px] pr-[10px] flex-grow-0 flex-shrink-0 basis-[252px]'>
                                     {items.name}
                                 </div>
 
-                                <div className='text-fintown-txt-1 w-max text-right text-[14px] pr-[10px] flex-grow-0 flex-shrink-0 basis-[110px]'>
+                                <div className='text-fintown-txt-1 dark:text-fintown-txt-1-light w-max text-right text-[14px] pr-[10px] flex-grow-0 flex-shrink-0 basis-[110px]'>
                                     {items.shares.toLocaleString('en-US')}
                                 </div>
 
-                                <div className='text-fintown-txt-1 w-max text-[14px] text-right pr-[10px] flex-grow-0 flex-shrink-0 basis-[110px]'>
+                                <div className='text-fintown-txt-1 dark:text-fintown-txt-1-light w-max text-[14px] text-right pr-[10px] flex-grow-0 flex-shrink-0 basis-[110px]'>
                                     {items.isOrganization ? "Tổ chức" : "Cá nhân"}
                                 </div>
 
-                                <div className='text-fintown-txt-1 w-max text-[14px] text-right pr-[10px] flex-grow-0 flex-shrink-0 basis-[110px]'>
+                                <div className='text-fintown-txt-1 dark:text-fintown-txt-1-light w-max text-[14px] text-right pr-[10px] flex-grow-0 flex-shrink-0 basis-[110px]'>
                                     {items.ownership.toFixed(4)}%
                                 </div>
 
-                                <div className='text-fintown-txt-1 w-max text-[14px] text-right flex-grow-0 flex-shrink-0 basis-[110px]'>
+                                <div className='text-fintown-txt-1 dark:text-fintown-txt-1-light w-max text-[14px] text-right flex-grow-0 flex-shrink-0 basis-[110px]'>
                                     {items.isForeigner ? "Nước ngoài" : "Trong nước"}
                                 </div>
                             </div>
