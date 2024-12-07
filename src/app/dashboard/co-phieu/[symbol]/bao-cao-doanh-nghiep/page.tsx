@@ -6,8 +6,8 @@ import { fetchFinancialMetrics, selectFinancialMetricsData } from '@/src/redux/F
 import { setSelectedButtonAndText, selectSelectedButton } from '@/src/redux/ReportPage';
 import useSetSelectedButtonStockPage from '@/src/redux/hooks/useButtonstockPage';
 import FinancialStatementTable from '@/src/components/organisms/statement/FinancialStatementTable';
-import BtnNextPrevReportPage from '@/src/components/common/BtnNextPrevReportPage';
-import SelectYearOrQuarter from '@/src/components/common/SelectYearOrQuarter';
+import BtnNextPrevReportPage from '@/src/components/organisms/statement/BtnNextPrevReportPage';
+import SelectYearOrQuarter from '@/src/components/organisms/statement/SelectYearOrQuarter';
 import SlidingTabs from "@/src/components/common/SlidingTabs";
 
 interface LastFetchInfo {
@@ -130,12 +130,12 @@ export default function BaoCaoDoanhNghiepPage({ params }: { params: { symbol: st
       {/* =========================================FILTER============================================== */}
 
       <div className='px-[40px] flex items-center gap-x-[26px] mb-[20px]'>
-        <div className='text-[14px] text-fintown-txt-1'>Xem theo</div>
+        <div className='text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light'>Xem theo</div>
 
         < SelectYearOrQuarter symbol={symbol} year={currentYear} quarter={currentQuarter} />
 
         {selectedButton !== 4 && (
-          <div className='text-[14px] text-fintown-txt-1'>Đơn vị: Tỷ đồng</div>
+          <div className='text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light'>Đơn vị: Tỷ đồng</div>
         )}
 
         {/* Nút prev/next */}

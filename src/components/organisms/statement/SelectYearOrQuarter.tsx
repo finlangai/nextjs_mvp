@@ -77,31 +77,31 @@ const SelectYearOrQuarter = ({ symbol, year, quarter }: { symbol: string; year: 
         <>
             <div className="relative" ref={dropdownRef}>
                 <button 
-                    className='flex items-center rounded-[8px] bg-fintown-btn-disable'
+                    className='flex items-center rounded-[8px] bg-fintown-btn-2 dark:bg-fintown-btn-2-light'
                     onClick={toggleDropdown}
                 >
                     <div className='flex items-center gap-x-[30px] py-[8px] px-[16px]'>                
-                        <div className='text-[14px] text-fintown-txt-1'>{selectedOption}</div>
-                        <i className={`bx ${isOpen ? 'bx-caret-up' : 'bx-caret-down'} text-fintown-txt-1`}></i>
+                        <div className='text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light'>{selectedOption}</div>
+                        <i className={`bx ${isOpen ? 'bx-caret-up' : 'bx-caret-down'} text-fintown-txt-1 dark:text-fintown-txt-1-light`}></i>
                     </div>
                 </button>
 
                 {isOpen && (
-                    <div className="absolute w-full bg-fintown-btn-disable rounded-[6px] mt-[5px] py-[8px] px-[8px]">
+                    <div className="absolute w-full bg-fintown-btn-2 dark:bg-fintown-btn-2-light rounded-[6px] mt-[5px] py-[8px] px-[8px]">
                         <button 
-                            className="bg-fintown-btn-disable hover:bg-fintown-hvr-btn-3 w-full rounded"
+                            className="bg-fintown-btn-2 dark:bg-fintown-btn-2-light hover:bg-fintown-hvr-btn-3 hover:dark:bg-fintown-hvr-btn-3-light w-full rounded"
                             onClick={() => handleOptionClick('Quý')}
                         >
                             <div className='flex items-center py-[8px] px-[16px]'>                
-                                <div className='text-xs text-fintown-txt-1 font-bold'>Quý</div>
+                                <div className='text-xs text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold'>Quý</div>
                             </div>
                         </button>
                         <button 
-                            className="bg-fintown-btn-disable hover:bg-fintown-hvr-btn-3 w-full rounded"
+                            className="bg-fintown-btn-2 dark:bg-fintown-btn-2-light hover:bg-fintown-hvr-btn-3 hover:dark:bg-fintown-hvr-btn-3-light w-full rounded"
                             onClick={() => handleOptionClick('Năm')}
                         >
                             <div className='flex items-center py-[8px] px-[16px]'>                
-                                <div className='text-xs text-fintown-txt-1 font-bold'>Năm</div>
+                                <div className='text-xs text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold'>Năm</div>
                             </div>
                         </button>
                     </div>

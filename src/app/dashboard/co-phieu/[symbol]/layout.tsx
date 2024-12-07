@@ -51,7 +51,7 @@ export default function MaCoPhieuLayout({ children, params }: { children: React.
                 </div>
             </div>
 
-            <div className='px-[40px] py-[22px] flex items-center gap-x-[50px] border-y border-fintown-br dark:border-fintown-br-light text-fintown-txt-2'>
+            <div className='px-[40px] py-[22px] font-bold flex items-center gap-x-[50px] border-y border-fintown-br dark:border-fintown-br-light text-fintown-txt-2'>
 
                 <Link href={`/dashboard/co-phieu/${symbol}/`}>
                     <button

@@ -71,7 +71,7 @@ module.exports = {
               DEFAULT: '#23252A', 
               light: '#333545',
             },
-            disable: {
+            4: {
               DEFAULT: '#2B3139', 
               light: '#656F79',
             },
@@ -158,7 +158,7 @@ module.exports = {
               },
               3: {
                 DEFAULT: '#4F5660', 
-                light: '#333545',
+                light: '#D0D1D3',
               },
             },
           },

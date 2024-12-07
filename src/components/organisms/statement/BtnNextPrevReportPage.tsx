@@ -95,17 +95,17 @@ const BtnNextPrevReportPage = ({ symbol }: { symbol: string }) => {
     <>
       <div className='flex items-center gap-x-[10px]'>
         <button
-          className={`h-[24px] w-[24px] rounded ${isPrevDisabledBtn ? 'bg-gray-300 cursor-not-allowed' : 'bg-fintown-btn-disable'} flex items-center justify-center`}
+          className={`h-[24px] w-[24px] rounded ${isPrevDisabledBtn ? 'cursor-not-allowed' : 'bg-fintown-btn-4 dark:bg-fintown-btn-2-light'} flex items-center justify-center`}
           onClick={handlePrev}
           disabled={isPrevDisabledBtn}>
-          <i className='bx bx-chevron-left text-fintown-txt-1 text-[24px]'></i>
+          <i className={`bx bx-chevron-left text-[24px] ${isPrevDisabledBtn ? 'text-fintown-txt-2' : 'text-fintown-txt-1 dark:text-fintown-txt-1-light'}`}></i>
         </button>
         
         <button
-          className={`h-[24px] w-[24px] rounded ${isNextDisabledBtn ? 'bg-gray-300 cursor-not-allowed' : 'bg-fintown-btn-disable'} flex items-center justify-center`}
+          className={`h-[24px] w-[24px] rounded ${isNextDisabledBtn ? 'cursor-not-allowed' : 'bg-fintown-btn-4 dark:bg-fintown-btn-2-light'} flex items-center justify-center`}
           onClick={handleNext}
           disabled={isNextDisabledBtn}>
-          <i className='bx bx-chevron-right text-fintown-txt-1 text-[24px]'></i>
+          <i className={`bx bx-chevron-right text-[24px] ${isNextDisabledBtn ? 'text-fintown-txt-2' : 'text-fintown-txt-1 dark:text-fintown-txt-1-light'}`}></i>
         </button>
       </div>
     </>
