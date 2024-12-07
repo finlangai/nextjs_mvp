@@ -1,11 +1,12 @@
 "use client";
-
-import '@/src/styles/globals.css';
 import { ReactNode } from 'react';
 import { Provider } from 'react-redux';
+import '@/src/styles/globals.css';
 import store from '@/src/redux/store';
+import TopLoader from 'nextjs-toploader';
 
 export default function RootLayout({ children }: { children: ReactNode }) {
+
   return (
     <html lang="vi">
       <head>
@@ -15,6 +16,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <title>Fintown</title>
       </head>
       <body className='bg-fintown-bg font-inter custom-scrollbar'>
+        <TopLoader 
+          color="#25B770" 
+          height={4} 
+          showSpinner={false} 
+        />
+        
         <Provider store={store}>
         {children}
         </Provider>
