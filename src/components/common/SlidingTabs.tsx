@@ -50,7 +50,7 @@ const SlidingTabs = (
           <div
             key={tab.id} ref={el => {if (el) {tabRefs.current[index] = el;}}}
             className={`font-bold text-[${fontsize}] cursor-pointer transition-colors duration-200 ${
-              activeTab === index ? 'text-fintown-txt-1' : 'text-fintown-txt-2'
+              activeTab === index ? 'text-fintown-txt-1 dark:text-fintown-txt-1-light' : 'text-fintown-txt-2'
             }`}
             onClick={() => handleTabClick(index, tab.api)}
           >

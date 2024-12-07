@@ -8,10 +8,17 @@ import useSetSelectedButtonStockPage from '@/src/redux/hooks/useButtonstockPage'
 import FinancialStatementTable from '@/src/components/organisms/statement/FinancialStatementTable';
 import BtnNextPrevReportPage from '@/src/components/common/BtnNextPrevReportPage';
 import SelectYearOrQuarter from '@/src/components/common/SelectYearOrQuarter';
+import SlidingTabs from "@/src/components/common/SlidingTabs";
+
 interface LastFetchInfo {
   button: number | null;
   year: number | null;
   quarter: number | null;
+}
+
+interface Tab {
+  id: number;
+  label: string;
 }
 
 export default function BaoCaoDoanhNghiepPage({ params }: { params: { symbol: string } }) {
@@ -22,9 +29,41 @@ export default function BaoCaoDoanhNghiepPage({ params }: { params: { symbol: st
   useSetSelectedButtonStockPage(1);
 
   // Button đổi loại báo cáo tài chính & chỉ số tài chính
-  const handleButtonClick = (button: number, text: string) => {
-    dispatch(setSelectedButtonAndText({ button, text }));
+  const handleTabChange = (index: number) => {
+    // console.log(index)
+    let text;
+    switch (index + 1) { 
+      case 1:
+        text = 'Cân đối kế toán';
+        dispatch(setSelectedButtonAndText({ button: index + 1, text }));
+        break;
+
+      case 2:
+        text = 'Kết quả kinh doanh';
+        dispatch(setSelectedButtonAndText({ button: index + 1, text }));
+        break;
+
+      case 3:
+        text = 'Lưu chuyển tiền tệ';
+        dispatch(setSelectedButtonAndText({ button: index + 1, text }));
+        break;
+
+      case 4:
+        text = 'Chỉ số tài chính';
+        dispatch(setSelectedButtonAndText({ button: index + 1, text }));
+        break;
+
+      default:
+        break;
+    }
   };
+
+  const tabs: Tab[] = [
+    { id: 1, label: "Cân đối kế toán" },
+    { id: 2, label: "Kết quả kinh doanh" },
+    { id: 3, label: "Lưu chuyển tiền tệ" },
+    { id: 4, label: "Chỉ số tài chính" },
+  ];
 
   // Thiết lập limit mặc định theo thời gian hiện tại, năm hiện tại && quý hiện tại
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
@@ -84,27 +123,8 @@ export default function BaoCaoDoanhNghiepPage({ params }: { params: { symbol: st
 
   return (
     <>
-      <div className='px-[40px] py-[22px] flex items-center gap-x-[50px] mb-[28px]'>
-        <button
-          className={`text-[14px] py-[10px] px-[16px] rounded-[7px] ${selectedButton === 1 ? 'bg-fintown-btn-active-3 text-fintown-pr9' : 'text-fintown-txt-2'}`}
-          onClick={() => handleButtonClick(1, 'Cân đối kế toán')}>
-          Cân đối kế toán
-        </button>
-        <button
-          className={`text-[14px] py-[10px] px-[16px] rounded-[7px] ${selectedButton === 2 ? 'bg-fintown-btn-active-3 text-fintown-pr9' : 'text-fintown-txt-2'}`}
-          onClick={() => handleButtonClick(2, 'Kết quả kinh doanh')}>
-          Kết quả kinh doanh
-        </button>
-        <button
-          className={`text-[14px] py-[10px] px-[16px] rounded-[7px] ${selectedButton === 3 ? 'bg-fintown-btn-active-3 text-fintown-pr9' : 'text-fintown-txt-2'}`}
-          onClick={() => handleButtonClick(3, 'Lưu chuyển tiền tệ')}>
-          Lưu chuyển tiền tệ
-        </button>
-        <button
-          className={`text-[14px] py-[10px] px-[16px] rounded-[7px] ${selectedButton === 4 ? 'bg-fintown-btn-active-3 text-fintown-pr9' : 'text-fintown-txt-2'}`}
-          onClick={() => handleButtonClick(4, 'Chỉ số tài chính')}>
-          Chỉ số tài chính
-        </button>
+      <div className='px-[40px] py-[22px] mb-[28px] text-fintown-txt-2'>
+        <SlidingTabs onTabChange={handleTabChange} tabs={tabs} gap={"50px"} startIndex={0} fontsize='14px'/>
       </div>
 
       {/* =========================================FILTER============================================== */}
@@ -113,15 +133,6 @@ export default function BaoCaoDoanhNghiepPage({ params }: { params: { symbol: st
         <div className='text-[14px] text-fintown-txt-1'>Xem theo</div>
 
         < SelectYearOrQuarter symbol={symbol} year={currentYear} quarter={currentQuarter} />
-
-        {/* <div className='text-[14px] text-fintown-txt-1'>Thời gian</div>
-
-        <button className='flex items-center rounded-[8px] bg-fintown-btn-disable'>
-            <div className='flex items-center gap-x-[30px] py-[8px] px-[16px]'>                
-              <div className='text-[14px] text-fintown-txt-1'>3 năm</div>
-              <i className='bx bx-lock text-fintown-txt-1' ></i>
-            </div>
-        </button> */}
 
         {selectedButton !== 4 && (
           <div className='text-[14px] text-fintown-txt-1'>Đơn vị: Tỷ đồng</div>

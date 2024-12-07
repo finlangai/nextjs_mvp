@@ -85,7 +85,7 @@ module.exports = {
                 light: '#EAECEF',
               },
               3: {
-                DEFAULT: '#1B2323', 
+                DEFAULT: 'rgb(138 255 187 / 40%)', 
               }
             },
           },
