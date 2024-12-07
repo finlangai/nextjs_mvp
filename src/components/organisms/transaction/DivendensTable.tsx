@@ -55,7 +55,7 @@ export default function DivendensTable({symbol} : {symbol: string}){
                 {
                     dividendRecords?.map((val) => (
                         <>
-                            <div key={val?.recordDate} className="h-[60px] flex items-center justify-between border-b border-b-fintown-br text-[14px] text-fintown-txt-1 text-[12px]">
+                            <div key={val?.recordDate} className="h-[60px] flex items-center justify-between border-b border-b-fintown-br dark:border-b-fintown-br-light text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-[12px]">
                                 <div className="w-full max-w-[100px]">
                                     {val?.recordDate}
                                 </div>

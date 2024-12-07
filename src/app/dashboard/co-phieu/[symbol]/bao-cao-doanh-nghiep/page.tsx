@@ -124,7 +124,7 @@ export default function BaoCaoDoanhNghiepPage({ params }: { params: { symbol: st
   return (
     <>
       <div className='px-[40px] py-[22px] mb-[28px] text-fintown-txt-2'>
-        <SlidingTabs onTabChange={handleTabChange} tabs={tabs} gap={"50px"} startIndex={0} fontsize='14px'/>
+        <SlidingTabs onTabChange={handleTabChange} tabs={tabs} gap={"50px"} startIndex={selectedButton - 1} fontsize='14px'/>
       </div>
 
       {/* =========================================FILTER============================================== */}

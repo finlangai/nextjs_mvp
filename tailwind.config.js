@@ -64,7 +64,7 @@ module.exports = {
               light: '#39414C',
             },
             2: {
-              DEFAULT: '#2B3139', 
+              DEFAULT: 'rgb(43 49 57 / 40%)', 
               light: '#EAECEF',
             },
             3: {

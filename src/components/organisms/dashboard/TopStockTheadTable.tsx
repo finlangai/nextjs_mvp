@@ -68,99 +68,99 @@ export default function TopStockTheadTable() {
         <>
             <thead>
                 <tr>
-                    <th className="bg-fintown-bg-stn rounded-l-[10px] p-[12px]">
+                    <th className="bg-fintown-btn-2 dark:bg-fintown-btn-2-light rounded-l-[10px] p-[12px]">
                         <div className="text-left">
-                            <span className="text-sm font-normal text-fintown-txt-1 ">Mã cổ phiếu</span>
+                            <span className="text-sm font-normal text-fintown-txt-1 dark:text-fintown-txt-1-light ">Mã cổ phiếu</span>
                         </div>
                     </th>
 
-                    <th className="bg-fintown-bg-stn p-[12px] cursor-pointer">
+                    <th className="bg-fintown-btn-2 dark:bg-fintown-btn-2-light p-[12px] cursor-pointer">
                         <div 
                         onClick={() => handleSortClick('marketcap')}
                         className="flex justify-end items-center">
-                            <p className="text-sm font-normal text-right text-fintown-txt-1 mr-[5px]">Vốn hóa</p>
-                            <i className={`bx ${sortOrder.marketcap === 'up' ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt'} text-fintown-txt-1`}></i>
+                            <p className="text-sm font-normal text-right text-fintown-txt-1 dark:text-fintown-txt-1-light mr-[5px]">Vốn hóa</p>
+                            <i className={`bx ${sortOrder.marketcap === 'up' ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt'} text-fintown-txt-1 dark:text-fintown-txt-1-light`}></i>
                         </div>
                     </th>
 
-                    <th className="bg-fintown-bg-stn p-[12px] cursor-pointer">
+                    <th className="bg-fintown-btn-2 dark:bg-fintown-btn-2-light p-[12px] cursor-pointer">
                         <div 
                         onClick={() => handleSortClick('price')}
                         className="flex relative justify-end items-center">
-                            <p className="text-sm font-normal text-right text-fintown-txt-1 mr-[5px]">Giá</p>
-                            <i className={`bx ${sortOrder.price === 'up' ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt'} text-fintown-txt-1`}></i>
+                            <p className="text-sm font-normal text-right text-fintown-txt-1 dark:text-fintown-txt-1-light mr-[5px]">Giá</p>
+                            <i className={`bx ${sortOrder.price === 'up' ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt'} text-fintown-txt-1 dark:text-fintown-txt-1-light`}></i>
                         </div>
                     </th>
 
-                    <th className="bg-fintown-bg-stn p-[12px] cursor-pointer">
+                    <th className="bg-fintown-btn-2 dark:bg-fintown-btn-2-light p-[12px] cursor-pointer">
                         <div 
                         onClick={() => handleSortClick('dailyDelta')}
                         className="flex relative justify-end items-center">
-                            <p className="text-sm font-normal text-right text-fintown-txt-1 mr-[5px]">Thay đổi giá</p>
-                            <i className={`bx ${sortOrder.dailyDelta === 'up' ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt'} text-fintown-txt-1`}></i>
+                            <p className="text-sm font-normal text-right text-fintown-txt-1 dark:text-fintown-txt-1-light mr-[5px]">Thay đổi giá</p>
+                            <i className={`bx ${sortOrder.dailyDelta === 'up' ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt'} text-fintown-txt-1 dark:text-fintown-txt-1-light`}></i>
                         </div>
                     </th>
 
-                    <th className="bg-fintown-bg-stn p-[12px] cursor-pointer">
+                    <th className="bg-fintown-btn-2 dark:bg-fintown-btn-2-light p-[12px] cursor-pointer">
                         <div 
                         onClick={() => handleSortClick('weeklyDelta')}
                         className="flex relative justify-end items-center">
-                            <p className="text-sm font-normal text-right text-fintown-txt-1 mr-[5px]">7 ngày</p>
-                            <i className={`bx ${sortOrder.weeklyDelta === 'up' ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt'} text-fintown-txt-1`}></i>
+                            <p className="text-sm font-normal text-right text-fintown-txt-1 dark:text-fintown-txt-1-light mr-[5px]">7 ngày</p>
+                            <i className={`bx ${sortOrder.weeklyDelta === 'up' ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt'} text-fintown-txt-1 dark:text-fintown-txt-1-light`}></i>
                         </div>
                     </th>
 
-                    <th className="bg-fintown-bg-stn p-[12px] cursor-pointer">
+                    <th className="bg-fintown-btn-2 dark:bg-fintown-btn-2-light p-[12px] cursor-pointer">
                         <div 
                         onClick={() => handleSortClick('yearlyDelta')}
                         className="flex relative justify-end items-center">
-                            <p className="text-sm font-normal text-right text-fintown-txt-1 mr-[5px]">1 năm</p>
-                            <i className={`bx ${sortOrder.yearlyDelta === 'up' ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt'} text-fintown-txt-1`}></i>
+                            <p className="text-sm font-normal text-right text-fintown-txt-1 dark:text-fintown-txt-1-light mr-[5px]">1 năm</p>
+                            <i className={`bx ${sortOrder.yearlyDelta === 'up' ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt'} text-fintown-txt-1 dark:text-fintown-txt-1-light`}></i>
                         </div>
                     </th>
 
-                    <th className="bg-fintown-bg-stn p-[12px] cursor-pointer">
+                    <th className="bg-fintown-btn-2 dark:bg-fintown-btn-2-light p-[12px] cursor-pointer">
                         <div 
                         onClick={() => handleSortClick('pe')}
                         className="flex relative justify-end items-center">
-                            <p className="text-sm font-normal text-right text-fintown-txt-1 mr-[5px]">P/E</p>
-                            <i className={`bx ${sortOrder.pe === 'up' ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt'} text-fintown-txt-1`}></i>
+                            <p className="text-sm font-normal text-right text-fintown-txt-1 dark:text-fintown-txt-1-light mr-[5px]">P/E</p>
+                            <i className={`bx ${sortOrder.pe === 'up' ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt'} text-fintown-txt-1 dark:text-fintown-txt-1-light`}></i>
                         </div>
                     </th>
 
-                    <th className="bg-fintown-bg-stn p-[12px] cursor-pointer">
+                    <th className="bg-fintown-btn-2 dark:bg-fintown-btn-2-light p-[12px] cursor-pointer">
                         <div 
                         onClick={() => handleSortClick('pb')}
                         className="flex relative justify-end items-center">
-                            <p className="text-sm font-normal text-right text-fintown-txt-1 mr-[5px]">P/B</p>
-                            <i className={`bx ${sortOrder.pb === 'up' ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt'} text-fintown-txt-1`}></i>
+                            <p className="text-sm font-normal text-right text-fintown-txt-1 dark:text-fintown-txt-1-light mr-[5px]">P/B</p>
+                            <i className={`bx ${sortOrder.pb === 'up' ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt'} text-fintown-txt-1 dark:text-fintown-txt-1-light`}></i>
                         </div>
                     </th>
 
-                    <th className="bg-fintown-bg-stn p-[12px] cursor-pointer">
+                    <th className="bg-fintown-btn-2 dark:bg-fintown-btn-2-light p-[12px] cursor-pointer">
                         <div 
                         onClick={() => handleSortClick('roe')}
                         className="flex relative justify-end items-center">
-                            <p className="text-sm font-normal text-right text-fintown-txt-1 mr-[5px]">ROE</p>
-                            <i className={`bx ${sortOrder.roe === 'up' ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt'} text-fintown-txt-1`}></i>
+                            <p className="text-sm font-normal text-right text-fintown-txt-1 dark:text-fintown-txt-1-light mr-[5px]">ROE</p>
+                            <i className={`bx ${sortOrder.roe === 'up' ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt'} text-fintown-txt-1 dark:text-fintown-txt-1-light`}></i>
                         </div>
                     </th>
 
-                    <th className="bg-fintown-bg-stn p-[12px] cursor-pointer">
+                    <th className="bg-fintown-btn-2 dark:bg-fintown-btn-2-light p-[12px] cursor-pointer">
                         <div 
                         onClick={() => handleSortClick('exchange')}
                         className="flex relative justify-end items-center">
-                            <p className="text-sm font-normal text-right text-fintown-txt-1 mr-[5px]">Sàn</p>
-                            <i className={`bx ${sortOrder.exchange === 'up' ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt'} text-fintown-txt-1`}></i>
+                            <p className="text-sm font-normal text-right text-fintown-txt-1 dark:text-fintown-txt-1-light mr-[5px]">Sàn</p>
+                            <i className={`bx ${sortOrder.exchange === 'up' ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt'} text-fintown-txt-1 dark:text-fintown-txt-1-light`}></i>
                         </div>
                     </th>
 
-                    <th className="bg-fintown-bg-stn rounded-r-[10px] p-[12px] cursor-pointer">
+                    <th className="bg-fintown-btn-2 dark:bg-fintown-btn-2-light rounded-r-[10px] p-[12px] cursor-pointer">
                         <div 
                         onClick={() => handleSortClick('industry')}
                         className="flex relative justify-end items-center">
-                            <p className="text-sm font-normal text-right text-fintown-txt-1 mr-[5px]">Ngành</p>
-                            <i className={`bx ${sortOrder.industry === 'up' ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt'} text-fintown-txt-1`}></i>
+                            <p className="text-sm font-normal text-right text-fintown-txt-1 dark:text-fintown-txt-1-light mr-[5px]">Ngành</p>
+                            <i className={`bx ${sortOrder.industry === 'up' ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt'} text-fintown-txt-1 dark:text-fintown-txt-1-light`}></i>
                         </div>
                     </th>
                 </tr>

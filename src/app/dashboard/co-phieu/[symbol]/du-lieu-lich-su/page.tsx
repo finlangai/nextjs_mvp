@@ -5,6 +5,11 @@ import useSetSelectedButtonStockPage from '@/src/redux/hooks/useButtonstockPage'
 import TransactionTable from '@/src/components/organisms/transaction/TransactionTable';
 import FilterRangeTimeTransaction from '@/src/components/organisms/transaction/FilterRangeTimeTransaction';
 import DivendensTable from '@/src/components/organisms/transaction/DivendensTable';
+import SlidingTabs from "@/src/components/common/SlidingTabs";
+interface Tab {
+    id: number;
+    label: string;
+}
 
 export default function DuLieuLichSuPage({ params }: { params: { symbol: string } }) {
     const { symbol } = params;
@@ -18,19 +23,32 @@ export default function DuLieuLichSuPage({ params }: { params: { symbol: string 
         dispatch(setSelectedButtonAndText({ button, text }));
     };
 
+    // SLIDING TAB
+    const handleTabChange = (index: number) => {
+        let text;
+        switch (index) { 
+          case 0:
+            text = 'Cổ tức';
+            dispatch(setSelectedButtonAndText({ button: index, text }));
+            break;
+          case 1:
+            text = 'Cổ đông và nội bộ';
+            dispatch(setSelectedButtonAndText({ button: index, text }));
+            break;
+          default:
+            break;
+        }
+    };
+    
+    const tabs: Tab[] = [
+        { id: 0, label: "Cổ tức" },
+        { id: 1, label: "Cổ đông và nội bộ" },
+    ];
+
     return (
         <>
             <div className='px-[40px] py-[22px] flex items-center gap-x-[50px] mb-[28px]'>
-                <button
-                    className={`text-[14px] py-[10px] px-[26px] rounded-[7px] ${selectedButton === 0 ? 'bg-fintown-btn-active-3 text-fintown-pr9' : 'text-fintown-txt-2'}`}
-                    onClick={() => handleButtonClick(0, 'Cổ tức')}>
-                    Cổ tức
-                </button>
-                <button
-                    className={`text-[14px] py-[10px] px-[16px] rounded-[7px] ${selectedButton === 1 ? 'bg-fintown-btn-active-3 text-fintown-pr9' : 'text-fintown-txt-2'}`}
-                    onClick={() => handleButtonClick(1, 'Cổ đông và nội bộ')}>
-                    Cổ đông và nội bộ
-                </button>
+                <SlidingTabs onTabChange={handleTabChange} tabs={tabs} gap={"50px"} startIndex={selectedButton} fontsize='14px'/>
             </div>
 
             {/* =========================================FILTER============================================== */}
@@ -41,7 +59,7 @@ export default function DuLieuLichSuPage({ params }: { params: { symbol: string 
             }
 
             {/* =========================================FILTER============================================== */}
-            <div className='px-[40px] mb-[40px]'>
+            <div className='px-[40px] pb-[40px]'>
                 {
                     selectedButton === 0 && (
                         < DivendensTable symbol={symbol} />

@@ -89,7 +89,7 @@ export default function AddItemPopup({
                     ref={formRef}
                     onClick={(e) => e.stopPropagation()}
                     className={`
-                        bg-fintown-bg-stn
+                        bg-fintown-bg-stn dark:bg-fintown-bg-stn-light
                         mt-[50px]
                         rounded-[8px]
                         py-[32px]
@@ -108,10 +108,10 @@ export default function AddItemPopup({
                     }}
                 >  
                     <div className='flex items-center mb-[32px] px-[32px]'>
-                        <div className='py-[13px] px-[16px] rounded-[6px] border border-fintown-br flex items-center mr-[12px] w-full'>
+                        <div className='py-[13px] px-[16px] rounded-[6px] border border-fintown-br dark:border-fintown-br-light flex items-center mr-[12px] w-full'>
                             <i className='bx bx-search text-fintown-txt-2 text-[20px] mr-[14px]'></i>
                             <input
-                                className='text-[14px] text-fintown-txt-1 block w-full placeholder:text-fintown-txt-2 bg-transparent outline-none'
+                                className='text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light block w-full placeholder:text-fintown-txt-2 bg-transparent outline-none'
                                 placeholder='Tìm mã cổ phiếu'
                                 value={searchTerm}
                                 onChange={handleSearchChange}
@@ -162,7 +162,7 @@ export default function AddItemPopup({
                                 className={`
                                     py-[12px] 
                                     border-b 
-                                    border-b-fintown-br 
+                                    border-b-fintown-br dark:border-b-fintown-br-light
                                     flex 
                                     items-center 
                                     justify-between
@@ -177,10 +177,10 @@ export default function AddItemPopup({
                                         alt={stock?.symbol}
                                     />
                                     </div>
-                                    <div className="text-fintown-txt-1 text-[14px]">{stock?.symbol}</div>
+                                    <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px]">{stock?.symbol}</div>
                                 </div>
 
-                                <div className="text-fintown-txt-1 text-[12px]">
+                                <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-[12px]">
                                     Kỳ báo cáo hiện có Q{stock?.quarter} - {stock?.year}
                                 </div>
 
@@ -229,7 +229,7 @@ export default function AddItemPopup({
                     <div className='flex justify-end pr-[28px]'>
                         <button
                             onClick={() => setIsPopupOpen(false)}
-                            className='py-[10px] text-fintown-txt-1 text-[12px] px-[23px] border border-fintown-br rounded mr-[10px]'>
+                            className='py-[10px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-[12px] px-[23px] border border-fintown-br dark:border-fintown-br-light rounded mr-[10px]'>
                             Để sau vậy
                         </button>
                         <button
@@ -237,7 +237,7 @@ export default function AddItemPopup({
                             disabled={selectedStocks.length === 0}
                             className={`
                                 py-[10px] 
-                                text-fintown-txt-1 
+                                text-fintown-txt-1
                                 text-[12px] 
                                 px-[23px] 
                                 rounded 

@@ -27,7 +27,7 @@ export default function CoPhieu() {
                 < TicketListPagination />
             </div>
 
-            <div className="mb-[100px]"></div>
+            <div className="pb-[100px]"></div>
         </>
     );
 }

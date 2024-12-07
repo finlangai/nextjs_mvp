@@ -54,7 +54,7 @@ export default function AddItemsLeftBarCompare({symbol} : {symbol: string}) {
 
                 <div 
                 onClick={() => setIsPopupOpen(true)}  
-                className='w-[55px] h-[55px] flex items-center justify-center border border-fintown-br rounded-[50%] cursor-pointer text-fintown-txt-2 hover:border-fintown-pr9 hover:text-fintown-pr9'>
+                className='w-[55px] h-[55px] flex items-center justify-center border border-fintown-br dark:border-fintown-br-light rounded-[50%] cursor-pointer text-fintown-txt-2 hover:border-fintown-pr9 hover:text-fintown-pr9'>
                     <div className='text-[30px] hover:text-fintown-pr9'>
                         +
                     </div>

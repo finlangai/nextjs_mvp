@@ -9,12 +9,12 @@ export default function CompareTable() {
 
     return (
         <>
-        <div className='text-fintown-txt-1 text-[12px] mb-[29px]'>
+        <div className='text-fintown-txt-1 dark:text-fintown-txt-1-light text-[12px] mb-[29px]'>
            Q-Rating là bộ chỉ số của Fintown dùng để so sánh, đánh giá chất lượng tăng trưởng của công ty dựa trên dữ liệu báo cáo tài chính hằng quý.
         </div>
 
         <div>
-            <div className='flex items-center text-fintown-txt-1 text-[12px] pb-[15px] border-b border-b-fintown-br mb-[18px] justify-between'>
+            <div className='flex items-center text-fintown-txt-1 dark:text-fintown-txt-1-light text-[12px] pb-[15px] border-b border-b-fintown-br dark:border-fintown-br-light mb-[18px] justify-between'>
                 <div className='w-full max-w-[130px] text-right'>
                     Q-Rating
                 </div>
@@ -49,11 +49,11 @@ export default function CompareTable() {
                 :              
                 companyData?.map((val) => (
                     <>
-                    <div key={val?.symbol} className='flex items-center justify-between text-fintown-txt-1 text-[14px] pb-[15px] border-b border-b-fintown-br mb-[18px]'>
+                    <div key={val?.symbol} className='flex items-center justify-between text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px] pb-[15px] border-b border-b-fintown-br dark:border-fintown-br-light mb-[18px]'>
                         <div className='w-full max-w-[130px] text-right flex items-center'>
                             <div className='flex items-center w-[75px] justify-between '>
-                                <div className='text-fintown-txt-1 font-bold'>{val?.symbol}</div>
-                                <div className='min-h-[30px] min-w-[30px] max-h-[30px] max-w-[30px] rounded-[50%] overflow-hidden flex items-center justify-center bg-white'>
+                                <div className='text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold'>{val?.symbol}</div>
+                                <div className='min-h-[30px] min-w-[30px] max-h-[30px] max-w-[30px] rounded-[50%] overflow-hidden flex items-center justify-center bg-white border border-fintown-br dark:border-fintown-br-light'>
                                     <img className='w-full h-full object-contain' src={val?.logo} alt={val?.symbol} />
                                 </div>
                             </div>

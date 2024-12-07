@@ -41,7 +41,7 @@ export default function FilterRangeTimeTransaction({ symbol }: { symbol: string 
             <div className='flex items-center gap-x-[15px]'>
                 {/* DatePicker cho ngày bắt đầu */}
                 <BasicDateRangePicker onDateChange={handleStartDateChange} />
-                <div className='text-fintown-txt-1 text-[14px] mt-[8px]'>đến</div>
+                <div className='text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px] mt-[8px]'>đến</div>
                 {/* DatePicker cho ngày kết thúc */}
                 <BasicDateRangePicker onDateChange={handleEndDateChange} />
                 <button

@@ -156,8 +156,8 @@ const FinancialStatementTable = () => {
     return (
         <div className="px-[40px]">
             {/* ========================HEADER======================== */}
-            <div className="w-full flex items-center h-[60px] rounded-[8px] bg-fintown-bg-stn px-[16px]">
-                <div className="text-[14px] text-fintown-txt-1 flex-grow-0 flex-shrink-0 basis-[350px]">
+            <div className="w-full flex items-center h-[60px] rounded-[8px] bg-fintown-btn-2 dark:bg-fintown-btn-2-light px-[16px]">
+                <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light flex-grow-0 flex-shrink-0 basis-[350px]">
                     {selectedText}
                 </div>
                 <div className="flex-grow flex-shrink basis-auto">
@@ -165,7 +165,7 @@ const FinancialStatementTable = () => {
                         {selectedButton !== 4 ? (
                             // Lấy tối đa 9 phần tử từ statementsData[0]?.values
                             statementsData[0]?.values?.slice(0, 9).map((x) => (
-                                <div className="text-[14px] text-fintown-txt-1 min-w-[calc(11.1111%)] pl-[16px]" key={x.period}>
+                                <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light min-w-[calc(11.1111%)] pl-[16px]" key={x.period}>
                                     <div className="flex justify-end">{x.period}</div>
                                 </div>
                             ))

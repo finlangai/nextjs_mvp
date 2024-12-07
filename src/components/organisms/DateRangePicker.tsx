@@ -63,7 +63,7 @@ export default function BasicDatePicker({ onDateChange } : {onDateChange:any}) {
             }}
             format="DD/MM/YYYY"
             onChange={(newValue) => {
-              onDateChange(newValue); // Gọi hàm callback từ component cha
+              onDateChange(newValue);
             }}
             sx={{
               maxWidth: '60px',
