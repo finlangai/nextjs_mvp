@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '@/src/redux/hooks/useAppStore';
 import { TickerListOverview } from '@/src/interfaces/TickerListOverview';
 import { fetchTickerListOverview, selectTickerListOverviewData, selectTickerListOverviewError, selectTickerListOverviewLoading } from '@/src/redux/TickerListOverview';
-import { SpinerLoader } from '../common/Loader';
+import { SpinerLoader } from '../../common/Loader';
 
 export default function TicketOverview(){
     const dispatch = useAppDispatch();
