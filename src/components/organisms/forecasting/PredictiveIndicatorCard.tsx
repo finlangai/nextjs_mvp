@@ -130,7 +130,7 @@ export default function PredictiveIndicatorCard() {
                 <div className='px-[27px] py-[25px] rounded-[10px] border border-fintown-br min-w-[344px] max-w-[344px]'>
                     <div className='flex items-center gap-x-[10px] mb-[53px]'>
                         <p className='text-fintown-txt-1 text-[16px] font-bold'>Đánh giá chung</p>
-                        <i className='bx bx-info-circle text-fintown-txt-1'></i>
+                        {/* <i className='bx bx-info-circle text-fintown-txt-1'></i> */}
                     </div>
 
                     <div className='mb-[20px]'>
@@ -155,7 +155,7 @@ export default function PredictiveIndicatorCard() {
                                     <div>
                                         <div className='flex items-center gap-x-[10px] mb-[5px]'>
                                             <p className='text-fintown-txt-1 text-[16px] font-bold'>{criteria.name}</p>
-                                            <i className='bx bx-info-circle text-fintown-txt-1'></i>
+                                            {/* <i className='bx bx-info-circle text-fintown-txt-1'></i> */}
                                         </div>
                                         <div className={`text-[12px] ${criteria.status === "Tích cực" ? "text-fintown-stt-buy" : "text-fintown-stt-sell"}`}>
                                             {criteria.status}

@@ -1,16 +1,16 @@
 "use client";
 import React from 'react';
 import useSetSelectedButtonSiderBar from '@/src/redux/hooks/useButtonsiderBar';
-import TopStocksTable from '@/src/components/organisms/topStocksTable';
+import TopStocksTable from '@/src/components/organisms/dashboard/topStocksTable';
 import Link from 'next/link';
-import SectionCard from '@/src/components/organisms/SectionCard';
-import BannerDashboard from '@/src/components/organisms/BannerDashboard';
-import SectionMarketOverview from '@/src/components/organisms/SectionMarketOverview.';
+import SectionCard from '@/src/components/organisms/dashboard/SectionCard';
+import BannerDashboard from '@/src/components/organisms/dashboard/BannerDashboard';
+import SectionMarketOverview from '@/src/components/organisms/dashboard/SectionMarketOverview.';
 
 export default function Dashboard() {
 
   useSetSelectedButtonSiderBar(0);
-  
+
   return (
 
     <div id="dashboard-page" className="pt-[50px]">

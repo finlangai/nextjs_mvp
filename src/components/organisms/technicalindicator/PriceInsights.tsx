@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { priceInsights } from '@/src/interfaces/PriceInsights';
 import { fetchpriceInsights, selectpriceInsightsData, selectpriceInsightsError, selectpriceInsightsLoading } from '@/src/redux/PriceInsights';
-import { BarsLoader } from '../common/Loader';
+import { BarsLoader } from '../../common/Loader';
 
 export default function PriceInsights({symbol} : {symbol: string}) {
     const dispatch = useAppDispatch();

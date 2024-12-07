@@ -3,17 +3,17 @@
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { selectSelectedText, selectSelectedButton } from '@/src/redux/ReportPage';
-import { 
-    selectFinancialStatementsData, 
-    selectFinancialStatementsLoading, 
+import {
+    selectFinancialStatementsData,
+    selectFinancialStatementsLoading,
     selectFinancialStatementsError,
 } from '@/src/redux/FinancialStatement';
-import { 
-    selectFinancialMetricsData, 
-    selectFinancialMetricsLoading, 
+import {
+    selectFinancialMetricsData,
+    selectFinancialMetricsLoading,
     selectFinancialMetricsError,
 } from '@/src/redux/FinancialMetric';
-import { 
+import {
     selectByDataQuarter,
     selectByDataYear,
 
@@ -31,7 +31,7 @@ import { FinancialStatement } from '@/src/interfaces/FinancialStatement';
 import { formatBCTC } from '@/src/utils/formatBCTC';
 import renderItemStatement from './renderItemStatement';
 import renderItemMetric from './renderItemMetric';
-import {BarsLoader} from '../common/Loader';
+import { BarsLoader } from '../../common/Loader';
 
 const FinancialStatementTable = () => {
     const dispatch = useAppDispatch();
@@ -50,7 +50,7 @@ const FinancialStatementTable = () => {
     // Chia dữ liệu thành hai biến riêng biệt
     const [statementsData, setStatementsData] = useState<FinancialStatement[]>(financialStatements);
     const [metricsData, setMetricsData] = useState<FinancialMetric[]>(financialMetrics);
-    
+
     // Lấy subcrible
     const slectSubcribleYear = useAppSelector(selectLimitSubscribeYear)
     const selectSubcribleQuarter = useAppSelector(selectLimitSubscribeQuarter)
@@ -93,7 +93,7 @@ const FinancialStatementTable = () => {
             // báo cáo tài chính đủ 10 data thì cho phép bấm prev để xem. Ngược lại
             if (dataMain?.[0]?.values.length < 10) {
                 dispatch(setLimitByDataBtnPrev(true));
-            }else{
+            } else {
                 dispatch(setLimitByDataBtnPrev(false));
             };
 
@@ -102,21 +102,21 @@ const FinancialStatementTable = () => {
 
         if (dataMain?.[0]?.values?.length < 10) {
             dispatch(setLimitByDataBtnPrev(true));
-        }else{
+        } else {
             dispatch(setLimitByDataBtnPrev(false));
         };
 
         if (slectYear && selectQuarter === 0 && slectSubcribleYear) {
             if (slectYear < slectSubcribleYear && selectQuarter === 0) {
-              dispatch(setLimitByDataBtnNext(true));
+                dispatch(setLimitByDataBtnNext(true));
             }
             else if (slectYear >= slectSubcribleYear && selectQuarter === 0) {
-              dispatch(setLimitByDataBtnNext(false));
+                dispatch(setLimitByDataBtnNext(false));
             }
         };
 
         if (slectYear && selectQuarter && slectSubcribleYear && selectSubcribleQuarter) {
-            if (slectSubcribleYear < slectYear || 
+            if (slectSubcribleYear < slectYear ||
                 (slectSubcribleYear === slectYear && selectSubcribleQuarter <= selectQuarter)) {
                 dispatch(setLimitByDataBtnNext(false));
             } else {
@@ -136,7 +136,7 @@ const FinancialStatementTable = () => {
             setStatementsData(financialStatements);
             logicMain(financialStatements);
         }
-    }, [ financialStatements, financialMetrics, selectQuarter, slectYear, slectSubcribleYear, selectSubcribleQuarter]);
+    }, [financialStatements, financialMetrics, selectQuarter, slectYear, slectSubcribleYear, selectSubcribleQuarter]);
 
     const loading = loading_st || loading_mt;
     const error = error_st || error_mt;
@@ -144,7 +144,7 @@ const FinancialStatementTable = () => {
     if (loading) {
         return (
             <div className='px-[40px] flex justify-center items-center h-[300px]'>
-                <BarsLoader/>
+                <BarsLoader />
             </div>
         );
     }
@@ -152,7 +152,7 @@ const FinancialStatementTable = () => {
     if (error) {
         return <div className='text-white pl-[40px]'>Error: {error}</div>;
     }
-    
+
     return (
         <div className="px-[40px]">
             {/* ========================HEADER======================== */}
@@ -162,21 +162,21 @@ const FinancialStatementTable = () => {
                 </div>
                 <div className="flex-grow flex-shrink basis-auto">
                     <div className="flex justify-between">
-                    {selectedButton !== 4 ? (
-                        // Lấy tối đa 9 phần tử từ statementsData[0]?.values
-                        statementsData[0]?.values?.slice(0, 9).map((x) => (
-                            <div className="text-[14px] text-fintown-txt-1 min-w-[calc(11.1111%)] pl-[16px]" key={x.period}>
-                                <div className="flex justify-end">{x.period}</div>
-                            </div>
-                        ))
-                    ) : (
-                        // Lấy tối đa 9 phần tử từ metricsData[0]?.values
-                        metricsData[0]?.values?.slice(0, 9).map((x) => (
-                            <div className="text-[14px] text-fintown-txt-1 min-w-[calc(11.1111%)] pl-[16px]" key={x.period}>
-                                <div className="flex justify-end">{x.period}</div>
-                            </div>
-                        ))
-                    )}
+                        {selectedButton !== 4 ? (
+                            // Lấy tối đa 9 phần tử từ statementsData[0]?.values
+                            statementsData[0]?.values?.slice(0, 9).map((x) => (
+                                <div className="text-[14px] text-fintown-txt-1 min-w-[calc(11.1111%)] pl-[16px]" key={x.period}>
+                                    <div className="flex justify-end">{x.period}</div>
+                                </div>
+                            ))
+                        ) : (
+                            // Lấy tối đa 9 phần tử từ metricsData[0]?.values
+                            metricsData[0]?.values?.slice(0, 9).map((x) => (
+                                <div className="text-[14px] text-fintown-txt-1 min-w-[calc(11.1111%)] pl-[16px]" key={x.period}>
+                                    <div className="flex justify-end">{x.period}</div>
+                                </div>
+                            ))
+                        )}
                     </div>
                 </div>
             </div>

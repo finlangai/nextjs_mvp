@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { 
     fetchSearchVn30Stock,
@@ -9,9 +10,14 @@ import {
 } from '@/src/redux/SearchAndChangeStock';
 import { SpinerLoader } from '../common/Loader';
 import { ChangeStockatReportPage } from '@/src/interfaces/SearchStock';
+import { selectSelectedButton } from '@/src/redux/SiderBar/siderBarSlice';
 
 const ChangeStockInput = ({symbol} : {symbol: string}) => {
     const dispatch = useAppDispatch();
+    const router = useRouter();
+
+    const selectedButton = useAppSelector(selectSelectedButton);
+
     const containerRef = useRef<HTMLDivElement>(null);
 
     const [selectedStock, setSelectedStock] = useState<string>(symbol);
@@ -36,7 +42,12 @@ const ChangeStockInput = ({symbol} : {symbol: string}) => {
     const handleStockSelect = (stock: ChangeStockatReportPage) => {
         setSelectedStock(stock.symbol);
         setDropdownOpen(false);
-        window.location.href = `/dashboard/co-phieu/${stock.symbol}`;
+
+        const link = selectedButton === 3
+        ? `/dashboard/co-phieu/${stock.symbol}/`
+        : `/dashboard/dinh-gia-co-phieu/${stock.symbol}`;
+        console.log('selectedButton', selectedButton)
+        router.push(link);
     };
 
     const handleSearch = async () => {
@@ -82,6 +93,20 @@ const ChangeStockInput = ({symbol} : {symbol: string}) => {
         }
     };
 
+    const handleDropdownToggle = () => {
+        const newDropdownState = !isDropdownOpen;
+        setDropdownOpen(newDropdownState);
+        
+        if (newDropdownState && !hasInitialized) {
+            if (!vn30StockData || vn30StockData.length === 0) {
+                dispatch(fetchSearchVn30Stock());
+            } else {
+                setStockList(vn30StockData);
+                setHasInitialized(true);
+            }
+        }
+    };
+
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
@@ -101,20 +126,6 @@ const ChangeStockInput = ({symbol} : {symbol: string}) => {
             setHasInitialized(true);
         }
     }, [vn30StockData]);
-
-    const handleDropdownToggle = () => {
-        const newDropdownState = !isDropdownOpen;
-        setDropdownOpen(newDropdownState);
-        
-        if (newDropdownState && !hasInitialized) {
-            if (!vn30StockData || vn30StockData.length === 0) {
-                dispatch(fetchSearchVn30Stock());
-            } else {
-                setStockList(vn30StockData);
-                setHasInitialized(true);
-            }
-        }
-    };
 
     useEffect(() => {
         if (!isDropdownOpen) return;
@@ -202,9 +213,8 @@ const ChangeStockInput = ({symbol} : {symbol: string}) => {
                                     {!hasSearched ? "Vui lòng nhập mã cổ phiếu hoặc tên công ty" : "Không tìm thấy kết quả"}
                                 </div>
                             ) : (
-                                stockList.map(stock => (
+                                stockList.map((stock) => (
                                     <li 
-                                        key={stock.symbol}
                                         className='py-[10px] list-none flex items-center justify-between cursor-pointer hover:bg-fintown-hvr-btn-2'
                                         onClick={() => handleStockSelect(stock)}
                                     >

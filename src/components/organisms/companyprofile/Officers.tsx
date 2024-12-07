@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { fetchOfficers, selectOfficersData, selectOfficersError, selectOfficersLoading } from '@/src/redux/Officers';
-import { BarsLoader } from '../common/Loader';
+import { BarsLoader } from '../../common/Loader';
 import { Officers } from '@/src/interfaces/Officers';
 
 export default function OfficersComponent({symbol} : {symbol: string}){

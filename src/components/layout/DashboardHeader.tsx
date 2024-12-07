@@ -6,23 +6,24 @@ import { fetchUserProfile, logout, refreshToken } from "@/src/redux/auth/authSli
 import { RootState, AppDispatch } from "@/src/redux/store";
 import Cookies from 'js-cookie';
 import { useRouter } from "next/navigation";
-import MarketSummary from "../organisms/MarketSummary";
+import MarketSummary from "../organisms/technicalchart/MarketSummary";
 import NotificationsComponent from "../organisms/Notifications";
 
-export default function DashboardHeader({isTechnicalChart} : {isTechnicalChart: boolean}) {
+export default function DashboardHeader({ isTechnicalChart }: { isTechnicalChart: boolean }) {
     const dispatch = useDispatch<AppDispatch>();
     const [isOpen, setIsOpen] = useState(false);
-    const dropdownRef = useRef<HTMLDivElement | null>(null); 
+    const dropdownRef = useRef<HTMLDivElement | null>(null);
 
     const router = useRouter();
     let { user, loading, error } = useSelector((state: RootState) => state.auth) as {
-        user: { email: string; avatar?: string; fullname?: string; role?: string ;
+        user: {
+            email: string; avatar?: string; fullname?: string; role?: string;
         };
         loading: boolean;
         error: string | null;
     };
 
-    const [isTokenChecked, setIsTokenChecked] = useState(false); 
+    const [isTokenChecked, setIsTokenChecked] = useState(false);
 
     useEffect(() => {
         const checkAndRefreshToken = async () => {
@@ -34,9 +35,9 @@ export default function DashboardHeader({isTechnicalChart} : {isTechnicalChart: 
                         dispatch(fetchUserProfile()).unwrap(),
                     ]);
                 } catch (err) {
-                    
+
                 }
-            } 
+            }
             // else {
             //     // Nếu không có token, chuyển hướng về trang chính
             //     router.push('/');
@@ -58,25 +59,25 @@ export default function DashboardHeader({isTechnicalChart} : {isTechnicalChart: 
 
     // XỔ MENU PROFILE
     const toggleDropdown = () => {
-      setIsOpen((prev) => !prev);
-    }; 
+        setIsOpen((prev) => !prev);
+    };
 
     const handleClickOutside = (event: MouseEvent) => {
         // Kiểm tra nếu click bên ngoài dropdown
         if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-          setIsOpen(false);
+            setIsOpen(false);
         }
-      };
-    
-      useEffect(() => {
+    };
+
+    useEffect(() => {
         // Lắng nghe sự kiện click bên ngoài
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
-          // Hủy bỏ sự kiện khi component unmount
-          document.removeEventListener("mousedown", handleClickOutside);
+            // Hủy bỏ sự kiện khi component unmount
+            document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
-      
+
     // XỔ MENU NOTI
 
     return (
@@ -84,7 +85,7 @@ export default function DashboardHeader({isTechnicalChart} : {isTechnicalChart: 
             className="w-full h-[70px] border-b border-fintown-br px-[40px] flex items-center justify-between bg-fintown-bg fixed top-0 z-50 ml-[70px]"
             style={{ width: 'calc(100% - 70px)' }}
             id="dasnhboard-header"
-            >
+        >
 
             {
                 isTechnicalChart === !true && (
@@ -92,7 +93,7 @@ export default function DashboardHeader({isTechnicalChart} : {isTechnicalChart: 
                         <InputSearch />
                     </>
                 )
-            } 
+            }
 
             {
                 isTechnicalChart === true && (
@@ -100,7 +101,7 @@ export default function DashboardHeader({isTechnicalChart} : {isTechnicalChart: 
                         <MarketSummary />
                     </>
                 )
-            } 
+            }
 
             <div className="flex items-center gap-x-2.5 ml-auto">
                 {loading ? (
@@ -116,15 +117,15 @@ export default function DashboardHeader({isTechnicalChart} : {isTechnicalChart: 
                         </div>
 
                         <div className="w-[1px] bg-fintown-br h-[25px] ml-[5px] mr-[5px]"></div>
-                        
+
                         <div className="relative" ref={dropdownRef}>
                             {/* href="/profile/information" */}
 
                             <div className="flex items-center" onClick={toggleDropdown}>
                                 <img
-                                src={user.avatar || "/imgs/default-avatar.jpg"}
-                                alt="Avatar"
-                                className="w-[40px] h-[40px] rounded-full object-cover"
+                                    src={user.avatar || "/imgs/default-avatar.jpg"}
+                                    alt="Avatar"
+                                    className="w-[40px] h-[40px] rounded-full object-cover"
                                 />
                                 <i className="bx bx-chevron-down ml-[12px] text-fintown-txt-1 text-[24px]" />
                             </div>

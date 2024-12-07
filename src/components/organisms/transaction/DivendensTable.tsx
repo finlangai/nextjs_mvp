@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '@/src/redux/hooks/useAppStore';
-import { SpinerLoader } from '../common/Loader';
-import DividendsChart from "../charts/DividendsChart"
+import { SpinerLoader } from '../../common/Loader';
+import DividendsChart from "../../charts/DividendsChart"
 import { fetchDividendData, selectCashLegend, selectStockLegend, selectDividendRecords, selectDividendDataLoading } from '@/src/redux/Dividends';
 
 export default function DivendensTable({symbol} : {symbol: string}){

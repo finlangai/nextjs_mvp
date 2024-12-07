@@ -3,8 +3,8 @@ import React from 'react';
 import useSetSelectedButtonSiderBar from '@/src/redux/hooks/useButtonsiderBar';
 import useSetSelectedButtonStockPage from '@/src/redux/hooks/useButtonstockPage';
 import HistoricalPriceLineChart from '@/src/components/charts/PriceStockLineChart/HistoricalPriceLineChart';
-import SectionCard from '@/src/components/organisms/SectionCard';
-import PriceInsights from '@/src/components/organisms/PriceInsights';
+import SectionCard from '@/src/components/organisms/dashboard/SectionCard';
+import PriceInsights from '@/src/components/organisms/technicalindicator/PriceInsights';
 
 export default function ChiSoKyThuatPage({ params }: { params: { symbol: string } }) {
   const { symbol } = params;
@@ -18,10 +18,10 @@ export default function ChiSoKyThuatPage({ params }: { params: { symbol: string 
       </div>
 
       <div className="flex px-[40px] mb-[140px]">
-          < HistoricalPriceLineChart symbol={symbol} />
-          <div className="w-full max-w-[436px]">
-              <PriceInsights symbol={symbol} />
-          </div>
+        < HistoricalPriceLineChart symbol={symbol} />
+        <div className="w-full max-w-[436px]">
+          <PriceInsights symbol={symbol} />
+        </div>
       </div>
 
       <div className="overflow-hidden">

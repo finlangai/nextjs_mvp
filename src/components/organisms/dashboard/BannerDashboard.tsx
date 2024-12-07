@@ -1,9 +1,9 @@
 import React, {useEffect, useState, useRef} from "react";
-import StackedColumnChart from "../../components/charts/HistoricalRevenueAndProfit";
+import StackedColumnChart from "../../../components/charts/HistoricalRevenueAndProfit";
 import { fetchBestNPM, selectBestNPMData, selectBestNPMError, selectBestNPMLoading } from "@/src/redux/BestNPM";
 import { useAppDispatch, useAppSelector } from "@/src/redux/hooks/useAppStore";
 import { BestNPMData } from "@/src/interfaces/BestNPM";
-import { BarsLoader } from '../common/Loader';
+import { BarsLoader } from '../../common/Loader';
 import Link from "next/link";
 
 export default function BannerDashboard(){

@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '@/src/redux/hooks/useAppStore';
 import { TechnicalChartOverview } from '@/src/interfaces/TechnicalChartOverview';
 import { fetchTechnicalChartOverview, selectTechnicalChartOverviewData, selectTechnicalChartOverviewLoading } from '@/src/redux/TechnicalChartOverview';
-import { SpinerLoader } from '../common/Loader';
+import { SpinerLoader } from '../../common/Loader';
 
 const MarketSummary = () => {
   const dispatch = useAppDispatch();
@@ -30,7 +30,7 @@ const MarketSummary = () => {
     return (
       <>
         <div className="flex items-center gap-x-[30px] justify-center w-[40%]">
-            < SpinerLoader />
+          < SpinerLoader />
         </div>
       </>
     )
@@ -73,27 +73,25 @@ const MarketSummary = () => {
           {NowData?.highestDeltaSymbol}
         </div>
         <div className="mr-[5px]">
-          <i 
-          className={`font-bold text-[14px]  ${
-            NowData?.highestDeltaPercent !== undefined
-              ? NowData.highestDeltaPercent > 0
-                ? 'bx bx-caret-up text-fintown-stt-buy'
-                : NowData.highestDeltaPercent < 0
-                ? 'bx bx-caret-down text-fintown-stt-sell'
+          <i
+            className={`font-bold text-[14px]  ${NowData?.highestDeltaPercent !== undefined
+                ? NowData.highestDeltaPercent > 0
+                  ? 'bx bx-caret-up text-fintown-stt-buy'
+                  : NowData.highestDeltaPercent < 0
+                    ? 'bx bx-caret-down text-fintown-stt-sell'
+                    : 'hidden'
                 : 'hidden'
-              : 'hidden'
-          }`}></i>
+              }`}></i>
         </div>
         <div
-          className={`font-bold text-[14px] mr-[5px] ${
-            NowData?.highestDeltaPercent !== undefined
+          className={`font-bold text-[14px] mr-[5px] ${NowData?.highestDeltaPercent !== undefined
               ? NowData.highestDeltaPercent > 0
                 ? 'text-fintown-stt-buy'
                 : NowData.highestDeltaPercent < 0
-                ? 'text-fintown-stt-sell'
-                : 'text-fintown-txt-1'
+                  ? 'text-fintown-stt-sell'
+                  : 'text-fintown-txt-1'
               : 'text-fintown-txt-1'
-          }`}
+            }`}
         >
           {NowData?.highestDeltaPercent}%
         </div>

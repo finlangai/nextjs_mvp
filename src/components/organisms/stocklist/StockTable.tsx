@@ -1,68 +1,80 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
-import { fetchTopStocks, selectTopStockssData, selectTopStockssError, selectTopStockssLoading } from '@/src/redux/TopStocks';
+import {
+    fetchTickerList,
+    selectTickerListsData,
+    selectTickerListsLoading,
+} from '@/src/redux/TickerList';
 import { TickerList } from '@/src/interfaces/TickerList';
-import { SpinerLoader } from '../common/Loader';
+import { SpinerLoader } from '../../common/Loader';
 import Link from 'next/link';
-import TopStockTheadTable from './TopStockTheadTable';
+import {
+    selectLimitPage,
+} from '@/src/redux/TickerList';
+import StockTheadTable from './StcockTheadTable';
 
-export default function TopStocksTable() {
+const StockTable = () => {
     const dispatch = useAppDispatch();
-    const TopStockssData = useAppSelector(selectTopStockssData);
-    const [NowData, setNowData] = useState<TickerList[] | null>(null);
+    const selectTickerLists = useAppSelector(selectTickerListsData);
+    const [nowData, setNowData] = useState<TickerList[] | null>(null);
     const hasFetched = useRef(false);
-    const TopStockssLoading = useAppSelector(selectTopStockssLoading);
 
-    // Fetch API Lần đầu
+    // Selectors
+    const limitPagination = useAppSelector(selectLimitPage);
+    const tickerListsLoading = useAppSelector(selectTickerListsLoading);
+
+    // Initial data fetch
     useEffect(() => {
         if (!hasFetched.current) {
-            dispatch(fetchTopStocks({ limit: 5, offset: "", sortOn: "marketcap",  sortOrder: "desc" }));
+            Promise.all([
+                dispatch(fetchTickerList({
+                    limit: limitPagination,
+                    offset: "",
+                    sortOn: "marketcap",
+                    sortOrder: "desc"
+                })),
+            ]);
+
             hasFetched.current = true;
         }
     }, [dispatch]);
-    
-    // Lưu data đã fetch
+
+    // Update local state when ticker list data changes
     useEffect(() => {
-        if (TopStockssData !== null) {
-            setNowData(TopStockssData);
+        if (selectTickerLists) {
+            setNowData(selectTickerLists);
         }
-    }, [TopStockssData]);
+    }, [selectTickerLists]);
 
     return (
-        <div className='min-h-[460px]'>
-            <table className="table-fixed w-full relative">
-                <colgroup>
-                    <col className="w-[230px]" />
-                    <col className="min-w-[90px]" />
-                    <col className="min-w-[90px]" />
-                    <col className="min-w-[105px]" />
-                    <col className="min-w-[90px]" />
-                    <col className="min-w-[90px]" />
-                    <col className="min-w-[90px]" />
-                    <col className="min-w-[90px]" />
-                    <col className="min-w-[90px]" />
-                    <col className="min-w-[90px]" />
-                    <col className="min-w-[105px]" />
-                </colgroup>
+        <table className="table-fixed w-full relative">
+            <colgroup>
+                <col className="w-[230px]" />
+                <col className="min-w-[90px]" />
+                <col className="min-w-[90px]" />
+                <col className="min-w-[105px]" />
+                <col className="min-w-[90px]" />
+                <col className="min-w-[90px]" />
+                <col className="min-w-[90px]" />
+                <col className="min-w-[90px]" />
+                <col className="min-w-[90px]" />
+                <col className="min-w-[90px]" />
+                <col className="min-w-[105px]" />
+            </colgroup>
 
-                < TopStockTheadTable />
+            < StockTheadTable />
 
-                {
-                    TopStockssLoading ? (
+            {
+                tickerListsLoading ? (
+                    <div className="flex w-full justify-center items-center h-[428px] absolute">
+                        <SpinerLoader />
+                    </div>
+                ) : (
+                    nowData?.map((val) => (
                         <tbody>
-                        <tr>
-                            <td colSpan={11}>
-                                <div className="flex w-full justify-center items-center h-[428px]">
-                                    <SpinerLoader />
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    ) : (
-                        NowData?.map((val) => (
-                        <tbody key={val.symbol}>
                             <tr
                                 className="border-b border-fintown-lnr-1 hover:bg-fintown-hvr-btn-1"
+                                key={val.symbol}
                             >
                                 <td className="py-[21px] px-[12px]">
                                     <div className="flex">
@@ -92,35 +104,32 @@ export default function TopStocksTable() {
                                     {val.price.toLocaleString('en-US')}
                                 </td>
                                 <td
-                                    className={`py-[21px] px-[12px] text-right text-sm ${
-                                        val.dailyDelta > 0
+                                    className={`py-[21px] px-[12px] text-right text-sm ${val.dailyDelta > 0
                                             ? 'text-fintown-stt-buy'
                                             : val.dailyDelta < 0
-                                            ? 'text-fintown-stt-sell'
-                                            : 'text-fintown-txt-1'
-                                    }`}
+                                                ? 'text-fintown-stt-sell'
+                                                : 'text-fintown-txt-1'
+                                        }`}
                                 >
                                     {val.dailyDelta}%
                                 </td>
                                 <td
-                                    className={`py-[21px] px-[12px] text-right text-sm ${
-                                        val.weeklyDelta > 0
+                                    className={`py-[21px] px-[12px] text-right text-sm ${val.weeklyDelta > 0
                                             ? 'text-fintown-stt-buy'
                                             : val.weeklyDelta < 0
-                                            ? 'text-fintown-stt-sell'
-                                            : 'text-fintown-txt-1'
-                                    }`}
+                                                ? 'text-fintown-stt-sell'
+                                                : 'text-fintown-txt-1'
+                                        }`}
                                 >
                                     {val.weeklyDelta}%
                                 </td>
                                 <td
-                                    className={`py-[21px] px-[12px] text-right text-sm ${
-                                        val.yearlyDelta > 0
+                                    className={`py-[21px] px-[12px] text-right text-sm ${val.yearlyDelta > 0
                                             ? 'text-fintown-stt-buy'
                                             : val.yearlyDelta < 0
-                                            ? 'text-fintown-stt-sell'
-                                            : 'text-fintown-txt-1'
-                                    }`}
+                                                ? 'text-fintown-stt-sell'
+                                                : 'text-fintown-txt-1'
+                                        }`}
                                 >
                                     {val.yearlyDelta}%
                                 </td>
@@ -141,10 +150,11 @@ export default function TopStocksTable() {
                                 </td>
                             </tr>
                         </tbody>
-                        ))
-                    )
-                }
-            </table>
-        </div>
+                    ))
+                )
+            }
+        </table>
     )
 }
+
+export default StockTable

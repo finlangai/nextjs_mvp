@@ -7,8 +7,8 @@ import {
     fetchCompanyDescriptions 
 } from '@/src/redux/CompanyDescription';
 import { CompanyDescription } from '@/src/interfaces/CompanyDescription';
-import { BarsLoader } from '../common/Loader';
-import { NoneDataComponent } from '../common/NoneData';
+import { BarsLoader } from '../../common/Loader';
+import { NoneDataComponent } from '../../common/NoneData';
 
 export default function CompanyDescriptionComponent({symbol} : {symbol: string}) {
     const dispatch = useAppDispatch();

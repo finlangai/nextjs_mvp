@@ -5,7 +5,7 @@ import { fetchFinancialStatements, selectFinancialStatementsData } from '@/src/r
 import { fetchFinancialMetrics, selectFinancialMetricsData } from '@/src/redux/FinancialMetric';
 import { setSelectedButtonAndText, selectSelectedButton } from '@/src/redux/ReportPage';
 import useSetSelectedButtonStockPage from '@/src/redux/hooks/useButtonstockPage';
-import FinancialStatementTable from '@/src/components/IndexDetailLevelComponent/FinancialStatementTable';
+import FinancialStatementTable from '@/src/components/organisms/statement/FinancialStatementTable';
 import BtnNextPrevReportPage from '@/src/components/common/BtnNextPrevReportPage';
 import SelectYearOrQuarter from '@/src/components/common/SelectYearOrQuarter';
 interface LastFetchInfo {
@@ -44,8 +44,8 @@ export default function BaoCaoDoanhNghiepPage({ params }: { params: { symbol: st
       if (
         isLoadingRef.current ||
         (lastFetchRef.current.button === selectedButton &&
-         lastFetchRef.current.year === currentYear &&
-         lastFetchRef.current.quarter === currentQuarter)
+          lastFetchRef.current.year === currentYear &&
+          lastFetchRef.current.quarter === currentQuarter)
       ) {
         return;
       }
@@ -57,17 +57,16 @@ export default function BaoCaoDoanhNghiepPage({ params }: { params: { symbol: st
           if (financialMetricsData.length === 0 ||
             lastFetchRef.current.button !== selectedButton ||
             lastFetchRef.current.year !== currentYear ||
-            lastFetchRef.current.quarter !== currentQuarter)
-          {
+            lastFetchRef.current.quarter !== currentQuarter) {
             await dispatch(fetchFinancialMetrics({ symbol, year: currentYear, quarter: currentQuarter }));
           }
-        } 
+        }
         else {
           const statementType = selectedButton;
           if (financialStatementsData.length === 0 ||
-              lastFetchRef.current.button !== selectedButton ||
-              lastFetchRef.current.year !== currentYear ||
-              lastFetchRef.current.quarter !== currentQuarter) {
+            lastFetchRef.current.button !== selectedButton ||
+            lastFetchRef.current.year !== currentYear ||
+            lastFetchRef.current.quarter !== currentQuarter) {
             await dispatch(fetchFinancialStatements({ type: statementType, symbol, year: currentYear, quarter: currentQuarter }));
           }
         }
@@ -85,32 +84,32 @@ export default function BaoCaoDoanhNghiepPage({ params }: { params: { symbol: st
 
   return (
     <>
-    <div className='px-[40px] py-[22px] flex items-center gap-x-[50px] mb-[28px]'>
-      <button 
-        className={`text-[14px] py-[10px] px-[16px] rounded-[7px] ${selectedButton === 1 ? 'bg-fintown-btn-active-3 text-fintown-pr9' : 'text-fintown-txt-2'}`} 
-        onClick={() => handleButtonClick(1, 'Cân đối kế toán')}>
-        Cân đối kế toán
-      </button>
-      <button 
-        className={`text-[14px] py-[10px] px-[16px] rounded-[7px] ${selectedButton === 2 ? 'bg-fintown-btn-active-3 text-fintown-pr9' : 'text-fintown-txt-2'}`} 
-        onClick={() => handleButtonClick(2, 'Kết quả kinh doanh')}>
-        Kết quả kinh doanh
-      </button>
-      <button 
-        className={`text-[14px] py-[10px] px-[16px] rounded-[7px] ${selectedButton === 3 ? 'bg-fintown-btn-active-3 text-fintown-pr9' : 'text-fintown-txt-2'}`} 
-        onClick={() => handleButtonClick(3, 'Lưu chuyển tiền tệ')}>
-        Lưu chuyển tiền tệ
-      </button>
-      <button 
-        className={`text-[14px] py-[10px] px-[16px] rounded-[7px] ${selectedButton === 4 ? 'bg-fintown-btn-active-3 text-fintown-pr9' : 'text-fintown-txt-2'}`} 
-        onClick={() => handleButtonClick(4, 'Chỉ số tài chính')}>
-        Chỉ số tài chính
-      </button>
-    </div>
+      <div className='px-[40px] py-[22px] flex items-center gap-x-[50px] mb-[28px]'>
+        <button
+          className={`text-[14px] py-[10px] px-[16px] rounded-[7px] ${selectedButton === 1 ? 'bg-fintown-btn-active-3 text-fintown-pr9' : 'text-fintown-txt-2'}`}
+          onClick={() => handleButtonClick(1, 'Cân đối kế toán')}>
+          Cân đối kế toán
+        </button>
+        <button
+          className={`text-[14px] py-[10px] px-[16px] rounded-[7px] ${selectedButton === 2 ? 'bg-fintown-btn-active-3 text-fintown-pr9' : 'text-fintown-txt-2'}`}
+          onClick={() => handleButtonClick(2, 'Kết quả kinh doanh')}>
+          Kết quả kinh doanh
+        </button>
+        <button
+          className={`text-[14px] py-[10px] px-[16px] rounded-[7px] ${selectedButton === 3 ? 'bg-fintown-btn-active-3 text-fintown-pr9' : 'text-fintown-txt-2'}`}
+          onClick={() => handleButtonClick(3, 'Lưu chuyển tiền tệ')}>
+          Lưu chuyển tiền tệ
+        </button>
+        <button
+          className={`text-[14px] py-[10px] px-[16px] rounded-[7px] ${selectedButton === 4 ? 'bg-fintown-btn-active-3 text-fintown-pr9' : 'text-fintown-txt-2'}`}
+          onClick={() => handleButtonClick(4, 'Chỉ số tài chính')}>
+          Chỉ số tài chính
+        </button>
+      </div>
 
-    {/* =========================================FILTER============================================== */}
+      {/* =========================================FILTER============================================== */}
 
-    <div className='px-[40px] flex items-center gap-x-[26px] mb-[20px]'>
+      <div className='px-[40px] flex items-center gap-x-[26px] mb-[20px]'>
         <div className='text-[14px] text-fintown-txt-1'>Xem theo</div>
 
         < SelectYearOrQuarter symbol={symbol} year={currentYear} quarter={currentQuarter} />
@@ -127,22 +126,22 @@ export default function BaoCaoDoanhNghiepPage({ params }: { params: { symbol: st
         {selectedButton !== 4 && (
           <div className='text-[14px] text-fintown-txt-1'>Đơn vị: Tỷ đồng</div>
         )}
-        
-      {/* Nút prev/next */}
-      <div className='ml-auto '>
-        < BtnNextPrevReportPage symbol={symbol}/>
+
+        {/* Nút prev/next */}
+        <div className='ml-auto '>
+          < BtnNextPrevReportPage symbol={symbol} />
+        </div>
+
       </div>
 
-    </div>
+      {/* =========================================TABLE============================================== */}
 
-    {/* =========================================TABLE============================================== */}
+      <FinancialStatementTable />
 
-    <FinancialStatementTable/>
-
-    <br></br>
-    <br></br>
-    <br></br>
-    <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
     </>
 
   );
