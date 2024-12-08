@@ -7,6 +7,7 @@ import { useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { Criterias } from '@/src/interfaces/ForecastingOverallAssessment';
 import { selectForecastingOverallAssessmentData } from '@/src/redux/ForecastingOverallAssessment';
 import { convertToSignals, SignalInterface, finalStatus } from '@/src/utils/convertToSignals';
+import { selectDarkMode } from '@/src/redux/darkmode';
 
 highchartsMore(Highcharts);
 
@@ -17,6 +18,8 @@ const OverallChart = dynamic(() => {
 });
 
 const CustomGaugeChart= ({ signals } : {signals: SignalInterface[]; title?: string}) => {
+  const isDarkMode = useAppSelector(selectDarkMode);
+
   const result = finalStatus({ signals });
   const options = {
     credits: {
@@ -38,7 +41,7 @@ const CustomGaugeChart= ({ signals } : {signals: SignalInterface[]; title?: stri
     title: {
       text: '',
       style: {
-        color: '#fff'
+        color: `${isDarkMode ? '#232323' : '#EAECEF'}`
       }
     },
     tooltip: { enabled: false },
@@ -90,14 +93,14 @@ const CustomGaugeChart= ({ signals } : {signals: SignalInterface[]; title?: stri
       data: [result?.value],
       dial: {
         radius: '50%',
-        backgroundColor: 'white',
+        backgroundColor: `${isDarkMode ? '#232323' : '#EAECEF'}`,
         baseWidth: 3,
         topWidth: 1,
         baseLength: '0%',
         rearLength: '0%'
       },
       pivot: {
-        backgroundColor: 'white',
+        backgroundColor: `${isDarkMode ? '#232323' : '#EAECEF'}`,
         radius: 6
       },
       dataLabels: {

@@ -73,7 +73,7 @@ export default function BannerDashboard(){
                         </div>
 
                         <div className="flex items-center gap-x-2.5">
-                            <div className="bg-white rounded w-[40px] h-[21px]"></div>
+                            <div className="bg-fintown-txt-1 dark:bg-fintown-txt-1-light rounded w-[40px] h-[21px]"></div>
                             <p className="text-fintown-txt-1 dark:text-fintown-txt-1-light">LNST</p>
                         </div>
 

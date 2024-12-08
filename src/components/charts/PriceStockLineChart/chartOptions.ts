@@ -70,20 +70,20 @@ export const getChartOptions = (data: PriceStockNoVolume[], isDarkMode:boolean):
           return this.value.toString();
         }
       },
-      gridLineColor: '#2B3139',
+      gridLineColor: `${isDarkMode ? '#D9D9D9' : '#2B3139'}`,
       // tickAmount: 6,
       gridLineDashStyle: 'ShortDot'
     },
     series: [{
       type: 'area',
       data: formattedData,
-      color: 'white',
+      color: `${isDarkMode ? '#232323' : '#EAECEF'}`,
       lineWidth: 1.5,
       fillColor: {
         linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
         stops: [
-          [0, `${isDarkMode ? 'transparent' : '#ffffff61'}`],
-          [1, `${isDarkMode ? 'white' : 'black'}` ]
+          [0, `${isDarkMode ? '#ffffff61' : '#ffffff61'}`],
+          [1, `${isDarkMode ? 'rgb(255 255 255 / 69%)' : '#49494921'}`]
         ]
       },
       dataGrouping: {
