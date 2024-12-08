@@ -31,7 +31,7 @@ export default function Dashboard() {
         <div className="flex justify-between items-center mb-[24px]">
           <h2 className="font-bold text-fintown-txt-1 dark:text-fintown-txt-1-light text-[40px]">Top cổ phiếu</h2>
           <Link href={'/dashboard/co-phieu'}>
-            <button className="text-fintown-txt-1 text-sm bg-fintown-btn-2 rounded px-[18px] py-[6px] max-h-[32px]">
+            <button className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-sm bg-fintown-btn-2 dark:bg-fintown-btn-2-light rounded px-[18px] py-[6px] max-h-[32px]">
               Xem thêm
             </button>
           </Link>

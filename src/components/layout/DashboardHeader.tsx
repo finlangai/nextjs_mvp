@@ -82,7 +82,7 @@ export default function DashboardHeader({ isTechnicalChart }: { isTechnicalChart
 
     return (
         <header
-            className="w-full h-[70px] border-b border-fintown-br px-[40px] flex items-center justify-between bg-fintown-bg fixed top-0 z-50 ml-[70px]"
+            className="w-full h-[70px] border-b border-fintown-br dark:border-fintown-br-light px-[40px] flex items-center justify-between bg-fintown-bg dark:bg-fintown-bg-light fixed top-0 z-50 ml-[70px]"
             style={{ width: 'calc(100% - 70px)' }}
             id="dasnhboard-header"
         >
@@ -113,10 +113,10 @@ export default function DashboardHeader({ isTechnicalChart }: { isTechnicalChart
                                 <i className='bx bx-cube text-[14px]'></i>
                                 <div className="capitalize font-bold text-right">{user?.role}</div>
                             </div>
-                            <div className="text-fintown-txt-1 text-sm text-right">{user.fullname}</div>
+                            <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-sm text-right">{user.fullname}</div>
                         </div>
 
-                        <div className="w-[1px] bg-fintown-br h-[25px] ml-[5px] mr-[5px]"></div>
+                        <div className="w-[1px] bg-fintown-br dark:bg-fintown-br-light h-[25px] ml-[5px] mr-[5px]"></div>
 
                         <div className="relative" ref={dropdownRef}>
                             {/* href="/profile/information" */}
@@ -127,20 +127,20 @@ export default function DashboardHeader({ isTechnicalChart }: { isTechnicalChart
                                     alt="Avatar"
                                     className="w-[40px] h-[40px] rounded-full object-cover"
                                 />
-                                <i className="bx bx-chevron-down ml-[12px] text-fintown-txt-1 text-[24px]" />
+                                <i className="bx bx-chevron-down ml-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-[24px]" />
                             </div>
 
                             {/* Dropdown menu */}
                             {isOpen && (
-                                <div className="absolute right-0 mt-2 bg-fintown-bg-stn rounded-[10px] shadow-lg">
+                                <div className="absolute right-0 mt-2 bg-fintown-btn-5 dark:bg-fintown-btn-5-light rounded-[10px] shadow-lg">
                                     <ul className="px-[24px] pb-[26px] pt-[10px] min-w-max text-fintown-txt-2">
 
-                                        <li className="border-b border-b-fintown-br py-[14px] flex items-center gap-x-[12px] min-w-max hover:text-fintown-pr9">
+                                        <li className="border-b border-b-fintown-br dark:border-b-fintown-br-light py-[14px] flex items-center gap-x-[12px] min-w-max hover:text-fintown-pr9">
                                             <i className='bx bx-user-circle text-[24px]' ></i>
                                             <Link href="/" className="text-[14px]">Thông tin cá nhân</Link>
                                         </li>
 
-                                        <li className="border-b border-b-fintown-br py-[14px] flex items-center gap-x-[12px] min-w-max hover:text-fintown-pr9">
+                                        <li className="border-b border-b-fintown-br dark:border-b-fintown-br-light py-[14px] flex items-center gap-x-[12px] min-w-max hover:text-fintown-pr9">
                                             <i className='bx bx-cube text-[24px]' ></i>
                                             <Link href="/" className="text-[14px]">Quyền hạn sử dụng</Link>
                                         </li>
@@ -158,11 +158,11 @@ export default function DashboardHeader({ isTechnicalChart }: { isTechnicalChart
                             )}
                         </div>
 
-                        <div className="w-[1px] bg-fintown-br h-[25px] ml-[5px] mr-[5px]"></div>
+                        <div className="w-[1px] bg-fintown-br dark:bg-fintown-br-light h-[25px] mr-[5px]"></div>
 
                         < NotificationsComponent />
 
-                        <div className="w-[1px] bg-fintown-br h-[25px] ml-[5px] mr-[5px]"></div>
+                        <div className="w-[1px] bg-fintown-br dark:bg-fintown-br-light h-[25px] ml-[5px] mr-[5px]"></div>
 
                         <Link href="/pricing">
                             <button className="text-fintown-txt-1 text-sm rounded-md bg-fintown-pr9 px-[19px] py-[6px]">

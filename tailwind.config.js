@@ -75,6 +75,10 @@ module.exports = {
               DEFAULT: '#2B3139', 
               light: '#656F79',
             },
+            5: {
+              DEFAULT: '#1E2329', 
+              light: '#EAECEF',
+            },
             active: {
               1: {
                 DEFAULT: '#32A071', 
@@ -103,10 +107,6 @@ module.exports = {
               DEFAULT: '#2B3139', 
               light: '#333545',
             },
-
-            cardgood: "#489B75",
-            cardverygood: "#489B75",
-            cardgood: "#489B75"
           },
 
           br: {

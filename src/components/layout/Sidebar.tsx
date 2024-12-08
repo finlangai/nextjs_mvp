@@ -57,7 +57,7 @@ export default function Sidebar() {
     return (
         <div
             id="sider-bar-left-dashboard"
-            className="fixed z-50 top-0 w-[70px] border-r h-screen border-fintown-br bg-fintown-bg flex flex-col justify-between"
+            className="fixed z-50 top-0 w-[70px] border-r h-screen border-fintown-br dark:border-fintown-br-light bg-fintown-bg dark:bg-fintown-bg-light flex flex-col justify-between"
         >
             {/* Phần trên cùng */}
             <div>
@@ -82,7 +82,12 @@ export default function Sidebar() {
                         <BtnSidebar class_icon="bx bx-bar-chart" active={selectedButton === 3} />
 
                         {/* Danh sách menu khi hover */}
-                        <div className="text-[14px] absolute left-full top-0 hidden group-hover:block bg-[#1E2329] shadow-lg rounded-tr-lg rounded-br-lg border border-fintown-br min-w-[200px]">
+                        <div 
+                        className="
+                        text-[14px] absolute left-full top-0 hidden group-hover:block 
+                        bg-fintown-btn-5 dark:bg-fintown-btn-5-light rounded-tr-lg 
+                        rounded-br-lg border border-fintown-br dark:border-fintown-br-light min-w-[200px]"
+                        >                         
                             <HoverArrowLink 
                             href="/dashboard/co-phieu/VCB/" 
                             label="Chỉ số kỹ thuật" 
@@ -118,7 +123,10 @@ export default function Sidebar() {
                     <div className="relative group">
                         <BtnSidebar class_icon="bx bxs-calculator" active={selectedButton === 6} />
                      
-                        <div className="text-[14px] absolute left-full top-0 hidden group-hover:block bg-[#1E2329] shadow-lg rounded-tr-lg rounded-br-lg border border-fintown-br min-w-[200px]">
+                        <div className="
+                        text-[14px] absolute left-full top-0 hidden group-hover:block 
+                        bg-fintown-btn-5 dark:bg-fintown-btn-5-light rounded-tr-lg 
+                        rounded-br-lg border border-fintown-br dark:border-fintown-br-light min-w-[200px]">
                             <HoverArrowLink 
                             href="/dashboard/dinh-gia-co-phieu/VCB/chiet-khau-dong-tien" 
                             label="Chiết khấu dòng tiền" 

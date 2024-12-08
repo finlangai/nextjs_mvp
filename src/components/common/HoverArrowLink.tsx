@@ -12,7 +12,7 @@ const HoverArrowLink: React.FC<HoverArrowLinkProps> = ({ href, label }) => {
   return (
     <Link 
       href={href} 
-      className="py-4 px-[24px] cursor-pointer text-fintown-txt-1 flex items-center gap-x-2.5 relative min-w-max"
+      className="py-4 px-[24px] cursor-pointer text-fintown-txt-1 dark:text-fintown-txt-1-light flex items-center gap-x-2.5 relative min-w-max"
       onMouseEnter={() => setIsVisible(true)}
       onMouseLeave={() => setIsVisible(false)}
     >

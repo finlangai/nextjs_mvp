@@ -82,7 +82,7 @@ export default function HolderList({ symbol }: { symbol: string }) {
                                 </div>
 
                                 <div className='text-fintown-txt-1 dark:text-fintown-txt-1-light w-max text-[14px] text-right pr-[10px] flex-grow-0 flex-shrink-0 basis-[110px]'>
-                                    {items.ownership.toFixed(4)}%
+                                    {items.ownership.toFixed(8)}%
                                 </div>
 
                                 <div className='text-fintown-txt-1 dark:text-fintown-txt-1-light w-max text-[14px] text-right flex-grow-0 flex-shrink-0 basis-[110px]'>
