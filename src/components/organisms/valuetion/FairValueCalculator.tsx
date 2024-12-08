@@ -95,7 +95,7 @@ export default function FairValueCalculator({symbol} : {symbol: string}){
     return (
         <>
         <div className="px-[24px] py-[24px]">
-            <div className="px-[24px] py-[24px] border border-fintown-br rounded-[8px] flex justify-between">
+            <div className="px-[24px] py-[24px] border border-fintown-br dark:border-fintown-br-light rounded-[8px] flex justify-between">
                 <div className="w-full pr-[24px] ">
                     <div className="font-[500] text-[14px] text-fintown-txt-2 mb-[12px]">
                         {
@@ -114,7 +114,7 @@ export default function FairValueCalculator({symbol} : {symbol: string}){
 
                     {
                         (selectButton === 0 || selectButton === 1) &&(
-                            <hr className='border-fintown-br mt-[20px]'/>
+                            <hr className='border-fintown-br dark:border-fintown-br-light mt-[20px]'/>
                         )
                     }
 
@@ -133,7 +133,7 @@ export default function FairValueCalculator({symbol} : {symbol: string}){
                     {
                         (selectButton === 1 || selectButton === 6) && (
                         <div className='mt-[20px]'>
-                            <div className='text-fintown-txt-1 text-[14px] font-bold mb-[30px]'>
+                            <div className='text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px] font-bold mb-[30px]'>
                                 {
                                     (selectButton === 1) && (
                                         "Tỷ suất sinh lợi yêu cầu"

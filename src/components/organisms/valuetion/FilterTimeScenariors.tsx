@@ -44,14 +44,14 @@ export default function FilterTimeScenariors({
 
     return (
         <ThemeProvider theme={theme || defaultTheme}>
-            <div className="relative py-[12px] px-[30px] border-b border-fintown-br flex items-center justify-between">
-                <div className='text-fintown-txt-1 text-[14px]'>Lọc theo thời gian</div>
+            <div className="relative py-[12px] px-[30px] border-b border-fintown-br dark:border-fintown-br-light flex items-center justify-between">
+                <div className='text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px]'>Lọc theo thời gian</div>
                 <div
                     ref={(el) => setAnchorEl(el)}
                     onClick={() => setOpen(true)}
                     className="
-                    flex items-center w-full max-w-[100px] px-[12px] py-[7px] rounded border border-fintown-br justify-between cursor-pointer text-fintown-txt-2
-                    hover:border-fintown-pr9 hover:text-fintown-txt-1"
+                    flex items-center w-full max-w-[100px] px-[12px] py-[7px] rounded border border-fintown-br dark:border-fintown-br-light justify-between cursor-pointer text-fintown-txt-2
+                    hover:border-fintown-pr9 hover:text-fintown-txt-1 hover:dark:text-fintown-txt-1-light"
                 >
                     <i className='bx bx-calendar-event text-[18px] '></i>
                     <div className=" text-[12px]">

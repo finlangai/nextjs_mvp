@@ -157,18 +157,18 @@ export default function PriceHistoryTab({symbol} : {symbol: string}) {
 
     return (
         <>
-            <div className="px-[24px] py-[24px] h-full border-b border-b-fintown-br">
-                <div className=" text-[14px] text-fintown-txt-1 mb-[12px] flex items-center">
+            <div className="px-[24px] py-[24px] h-full border-b border-b-fintown-br dark:border-b-fintown-br-light">
+                <div className=" text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light mb-[12px] flex items-center">
                     <div className="mr-[10px]">Ghi chú của bạn</div>
                     <button 
                     onClick={() => setIsPopupOpen(true)} 
-                    className='ml-auto flex items-center py-[10px] px-[16px] border text-fintown-txt-1 border-fintown-br rounded-[6px] hover:bg-[#54575C]'>
+                    className='ml-auto flex items-center py-[10px] px-[16px] border text-fintown-txt-1 dark:text-fintown-txt-1-light border-fintown-br dark:border-fintown-br-light rounded-[6px] '>
                         <i className='bx bx-edit mr-[10px] text-[18px] cursor-pointer'></i>
                         <div className='text-[12px]'>Chỉnh sửa ghi chú</div>
                     </button>
                 </div>
 
-                <div className="text-[20px] text-fintown-txt-1 mb-[10px] font-bold">
+                <div className="text-[20px] text-fintown-txt-1 dark:text-fintown-txt-1-light mb-[10px] font-bold">
                     {nowData?.title}
                 </div>
 
@@ -178,16 +178,16 @@ export default function PriceHistoryTab({symbol} : {symbol: string}) {
 
                 {/* <div className='h-[15px] w-[1px] bg-fintown-br mr-[10px]'></div> */}
                 <div className='text-fintown-txt-2 text-[12px]'>
-                    Đã lưu vào: <span className='text-fintown-txt-1'>{nowData?.saveAt}</span>
+                    Đã lưu vào: <span className='text-fintown-txt-1 dark:text-fintown-txt-1-light'>{nowData?.saveAt}</span>
                 </div>
             </div>
 
             <div className="border-b border-b-fintown-br w-full flex items-center items-stretch">
 
-                <div className="w-full border-r border-r-fintown-br">
-                    <div className="flex items-center gap-x-[24px] py-[18px] border-b border-b-fintown-br px-[27px] ">
+                <div className="w-full border-r border-r-fintown-br dark:border-r-fintown-br-light">
+                    <div className="flex items-center gap-x-[24px] py-[18px] border-b border-b-fintown-br dark:border-b-fintown-br-light px-[27px] ">
                         <div className="flex items-center">
-                            <div className="h-[10px] w-[10px] rounded-[50%] bg-[white] mr-[8px]"></div>
+                            <div className="h-[10px] w-[10px] rounded-[50%] bg-fintown-txt-1 dark:bg-fintown-txt-1-light mr-[8px]"></div>
                             <div className="text-[14px] text-fintown-txt-2">Giá cổ phiếu tại thời điểm định giá</div>
                         </div>
 
@@ -208,12 +208,12 @@ export default function PriceHistoryTab({symbol} : {symbol: string}) {
                 </div>
 
                 <div className="min-w-[224px]">
-                    <div className="h-[50%] border-b border-b-fintown-br flex items-center justify-center">
+                    <div className="h-[50%] border-b border-b-fintown-br dark:border-b-fintown-br-light flex items-center justify-center">
                         <div>
                             <div className="mb-[5px] text-[12px] text-fintown-txt-2 text-center">
                                 Kết quả định giá
                             </div>
-                            <div className="font-bold text-[30px] text-fintown-txt-1 text-center">
+                            <div className="font-bold text-[30px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-center">
                                 {nowData?.valuated?.toLocaleString('en-US')}
                             </div>
                         </div>
@@ -224,36 +224,13 @@ export default function PriceHistoryTab({symbol} : {symbol: string}) {
                             <div className="mb-[5px] text-[12px] text-fintown-txt-2 text-center">
                                 Tỷ lệ sinh lợi tiềm năng
                             </div>
-                            <div className={`font-bold text-[30px] text-fintown-txt-1 text-center`} style={{ color: getPotentialClass(nowData?.potential) }}>
+                            <div className={`font-bold text-[30px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-center`} style={{ color: getPotentialClass(nowData?.potential) }}>
                                 {nowData?.potential?.toFixed(2)}%
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            {/* <div className="px-[24px] py-[24px] h-full">
-                <div className=" text-[14px] text-fintown-txt-1 mb-[12px] flex items-center">
-                    <div className="mr-[10px]">Ghi chú của bạn</div>
-                    <div className='h-[15px] w-[1px] bg-fintown-br mr-[10px]'></div>
-                    <div className='text-fintown-txt-2 text-[14px]'>Đã lưu vào: {nowData?.saveAt}</div>
-
-                    <button 
-                    onClick={() => setIsPopupOpen(true)} 
-                    className='ml-auto flex items-center py-[10px] px-[16px] border text-fintown-txt-1 border-fintown-br rounded-[6px] hover:bg-[#54575C]'>
-                        <i className='bx bx-edit mr-[10px] text-[18px] cursor-pointer'></i>
-                        <div className='text-[12px]'>Chỉnh sửa ghi chú</div>
-                    </button>
-                </div>
-
-                <div className="text-[20px] text-fintown-txt-1 mb-[10px] font-bold">
-                    {nowData?.title}
-                </div>
-
-                <div className="text-[14px] text-fintown-txt-2">
-                    {nowData?.note}
-                </div>
-            </div> */}
 
             {(isPopupOpen || isAnimating) && (
                 <div
@@ -263,11 +240,12 @@ export default function PriceHistoryTab({symbol} : {symbol: string}) {
                 ${isPopupOpen ? 'opacity-100' : 'opacity-0'}`}>
                     <div
                     onClick={(e) => e.stopPropagation()}
-                    className={`w-[400px] bg-fintown-bg-stn rounded-[8px] py-[32px] px-[32px] max-h-max
+                    className={`
+                    w-[400px] bg-fintown-bg-stn dark:bg-fintown-bg-stn-light rounded-[8px] py-[32px] px-[32px] max-h-max
                     transform transition-all duration-500 ease-out
                     ${isPopupOpen ? 'mt-[100px] translate-y-0 opacity-100' : 'mt-0 -translate-y-12 opacity-0'}`}>
 
-                    <div className="text-[16px] text-fintown-txt-1 font-[600] mb-[10px]">
+                    <div className="text-[16px] text-fintown-txt-1 dark:text-fintown-txt-1-light font-[600] mb-[10px]">
                         Chỉnh sửa ghi chú
                     </div>
                     <div className="text-[12px] text-fintown-txt-2 mb-[33px]">
@@ -275,12 +253,12 @@ export default function PriceHistoryTab({symbol} : {symbol: string}) {
                     </div>
 
                     {/* Tên kịch bản */}
-                    <div className="mb-[10px] text-[14px] text-fintown-txt-1 font-[600]">Tên cho kịch bản này</div>
+                    <div className="mb-[10px] text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light font-[600]">Tên cho kịch bản này</div>
                     <div className={`py-[13px] px-[16px] rounded-[8px] border 
-                    ${errors.scenarioName ? 'border-[#E03C4A]' : 'border-fintown-br'}
+                    ${errors.scenarioName ? 'border-[#E03C4A]' : 'border-fintown-br dark:border-fintown-br-light'}
                     `}>
                         <input
-                            className="text-[14px] text-fintown-txt-1 block w-full placeholder:text-fintown-txt-2 bg-transparent outline-none"
+                            className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light block w-full placeholder:text-fintown-txt-2 bg-transparent outline-none"
                             placeholder="Ví dụ: Kết quả ước tính cho FPT - Q2/2025"
                             value={scenarioName}
                             onChange={(e) => setScenarioName(e.target.value)}
@@ -293,12 +271,12 @@ export default function PriceHistoryTab({symbol} : {symbol: string}) {
                     <div className='mb-[32px]'></div>
 
                     {/* Ghi chú */}
-                    <div className="mb-[10px] text-[14px] text-fintown-txt-1 font-[600]">Ghi chú</div>
+                    <div className="mb-[10px] text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light font-[600]">Ghi chú</div>
                         <div 
                         className={`py-[13px] px-[16px] rounded-[8px] border mb-[33px]
-                        ${errors.notes ? 'border-[#E03C4A]' : 'border-fintown-br'}`}>
+                        ${errors.notes ? 'border-[#E03C4A]' : 'border-fintown-br dark:border-fintown-br-light'}`}>
                             <textarea
-                                className="text-[14px] text-fintown-txt-1 block w-full placeholder:text-fintown-txt-2 bg-transparent outline-none custom-scrollbarmini2"
+                                className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light block w-full placeholder:text-fintown-txt-2 bg-transparent outline-none custom-scrollbarmini2"
                                 placeholder="Hãy viết vài dòng ghi chú ngắn gọn"
                                 rows={6}
                                 value={notes}
@@ -311,7 +289,7 @@ export default function PriceHistoryTab({symbol} : {symbol: string}) {
                         <div className="flex justify-end">
                             <button
                                 onClick={() => setIsPopupOpen(false)}
-                                className="py-[10px] text-fintown-txt-1 text-[12px] px-[23px] border border-fintown-br rounded-[8px] mr-[10px]">
+                                className="py-[10px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-[12px] px-[23px] border border-fintown-br dark:border-fintown-br-light rounded-[8px] mr-[10px]">
                                 Để sau vậy
                             </button>
                             <button

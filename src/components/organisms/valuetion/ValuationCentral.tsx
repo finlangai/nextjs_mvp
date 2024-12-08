@@ -154,24 +154,24 @@ export default function ValuationCentralComponent({ symbol, name, formular }: { 
     return (
         <>
             <div className='w-full'>
-                <div className='py-[30px] px-[24px] justify-between border-b border-fintown-br'>
-                    <div className='text-[20px] font-bold text-fintown-txt-1 mb-[16px]'>
+                <div className='py-[30px] px-[24px] justify-between border-b border-fintown-br dark:border-fintown-br-light'>
+                    <div className='text-[20px] font-bold text-fintown-txt-1 dark:text-fintown-txt-1-light mb-[16px]'>
                         {name}
                     </div>
 
-                    <div className="text-[14px] text-fintown-txt-1">
+                    <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light">
                         {formular}
                     </div>
                 </div>
 
-                <div className="flex items-center px-[24px] border-b border-fintown-br">
+                <div className="flex items-center px-[24px] border-b border-fintown-br dark:border-fintown-br-light">
                     <div className='py-6'>
                         <SlidingTabs onTabChange={handleTabChange} tabs={tabs} gap={"18px"} startIndex={0} fontsize='14px'/>
                     </div>
                     {activeTabIndex === 0 && (
                         <button
                             onClick={() => setIsPopupOpen(true)}
-                            className="text-fintown-txt-1 text-[12px] rounded py-[7px] px-[17px] bg-fintown-btn-2 ml-auto">
+                            className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-[12px] rounded py-[7px] px-[17px] bg-fintown-btn-2 dark:bg-fintown-btn-2-light ml-auto">
                             Lưu kịch bản
                         </button>
                     )}
@@ -190,11 +190,11 @@ export default function ValuationCentralComponent({ symbol, name, formular }: { 
                 ${isPopupOpen ? 'opacity-100' : 'opacity-0'}`}>
                     <div
                     onClick={(e) => e.stopPropagation()}
-                    className={`w-[400px] bg-fintown-bg-stn rounded-[8px] py-[32px] px-[32px] max-h-max
+                    className={`w-[400px] bg-fintown-bg-stn dark:bg-fintown-bg-stn-light rounded-[8px] py-[32px] px-[32px] max-h-max
                     transform transition-all duration-500 ease-out
                     ${isPopupOpen ? 'mt-[100px] translate-y-0 opacity-100' : 'mt-0 -translate-y-12 opacity-0'}`}>
 
-                    <div className="text-[16px] text-fintown-txt-1 font-[600] mb-[10px]">
+                    <div className="text-[16px] text-fintown-txt-1 dark:text-fintown-txt-1-light font-[600] mb-[10px]">
                         Lưu trữ kết quả tính toán của bạn
                     </div>
                     <div className="text-[12px] text-fintown-txt-2 mb-[33px]">
@@ -202,12 +202,12 @@ export default function ValuationCentralComponent({ symbol, name, formular }: { 
                     </div>
 
                     {/* Tên kịch bản */}
-                    <div className="mb-[10px] text-[14px] text-fintown-txt-1 font-[600]">Tên cho kịch bản này</div>
+                    <div className="mb-[10px] text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light font-[600]">Tên cho kịch bản này</div>
                     <div className={`py-[13px] px-[16px] rounded-[8px] border 
-                    ${errors.scenarioName ? 'border-[#E03C4A]' : 'border-fintown-br'}
+                    ${errors.scenarioName ? 'border-[#E03C4A]' : 'border-fintown-br dark:border-fintown-br-light'}
                     `}>
                         <input
-                            className="text-[14px] text-fintown-txt-1 block w-full placeholder:text-fintown-txt-2 bg-transparent outline-none"
+                            className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light block w-full placeholder:text-fintown-txt-2 bg-transparent outline-none"
                             placeholder="Ví dụ: Kết quả ước tính cho FPT - Q2/2025"
                             value={scenarioName}
                             onChange={(e) => setScenarioName(e.target.value)}
@@ -220,12 +220,12 @@ export default function ValuationCentralComponent({ symbol, name, formular }: { 
                     <div className='mb-[32px]'></div>
 
                     {/* Ghi chú */}
-                    <div className="mb-[10px] text-[14px] text-fintown-txt-1 font-[600]">Ghi chú</div>
+                    <div className="mb-[10px] text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light font-[600]">Ghi chú</div>
                         <div 
                         className={`py-[13px] px-[16px] rounded-[8px] border mb-[33px]
-                        ${errors.notes ? 'border-[#E03C4A]' : 'border-fintown-br'}`}>
+                        ${errors.notes ? 'border-[#E03C4A]' : 'border-fintown-br dark:border-fintown-br-light'}`}>
                             <textarea
-                                className="text-[14px] text-fintown-txt-1 block w-full placeholder:text-fintown-txt-2 bg-transparent outline-none custom-scrollbarmini2"
+                                className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light block w-full placeholder:text-fintown-txt-2 bg-transparent outline-none custom-scrollbarmini2"
                                 placeholder="Hãy viết vài dòng ghi chú ngắn gọn"
                                 rows={6}
                                 value={notes}
@@ -238,7 +238,7 @@ export default function ValuationCentralComponent({ symbol, name, formular }: { 
                         <div className="flex justify-end">
                             <button
                                 onClick={() => setIsPopupOpen(false)}
-                                className="py-[10px] text-fintown-txt-1 text-[12px] px-[23px] border border-fintown-br rounded-[8px] mr-[10px]">
+                                className="py-[10px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-[12px] px-[23px] border border-fintown-br dark:border-fintown-br-light rounded-[8px] mr-[10px]">
                                 Để sau vậy
                             </button>
                             <button

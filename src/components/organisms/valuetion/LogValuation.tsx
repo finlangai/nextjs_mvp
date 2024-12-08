@@ -94,12 +94,12 @@ export default function LogValuation ({containerHeight, symbol} : {containerHeig
 
     return (
         <>
-        <div className="border-b border-b-fintown-br">
+        <div className="border-b border-b-fintown-br dark:border-b-fintown-br-light">
             <div className="pl-[30px] pr-[40px] py-[32px] flex items-center">
-                <div className="text-[14px] font-bold text-fintown-txt-1 mr-[8px]">
+                <div className="text-[14px] font-bold text-fintown-txt-1 dark:text-fintown-txt-1-light mr-[8px]">
                     Danh sách kịch bản định giá
                 </div>
-                <div className="text-[10px] text-fintown-txt-1 h-[20px] w-[20px] rounded-[2px] bg-[#656F79] flex items-center justify-center">
+                <div className="text-[10px] text-fintown-txt-1 dark:text-fintown-txt-1-light h-[20px] w-[20px] rounded-[2px] bg-fintown-btn-2 dark:bg-fintown-btn-2-light flex items-center justify-center">
                     <span className="h-max">{scenariosData?.length}</span>
                 </div>
             </div>
@@ -126,10 +126,10 @@ export default function LogValuation ({containerHeight, symbol} : {containerHeig
             {
                 (scenariosData && scenariosData.length > 0 && !scenariosLoading) && (
                     scenariosData.map((items) => (
-                        <div className="border-b border-b-fintown-br" key={items.id}>
+                        <div className="border-b border-b-fintown-br dark:border-b-fintown-br-light" key={items.id}>
                             <div className="flex items-center mb-[15px]">
                                 <div className="flex items-center">
-                                    <div className="text-[14px] font-[600] text-fintown-txt-1">{items?.title}</div>
+                                    <div className="text-[14px] font-[600] text-fintown-txt-1 dark:text-fintown-txt-1-light">{items?.title}</div>
                                 </div>
                                 <button
                                     onClick={() => {
@@ -137,7 +137,7 @@ export default function LogValuation ({containerHeight, symbol} : {containerHeig
                                         setIdDelete(items?.id);
                                         setSymbolDelete(items?.symbol);
                                     }}                                
-                                    className="h-[26px] w-[26px] rounded bg-fintown-btn-2 flex items-center justify-center ml-auto hover:bg-[#54575C]">
+                                    className="h-[26px] w-[26px] rounded bg-fintown-btn-2 dark:bg-fintown-btn-2-light flex items-center justify-center ml-auto hover:bg-[#54575C]">
                                     <i className='bx bx-trash text-fintown-txt-2'></i>
                                 </button>
                             </div>
@@ -156,7 +156,7 @@ export default function LogValuation ({containerHeight, symbol} : {containerHeig
                                     <div className="text-[12px] text-fintown-txt-2 mr-[5px]">
                                         Giá trị được định giá:
                                     </div>
-                                    <div className="text-[12px] text-fintown-txt-1 text-right font-[600]">
+                                    <div className="text-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-right font-[600]">
                                         {items?.valuated?.toLocaleString('en-US')}
                                     </div>
                                 </div>
@@ -166,7 +166,7 @@ export default function LogValuation ({containerHeight, symbol} : {containerHeig
                                 <i className='bx bx-edit text-fintown-txt-2 mr-[10px]'></i>
 
                                 <div
-                                    className="text-[12px] text-fintown-txt-1"
+                                    className="text-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light"
                                     style={{
                                         display: '-webkit-box',
                                         WebkitLineClamp: '2',

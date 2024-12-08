@@ -34,8 +34,8 @@ export default function ValuationResult() {
 
     return (
         <>
-            <div className="flex items-end pb-[20px] border-b border-b-fintown-br">
-                <div className="font-bold text-[36px] text-fintown-txt-1 mr-[10px] leading-none">
+            <div className="flex items-end pb-[20px] border-b border-b-fintown-br dark:border-b-fintown-br-light">
+                <div className="font-bold text-[36px] text-fintown-txt-1 dark:text-fintown-txt-1-light mr-[10px] leading-none">
                     {
                         (selectButton > 4) && (
                             adjustedPrice.toLocaleString('en-US')
@@ -52,7 +52,7 @@ export default function ValuationResult() {
                 </div>
             </div>
 
-            <div className={`pb-[10px] mb-[20px] border-b border-b-fintown-br mt-[20px]`}>
+            <div className={`pb-[10px] mb-[20px] border-b border-b-fintown-br dark:border-b-fintown-br-light mt-[20px]`}>
                 <UpsideRangerSlider value={upside} />
             </div>
 

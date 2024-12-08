@@ -86,7 +86,7 @@ const SliderWithValue: React.FC<SliderProps> = ({
         <div
             className={`
             absolute top-[-30px] text-center text-[14px] rounded-[8px] py-1
-            text-fintown-txt-1
+            text-fintown-txt-1 dark:text-fintown-txt-1-light
             `}
             style={{
             left: `${value}%`,

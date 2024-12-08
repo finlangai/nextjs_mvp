@@ -121,7 +121,7 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
         <>
             <div className='flex ' >
                 <div className='w-full' >
-                    <div className='pl-[40px] border-r border-b border-fintown-br ' >
+                    <div className='pl-[40px] border-r border-b border-fintown-br dark:border-fintown-br-light' >
                         < ValuationHeader symbol={symbol} />
                     </div>
 
@@ -129,7 +129,7 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
                         <div className='min-w-[265px] w-max pl-[40px] pt-[25px] pr-[24px] flex flex-col gap-y-[10px]' ref={containerRef}>
                             <Link href={`/dashboard/dinh-gia-co-phieu/${symbol}/chiet-khau-dong-tien`}>
                                 <div
-                                    className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${selectedButton === 0 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
+                                    className={`cursor-pointer text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${selectedButton === 0 ? 'bg-fintown-btn-2 dark:bg-fintown-btn-2-light' : 'hover:bg-fintown-btn-2 hover:dark:bg-fintown-btn-2-light'
                                         }`}
                                 >
                                     Chiết khấu dòng tiền
@@ -138,7 +138,7 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
 
                             <Link href={`/dashboard/dinh-gia-co-phieu/${symbol}/chiet-khau-co-tuc`}>
                                 <div
-                                    className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${selectedButton === 1 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
+                                    className={`cursor-pointer text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${selectedButton === 1 ? 'bg-fintown-btn-2 dark:bg-fintown-btn-2-light' : 'hover:bg-fintown-btn-2 hover:dark:bg-fintown-btn-2-light'
                                         }`}
                                 >
                                     Chiết khấu cổ tức
@@ -147,7 +147,7 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
 
                             <Link href={`/dashboard/dinh-gia-co-phieu/${symbol}/benjamin-graham`}>
                                 <div
-                                    className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${selectedButton === 2 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
+                                    className={`cursor-pointer text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${selectedButton === 2 ? 'bg-fintown-btn-2 dark:bg-fintown-btn-2-light' : 'hover:bg-fintown-btn-2 hover:dark:bg-fintown-btn-2-light'
                                         }`}
                                 >
                                     Benjamin Graham
@@ -156,7 +156,7 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
 
                             <Link href={`/dashboard/dinh-gia-co-phieu/${symbol}/he-so-pe`}>
                                 <div
-                                    className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${selectedButton === 3 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
+                                    className={`cursor-pointer text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${selectedButton === 3 ? 'bg-fintown-btn-2 dark:bg-fintown-btn-2-light' : 'hover:bg-fintown-btn-2 hover:dark:bg-fintown-btn-2-light'
                                         }`}
                                 >
                                     Hệ số P/E
@@ -165,7 +165,7 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
 
                             <Link href={`/dashboard/dinh-gia-co-phieu/${symbol}/he-so-pb`}>
                                 <div
-                                    className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${selectedButton === 4 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
+                                    className={`cursor-pointer text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${selectedButton === 4 ? 'bg-fintown-btn-2 dark:bg-fintown-btn-2-light' : 'hover:bg-fintown-btn-2 hover:dark:bg-fintown-btn-2-light'
                                         }`}
                                 >
                                     Hệ số P/B
@@ -174,7 +174,7 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
 
                             <Link href={`/dashboard/dinh-gia-co-phieu/${symbol}/phuong-phap-peg`}>
                                 <div
-                                    className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${selectedButton === 5 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
+                                    className={`cursor-pointer text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${selectedButton === 5 ? 'bg-fintown-btn-2 dark:bg-fintown-btn-2-light' : 'hover:bg-fintown-btn-2 hover:dark:bg-fintown-btn-2-light'
                                         }`}
                                 >
                                     Phương pháp PEG
@@ -183,7 +183,7 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
 
                             <Link href={`/dashboard/dinh-gia-co-phieu/${symbol}/mo-hinh-capm`}>
                                 <div
-                                    className={`cursor-pointer text-fintown-txt-1 text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${selectedButton === 6 ? 'bg-[#1E2127]' : 'hover:bg-[#1E2127]'
+                                    className={`cursor-pointer text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px] font-bold w-full px-[17px] py-[14px] rounded-[8px] ${selectedButton === 6 ? 'bg-fintown-btn-2 dark:bg-fintown-btn-2-light' : 'hover:bg-fintown-btn-2 hover:dark:bg-fintown-btn-2-light'
                                         }`}
                                 >
                                     Mô hình CAPM
@@ -191,13 +191,13 @@ export default function DinhGiaCoPhieuLayout({ children, params }: { children: R
                             </Link>
                         </div>
 
-                        <div className='w-full h-full  border-l border-fintown-br'>
+                        <div className='w-full h-full  border-l border-fintown-br dark:border-fintown-br-light'>
                             {children}
                         </div>
                     </div>
                 </div>
 
-                <div className='min-w-[300px] max-w-[300px] border-l border-fintown-br'>
+                <div className='min-w-[300px] max-w-[300px] border-l border-fintown-br dark:border-fintown-br-light'>
                     < LogValuation containerHeight={containerHeight} symbol={symbol} />
                 </div>
             </div>

@@ -105,19 +105,19 @@ const QuarterYearSelector = ({ onSelect, currentYear, currentQuarter}: {
                 {/* Quarter Selector */}
                 <div className="relative" ref={quarterRef}>
                     <div
-                        className="rounded border border-fintown-br flex items-center px-[16px] w-full max-w-[120px] justify-between cursor-pointer gap-x-[20px]"
+                        className="rounded border border-fintown-br dark:border-fintown-br-light flex items-center px-[16px] w-full max-w-[120px] justify-between cursor-pointer gap-x-[20px]"
                         onClick={() => {
                         setIsQuarterOpen(!isQuarterOpen);
                         setIsYearOpen(false);
                         }}
                     >
-                        <div className="text-fintown-txt-1 text-[12px] py-[10px] font-[600]">
+                        <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-[12px] py-[10px] font-[600]">
                         {`Quý ${selectedQuarter}`}
                         </div>
-                        <i className="bx bx-chevron-down text-fintown-txt-1 text-[14px]"></i>
+                        <i className="bx bx-chevron-down text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px]"></i>
                     </div>
                     {isQuarterOpen && (
-                        <div className="absolute z-10 top-[-200%] w-full max-w-[120px] border border-fintown-br rounded mt-1 px-[5px] py-[10px] shadow-lg max-h-[200px] overflow-y-auto bg-fintown-bg-card text-fintown-txt-1">
+                        <div className="absolute z-10 top-[-200%] w-full max-w-[120px] border border-fintown-br dark:border-fintown-br-light rounded mt-1 px-[5px] py-[10px] shadow-lg max-h-[200px] overflow-y-auto bg-fintown-bg-card text-fintown-txt-1 dark:text-fintown-txt-1-light">
                         {quarters.map((quarter) => (
                             <div
                             key={quarter}
@@ -134,19 +134,19 @@ const QuarterYearSelector = ({ onSelect, currentYear, currentQuarter}: {
                 {/* Year Selector */}
                 <div className="relative" ref={yearRef}>
                     <div
-                        className="rounded border border-fintown-br flex items-center px-[16px] w-full max-w-[200px] justify-between cursor-pointer gap-x-[20px]"
+                        className="rounded border border-fintown-br dark:border-fintown-br-light flex items-center px-[16px] w-full max-w-[200px] justify-between cursor-pointer gap-x-[20px]"
                         onClick={() => {
                         setIsYearOpen(!isYearOpen);
                         setIsQuarterOpen(false);
                         }}
                     >
-                        <div className="text-fintown-txt-1 text-[12px] py-[10px] font-[600]">
+                        <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-[12px] py-[10px] font-[600]">
                         {`Năm ${selectedYear}`}
                         </div>
-                        <i className="bx bx-chevron-down text-fintown-txt-1 text-[14px]"></i>
+                        <i className="bx bx-chevron-down text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px]"></i>
                     </div>
                     {isYearOpen && (
-                        <div className="absolute z-10 top-[-200%] w-full w-max border border-fintown-br rounded mt-1 shadow-lg max-h-[200px] overflow-y-auto custom-scrollbarmini2 bg-fintown-bg-card text-fintown-txt-1 px-[5px] py-[10px]">
+                        <div className="absolute z-10 top-[-200%] w-full w-max border border-fintown-br dark:border-fintown-br-light rounded mt-1 shadow-lg max-h-[200px] overflow-y-auto custom-scrollbarmini2 bg-fintown-bg-card text-fintown-txt-1 px-[5px] py-[10px]">
                         {years.map((year) => (
                             <div
                             key={year}
