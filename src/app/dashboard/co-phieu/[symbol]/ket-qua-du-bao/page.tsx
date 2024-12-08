@@ -13,6 +13,12 @@ import AssetsAndEquity from '@/src/components/organisms/forecasting/AssetsAndEqu
 import UpgradeNotice from '@/src/components/common/UpgradeNotice';
 import { selecScope } from "@/src/redux/auth";
 import LoginForm from '@/src/components/form/Login';
+import SlidingTabs from "@/src/components/common/SlidingTabs";
+
+interface Tab {
+    id: number;
+    label: string;
+}
 
 export default function KetQuaDuBaoPage({ params }: { params: { symbol: string } }) {
     const { symbol } = params;
@@ -25,12 +31,35 @@ export default function KetQuaDuBaoPage({ params }: { params: { symbol: string }
     const formRef = useRef<HTMLDivElement>(null);
     const linkRef = useRef<HTMLAnchorElement>(null);
 
+    const tabs: Tab[] = [
+        { id: 0, label: "Đánh giá chung" },
+        { id: 1, label: "Hiệu quả sinh lời" },
+        { id: 2, label: "Khả năng thanh toán" },
+        { id: 3, label: "Doanh thu & lợi nhuận" },
+        { id: 4, label: "Dòng tiền" },
+        { id: 5, label: "Tài sản & vốn chủ sở hữu" },
+    ];
+
     // Xác định UI của trang đang ở
     useSetSelectedButtonStockPage(3);
 
     const handleButtonClick = (button: number, text: string) => {
         dispatch(setSelectedButtonAndText({ button, text }));
     };
+
+    const handleTabChange = (index: number) => {
+        const tabTexts: Record<number, string> = {
+            0: "Đánh giá chung",
+            1: "Hiệu quả sinh lời",
+            2: "Khả năng thanh toán",
+            3: "Doanh thu & lợi nhuận",
+            4: "Dòng tiền",
+            5: "Tài sản & vốn chủ sở hữu",
+        };
+    
+        const text = tabTexts[index] || "";
+        dispatch(setSelectedButtonAndText({ button: index, text }));
+    };    
 
     // CHECK SCOPE============================================================
 
@@ -109,37 +138,8 @@ export default function KetQuaDuBaoPage({ params }: { params: { symbol: string }
     return (
         <>
         <div className='relative'>
-            <div className='px-[40px] py-[22px] flex items-center gap-x-[50px]'>
-                <button
-                    className={`text-[14px] py-[10px] px-[16px] rounded-[7px] ${selectedButton === 0 ? 'bg-fintown-btn-active-3 text-fintown-pr9' : 'text-fintown-txt-2'}`}
-                    onClick={() => handleButtonClick(0, 'Đánh giá chung')}>
-                    Đánh giá chung
-                </button>
-                <button
-                    className={`text-[14px] py-[10px] px-[16px] rounded-[7px] ${selectedButton === 1 ? 'bg-fintown-btn-active-3 text-fintown-pr9' : 'text-fintown-txt-2'}`}
-                    onClick={() => handleButtonClick(1, 'Hiệu quả sinh lời')}>
-                    Hiệu quả sinh lời
-                </button>
-                <button
-                    className={`text-[14px] py-[10px] px-[16px] rounded-[7px] ${selectedButton === 2 ? 'bg-fintown-btn-active-3 text-fintown-pr9' : 'text-fintown-txt-2'}`}
-                    onClick={() => handleButtonClick(2, 'Khả năng thanh toán')}>
-                    Khả năng thanh toán
-                </button>
-                <button
-                    className={`text-[14px] py-[10px] px-[16px] rounded-[7px] ${selectedButton === 3 ? 'bg-fintown-btn-active-3 text-fintown-pr9' : 'text-fintown-txt-2'}`}
-                    onClick={() => handleButtonClick(3, 'Doanh thu & lợi nhuận')}>
-                    Doanh thu & lợi nhuận
-                </button>
-                <button
-                    className={`text-[14px] py-[10px] px-[16px] rounded-[7px] ${selectedButton === 4 ? 'bg-fintown-btn-active-3 text-fintown-pr9' : 'text-fintown-txt-2'}`}
-                    onClick={() => handleButtonClick(4, 'Dòng tiền')}>
-                    Dòng tiền
-                </button>
-                <button
-                    className={`text-[14px] py-[10px] px-[16px] rounded-[7px] ${selectedButton === 5 ? 'bg-fintown-btn-active-3 text-fintown-pr9' : 'text-fintown-txt-2'}`}
-                    onClick={() => handleButtonClick(5, 'Tài sản & vốn chủ sở hữu')}>
-                    Tài sản & vốn chủ sở hữu
-                </button>
+            <div className='px-[40px] py-[22px] flex items-center'>
+                <SlidingTabs onTabChange={handleTabChange} tabs={tabs} gap={"50px"} startIndex={selectedButton} fontsize='14px'/>
             </div>
 
             {

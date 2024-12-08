@@ -41,7 +41,7 @@ export default function ToggleComponent({ index, symbol }: { index: number; symb
   const handleToggle = () => {
     const metrics = forecastingToggleByGroup?.metrics;
     const group = selectedButton - 1;
-    console.log("Nhóm:", metrics)
+    // console.log("Nhóm:", metrics)
     
     if (isActive) {
       if (metrics && metrics.length === 1) {
@@ -63,7 +63,7 @@ export default function ToggleComponent({ index, symbol }: { index: number; symb
 
   return (
     <div
-      className="w-[46px] min-h-[23px] rounded border border-fintown-br flex items-center cursor-pointer overflow-hidden"
+      className="w-[46px] min-h-[23px] rounded border border-fintown-br dark:border-fintown-br-light flex items-center cursor-pointer overflow-hidden"
       onClick={handleToggle}
     >
       <div

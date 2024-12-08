@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
+import dynamic from 'next/dynamic';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
-import OverallChart from '@/src/components/charts/forecasting/OverallChart';
 import { selectSelectedButton, setSelectedButtonAndText } from '@/src/redux/ForecastingPage';
 import { 
     selectForecastingOverallAssessmentData
@@ -9,6 +9,10 @@ import { Criterias } from '@/src/interfaces/ForecastingOverallAssessment';
 import OverallSlider from './OverallSlider';
 import { convertToSignals, SignalInterface, finalStatus, finalStatusInterface } from '@/src/utils/convertToSignals';
 import { updateMetrics } from '@/src/redux/ForecastingToggle';
+
+const OverallChart = dynamic(() => import('@/src/components/charts/forecasting/OverallChartComponent'), {
+    ssr: false,
+});
 
 export default function PredictiveIndicatorCard() {
     const dispatch = useAppDispatch();
@@ -97,11 +101,11 @@ export default function PredictiveIndicatorCard() {
                 onClick={handleSlideLeft}
                 disabled={!canSlideMore}
                 className={`flex items-center justify-center w-[40px] h-[40px] absolute rounded-[50%] ml-[-18px] top-[40%] z-30 transition-all duration-300
-                    ${canSlideMore 
-                        ? 'bg-fintown-btn-2 cursor-pointer hover:opacity-80' 
-                        : 'hidden'}`}
+                    ${canSlideMore
+                                ? 'bg-fintown-btn-2 dark:bg-fintown-btn-2-light cursor-pointer hover:opacity-80'
+                                : 'hidden'}`}                  
             >
-                <i className={`bx bx-chevron-left text-[24px] ${canSlideMore ? 'text-white' : 'text-gray-500'}`}></i>
+                <i className={`bx bx-chevron-left text-[24px] ${canSlideMore ? 'text-fintown-txt-1 dark:text-fintown-txt-1-light' : 'text-gray-500'}`}></i>
             </button>
 
             {canSlideBack && (
@@ -109,11 +113,11 @@ export default function PredictiveIndicatorCard() {
                     onClick={handleSlideRight}
                     disabled={!canSlideBack}
                     className={`flex items-center justify-center w-[40px] h-[40px] absolute rounded-[50%] right-[18px] top-[40%] z-30 transition-all duration-300
-                        ${canSlideBack 
-                            ? 'bg-fintown-btn-2 cursor-pointer hover:opacity-80' 
-                            : 'bg-gray-300 cursor-not-allowed'}`}
+                        ${canSlideBack
+                                ? 'bg-fintown-btn-2 dark:bg-fintown-btn-2-light cursor-pointer hover:opacity-80'
+                                : 'bg-gray-300 cursor-not-allowed'}`}      
                 >
-                    <i className={`bx bx-chevron-right text-[24px] ${canSlideBack ? 'text-white' : 'text-gray-500'}`}></i>
+                    <i className={`bx bx-chevron-right text-[24px] ${canSlideBack ? 'text-fintown-txt-1 dark:text-fintown-txt-1-light' : 'text-gray-500'}`}></i>
                 </button>
             )}
                 
@@ -127,10 +131,10 @@ export default function PredictiveIndicatorCard() {
                 }}
 
              >
-                <div className='px-[27px] py-[25px] rounded-[10px] border border-fintown-br min-w-[344px] max-w-[344px]'>
+                <div className='px-[27px] py-[25px] rounded-[10px] border border-fintown-br dark:border-fintown-br-light min-w-[344px] max-w-[344px]'>
                     <div className='flex items-center gap-x-[10px] mb-[53px]'>
-                        <p className='text-fintown-txt-1 text-[16px] font-bold'>Đánh giá chung</p>
-                        {/* <i className='bx bx-info-circle text-fintown-txt-1'></i> */}
+                        <p className='text-fintown-txt-1 dark:text-fintown-txt-1-light text-[16px] font-bold'>Đánh giá chung</p>
+                        {/* <i className='bx bx-info-circle text-fintown-txt-1 dark:text-fintown-txt-1-light'></i> */}
                     </div>
 
                     <div className='mb-[20px]'>
@@ -139,7 +143,7 @@ export default function PredictiveIndicatorCard() {
                     )}
                     </div>
 
-                    <hr className='border-fintown-br mb-[26px]' />
+                    <hr className='border-fintown-br dark:border-fintown-br-light mb-[26px]' />
                     
                     {NowData && (
                         <OverallSlider />
@@ -150,12 +154,12 @@ export default function PredictiveIndicatorCard() {
                     const criteria = NowData[key];
                     if (criteria !== null) {
                         return (
-                            <div key={index} className='flex flex-col justify-between px-[27px] py-[25px] rounded-[10px] border border-fintown-br min-w-[344px] max-w-[344px]'>
+                            <div key={index} className='flex flex-col justify-between px-[27px] py-[25px] rounded-[10px] border border-fintown-br dark:border-fintown-br-light min-w-[344px] max-w-[344px]'>
                                 <div className='flex items-center mb-[53px] justify-between'>
                                     <div>
                                         <div className='flex items-center gap-x-[10px] mb-[5px]'>
-                                            <p className='text-fintown-txt-1 text-[16px] font-bold'>{criteria.name}</p>
-                                            {/* <i className='bx bx-info-circle text-fintown-txt-1'></i> */}
+                                            <p className='text-fintown-txt-1 dark:text-fintown-txt-1-light text-[16px] font-bold'>{criteria.name}</p>
+                                            {/* <i className='bx bx-info-circle text-fintown-txt-1 dark:text-fintown-txt-1-light'></i> */}
                                         </div>
                                         <div className={`text-[12px] ${criteria.status === "Tích cực" ? "text-fintown-stt-buy" : "text-fintown-stt-sell"}`}>
                                             {criteria.status}
@@ -170,7 +174,7 @@ export default function PredictiveIndicatorCard() {
                                 <div className='flex flex-col gap-y-[24px] mb-[20px]'>
                                     {criteria.group.map((groupItem) => (
                                         <div className='flex gap-x-[18px]' key={groupItem?.name}>
-                                            <div className='min-h-[40px] max-h-[40px] min-w-[40px] rounded-[8px] border border-fintown-br flex items-center justify-center'>
+                                            <div className='min-h-[40px] max-h-[40px] min-w-[40px] rounded-[8px] border border-fintown-br dark:border-fintown-br-light flex items-center justify-center'>
                                                 <i 
                                                 className={`
                                                 ${groupItem.status === "Tích cực" ? 
@@ -184,11 +188,11 @@ export default function PredictiveIndicatorCard() {
                                             <div>
                                                 <p 
                                                 onClick={() => handleClick(index, groupItem?.index)} 
-                                                className='cursor-pointer text-fintown-txt-1 font-bold text-[14px] hover:text-fintown-pr9'
+                                                className='cursor-pointer text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold text-[14px] hover:text-fintown-pr9'
                                                 >
                                                 {groupItem.name}
                                                 </p>
-                                                <p className='text-fintown-txt-1 text-[12px]'> 
+                                                <p className='text-fintown-txt-1 dark:text-fintown-txt-1-light text-[12px]'> 
                                                 {groupItem.status === "Tích cực" ? 
                                                     "Kết quả dự báo tích cực" : 
                                                     "Kết quả dự báo không được khả quan"
@@ -199,7 +203,12 @@ export default function PredictiveIndicatorCard() {
 
                                 </div>
 
-                                <button onClick={()=> clickDetail(index)} className='hover:bg-fintown-btn-2 mt-auto rounded h-[48px] w-full flex items-center justify-center border border-fintown-br text-[12px] font-bold text-fintown-txt-2'>
+                                <button 
+                                onClick={()=> clickDetail(index)} 
+                                className='
+                                mt-auto rounded-[8px] h-[48px] w-full flex items-center justify-center 
+                                border border-fintown-br dark:border-fintown-br-light text-[12px] font-bold text-fintown-txt-1 dark:text-fintown-txt-1-light 
+                                hover:border-fintown-pr9 hover:dark:border-fintown-pr9 '>
                                     Xem chi tiết
                                 </button>
                             </div>

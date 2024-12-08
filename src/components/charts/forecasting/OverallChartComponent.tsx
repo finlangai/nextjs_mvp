@@ -1,15 +1,20 @@
 import React, { useEffect, useState, useRef } from 'react';
+import dynamic from 'next/dynamic';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import highchartsMore from 'highcharts/highcharts-more';
 import { useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { Criterias } from '@/src/interfaces/ForecastingOverallAssessment';
-import { 
-  selectForecastingOverallAssessmentData
-} from '@/src/redux/ForecastingOverallAssessment';
+import { selectForecastingOverallAssessmentData } from '@/src/redux/ForecastingOverallAssessment';
 import { convertToSignals, SignalInterface, finalStatus } from '@/src/utils/convertToSignals';
 
 highchartsMore(Highcharts);
+
+const OverallChart = dynamic(() => {
+  return import('./OverallChartComponent').then(mod => mod.default);
+}, {
+  ssr: false,
+});
 
 const CustomGaugeChart= ({ signals } : {signals: SignalInterface[]; title?: string}) => {
   const result = finalStatus({ signals });
@@ -57,7 +62,7 @@ const CustomGaugeChart= ({ signals } : {signals: SignalInterface[]; title?: stri
         {
           from: 0,
           to: 25,
-          color: 'rgb(255 0 0)', // Rất kém
+          color: '#FF0000', // Rất kém
           thickness: 20
         },
         {
@@ -75,7 +80,7 @@ const CustomGaugeChart= ({ signals } : {signals: SignalInterface[]; title?: stri
         {
           from: 75,
           to: 100,
-          color: 'rgb(138 71 255)', // Rất tốt
+          color: '#8A47FF', // Rất tốt
           thickness: 20
         }
       ]
@@ -104,26 +109,26 @@ const CustomGaugeChart= ({ signals } : {signals: SignalInterface[]; title?: stri
   return (
     <div className="text-center">
       <HighchartsReact highcharts={Highcharts} options={options} />
-      <div className="text-fintown-txt-1 text-[24px] font-bold mb-[62px] mt-[39px]">{result?.status}</div>
+      <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-[24px] font-bold mb-[62px] mt-[39px]">{result?.status}</div>
       <div className="flex flex-col space-y-2 mt-2 text-sm">
         <div className="flex justify-between space-x-4 mt-2 text-sm">
 
           <div className="flex items-center gap-x-[5px]">
             <div className="w-3 h-3 rounded-full bg-fintown-stt-sell mr-1"></div>
-            <span className="text-white text-[12px]">Xấu</span>
+            <span className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-[12px]">Xấu</span>
           </div>
           <div className="flex items-center gap-x-[5px]">
-            <div className="w-3 h-3 rounded-full bg-fintown-stt-sell mr-1"></div>
-            <span className="text-white text-[12px]">Rất xấu</span>
+            <div className="w-3 h-3 rounded-full bg-[#FF0000] mr-1"></div>
+            <span className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-[12px]">Rất xấu</span>
           </div>
 
           <div className="flex items-center gap-x-[5px]">
             <div className="w-3 h-3 rounded-full bg-fintown-stt-buy mr-1"></div>
-            <span className="text-white text-[12px]">Tốt</span>
+            <span className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-[12px]">Tốt</span>
           </div>
           <div className="flex items-center gap-x-[5px]">
             <div className="w-3 h-3 rounded-full bg-fintown-chart-4 mr-1"></div>
-            <span className="text-white text-[12px]">Rất tốt</span>
+            <span className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-[12px]">Rất tốt</span>
           </div>
 
         </div>
@@ -132,7 +137,7 @@ const CustomGaugeChart= ({ signals } : {signals: SignalInterface[]; title?: stri
   );
 };
 
-export default function App() {
+const OverallChartComponent = () => {
   const [NowData, setNowData] = useState<Criterias | null>(null);
   const forecastingData = useAppSelector(selectForecastingOverallAssessmentData);
   const [signals, setSignals] = useState<SignalInterface[]>([]);
@@ -159,4 +164,6 @@ export default function App() {
     </>
   );
 }
+
+export default OverallChartComponent;
 

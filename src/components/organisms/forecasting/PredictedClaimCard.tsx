@@ -45,11 +45,11 @@ export default function PredictedClaimCard() {
                         <div className='flex mb-[24px] items-center'>
                             <div 
                             className={`h-[15px] w-[15px] rounded-[50%] border border-fintown-txt-1 mr-[8px]`} style={{ backgroundColor: status?.color }}></div>
-                            <div className='text-[16px] font-bold text-fintown-txt-1'>Nhận định chung:</div>
+                            <div className='text-[16px] font-bold text-fintown-txt-1 dark:text-fintown-txt-1-light'>Nhận định chung:</div>
                         </div>
                         {
                             NowData && (
-                                <div className='text-[14px] text-fintown-txt-1 ' dangerouslySetInnerHTML={{ __html: NowData?.overall }}></div>
+                                <div className='text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light ' dangerouslySetInnerHTML={{ __html: NowData?.overall }}></div>
                             )
                         }
                     </div>
@@ -68,10 +68,10 @@ export default function PredictedClaimCard() {
                                             className={`bg-fintown-stt-${criteria.status === "Tích cực" ? "buy" : "sell"} h-[15px] w-[15px] rounded-[50%] border border-fintown-txt-1 mr-[8px]`}>
                                                 
                                             </div>
-                                            <div className='text-[16px] font-bold text-fintown-txt-1'>{criteria.name}:</div>
+                                            <div className='text-[16px] font-bold text-fintown-txt-1 dark:text-fintown-txt-1-light'>{criteria.name}:</div>
                                         </div>
 
-                                        <div className='text-[14px] text-fintown-txt-1 ' dangerouslySetInnerHTML={{ __html: criteria?.insight }}></div>
+                                        <div className='text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light ' dangerouslySetInnerHTML={{ __html: criteria?.insight }}></div>
                                     </div>
                                 </div>
 
