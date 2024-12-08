@@ -80,7 +80,7 @@ export default function Pagination({symbol} : {symbol: string}) {
                     onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
                     disabled={currentPage === 1}
                 >
-                    <i className='bx bx-chevron-left text-[30px] text-fintown-btn-disable h-[28px] w-[28px] rounded hover:bg-fintown-hvr-btn-1'></i>
+                    <i className='bx bx-chevron-left text-[30px] text-fintown-txt-1 dark:text-fintown-txt-1-light h-[28px] w-[28px] rounded hover:bg-fintown-hvr-btn-1 hover:dark:bg-fintown-hvr-btn-1-light'></i>
                 </button>
                 
                 {renderPageNumbers()}
@@ -90,7 +90,7 @@ export default function Pagination({symbol} : {symbol: string}) {
                     onClick={() => handlePageChange(Math.min(nowTotalPages, currentPage + 1))}
                     disabled={currentPage === nowTotalPages}
                 >
-                    <i className='bx bx-chevron-right text-[30px] text-fintown-btn-disable h-[28px] w-[28px] rounded hover:bg-fintown-hvr-btn-1'></i>
+                    <i className='bx bx-chevron-right text-[30px] text-fintown-txt-1 dark:text-fintown-txt-1-light h-[28px] w-[28px] rounded hover:bg-fintown-hvr-btn-1 hover:dark:bg-fintown-hvr-btn-1-light'></i>
                 </button>
             </div>
         </div>

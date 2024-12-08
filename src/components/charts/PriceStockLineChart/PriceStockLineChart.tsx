@@ -9,11 +9,14 @@ import { getChartOptions } from './chartOptions';
 import HC_more from 'highcharts/highcharts-more';
 import { BarsLoader } from '../../common/Loader';
 import { getStartOfYear, getCurrentUnixTimestamp} from '@/src/utils/getTimeRanges';
+import { selectDarkMode } from '@/src/redux/darkmode';
 
 HC_more(Highcharts);
 configureHighchartsLanguage();
 
 const PriceStockLineChart = ({symbol}: {symbol: string}) => {
+  const isDarkMode = useAppSelector(selectDarkMode);
+
   const chartRef = useRef<HighchartsReact.RefObject>(null);
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
@@ -46,7 +49,7 @@ const PriceStockLineChart = ({symbol}: {symbol: string}) => {
     <div ref={chartContainerRef} style={{ cursor: 'crosshair' }}>
       <HighchartsReact 
         highcharts={Highcharts} 
-        options={getChartOptions(data)}
+        options={getChartOptions(data, isDarkMode)}
         ref={chartRef}
       />
     </div>

@@ -2,7 +2,7 @@
 import React from 'react';
 import useSetSelectedButtonSiderBar from '@/src/redux/hooks/useButtonsiderBar';
 import useSetSelectedButtonStockPage from '@/src/redux/hooks/useButtonstockPage';
-import HistoricalPriceLineChart from '@/src/components/charts/PriceStockLineChart/HistoricalPriceLineChart';
+import HistoricalPriceLineChart from '@/src/components/charts/priceStockLineChart/HistoricalPriceLineChart';
 import SectionCard from '@/src/components/organisms/dashboard/SectionCard';
 import PriceInsights from '@/src/components/organisms/technicalindicator/PriceInsights';
 

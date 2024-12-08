@@ -6,7 +6,7 @@ interface DataPoint extends Highcharts.PointOptionsObject {
   y: number;
 }
 
-export const getChartOptions = (data: PriceStockNoVolume[]): Highcharts.Options => {
+export const getChartOptions = (data: PriceStockNoVolume[], isDarkMode:boolean): Highcharts.Options => {
   const formattedData: DataPoint[] = data.map(item => {
     const date = new Date(item.time * 1000);
     return {
@@ -29,7 +29,7 @@ export const getChartOptions = (data: PriceStockNoVolume[]): Highcharts.Options 
       type: 'datetime',
       minRange: 15 * 60 * 1000,
       crosshair: {
-        color: '#cccccc',
+        color: `${isDarkMode ? '#101010' : '#D9D9D9'}`,
         width: 1,
         dashStyle: 'ShortDot'
       },
@@ -38,13 +38,13 @@ export const getChartOptions = (data: PriceStockNoVolume[]): Highcharts.Options 
       },
       labels: {
         style: {
-          color: 'white'
+          color: `${isDarkMode ? '#101010' : '#D9D9D9'}`
         }
       }
     },
     yAxis: {
       crosshair: {
-        color: '#cccccc',
+        color: `${isDarkMode ? '#101010' : '#D9D9D9'}`,
         width: 1,
         dashStyle: 'ShortDot'
       },
@@ -61,7 +61,7 @@ export const getChartOptions = (data: PriceStockNoVolume[]): Highcharts.Options 
       opposite: false,
       labels: {
         style: {
-          color: '#ffffff'
+          color: `${isDarkMode ? '#101010' : '#D9D9D9'}`
         },
         formatter: function(this: Highcharts.AxisLabelsFormatterContextObject): string {
           if (this.value === this.axis.min) {
@@ -82,8 +82,8 @@ export const getChartOptions = (data: PriceStockNoVolume[]): Highcharts.Options 
       fillColor: {
         linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
         stops: [
-          [0, '#ffffff61'],
-          [1, '#49494921']
+          [0, `${isDarkMode ? 'transparent' : '#ffffff61'}`],
+          [1, `${isDarkMode ? 'white' : 'black'}` ]
         ]
       },
       dataGrouping: {

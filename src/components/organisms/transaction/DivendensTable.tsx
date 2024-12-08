@@ -81,7 +81,7 @@ export default function DivendensTable({symbol} : {symbol: string}){
 
             <div className="min-w-[400px] ml-[50px]">
                 <div className='mb-[35px]'>
-                    <div className="mb-[30px] h-[60px] flex items-center justify-between border-b border-b-fintown-br text-fintown-txt-2 text-[12px] text-fintown-txt-2 text-[12px]">
+                    <div className="mb-[30px] h-[60px] flex items-center justify-between border-b border-b-fintown-br dark:border-b-fintown-br-light text-fintown-txt-2 text-[12px] text-fintown-txt-2 text-[12px]">
                         Cổ tức bằng tiền (đ)
                     </div>
 
@@ -89,7 +89,7 @@ export default function DivendensTable({symbol} : {symbol: string}){
                 </div>
 
                 <div>
-                    <div className="mb-[30px] h-[60px] flex items-center justify-between border-b border-b-fintown-br text-fintown-txt-2 text-[12px] text-fintown-txt-2 text-[12px]">
+                    <div className="mb-[30px] h-[60px] flex items-center justify-between border-b border-b-fintown-br dark:border-b-fintown-br-light text-fintown-txt-2 text-[12px] text-fintown-txt-2 text-[12px]">
                         Cổ tức bằng cổ phiếu (%)
                     </div>
 

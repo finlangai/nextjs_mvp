@@ -6,13 +6,17 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from "dayjs";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import 'dayjs/locale/vi';
+import { selectDarkMode } from '@/src/redux/darkmode';
+import { useAppSelector } from '@/src/redux/hooks/useAppStore';
 
 export default function BasicDatePicker({ onDateChange } : {onDateChange:any}) {
+  const isDarkMode = useAppSelector(selectDarkMode);
+
   dayjs.locale('vi');
 
   const theme = createTheme({
     palette: {
-      mode: 'dark',
+      mode: `${!isDarkMode ? 'dark' : 'light'}`,
       primary: {
         main: '#25B770',
       },
@@ -40,7 +44,7 @@ export default function BasicDatePicker({ onDateChange } : {onDateChange:any}) {
       MuiInputBase: {
         styleOverrides: {
           root: {
-            color: 'white',
+            // color: 'white',
             borderRadius: '4px',
           },
         },

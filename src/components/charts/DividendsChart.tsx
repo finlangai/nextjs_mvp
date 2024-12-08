@@ -2,8 +2,11 @@ import React, { useEffect, useRef } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { Legend } from '@/src/interfaces/Dividends';
+import { selectDarkMode } from '@/src/redux/darkmode';
+import { useAppSelector } from '@/src/redux/hooks/useAppStore';
 
 const DividendsChart = ({ data, color, toolip } : {data: Legend[]; color: string; toolip: string;}) => {
+  const isDarkMode = useAppSelector(selectDarkMode);
   const chartRef = useRef<HighchartsReact.RefObject>(null);
 
   // Chuyển đổi dữ liệu nhận được thành các giá trị phù hợp cho chart
@@ -20,14 +23,14 @@ const DividendsChart = ({ data, color, toolip } : {data: Legend[]; color: string
     title: {
       text: '',
       style: {
-        color: '#fff',
+        color: `${isDarkMode ? '#101010' : '#D9D9D9'}`,
       },
     },
     xAxis: {
       categories: years,
       labels: {
         style: {
-          color: '#fff',
+          color: `${isDarkMode ? '#101010' : '#D9D9D9'}`,
         },
       },
     },
@@ -35,12 +38,12 @@ const DividendsChart = ({ data, color, toolip } : {data: Legend[]; color: string
       title: {
         text: '',
         style: {
-          color: '#fff',
+          color: `${isDarkMode ? '#101010' : '#D9D9D9'}`,
         },
       },
       labels: {
         style: {
-          color: '#fff',
+          color: `${isDarkMode ? '#101010' : '#D9D9D9'}`,
         },
       },
       gridLineDashStyle: 'Dot',

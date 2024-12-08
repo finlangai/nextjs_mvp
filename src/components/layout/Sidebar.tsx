@@ -1,58 +1,44 @@
 "use client";
 import Link from 'next/link';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { setSelectedButtonActive, selectSelectedButton } from '@/src/redux/SiderBar';
+import { selectDarkMode, toggleDarkMode } from '@/src/redux/darkmode';
 import BtnSidebar from '../common/BtnSidebar';
 import HoverArrowLink from '../common/HoverArrowLink';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 export default function Sidebar() {
-    const selectedButton = useSelector(selectSelectedButton);
-    const dispatch = useDispatch();
+    const selectedButton = useAppSelector(selectSelectedButton);
+    const isDarkMode = useAppSelector(selectDarkMode);
+    const dispatch = useAppDispatch();
 
     const handleClick = (buttonIndex: number | null) => {
         dispatch(setSelectedButtonActive({ button: buttonIndex }));
     };
 
-    // Khởi tạo state cho chế độ sáng tối từ localStorage, mặc định là chế độ tối
-    const [isDarkMode, setIsDarkMode] = useState<boolean | null>(null);
-
-    // Lưu trạng thái chế độ sáng tối vào localStorage khi thay đổi
+    // Lấy trạng thái dark mode từ localStorage khi khởi động
     useEffect(() => {
-        // Chỉ thực hiện truy cập localStorage trên client-side
         const theme = localStorage.getItem('theme');
         if (theme === 'dark') {
-            setIsDarkMode(true);
-        } else if (theme === 'light') {
-            setIsDarkMode(false);
-        } else {
-            // Nếu không có giá trị trong localStorage, đặt mặc định là dark
-            setIsDarkMode(true);
+            dispatch(toggleDarkMode()); // Đặt trạng thái trong Redux
         }
-    }, []);
+    }, [dispatch]);
 
-    // Hàm thay đổi chế độ sáng tối khi click vào button
+    // Hàm chuyển đổi dark mode
     const toggleTheme = () => {
         const newTheme = !isDarkMode;
-        setIsDarkMode(newTheme);
-        // Cập nhật vào localStorage
+        dispatch(toggleDarkMode());
         localStorage.setItem('theme', newTheme ? 'dark' : 'light');
     };
 
-    // Đảm bảo cập nhật chế độ sáng/tối vào body
+    // Đồng bộ trạng thái dark mode với body
     useEffect(() => {
-        if (isDarkMode === null) return; // Đảm bảo rằng isDarkMode đã được xác định
-
         if (isDarkMode) {
             document.body.classList.add('dark');
         } else {
             document.body.classList.remove('dark');
         }
     }, [isDarkMode]);
-
-    if (isDarkMode === null) {
-        return null; // Hoặc có thể hiển thị loading spinner nếu cần
-    }
 
     return (
         <div

@@ -42,6 +42,7 @@ import ComparisonReducers from "./Comparison/comparisonSlice"
 import SearchStockComparisonReducers from "./SearchStockComparison/searchStockComparisonSlice"
 import IdScenariosReducers from "./Scenarios/idScenariosSlice";
 import TechChartlayoutReducer from "./LayoutTechChart/layoutSlice";
+import DarkModeReducer from "./darkmode/darkmodeSlice"
 
 const tickerListReducer = combineReducers({
   TickerList: TickerListReducer,
@@ -61,6 +62,8 @@ const cardStockReducer = combineReducers({
 
 const store = configureStore({
   reducer: {
+    darkmode: DarkModeReducer,
+
     financialStatement: financialStatementReducer,
     financialMetric: financialMetricReducer,
     reportPage: reportPageReducer,

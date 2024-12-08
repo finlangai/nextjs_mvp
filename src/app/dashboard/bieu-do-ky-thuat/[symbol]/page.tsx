@@ -23,8 +23,8 @@ import {
     useColorPickerForInnerBackgroundFill,
     useColorPickerForOuterBackgroundStroke,
     useColorPickerForOuterBackgroundFill
-} from '@/src/components/charts/TechnicalChart/useColorPicker';
-import useFullScreenButton from '@/src/components/charts/TechnicalChart/useFullScreenButton';
+} from '@/src/components/charts/technicalChart/useColorPicker';
+import useFullScreenButton from '@/src/components/charts/technicalChart/useFullScreenButton';
 import LeftBarTechnicalChart from '@/src/components/organisms/technicalchart/LeftBarTechnicalChart';
 import StockSummaryTechChart from '@/src/components/organisms/technicalchart/StockSummaryTechChart';
 import TimeRangebutton from '@/src/components/organisms/technicalchart/TimeRangebutton'; 
@@ -33,7 +33,7 @@ import ListLayoutChartSaved from '@/src/components/organisms/technicalchart/List
 import { setSelectedLayout } from '@/src/redux/LayoutTechChart';
 import { useAppDispatch } from '@/src/redux/hooks/useAppStore';
 
-const TechnicalChart = dynamic(() => import('@/src/components/charts/TechnicalChart/TechnicalChartComponent'), {
+const TechnicalChart = dynamic(() => import('@/src/components/charts/technicalChart/TechnicalChartComponent'), {
     ssr: false,
 });
 
