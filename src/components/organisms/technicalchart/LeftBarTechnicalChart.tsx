@@ -114,13 +114,13 @@ export default function LeftBarTechnicalChart({symbol} : {symbol:string}){
 
     return(
         <>
-        <div id='left-bar-technical-chart-vvv' className='min-w-[358px] border-r border-r-fintown-br bg-fintown-bg'>
-            <div className=' border-b border-b-fintown-br'>
+        <div id='left-bar-technical-chart-vvv' className='min-w-[358px] border-r border-r-fintown-br dark:border-r-fintown-br-light bg-fintown-bg dark:bg-fintown-bg-light'>
+            <div className=' border-b border-b-fintown-br dark:border-b-fintown-br-light'>
                 <div className='px-[20px] pt-[16px] mb-[12px]'>
-                    <div className='py-[13px] px-[20px] flex items-center rounded-[8px] border border-fintown-br'> 
+                    <div className='py-[13px] px-[20px] flex items-center rounded-[8px] border border-fintown-br dark:border-fintown-br-light'> 
                         <i className='bx bx-search text-fintown-txt-2 text-[20px] pr-[13px]'></i>
                         <input
-                            className='bg-transparent text-[14px] outline-none text-fintown-txt-1 w-full'
+                            className='bg-transparent text-[14px] outline-none text-fintown-txt-1 dark:text-fintown-txt-1-light w-full'
                             type="text"
                             placeholder='Tìm cổ phiếu'
                             value={searchQuery}
@@ -133,7 +133,7 @@ export default function LeftBarTechnicalChart({symbol} : {symbol:string}){
                 </div>
             </div>
 
-            <div className='flex items-center px-[24px] py-[14px] border-b border-b-fintown-br'>
+            <div className='flex items-center px-[24px] py-[14px] border-b border-b-fintown-br dark:border-b-fintown-br-light'>
                 <div className='text-fintown-txt-2 font-bold text-[12px] w-full text-right'>Cổ phiếu</div>
                 <div
                     className='text-fintown-txt-2 font-bold text-[12px] min-w-[74px] flex justify-end items-center hover:text-fintown-pr9 cursor-pointer'
@@ -175,8 +175,8 @@ export default function LeftBarTechnicalChart({symbol} : {symbol:string}){
                         Array.isArray(NowData) && NowData.length > 0 ? (
                             NowData.map((item, index) => (
                                 <div key={index} 
-                                    className={`flex items-center justify-between px-[24px] py-[14px] border-b border-b-fintown-br hover:bg-fintown-bg-stn w-full 
-                                    ${item.symbol === symbol ? "bg-fintown-bg-stn" : ""}
+                                    className={`flex items-center justify-between px-[24px] py-[14px] border-b border-b-fintown-br dark:border-b-fintown-br-light hover:bg-fintown-hvr-btn-1 hover:bg-fintown-hvr-btn-1 hover:dark:bg-fintown-hvr-btn-1-light w-full 
+                                    ${item.symbol === symbol ? "bg-fintown-hvr-btn-1 dark:bg-fintown-hvr-btn-1-light" : ""}
                                 `}>
                                     <div className="flex items-center w-full">
                                         <div className="flex justify-center w-[25px]">
@@ -186,26 +186,29 @@ export default function LeftBarTechnicalChart({symbol} : {symbol:string}){
                                             onClick={() => handleStarClick(item.symbol)}
                                         ></i>                                      
                                         </div>
-                                        <div className="min-w-[30px] min-h-[30px] max-w-[30px] max-h-[30px] rounded-[50%] overflow-hidden bg-white mr-[7px] flex items-center justify-center">
+                                        <div className="min-w-[30px] min-h-[30px] max-w-[30px] max-h-[30px] rounded-[50%] border border-fintown-br dark:border-fintown-br-light overflow-hidden bg-white mr-[7px] flex items-center justify-center">
                                             <img className="w-full h-full object-contain" src={item.logo} alt="" />
                                         </div>
                                         <Link href={`/dashboard/bieu-do-ky-thuat/${item.symbol}`}>
-                                            <div className="text-fintown-txt-1 font-bold text-[12px] cursor-pointer hover:text-fintown-pr9">
+                                            <div className={`
+                                                hover:text-fintown-pr9
+                                                font-bold text-[12px] cursor-pointer h
+                                                over:text-fintown-pr9 ${item.symbol === symbol ? "text-fintown-pr9" : "text-fintown-txt-1 dark:text-fintown-txt-1-light"} `}>
                                                 {item.symbol}
                                             </div>
                                         </Link>
                                     </div>
-                                    <div className="text-fintown-txt-1 font-bold text-[12px] min-w-[74px] max-w-[74px] flex justify-end items-center">
+                                    <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold text-[12px] min-w-[74px] max-w-[74px] flex justify-end items-center">
                                         <p>{item.price.toLocaleString('en-US')}</p>
                                     </div>
-                                    <div className="text-fintown-txt-1 font-bold text-[12px] min-w-[86px] max-w-[86px] flex justify-end items-center">
+                                    <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold text-[12px] min-w-[86px] max-w-[86px] flex justify-end items-center">
                                         <p>{item.volume.toLocaleString('en-US')}</p>
                                     </div>
                                     <div 
                                         className={`font-bold text-[12px] min-w-[61px] max-w-[61px] flex justify-end items-center ${
                                             item.delta > 0 ? 'text-fintown-stt-buy' : 
                                             item.delta < 0 ? 'text-fintown-stt-sell' : 
-                                            'text-fintown-txt-1'
+                                            'text-fintown-txt-1 dark:text-fintown-txt-1-light'
                                         }`}
                                     >
                                         <p>{item.delta}%</p>
@@ -213,7 +216,7 @@ export default function LeftBarTechnicalChart({symbol} : {symbol:string}){
                                 </div>
                             ))
                         ) : (
-                            <div className="flex w-full justify-center items-center h-[428px] text-fintown-txt-1">
+                            <div className="flex w-full justify-center items-center h-[428px] text-fintown-txt-1 dark:text-fintown-txt-1-light">
                                 Cổ phiếu chưa được cập nhật
                             </div>
                         )

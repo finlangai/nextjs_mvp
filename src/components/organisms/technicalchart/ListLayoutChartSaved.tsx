@@ -77,21 +77,21 @@ export default function ListLayoutChartSaved() {
                     onClick={() => setIsPopupOpen(false)}
                 >
                     <div
-                        className={`w-[450px] bg-fintown-bg-stn rounded-[8px] py-[32px] max-h-max
+                        className={`w-[450px] bg-fintown-bg-stn dark:bg-fintown-bg-stn-light rounded-[8px] py-[32px] max-h-max
                         transform transition-all duration-500 ease-out
                         ${isPopupOpen ? 'mt-[80px] translate-y-0 opacity-100' : 'mt-0 -translate-y-12 opacity-0'}`}
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <div className="text-[16px] text-fintown-txt-1 font-[600] mb-[24px] flex justify-between items-center px-[32px]">
+                        <div className="text-[16px] text-fintown-txt-1 dark:text-fintown-txt-1-light font-[600] mb-[24px] flex justify-between items-center px-[32px]">
                             <div>Tải bố cục biểu đồ</div>
                             <i className='bx bx-x text-[24px] cursor-pointer' onClick={() => setIsPopupOpen(false)}></i>
                         </div>
 
                         <div className='flex items-center mb-[32px] px-[32px]'>
-                            <div className='py-[13px] px-[16px] rounded-[6px] border border-fintown-br flex items-center mr-[12px] w-full'>
+                            <div className='py-[13px] px-[16px] rounded-[6px] border border-fintown-br dark:border-fintown-br-light flex items-center mr-[12px] w-full'>
                                 <i className='bx bx-search text-fintown-txt-2 text-[20px] mr-[14px]'></i>
                                 <input
-                                    className='text-[14px] text-fintown-txt-1 block w-full placeholder:text-fintown-txt-2 bg-transparent outline-none'
+                                    className='text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light block w-full placeholder:text-fintown-txt-2 bg-transparent outline-none'
                                     placeholder='Tìm bố cục đã lưu'
                                     value={searchTerm}
                                     onChange={handleSearchChange}
@@ -112,11 +112,11 @@ export default function ListLayoutChartSaved() {
                                 {filteredLayouts.map((layout, index) => (
                                     <div 
                                         key={index} 
-                                        className='flex items-center mb-[5px] hover:bg-[rgba(66,64,64,0.34)] cursor-pointer px-[16px] py-[10px] rounded-[8px]'
+                                        className='flex items-center mb-[5px] hover:bg-fintown-hvr-btn-2 hover:dark:bg-fintown-hvr-btn-2-light cursor-pointer px-[16px] py-[10px] rounded-[8px]'
                                         onClick={() => handleSelectLayout(layout)}
                                     >
                                         <div className='pr-[30px]'>
-                                            <div className='text-fintown-txt-1 text-[14px] mb-[5px]'>
+                                            <div className='text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px] mb-[5px]'>
                                                 {layout?.name}
                                             </div>
                                             <div className='text-fintown-txt-2 text-[12px]'>
@@ -125,7 +125,7 @@ export default function ListLayoutChartSaved() {
                                         </div>
                                         <div className='text-fintown-txt-2 text-[20px] ml-auto'>
                                             <i 
-                                                className='bx bx-trash cursor-pointer hover:text-fintown-txt-1' 
+                                                className='bx bx-trash cursor-pointer hover:text-fintown-txt-1 hover:dark:hover:text-fintown-txt-1-light' 
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     setLayoutToDelete(layout);
@@ -154,10 +154,10 @@ export default function ListLayoutChartSaved() {
                     onClick={() => setIsPopupDelete(false)}
                 >
                     <div 
-                        className="w-[400px] bg-fintown-bg-stn rounded-[8px] py-[24px] px-[24px]"
+                        className="w-[400px] bg-fintown-bg-stn dark:bg-fintown-bg-stn-light rounded-[8px] py-[24px] px-[24px]"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <div className="text-[16px] text-fintown-txt-1 font-[600] mb-[20px]">
+                        <div className="text-[16px] text-fintown-txt-1 dark:text-fintown-txt-1-light font-[600] mb-[20px]">
                             Xác nhận xóa bố cục
                         </div>
                         <p className="text-[14px] text-fintown-txt-2 mb-[24px]">
@@ -165,7 +165,7 @@ export default function ListLayoutChartSaved() {
                         </p>
                         <div className="flex justify-end space-x-4">
                             <button 
-                                className="px-[25px] py-[10px] rounded-[6px] text-fintown-txt-1 text-[14px] border border-fintown-br"
+                                className="px-[25px] py-[10px] rounded-[6px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px] border border-fintown-br dark:border-fintown-br-light"
                                 onClick={() => setIsPopupDelete(false)}
                             >
                                 Hủy

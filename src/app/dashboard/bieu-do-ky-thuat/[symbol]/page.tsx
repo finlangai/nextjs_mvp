@@ -80,7 +80,7 @@ export default function BieuDoKyThuatPage({ params }: { params: { symbol: string
 
     return (
         <>
-            <div id='technical-chart-page' className='border-r border-r-fintown-br w-full bg-fintown-bg'>
+            <div id='technical-chart-page' className='border-r border-r-fintown-br dark:border-r-fintown-br-light w-full bg-fintown-bg dark:bg-fintown-bg-light'>
                 <div className='flex w-full'>
 
                     < LeftBarTechnicalChart symbol={symbol} />
@@ -88,9 +88,9 @@ export default function BieuDoKyThuatPage({ params }: { params: { symbol: string
                     <div id='right-chart-technical-vvv' className='w-full'>
                         < StockSummaryTechChart symbol={symbol} />
 
-                        <div className='border-b border-b-fintown-br flex'>
+                        <div className='border-b border-b-fintown-br dark:border-b-fintown-br-light flex'>
                             <div className='flex'>
-                                <div className='px-[24px] flex items-center border-r border-r-fintown-br'>
+                                <div className='px-[24px] flex items-center border-r border-r-fintown-br dark:border-r-fintown-br-light'>
                                     <i
                                         onClick={() => handedleLeftBarClick(true)}
                                         id='show-leftbar-search'
@@ -144,7 +144,7 @@ export default function BieuDoKyThuatPage({ params }: { params: { symbol: string
                             </div>
                         </div>
 
-                        <div className=' py-[10px]'>
+                        <div className=''>
                             < TechnicalChart symbol={symbol} />
                         </div>
                     </div>

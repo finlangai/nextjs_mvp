@@ -42,7 +42,7 @@ const MarketSummary = () => {
         <div className="mr-[5px] text-fintown-txt-2 text-[14px]">
           Số lượng cổ phiếu:
         </div>
-        <div className="text-fintown-txt-1 text-[14px]">
+        <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px]">
           {NowData?.totalTickers.toLocaleString('en-US')}
         </div>
       </div>
@@ -51,7 +51,7 @@ const MarketSummary = () => {
         <div className="mr-[5px] text-fintown-txt-2 text-[14px]">
           Vốn hóa:
         </div>
-        <div className="text-fintown-txt-1 text-[14px]">
+        <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px]">
           {NowData?.totalMarketCap.toLocaleString('en-US')}Tỷ
         </div>
       </div>
@@ -60,7 +60,7 @@ const MarketSummary = () => {
         <div className="mr-[5px] text-fintown-txt-2 text-[14px]">
           Tổng KLGD 24h:
         </div>
-        <div className="text-fintown-txt-1 text-[14px]">
+        <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px]">
           {NowData?.totalTradingVolume.toLocaleString('en-US')}
         </div>
       </div>
@@ -69,7 +69,7 @@ const MarketSummary = () => {
         <div className="mr-[5px] text-fintown-txt-2 text-[14px]">
           Tăng giá mạnh nhất 24h:
         </div>
-        <div className="text-fintown-txt-1 text-[14px] mr-[5px]">
+        <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px] mr-[5px]">
           {NowData?.highestDeltaSymbol}
         </div>
         <div className="mr-[5px]">
@@ -89,8 +89,8 @@ const MarketSummary = () => {
                 ? 'text-fintown-stt-buy'
                 : NowData.highestDeltaPercent < 0
                   ? 'text-fintown-stt-sell'
-                  : 'text-fintown-txt-1'
-              : 'text-fintown-txt-1'
+                  : 'text-fintown-txt-1 dark:text-fintown-txt-1-light'
+              : 'text-fintown-txt-1 dark:text-fintown-txt-1-light'
             }`}
         >
           {NowData?.highestDeltaPercent}%

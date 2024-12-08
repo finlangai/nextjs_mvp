@@ -68,25 +68,25 @@ export default function SaveLayoutChart() {
           ${isPopupOpen ? 'opacity-100' : 'opacity-0'}`}
         >
           <div
-            className={`w-[600px] bg-fintown-bg-stn rounded-[8px] py-[32px] px-[32px] max-h-max
+            className={`w-[600px] bg-fintown-bg-stn dark:bg-fintown-bg-stn-light rounded-[8px] py-[32px] px-[32px] max-h-max
               transform transition-all duration-500 ease-out
               ${isPopupOpen ? 'mt-[200px] translate-y-0 opacity-100' : 'mt-0 -translate-y-12 opacity-0'}`}
           >
-            <div className="text-[16px] text-fintown-txt-1 font-[600] mb-[24px]">
+            <div className="text-[16px] text-fintown-txt-1 dark:text-fintown-txt-1-light font-[600] mb-[24px]">
               Lưu bố cục biểu đồ mới
             </div>
 
-            <div className="mb-[10px] text-[14px] text-fintown-txt-1 font-[600]">
+            <div className="mb-[10px] text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light font-[600]">
               Nhập tên cho bố cục:
             </div>
 
             <div
               className={`py-[13px] px-[16px] rounded mb-[8px] border ${
-                error ? 'border-red-500' : 'border-fintown-br'
+                error ? 'border-red-500' : 'border-fintown-br dark:border-fintown-br-light'
               }`}
             >
               <input
-                className="text-[14px] text-fintown-txt-1 block w-full placeholder:text-fintown-txt-2 bg-transparent outline-none"
+                className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light block w-full placeholder:text-fintown-txt-2 bg-transparent outline-none"
                 placeholder="Ví dụ: Phân tích kỹ thuật ngày 27/10"
                 value={layoutName}
                 onChange={(e) => {
@@ -105,7 +105,7 @@ export default function SaveLayoutChart() {
             <div className="flex justify-end mt-[20px]">
               <button
                 onClick={() => setIsPopupOpen(false)}
-                className="py-[10px] text-fintown-txt-1 text-[14px] px-[23px] border border-fintown-br rounded mr-[10px]"
+                className="py-[10px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px] px-[23px] border border-fintown-br dark:border-fintown-br-light rounded mr-[10px]"
               >
                 Để sau vậy
               </button>
