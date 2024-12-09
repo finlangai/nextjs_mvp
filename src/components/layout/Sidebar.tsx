@@ -7,14 +7,11 @@ import { selectDarkMode, toggleDarkMode } from '@/src/redux/darkmode';
 
 import { updateDebtToAssetsRatioChartColor } from '@/src/redux/ForecastingChartConfig/debtToAssetsRatioSlice';
 import { updateAssetGrowthRateChartColor } from '@/src/redux/ForecastingChartConfig/assetGrowthRateSlice';
-
 import { updateEPSGrowthChartColor } from '@/src/redux/ForecastingChartConfig/EPSGrowthSlice';
 import { updateEBITDAGrowthRateChartColor } from '@/src/redux/ForecastingChartConfig/eBITDAGrowthRateSlice';
 import { updateEquityGrowthRateChartColor } from '@/src/redux/ForecastingChartConfig/equityGrowthRateSlice';
-
 import { updateFreeCashFlowGrowthRateChartColor } from '@/src/redux/ForecastingChartConfig/freeCashFlowGrowthRateSlice';
 import { updateInterestCoverageRatioChartColor } from '@/src/redux/ForecastingChartConfig/interestCoverageRatioSlice';
-
 import { updateROIChartColor } from '@/src/redux/ForecastingChartConfig/roiChartSlice';
 import { updateliquidityRatioChartColor } from '@/src/redux/ForecastingChartConfig/liquidityRatioChartSlice';
 import { updateMarginalProfitChartColor } from '@/src/redux/ForecastingChartConfig/marginalProfitChartSlice';
@@ -33,14 +30,6 @@ export default function Sidebar() {
     const handleClick = (buttonIndex: number | null) => {
         dispatch(setSelectedButtonActive({ button: buttonIndex }));
     };
-
-    // Lấy trạng thái dark mode từ localStorage khi khởi động
-    // useEffect(() => {
-    //     const theme = localStorage.getItem('theme');
-    //     if (theme) {
-    //         dispatch(toggleDarkMode());
-    //     }
-    // }, [dispatch]);
 
     // Hàm chuyển đổi dark mode
     const toggleTheme = () => {

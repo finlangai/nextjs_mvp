@@ -15,6 +15,7 @@ import { selectPriceStocksData, selectPriceStocksLoading } from '@/src/redux/Pri
 import { useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { selectSelectedLayout } from '@/src/redux/LayoutTechChart';
 import { SpinerLoader } from '../../common/Loader';
+import { selectDarkMode } from '@/src/redux/darkmode';
 
 // Kích hoạt các module
 indicatorsAll(Highcharts);
@@ -50,6 +51,8 @@ const TechnicalChart = dynamic(() => {
 });
 
 const TechnicalChartComponent = ({symbol} : {symbol: string}) => {
+    const isDarkMode = useAppSelector(selectDarkMode);
+
     const chartContainerRef = useRef<HTMLDivElement>(null);
     const chartRef = useRef<Highcharts.Chart | null>(null);
     const selectPriceStocks = useAppSelector(selectPriceStocksData);
@@ -109,7 +112,7 @@ const TechnicalChartComponent = ({symbol} : {symbol: string}) => {
           },
           annotations: selectedLayout?.layout || [],
           chart: {
-            backgroundColor: 'rgb(24 26 32)',
+            backgroundColor: 'transparent',
             renderTo: chartContainerRef.current
           },       
           tooltip: {
@@ -131,7 +134,7 @@ const TechnicalChartComponent = ({symbol} : {symbol: string}) => {
                     <div style="color: rgb(132 142 156);">
                       Ngày:
                     </div>
-                    <div style="color: white;">
+                    <div style="color: ${isDarkMode ? '#232323' : '#EAECEF'};">
                       ${timestamp !== undefined ? new Date(timestamp * 1000).toLocaleDateString('vi-VN', {
                         day: 'numeric',
                         month: 'short',
@@ -144,7 +147,7 @@ const TechnicalChartComponent = ({symbol} : {symbol: string}) => {
                     <div style="color: rgb(132 142 156);">
                       Giá mở cửa:
                     </div>
-                    <div style="color: white;">
+                    <div style="color: ${isDarkMode ? '#232323' : '#EAECEF'};">
                       ${open.toLocaleString('en-US')}
                     </div>
                   </div>
@@ -153,7 +156,7 @@ const TechnicalChartComponent = ({symbol} : {symbol: string}) => {
                     <div style="color: rgb(132 142 156);">
                       Giá cao nhất:
                     </div>
-                    <div style="color: white;">
+                    <div style="color: ${isDarkMode ? '#232323' : '#EAECEF'};">
                       ${high.toLocaleString('en-US')}
                     </div>
                   </div>
@@ -162,7 +165,7 @@ const TechnicalChartComponent = ({symbol} : {symbol: string}) => {
                     <div style="color: rgb(132 142 156);">
                       Giá thấp nhất:
                     </div>
-                    <div style="color: white;">
+                    <div style="color:${isDarkMode ? '#232323' : '#EAECEF'};">
                       ${low.toLocaleString('en-US')}
                     </div>
                   </div>
@@ -171,7 +174,7 @@ const TechnicalChartComponent = ({symbol} : {symbol: string}) => {
                     <div style="color: rgb(132 142 156);">
                       Giá đóng cửa:
                     </div>
-                    <div style="color: white;">
+                    <div style="color: ${isDarkMode ? '#232323' : '#EAECEF'};">
                       ${close.toLocaleString('en-US')}
                     </div>
                   </div>
@@ -220,7 +223,7 @@ const TechnicalChartComponent = ({symbol} : {symbol: string}) => {
               upColor: '#0ECB81',
             },
             line: {
-              color: '#0ECB81',       
+              color: `${isDarkMode ? '#D9D9D9' : '#2B3139'}`,       
             },
           },
           series: [
@@ -254,7 +257,7 @@ const TechnicalChartComponent = ({symbol} : {symbol: string}) => {
             gridLineColor: '#2B3139',
             labels: {
               style: {
-                color: '#ffffff'
+                color: `${isDarkMode ? 'blue' : '#EAECEF'}`
               },
             },
             gridLineWidth: 1,
@@ -271,11 +274,11 @@ const TechnicalChartComponent = ({symbol} : {symbol: string}) => {
           },
           yAxis: [
             {
-              gridLineColor: '#2B3139',
+              gridLineColor: `${isDarkMode ? '#D9D9D9' : '#2B3139'}`,
               labels: {
                 align: 'left',
                 style: {
-                  color: '#ffffff'
+                   color: `${isDarkMode ? '#232323' : '#EAECEF'}`
                 },
               },
               height: '80%',
@@ -283,17 +286,17 @@ const TechnicalChartComponent = ({symbol} : {symbol: string}) => {
                 enabled: true
               },
               crosshair: {
-                color: '#cccccc',
+                color: `${isDarkMode ? '#101010' : '#D9D9D9'}`,
                 width: 1,
                 dashStyle: 'ShortDot',
               },
             }, 
             {
-              gridLineColor: '#2B3139',
+              gridLineColor: `${isDarkMode ? '#D9D9D9' : '#2B3139'}`,
               labels: {
                 align: 'left',
                 style: {
-                  color: '#ffffff'
+                   color: `${isDarkMode ? '#232323' : '#EAECEF'}`
                 },
               },
               top: '80%',
@@ -333,22 +336,6 @@ const TechnicalChartComponent = ({symbol} : {symbol: string}) => {
                 }
             }]
           },
-          // exporting: {
-          //   enabled: true, // Bật chức năng Export
-          //   buttons: {
-          //       contextButton: {
-          //           menuItems: ['downloadPNG', 'downloadJPEG', 'downloadSVG', 'downloadPDF']
-          //       }
-          //   },
-          //   chartOptions: {
-          //     navigator: {
-          //       enabled: false
-          //     },
-          //     scrollbar: {
-          //       enabled: false
-          //     }
-          //   }
-          // }
         };
 
         // Tạo bản sao của `chartOptions` trước khi truyền
@@ -366,7 +353,7 @@ const TechnicalChartComponent = ({symbol} : {symbol: string}) => {
         });
 
       }
-    }, [seriesData, volumeData, selectedLayout]);
+    }, [seriesData, volumeData, selectedLayout, isDarkMode]);
 
     // Lưu annotations vào sessionStorage
     const saveAnnotationsToSession = () => {

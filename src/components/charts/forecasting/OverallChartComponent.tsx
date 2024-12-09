@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
@@ -19,8 +19,13 @@ const OverallChart = dynamic(() => {
 
 const CustomGaugeChart= ({ signals } : {signals: SignalInterface[]; title?: string}) => {
   const isDarkMode = useAppSelector(selectDarkMode);
+  // console.log('vv', isDarkMode ? '#232323' : '#EAECEF')
+
+  // Đợi isDarkMode có giá trị trước khi render
+  if (typeof isDarkMode === "undefined") return null;
 
   const result = finalStatus({ signals });
+  
   const options = {
     credits: {
       enabled: false
@@ -41,7 +46,7 @@ const CustomGaugeChart= ({ signals } : {signals: SignalInterface[]; title?: stri
     title: {
       text: '',
       style: {
-        color: `${isDarkMode ? '#232323' : '#EAECEF'}`
+        color: `${isDarkMode ? '#EAECEF' : '#232323'}`
       }
     },
     tooltip: { enabled: false },
