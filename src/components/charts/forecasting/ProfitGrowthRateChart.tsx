@@ -51,7 +51,7 @@ const ProfitGrowthRateChart = ({data}: {data: Metric[]}) => {
       plotBands: [{ // Vùng màu phủ cho năm dự báo
         from: forecastStartIndex - 0.5,
         to: xAxisCategories.length - 0.5,
-        color: `${isDarkMode ? '#D9D9D9' : '#2B3139'}`,
+        color: `${isDarkMode ? '#EAECEF' : 'rgb(217 217 217 / 5%)'}`,
         label: {
           text: 'Dự báo',
           style: {

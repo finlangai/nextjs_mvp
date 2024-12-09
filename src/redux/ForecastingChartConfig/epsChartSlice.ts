@@ -2,14 +2,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface EPSChartState {
   title: string;
-  color: string[]; // Đổi từ object sang mảng
-  type: string[];  // Đổi từ object sang mảng
+  color: string[]; 
+  type: string[]; 
 }
 
 const initialState: EPSChartState = {
   title: "Lợi nhuận trên mỗi cổ phần",
-  color: ["#25B770"], // Mảng màu sắc
-  type: ["waterfall"], // Mảng loại biểu đồ
+  color: ["#25B770"], 
+  type: ["waterfall"], 
 };
 
 

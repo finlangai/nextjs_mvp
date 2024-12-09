@@ -2,14 +2,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface EPSGrowthChartState {
   title: string;
-  color: string[]; // Mảng màu sắc
-  type: string[];  // Mảng loại biểu đồ
+  color: string[];
+  type: string[];  
 }
 
 const initialState: EPSGrowthChartState = {
   title: "Tăng trưởng lợi nhuận trên mỗi cổ phần",
-  color: ["#25B770", "white", "#FF6347"], // Mảng màu sắc
-  type: ["spline", "line", "spline"],     // Mảng loại biểu đồ
+  color: ["#25B770", "white", "#FF6347"],
+  type: ["spline", "line", "spline"],     
 };
 
 const epsGrowthChartSlice = createSlice({

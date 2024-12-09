@@ -2,14 +2,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface FreeCashFlowGrowthRateChartState {
   title: string;
-  color: string[]; // Mảng màu sắc
-  type: string[];  // Mảng loại biểu đồ
+  color: string[];
+  type: string[];  
 }
 
 const initialState: FreeCashFlowGrowthRateChartState = {
   title: "Tăng trưởng dòng tiền tự do",
-  color: ["#25B770", "white", "#FF6347"], // Mảng màu sắc
-  type: ["column", "line", "spline"],     // Mảng loại biểu đồ
+  color: ["#25B770", "white", "#FF6347"], 
+  type: ["column", "line", "spline"],  
 };
 
 const freeCashFlowGrowthRateChartSlice = createSlice({

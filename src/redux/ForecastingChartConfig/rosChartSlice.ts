@@ -2,14 +2,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface ROSChartState {
   title: string;
-  color: string[]; // Mảng màu sắc
-  type: string[];  // Mảng loại biểu đồ
+  color: string[];
+  type: string[]; 
 }
 
 const initialState: ROSChartState = {
   title: "Tỷ suất lợi nhuận trên doanh thu",
-  color: ["#25B770"], // Mảng màu sắc
-  type: ["column"],    // Mảng loại biểu đồ
+  color: ["#25B770"],
+  type: ["column"], 
 };
 
 const rosChartSlice = createSlice({

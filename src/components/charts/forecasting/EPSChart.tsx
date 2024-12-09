@@ -48,7 +48,7 @@ const EPSChart = ({ data }: { data: Metric[] }) => {
       plotBands: [{
         from: historicalData.length - 0.5,
         to: historicalData.length + forecastData.length - 0.5,
-        color: '#1E2026',
+        color: `${isDarkMode ? '#EAECEF' : 'rgb(217 217 217 / 5%)'}`,
         label: {
           text: 'Dự báo',
           style: {
@@ -87,7 +87,7 @@ const EPSChart = ({ data }: { data: Metric[] }) => {
           return Highcharts.numberFormat(this.y ?? 0, 0, ',');
         },
         style: {
-          color: '#FFFFFF',
+          color: `${isDarkMode ? '#232323' : '#EAECEF'}`,
           fontWeight: 'bold',
           textOutline: 'none'
         }

@@ -2,14 +2,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface MarginalProfitChartState {
   title: string;
-  color: string[]; // Đổi từ object sang mảng
-  type: string[];  // Đổi từ object sang mảng
+  color: string[];
+  type: string[];
 }
 
 const initialState: MarginalProfitChartState = {
   title: "Biên lợi nhuận",
-  color: ["white", "#25B770"], // Mảng màu sắc
-  type: ["column", "column"],  // Mảng loại biểu đồ
+  color: ["white", "#25B770"], 
+  type: ["column", "column"],  
 };
 
 const marginalProfitChartSlice = createSlice({

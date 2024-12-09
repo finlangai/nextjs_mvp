@@ -8,8 +8,8 @@ export interface EBITDAGrowthRateChartState {
 
 const initialState: EBITDAGrowthRateChartState = {
   title: "Tỷ lệ tăng trưởng EBITDA",
-  color: ["#25B770", "white", "#FF6347"], // Mảng màu sắc
-  type: ["spline", "line", "spline"],     // Mảng loại biểu đồ
+  color: ["#25B770", "white", "#FF6347"], 
+  type: ["spline", "line", "spline"],   
 };
 
 const ebitdaGrowthRateChartSlice = createSlice({

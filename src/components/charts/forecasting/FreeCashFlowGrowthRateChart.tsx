@@ -59,7 +59,7 @@ const FreeCashFlowGrowthRateChart = ({data}: {data: Metric[]}) => {
       plotBands: [{
         from: forecastStartIndex - 0.5,
         to: xAxisCategories.length - 0.5,
-        color: '#1E2026',
+        color: `${isDarkMode ? '#EAECEF' : 'rgb(217 217 217 / 5%)'}`,
         label: {
           text: 'Dự báo',
           style: {
@@ -67,7 +67,6 @@ const FreeCashFlowGrowthRateChart = ({data}: {data: Metric[]}) => {
           }
         },
         gridLineColor: `${isDarkMode ? '#D9D9D9' : '#2B3139'}`,
-
       }],
     },
     yAxis: [
@@ -89,9 +88,10 @@ const FreeCashFlowGrowthRateChart = ({data}: {data: Metric[]}) => {
             return this.value.toLocaleString();
           }
         },
-        gridLineColor: '#2B3139', // Màu lưới tối hơn
+        gridLineColor: `${isDarkMode ? '#232323' : '#EAECEF'}`, 
+
         gridLineWidth: 1,
-        minorGridLineColor: '#2B3139', // Màu lưới phụ tối hơn
+        minorGridLineColor: `${isDarkMode ? '#232323' : '#EAECEF'}`, // Màu lưới phụ tối hơn
         minorGridLineWidth: 0.5,
       },
       {
@@ -113,16 +113,16 @@ const FreeCashFlowGrowthRateChart = ({data}: {data: Metric[]}) => {
           }
         },
         opposite: true,
-        gridLineColor: '#2B3139', // Màu lưới tối hơn
+        gridLineColor: `${isDarkMode ? '#D9D9D9' : '#2B3139'}`, // Màu lưới tối hơn
         gridLineWidth: 1,
-        minorGridLineColor: '#2B3139', // Màu lưới phụ tối hơn
+        minorGridLineColor: `${isDarkMode ? '#D9D9D9' : '#2B3139'}`, // Màu lưới phụ tối hơn
         minorGridLineWidth: 0.5,
       }
     ],
     series: chartSeries.map(series => ({
       ...series,
       yAxis: series.type === 'column' ? 0 : 1,
-      gridLineColor: '#2B3139',
+      gridLineColor: `${isDarkMode ? '#D9D9D9' : '#2B3139'}`,
       // Gán series vào trục Y tương ứng
     })),
     plotOptions: {

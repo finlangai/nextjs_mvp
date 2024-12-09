@@ -1,11 +1,29 @@
 "use client";
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { setSelectedButtonActive, selectSelectedButton } from '@/src/redux/SiderBar';
 import { selectDarkMode, toggleDarkMode } from '@/src/redux/darkmode';
+
+import { updateDebtToAssetsRatioChartColor } from '@/src/redux/ForecastingChartConfig/debtToAssetsRatioSlice';
+import { updateAssetGrowthRateChartColor } from '@/src/redux/ForecastingChartConfig/assetGrowthRateSlice';
+
+import { updateEPSGrowthChartColor } from '@/src/redux/ForecastingChartConfig/EPSGrowthSlice';
+import { updateEBITDAGrowthRateChartColor } from '@/src/redux/ForecastingChartConfig/eBITDAGrowthRateSlice';
+import { updateEquityGrowthRateChartColor } from '@/src/redux/ForecastingChartConfig/equityGrowthRateSlice';
+
+import { updateFreeCashFlowGrowthRateChartColor } from '@/src/redux/ForecastingChartConfig/freeCashFlowGrowthRateSlice';
+import { updateInterestCoverageRatioChartColor } from '@/src/redux/ForecastingChartConfig/interestCoverageRatioSlice';
+
+import { updateROIChartColor } from '@/src/redux/ForecastingChartConfig/roiChartSlice';
+import { updateliquidityRatioChartColor } from '@/src/redux/ForecastingChartConfig/liquidityRatioChartSlice';
+import { updateMarginalProfitChartColor } from '@/src/redux/ForecastingChartConfig/marginalProfitChartSlice';
+import { updateProfitGrowthRateChartColor } from '@/src/redux/ForecastingChartConfig/profitGrowthRateSlice';
+import { updateReturnOnAssetsGrowthRateChartColor } from '@/src/redux/ForecastingChartConfig/returnOnAssetsGrowthRateSlice';
+import { updateRevenueGrowthRateChartColor } from '@/src/redux/ForecastingChartConfig/revenueGrowthRateSlice';
+
 import BtnSidebar from '../common/BtnSidebar';
 import HoverArrowLink from '../common/HoverArrowLink';
-import { useEffect } from 'react';
 
 export default function Sidebar() {
     const selectedButton = useAppSelector(selectSelectedButton);
@@ -17,12 +35,12 @@ export default function Sidebar() {
     };
 
     // Lấy trạng thái dark mode từ localStorage khi khởi động
-    useEffect(() => {
-        const theme = localStorage.getItem('theme');
-        if (theme === 'dark') {
-            dispatch(toggleDarkMode()); // Đặt trạng thái trong Redux
-        }
-    }, [dispatch]);
+    // useEffect(() => {
+    //     const theme = localStorage.getItem('theme');
+    //     if (theme) {
+    //         dispatch(toggleDarkMode());
+    //     }
+    // }, [dispatch]);
 
     // Hàm chuyển đổi dark mode
     const toggleTheme = () => {
@@ -31,11 +49,29 @@ export default function Sidebar() {
         localStorage.setItem('theme', newTheme ? 'dark' : 'light');
     };
 
+    const upColorChart = (color: string) => {
+        dispatch(updateDebtToAssetsRatioChartColor(["#25B770", color, "#FF6347"]));
+        dispatch(updateAssetGrowthRateChartColor(["#25B770", color, "#FF6347"]));
+        dispatch(updateEBITDAGrowthRateChartColor(["#25B770", color, "#FF6347"]));
+        dispatch(updateEPSGrowthChartColor(["#25B770", color, "#FF6347"]));
+        dispatch(updateEquityGrowthRateChartColor(["#25B770", color, "#FF6347"]));
+        dispatch(updateFreeCashFlowGrowthRateChartColor(["#25B770", color, "#FF6347"]));
+        dispatch(updateMarginalProfitChartColor([color, "#25B770"]));
+        dispatch(updateROIChartColor(["#25B770", color, "#FF6347"]));
+        dispatch(updateInterestCoverageRatioChartColor(["#25B770", color, "#FF6347"]));
+        dispatch(updateliquidityRatioChartColor(["#25B770", color, "#FF6347"]));
+        dispatch(updateProfitGrowthRateChartColor(["#25B770", color, "#FF6347"]));
+        dispatch(updateReturnOnAssetsGrowthRateChartColor(["#25B770", color, "#FF6347"]));
+        dispatch(updateRevenueGrowthRateChartColor(["#25B770", color, "#FF6347"]));
+    }
+
     // Đồng bộ trạng thái dark mode với body
     useEffect(() => {
         if (isDarkMode) {
+            upColorChart('#39414C')
             document.body.classList.add('dark');
         } else {
+            upColorChart('#D9D9D9')
             document.body.classList.remove('dark');
         }
     }, [isDarkMode]);

@@ -51,7 +51,7 @@ const DebtToAssetsRatioChart = ({data}: {data: Metric[]}) => {
       plotBands: [{ 
         from: forecastStartIndex - 0.5,
         to: xAxisCategories.length - 0.5,
-        color: '#1E2026',
+        color: `${isDarkMode ? '#EAECEF' : 'rgb(217 217 217 / 5%)'}`,
         label: {
           text: 'Dự báo',
           style: {

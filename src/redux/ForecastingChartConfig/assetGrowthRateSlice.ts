@@ -8,8 +8,8 @@ export interface AssetGrowthRateChartState {
 
 const initialState: AssetGrowthRateChartState = {
   title: "Tỷ lệ tăng trưởng tài sản",
-  color: ["#25B770", "white", "#FF6347"], // Mảng màu sắc
-  type: ["area", "area", "area"],     // Mảng loại biểu đồ
+  color: ["#25B770", "white", "#FF6347"],
+  type: ["area", "area", "area"],   
 };
 
 const assetGrowthRateChartSlice = createSlice({
