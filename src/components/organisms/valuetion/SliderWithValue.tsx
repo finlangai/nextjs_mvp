@@ -7,6 +7,9 @@ interface SliderProps {
   onChange: (value: number) => void;
 }
 
+import { selectDarkMode } from '@/src/redux/darkmode';
+import { useAppSelector } from "@/src/redux/hooks/useAppStore";
+
 const SliderWithValue: React.FC<SliderProps> = ({ 
   min = 0, 
   max = 100, 
@@ -15,8 +18,10 @@ const SliderWithValue: React.FC<SliderProps> = ({
   tooltip = true, 
   onChange 
 }) => {
+  const isDarkMode = useAppSelector(selectDarkMode);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(Number(e.target.value)); // Gọi hàm cha khi giá trị thay đổi
+    onChange(Number(e.target.value));
   };
   return (
     <div className="relative mt-4 w-full">
@@ -35,7 +40,7 @@ const SliderWithValue: React.FC<SliderProps> = ({
                 height: 5px; /* Đảm bảo chiều cao track */
                 -webkit-appearance: none;
                 appearance: none;
-                background: #2B3139;
+                background: ${isDarkMode ? '#848E9C' : '#2B3139'} ${value}%,;
                 outline: none;
             }
 
@@ -43,10 +48,10 @@ const SliderWithValue: React.FC<SliderProps> = ({
                 height: 5px;
                 background: linear-gradient(
                 to right,
-                white 0%,          /* Màu bắt đầu (phần được tô) */
-                white ${value}%, /* Màu của phần được tô */
-                #2B3139 ${value}%,    /* Màu nền (phần chưa tô) */
-                #2B3139 100%                /* Màu nền đến hết */
+                ${isDarkMode ? 'black' : 'white'} 0%,          /* Màu bắt đầu (phần được tô) */
+                ${isDarkMode ? 'black' : 'white'} ${value}%, /* Màu của phần được tô */
+                ${isDarkMode ? '#EAECEF' : '#2B3139'} ${value}%,    /* Màu nền (phần chưa tô) */
+                ${isDarkMode ? '#EAECEF' : '#2B3139'} 100%                /* Màu nền đến hết */
                 );                
                 border-radius: 5px;
             }
@@ -56,7 +61,7 @@ const SliderWithValue: React.FC<SliderProps> = ({
                 appearance: none;
                 width: 20px;
                 height: 20px;
-                background-color: white;
+                background-color: ${isDarkMode ? 'black' : 'white'};
                 border-radius: 50%;
                 cursor: grab;
                 margin-top: -7.5px; /* Căn chỉnh thumb để nó thẳng hàng với track */
@@ -65,7 +70,7 @@ const SliderWithValue: React.FC<SliderProps> = ({
             input[type="range"]::-moz-range-thumb {
                 width: 20px;
                 height: 20px;
-                background-color: white;
+                background-color: ${isDarkMode ? 'black' : 'white'};
                 border-radius: 50%;
                 cursor: grab;
                 border: none;
@@ -74,7 +79,7 @@ const SliderWithValue: React.FC<SliderProps> = ({
             input[type="range"]::-ms-thumb {
                 width: 20px;
                 height: 20px;
-                background-color: white;
+                background-color: ${isDarkMode ? 'black' : 'white'};
                 border-radius: 50%;
                 cursor: grab;
                 border: none;

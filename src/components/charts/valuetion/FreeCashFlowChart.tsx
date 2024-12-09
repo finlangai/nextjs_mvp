@@ -2,8 +2,12 @@ import React, { useEffect, useRef } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { FcfForecasts } from '@/src/interfaces/ValuationParams';
+import { selectDarkMode } from '@/src/redux/darkmode';
+import { useAppSelector } from '@/src/redux/hooks/useAppStore';
 
 const FreeCashFlowChart = ({ data } : {data: FcfForecasts[]}) => {
+  const isDarkMode = useAppSelector(selectDarkMode);
+
   const chartRef = useRef<HighchartsReact.RefObject>(null);
 
   // Chuyển đổi dữ liệu nhận được thành các giá trị phù hợp cho chart
@@ -20,14 +24,14 @@ const FreeCashFlowChart = ({ data } : {data: FcfForecasts[]}) => {
     title: {
       text: '',
       style: {
-        color: '#fff',
+        color: `${isDarkMode ? '#101010' : '#D9D9D9'}`,
       },
     },
     xAxis: {
       categories: years,
       labels: {
         style: {
-          color: '#fff',
+          color: `${isDarkMode ? '#101010' : '#D9D9D9'}`,
         },
       },
     },
@@ -35,15 +39,15 @@ const FreeCashFlowChart = ({ data } : {data: FcfForecasts[]}) => {
       title: {
         text: '',
         style: {
-          color: '#fff',
+          color: `${isDarkMode ? '#101010' : '#D9D9D9'}`,
         },
       },
       labels: {
         style: {
-          color: '#fff',
+          color: `${isDarkMode ? '#101010' : '#D9D9D9'}`,
         },
       },
-      gridLineColor: '#2B3139',
+      gridLineColor: `${isDarkMode ? '#D9D9D9' : '#2B3139'}`,      
       tickAmount: 3,
       // type: 'logarithmic', // Sử dụng scale logarithmic
     },

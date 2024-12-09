@@ -5,8 +5,11 @@ import { getPotentialClass } from '@/src/utils/getPotentialClass';
 import { Scenarios } from '@/src/interfaces/Scenarios';
 import { selectProfileSummaryClosePrice } from '@/src/redux/ProfileSummary';
 import { useAppSelector } from '@/src/redux/hooks/useAppStore';
+import { selectDarkMode } from '@/src/redux/darkmode';
 
 const HistoryValuetionChart = ({ data }: { data: Scenarios | undefined }) => {
+  const isDarkMode = useAppSelector(selectDarkMode);
+
   const selectPrice = useAppSelector(selectProfileSummaryClosePrice) ?? 0;
   // console.log(data)
   // Tính toán min và max cho trục y
@@ -30,22 +33,22 @@ const HistoryValuetionChart = ({ data }: { data: Scenarios | undefined }) => {
       categories: [data?.createdAt, data?.expectedDate],
       labels: {
         style: {
-          color: '#ffffff',
+          color: `${isDarkMode ? '#101010' : '#D9D9D9'}`,
         },
       },
-      gridLineColor: '#2B3139',
+      gridLineColor: `${isDarkMode ? '#D9D9D9' : '#2B3139'}`,
     },
     yAxis: {
       tickAmount: 5,
       min: calculatedMin,
       max: calculatedMax,
-      gridLineColor: '#2B3139',
+      gridLineColor: `${isDarkMode ? '#D9D9D9' : '#2B3139'}`,
       title: {
         text: null,
       },
       labels: {
         style: {
-          color: '#ffffff',
+          color: `${isDarkMode ? '#101010' : '#D9D9D9'}`,
         },
       },
       plotLines: [
@@ -73,7 +76,7 @@ const HistoryValuetionChart = ({ data }: { data: Scenarios | undefined }) => {
         data: [
           {
             y: data?.actual,
-            color: 'white',
+            color: `${isDarkMode ? '#101010' : '#D9D9D9'}`,
           },
           {
             y: data?.valuated,

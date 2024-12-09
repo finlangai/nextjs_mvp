@@ -5,6 +5,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import dayjs from "dayjs";
 import 'dayjs/locale/vi';
+import { useAppSelector } from "@/src/redux/hooks/useAppStore";
+import { selectDarkMode } from '@/src/redux/darkmode';
 
 export default function FilterTimeScenariors({
     onDateChange,
@@ -13,13 +15,15 @@ export default function FilterTimeScenariors({
     onDateChange: (month: string, year: string) => void,
     theme?: any
 }) {
+    const isDarkMode = useAppSelector(selectDarkMode);
+
     const [open, setOpen] = useState(false);
     const [selectedDate, setSelectedDate] = useState<dayjs.Dayjs | null>(null);
     const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
 
     const defaultTheme = createTheme({
         palette: {
-            mode: 'dark',
+            mode: `${!isDarkMode ? 'dark' : 'light'}`,
             primary: {
                 main: '#25B770',
             },

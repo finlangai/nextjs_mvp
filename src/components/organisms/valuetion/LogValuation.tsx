@@ -221,13 +221,13 @@ export default function LogValuation ({containerHeight, symbol} : {containerHeig
             >
                 <div
                 onClick={(e) => e.stopPropagation()}
-                className={`w-[400px] bg-fintown-bg-stn rounded-[8px] py-[32px] px-[32px] max-h-max
+                className={`w-[400px] bg-fintown-bg-stn dark:bg-fintown-bg-stn-light rounded-[8px] py-[32px] px-[32px] max-h-max
                 transform transition-all duration-500 ease-out
                 ${isPopupOpen ? 'mt-[100px] translate-y-0 opacity-100' : 'mt-0 -translate-y-12 opacity-0'}`}>
                     <div className='h-[60px] w-[60px] bg-[#8b8b8b33] flex justify-center items-center rounded-[50%] mx-auto mb-[20px]'>
                         <i className='bx bx-trash text-fintown-txt-2 text-[30px]' ></i>
                     </div>
-                    <div className="text-[16px] text-fintown-txt-1 font-[600] mb-[10px] text-center">
+                    <div className="text-[16px] text-fintown-txt-1 dark:text-fintown-txt-1-light font-[600] mb-[10px] text-center">
                         Xác nhận xóa kịch bản này?
                     </div>
                     <div className="text-[14px] text-fintown-txt-2 mb-[50px] text-center">
@@ -237,12 +237,12 @@ export default function LogValuation ({containerHeight, symbol} : {containerHeig
                     <div className="flex justify-center">
                         <button
                             onClick={() => setIsPopupOpen(false)}
-                            className="py-[12px] w-full text-fintown-txt-1 text-[14px] px-[23px] border border-fintown-br rounded-[8px] mr-[20px]">
+                            className="py-[12px] w-full text-fintown-txt-1 dark:text-fintown-txt-1-light text-[12px] px-[23px] border border-fintown-br dark:border-fintown-br-light rounded-[8px] mr-[20px]">
                             Hủy bỏ
                         </button>
                         <button
                             onClick={()=> deleteById()}
-                            className="py-[12px] w-full text-fintown-txt-1 text-[14px] px-[23px] bg-[#ef4444] rounded-[8px]">
+                            className="py-[12px] w-full text-fintown-txt-1 text-[12px] px-[23px] bg-[#ef4444] rounded-[8px]">
                             Xác nhận xóa
                         </button>
                     </div>

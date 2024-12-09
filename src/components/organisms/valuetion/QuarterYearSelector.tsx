@@ -8,6 +8,7 @@ const QuarterYearSelector = ({ onSelect, currentYear, currentQuarter}: {
     const [selectedYear, setSelectedYear] = useState(currentYear);
     const [isQuarterOpen, setIsQuarterOpen] = useState(false);
     const [isYearOpen, setIsYearOpen] = useState(false);
+    const [start, setStart] = useState(true);
 
     const quarterRef = useRef<HTMLDivElement | null>(null);
     const yearRef = useRef<HTMLDivElement | null>(null);
@@ -16,8 +17,20 @@ const QuarterYearSelector = ({ onSelect, currentYear, currentQuarter}: {
     const years = Array.from({ length: 31 }, (_, index) => currentYear + index);
 
     useEffect(()=> {
+        // let index = 0;
+        // let yearStart = 0;
+
+        // // Lần đầu tiên tăng thêm một quý so với quý hiện có => định giá cho quý tiếp theo
+        // if (start) {
+        //     index = 1;
+        //     setStart(false);
+        // };
+
+        // if (selectedQuarter === 4) {
+            
+        // }
         setSelectedQuarter(currentQuarter);
-        setSelectedYear(currentYear);
+        setSelectedYear(currentYear + 0);
     }, [currentYear, currentQuarter])
 
     useEffect(() => {
@@ -117,11 +130,11 @@ const QuarterYearSelector = ({ onSelect, currentYear, currentQuarter}: {
                         <i className="bx bx-chevron-down text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px]"></i>
                     </div>
                     {isQuarterOpen && (
-                        <div className="absolute z-10 top-[-200%] w-full max-w-[120px] border border-fintown-br dark:border-fintown-br-light rounded mt-1 px-[5px] py-[10px] shadow-lg max-h-[200px] overflow-y-auto bg-fintown-bg-card text-fintown-txt-1 dark:text-fintown-txt-1-light">
+                        <div className="absolute z-10 top-[-200%] w-full max-w-[120px] border border-fintown-br dark:border-fintown-br-light rounded mt-1 px-[5px] py-[10px] shadow-lg max-h-[200px] overflow-y-auto bg-fintown-bg-card dark:bg-fintown-bg-light text-fintown-txt-1 dark:text-fintown-txt-1-light">
                         {quarters.map((quarter) => (
                             <div
                             key={quarter}
-                            className="px-[16px] py-[10px] text-[12px] hover:bg-[#1E2127] cursor-pointer rounded"
+                            className="px-[16px] py-[10px] text-[12px] hover:bg-fintown-hvr-btn-1 hover:dark:bg-fintown-hvr-btn-1-light cursor-pointer rounded"
                             onClick={() => handleQuarterSelect(quarter)}
                             >
                             {`Quý ${quarter}`}
@@ -146,11 +159,11 @@ const QuarterYearSelector = ({ onSelect, currentYear, currentQuarter}: {
                         <i className="bx bx-chevron-down text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px]"></i>
                     </div>
                     {isYearOpen && (
-                        <div className="absolute z-10 top-[-200%] w-full w-max border border-fintown-br dark:border-fintown-br-light rounded mt-1 shadow-lg max-h-[200px] overflow-y-auto custom-scrollbarmini2 bg-fintown-bg-card text-fintown-txt-1 px-[5px] py-[10px]">
+                        <div className="absolute z-10 top-[-200%] w-full w-max border border-fintown-br dark:border-fintown-br-light rounded mt-1 shadow-lg max-h-[200px] overflow-y-auto custom-scrollbarmini2 bg-fintown-bg-card dark:bg-fintown-bg-light text-fintown-txt-1 dark:text-fintown-txt-1-light px-[5px] py-[10px] ">
                         {years.map((year) => (
                             <div
                             key={year}
-                            className="px-[16px] py-[10px] text-[12px] hover:bg-[#1E2127] cursor-pointer rounded"
+                            className="px-[16px] py-[10px] text-[12px] hover:bg-fintown-hvr-btn-1 hover:dark:bg-fintown-hvr-btn-1-light cursor-pointer rounded"
                             onClick={() => handleYearSelect(year)}
                             >
                             {`Năm ${year}`}
