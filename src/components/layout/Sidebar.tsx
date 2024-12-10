@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { setSelectedButtonActive, selectSelectedButton } from '@/src/redux/SiderBar';
@@ -26,6 +26,7 @@ export default function Sidebar() {
     const selectedButton = useAppSelector(selectSelectedButton);
     const isDarkMode = useAppSelector(selectDarkMode);
     const dispatch = useAppDispatch();
+    const [isThemeInitialized, setIsThemeInitialized] = useState(false);
 
     const handleClick = (buttonIndex: number | null) => {
         dispatch(setSelectedButtonActive({ button: buttonIndex }));
@@ -54,21 +55,21 @@ export default function Sidebar() {
         dispatch(updateRevenueGrowthRateChartColor(["#25B770", color, "#FF6347"]));
     };
 
+    // Khởi tạo Redux state từ localStorage
     useEffect(() => {
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme === 'dark') {
-            if (!isDarkMode) {
-                dispatch(setDarkMode(true)); 
-            }
-        } else {
-            if (isDarkMode) {
-                dispatch(setDarkMode(false)); 
-            }
+            dispatch(setDarkMode(true));
+        } else if (savedTheme === 'light') {
+            dispatch(setDarkMode(false));
         }
-    }, [dispatch, isDarkMode]);   
-    
-    
+        setIsThemeInitialized(true); 
+    }, [dispatch]);
+
+    // Cập nhật class body theo Redux state sau khi khởi tạo xong
     useEffect(() => {
+        if (!isThemeInitialized) return;
+
         if (isDarkMode) {
             document.body.classList.add('dark');
             upColorChart('#39414C');
@@ -76,7 +77,13 @@ export default function Sidebar() {
             document.body.classList.remove('dark');
             upColorChart('#D9D9D9');
         }
-    }, [isDarkMode]);       
+    }, [isDarkMode, isThemeInitialized]);
+
+    // Cập nhật `localStorage` khi Redux state thay đổi
+    useEffect(() => {
+        if (!isThemeInitialized) return;
+        localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+    }, [isDarkMode, isThemeInitialized]);
 
     return (
         <div

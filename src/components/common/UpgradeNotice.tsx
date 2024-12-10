@@ -12,15 +12,15 @@ export default function UpgradeNotice({containerHeight, style } : {containerHeig
                 ...style,
             }}
         >   
-            <div className="p-[50px] max-w-max border border-fintown-br rounded-[8px] mx-auto mt-[60px]">
+            <div className="p-[50px] max-w-max border border-fintown-br dark:border-fintown-br-light rounded-[8px] mx-auto mt-[60px]">
                 <div className="w-[710px]  flex flex-col justify-start items-start">
                     {/* Header */}
-                    <div className="pb-[27px] pr-[114px] border-b border-[#2B3139] flex flex-col justify-start items-start gap-[20px]">
+                    <div className="pb-[27px] pr-[114px] border-b border-fintown-br dark:border-fintown-br-light flex flex-col justify-start items-start gap-[20px]">
                         <div className="w-full h-[40px] flex items-center gap-[4px]">
                             <img className="w-[40px] h-[40px]" src="/imgs/logo.png" alt="Logo" />
-                            <div className="text-center text-white text-[24px] font-bold">fintown</div>
+                            <div className="text-center text-fintown-txt-1 dark:text-fintown-txt-1-light text-[24px] font-bold">fintown</div>
                         </div>
-                        <div className="text-white text-[16px] font-normal">
+                        <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-[16px] font-normal ">
                             Đăng ký để nhận nhiều phương án đầu tư hấp dẫn hơn từ dịch vụ của chúng tôi
                         </div>
                     </div>
@@ -41,7 +41,7 @@ export default function UpgradeNotice({containerHeight, style } : {containerHeig
                                     <div className="w-[24px] h-[24px] bg-[#25B770] rounded-full flex justify-center items-center">
                                         <i className='bx bx-check text-fintown-txt-1' ></i>
                                     </div>
-                                    <div className="w-[296px] text-[#EAECEF] text-[14px] font-medium">
+                                    <div className="w-[296px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px] font-medium">
                                         {feature}
                                     </div>
                                 </div>
@@ -54,28 +54,28 @@ export default function UpgradeNotice({containerHeight, style } : {containerHeig
                         <div className="w-[446px] flex items-center justify-between">
                             <div className="flex items-center">
                                 <div className="w-[15px] h-[15px] bg-[#25B770] rounded-full border border-[#25B770] mr-[10px]" />
-                                <div className="text-[#EAECEF] text-[14px] font-medium">Gói hội viên theo tháng</div>
+                                <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px] font-medium">Gói hội viên theo tháng</div>
                             </div>
 
                             <div>
-                                <span className="text-[#EAECEF] text-[14px] font-bold">422K</span>
-                                <span className="text-[#EAECEF] text-[14px] font-medium">/</span>
-                                <span className="text-[#EAECEF] text-[12px] font-medium">tháng</span>
+                                <span className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px] font-bold">422K</span>
+                                <span className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px] font-medium">/</span>
+                                <span className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-[12px] font-medium">tháng</span>
                             </div>
                         </div>
                     </div>
 
-                    <div className="hover:border-[#0ECB81] h-[55px] w-full py-[20px] px-[36px] border border-fintown-br rounded-lg flex items-center gap-[12px] mb-[32px] cursor-pointer">
+                    <div className="hover:border-[#0ECB81] h-[55px] w-full py-[20px] px-[36px] border border-fintown-br dark:border-fintown-br-light rounded-lg flex items-center gap-[12px] mb-[32px] cursor-pointer">
                         <div className="w-[446px] flex items-center justify-between">
                             <div className="flex items-center">
                                 <div className="w-[15px] h-[15px] rounded-full border border-[#25B770] mr-[10px]" />
-                                <div className="text-[#EAECEF] text-[14px] font-medium">Gói hội viên theo tháng</div>
+                                <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px] font-medium">Gói hội viên theo tháng</div>
                             </div>
 
                             <div>
-                                <span className="text-[#EAECEF] text-[14px] font-bold">422K</span>
-                                <span className="text-[#EAECEF] text-[14px] font-medium">/</span>
-                                <span className="text-[#EAECEF] text-[12px] font-medium">tháng</span>
+                                <span className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px] font-bold">422K</span>
+                                <span className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px] font-medium">/</span>
+                                <span className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-[12px] font-medium">tháng</span>
                             </div>
                         </div>
                     </div>
