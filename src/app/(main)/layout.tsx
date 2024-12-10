@@ -9,10 +9,10 @@ export default function MainLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <Header />
-      <main className='mt-[70px]'>
+      <main className='mt-[70px] bg-fintown-bg'>
         {children}
       </main>
-      <Footer backgroundColor="" />
+      <Footer />
     </>
   );
 }

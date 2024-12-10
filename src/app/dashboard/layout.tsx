@@ -2,9 +2,8 @@
 import { usePathname } from 'next/navigation';
 import DashboardHeader from '@/src/components/layout/DashboardHeader';
 import Sidebar from '@/src/components/layout/Sidebar';
-import Footer from '@/src/components/layout/Footer';
 import { ReactNode, useEffect, useState } from 'react';
-
+import FooterDashboard from '@/src/components/layout/FooterDashboard';
 // Danh sách các route không hiển thị footer
 const routesWithoutFooter = [
   '/dashboard/co-phieu',
@@ -42,7 +41,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
         {shouldShowFooter && (
           <div>
-            <Footer backgroundColor="bg-fintown-bg-stn dark:bg-fintown-bg-light" />
+            <FooterDashboard backgroundColor="bg-fintown-bg-stn dark:bg-fintown-bg-light" />
           </div>
         )}
       </main>

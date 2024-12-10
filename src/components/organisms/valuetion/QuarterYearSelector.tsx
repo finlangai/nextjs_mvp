@@ -17,20 +17,24 @@ const QuarterYearSelector = ({ onSelect, currentYear, currentQuarter}: {
     const years = Array.from({ length: 31 }, (_, index) => currentYear + index);
 
     useEffect(()=> {
-        // let index = 0;
-        // let yearStart = 0;
+        let index = 0;
+        let yearStart = 0;
+        let cQuarter = currentQuarter;
 
-        // // Lần đầu tiên tăng thêm một quý so với quý hiện có => định giá cho quý tiếp theo
-        // if (start) {
-        //     index = 1;
-        //     setStart(false);
-        // };
+        // Lần đầu tiên tăng thêm một quý so với quý hiện có => định giá cho quý tiếp theo. 
+        // Nếu đã là quý 4 thì tăng thêm 1 năm, không tăng qu => định giá cho quý 1 năm tiếp theo.
+        if (start && currentQuarter > 0 && currentQuarter < 4) {
+            index = 1;
+            setStart(false);
+        };
+        if (start && currentYear > 0 && currentQuarter === 4) {
+            cQuarter = 1;
+            yearStart = 1;
+            setStart(false);
+        };
 
-        // if (selectedQuarter === 4) {
-            
-        // }
-        setSelectedQuarter(currentQuarter);
-        setSelectedYear(currentYear + 0);
+        setSelectedQuarter(cQuarter + index);
+        setSelectedYear(currentYear + yearStart);
     }, [currentYear, currentQuarter])
 
     useEffect(() => {

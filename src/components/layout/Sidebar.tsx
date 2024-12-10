@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { setSelectedButtonActive, selectSelectedButton } from '@/src/redux/SiderBar';
-import { selectDarkMode, toggleDarkMode } from '@/src/redux/darkmode';
+import { selectDarkMode, toggleDarkMode, setDarkMode } from '@/src/redux/darkmode';
 
 import { updateDebtToAssetsRatioChartColor } from '@/src/redux/ForecastingChartConfig/debtToAssetsRatioSlice';
 import { updateAssetGrowthRateChartColor } from '@/src/redux/ForecastingChartConfig/assetGrowthRateSlice';
@@ -52,18 +52,31 @@ export default function Sidebar() {
         dispatch(updateProfitGrowthRateChartColor(["#25B770", color, "#FF6347"]));
         dispatch(updateReturnOnAssetsGrowthRateChartColor(["#25B770", color, "#FF6347"]));
         dispatch(updateRevenueGrowthRateChartColor(["#25B770", color, "#FF6347"]));
-    }
+    };
 
-    // Đồng bộ trạng thái dark mode với body
+    useEffect(() => {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            if (!isDarkMode) {
+                dispatch(setDarkMode(true)); 
+            }
+        } else {
+            if (isDarkMode) {
+                dispatch(setDarkMode(false)); 
+            }
+        }
+    }, [dispatch, isDarkMode]);   
+    
+    
     useEffect(() => {
         if (isDarkMode) {
-            upColorChart('#39414C')
             document.body.classList.add('dark');
+            upColorChart('#39414C');
         } else {
-            upColorChart('#D9D9D9')
             document.body.classList.remove('dark');
+            upColorChart('#D9D9D9');
         }
-    }, [isDarkMode]);
+    }, [isDarkMode]);       
 
     return (
         <div

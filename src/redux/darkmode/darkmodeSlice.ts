@@ -5,7 +5,7 @@ interface DarkModeState {
 }
 
 const initialState: DarkModeState = {
-    isDarkMode:  false, // Giá trị mặc định là dark mode
+    isDarkMode: false, // Giá trị mặc định
 };
 
 const darkmodeSlice = createSlice({
@@ -16,14 +16,11 @@ const darkmodeSlice = createSlice({
             state.isDarkMode = !state.isDarkMode;
         },
         setDarkMode(state, action: PayloadAction<boolean>) {
-            state.isDarkMode = action.payload;
+            state.isDarkMode = action.payload; 
         },
     },
 });
 
 export const { toggleDarkMode, setDarkMode } = darkmodeSlice.actions;
-
-// Selector để lấy trạng thái dark mode
 export const selectDarkMode = (state: { darkmode: DarkModeState }) => state.darkmode.isDarkMode;
-
 export default darkmodeSlice.reducer;

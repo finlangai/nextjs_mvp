@@ -4,14 +4,14 @@ interface FooterProps {
     backgroundColor: string;
 }
 
-export default function Footer() {
+export default function FooterDashboard ({ backgroundColor }: FooterProps) {
     return (
-        <footer className={`bg-fintown-bg p-[40px]`}>
+        <footer className={`${backgroundColor} p-[40px]`}>
             <div className='flex items-center mb-[26px]'>
                 <div className="logo mr-[60px]">
                     <Link href="/" className="flex h-[51px] items-center">
                         <img className='w-[42px] h-[42px]' src="/imgs/logo.png" alt="logo fintown" />
-                        <p className='font-bold text-2xl text-fintown-txt-1'>fintown</p>
+                        <p className='font-bold text-2xl text-fintown-txt-1 dark:text-fintown-txt-1-light'>fintown</p>
                     </Link>
                 </div>
                 <div className='flex items-center gap-x-[50px]'>

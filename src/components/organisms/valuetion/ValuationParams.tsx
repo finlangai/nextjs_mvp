@@ -168,7 +168,7 @@ export function DCFParamsComponent({sYear, sQuarter} : {sYear:number; sQuarter:n
     const valuationParamsData = useAppSelector(selectValuationParamsData);
 
     useEffect(() => {
-        console.log('xx', valuationParamsData)
+        // console.log('xx', valuationParamsData)
         if (valuationParamsData !== null) {
             setNowData(valuationParamsData);
         }
