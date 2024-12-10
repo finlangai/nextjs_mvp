@@ -20,7 +20,7 @@ export default function MainLayout({ children }: { children: ReactNode }) {
         {children}
       </main>
       <div className='ml-[70px]'>
-        <Footer backgroundColor="bg-fintown-bg-stn" />
+        <Footer />
       </div>
     </>
   );
