@@ -33,43 +33,65 @@ export default function History() {
   return (
    <div className="w-3/4 pl-10 pt-16 h-[614px]">
             <ToastContainer />
-   <div className="text-white text-xl font-bold">Lịch sử đăng kí gói</div>
+   <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-xl font-bold">Lịch sử đăng kí gói</div>
       <div className="w-[932px] h-[495px] flex-col justify-center mt-5">
-         <table className="table-auto w-full text-center border-separate border-spacing-y-[8px]">
-            {/* Header */}
-            <thead>
-               <tr className="bg-[#1e2329] h-[56px]">
-               <th className="text-[#eaecef] text-sm font-normal leading-tight">STT</th>
-               <th className="text-[#eaecef] text-sm font-normal leading-tight">Tên gói</th>
-               <th className="text-[#eaecef] text-sm font-normal leading-tight">Ngày bắt đầu</th>
-               <th className="text-[#eaecef] text-sm font-normal leading-tight">Kết thúc</th>
-               <th className="text-[#eaecef] text-sm font-normal leading-tight">Trạng thái</th>
-               </tr>
-            </thead>
+      <div className="w-[932px] h-[495px] flex-col justify-center mt-5">
+  <table className="table-auto w-full text-center border-collapse border border-fintown-br dark:border-fintown-br-light">
+    {/* Header */}
+    <thead>
+      <tr className="h-[56px]">
+        <th className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-sm font-normal leading-tight border border-fintown-br dark:border-fintown-br-light">
+          STT
+        </th>
+        <th className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-sm font-normal leading-tight border border-fintown-br dark:border-fintown-br-light">
+          Tên gói
+        </th>
+        <th className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-sm font-normal leading-tight border border-fintown-br dark:border-fintown-br-light">
+          Ngày bắt đầu
+        </th>
+        <th className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-sm font-normal leading-tight border border-fintown-br dark:border-fintown-br-light">
+          Kết thúc
+        </th>
+        <th className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-sm font-normal leading-tight border border-fintown-br dark:border-fintown-br-light">
+          Trạng thái
+        </th>
+      </tr>
+    </thead>
 
-            {/* Body */}
-            <tbody className="divide-y divide-[#2b3139]">
-            {Array.isArray(history) && history.length > 0 ? (
-               history.map((item, index) => (
-                  <tr className="h-[56px]" key={index}>
-                  <td className="text-[#eaecef] text-sm font-normal leading-tight">{index + 1}</td>
-                  <td className="text-[#eaecef] text-sm font-normal leading-tight">{item.programName}</td>
-                  <td className="text-[#eaecef] text-sm font-normal leading-tight">{item.startDate}</td>
-                  <td className="text-[#eaecef] text-sm font-normal leading-tight">{item.endDate}</td>
-                  <td className="text-[#eaecef] text-sm font-normal leading-tight">{item.status}</td>
-                  </tr>
-               ))
-            ) : (
-               // Hiển thị thông báo khi không có dữ liệu
-               <tr>
-                  <td colSpan={5} className="text-center text-[#eaecef] text-sm font-normal leading-tight">
-                  Không có lịch sử.
-                  </td>
-               </tr>
-            )}
-            </tbody>
+    {/* Body */}
+    <tbody>
+      {Array.isArray(history) && history.length > 0 ? (
+        history.map((item, index) => (
+          <tr className="h-[56px]" key={index}>
+            <td className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-sm font-normal leading-tight border-t border-b border-fintown-br dark:border-fintown-br-light">
+              {index + 1}
+            </td>
+            <td className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-sm font-normal leading-tight border-t border-b border-fintown-br dark:border-fintown-br-light">
+              {item.programName}
+            </td>
+            <td className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-sm font-normal leading-tight border-t border-b border-fintown-br dark:border-fintown-br-light">
+              {item.startDate}
+            </td>
+            <td className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-sm font-normal leading-tight border-t border-b border-fintown-br dark:border-fintown-br-light">
+              {item.endDate}
+            </td>
+            <td className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-sm font-normal leading-tight border-t border-b border-fintown-br dark:border-fintown-br-light">
+              {item.status}
+            </td>
+          </tr>
+        ))
+      ) : (
+        // Hiển thị thông báo khi không có dữ liệu
+        <tr>
+          <td colSpan={5} className="text-center text-fintown-txt-1 dark:text-fintown-txt-1-light text-sm font-normal leading-tight">
+            Không có lịch sử.
+          </td>
+        </tr>
+      )}
+    </tbody>
+  </table>
+</div>
 
-         </table>
       </div>
    </div>
   )

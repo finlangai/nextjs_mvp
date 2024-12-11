@@ -11,7 +11,7 @@ export default function BtnSidebar(
         <button 
         className={`
             flex items-center justify-center h-14 w-full
-            ${active ? 'border-fintown-pr9 border-l-4' : 'text-fintown-btn-disable hover:bg-fintown-hvr-btn-1'}
+            ${active ? 'border-fintown-pr9 border-l-4' : 'hover:bg-fintown-hvr-btn-1 hover:dark:bg-fintown-hvr-btn-1-light'}
         `}>
             <i className={`
                 ${class_icon} text-2xl 

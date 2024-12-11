@@ -9,8 +9,9 @@ import { getChartOptions } from './chartOptions';
 
 import { SpinerLoader } from '../../common/Loader';
 import { PriceStockNoVolume } from '@/src/interfaces/PriceStock';
-import { useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { selectPriceStocksLoading } from '@/src/redux/PriceStock';
+import { selectDarkMode } from '@/src/redux/darkmode';
+import { useAppSelector } from '@/src/redux/hooks/useAppStore';
 
 const MarketIndicatorChart = dynamic(() => {
   return import('./MarketIndicatorChartComponent').then(mod => mod.default);
@@ -22,6 +23,8 @@ HC_more(Highcharts);
 configureHighchartsLanguage();
 
 const MarketIndicatorChartComponent  = ({data} : {data: PriceStockNoVolume[]}) => {
+  const isDarkMode = useAppSelector(selectDarkMode);
+
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<HighchartsReact.RefObject>(null);
   const selectLoading = useAppSelector(selectPriceStocksLoading);
@@ -38,7 +41,7 @@ const MarketIndicatorChartComponent  = ({data} : {data: PriceStockNoVolume[]}) =
       <div ref={chartContainerRef} >
         <HighchartsReact
           highcharts={Highcharts}
-          options={getChartOptions(data)}
+          options={getChartOptions(data, isDarkMode)}
           ref={chartRef}
         />
       </div>

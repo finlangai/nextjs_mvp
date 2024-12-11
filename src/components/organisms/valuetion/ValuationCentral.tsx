@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
-import { setHistorySelectedButton } from '@/src/redux/ValuetionPage/valuationHistorySlice';
 import FairValueCalculator from "@/src/components/organisms/valuetion/FairValueCalculator";
 import PriceHistoryTab from '@/src/components/organisms/valuetion/PriceHistoryTab';
 import SlidingTabs from "@/src/components/common/SlidingTabs";
@@ -10,18 +9,25 @@ import { selectProfileSummaryClosePrice } from '@/src/redux/ProfileSummary';
 import { upsideCalculator } from "@/src/utils/upsideCalculator";
 import { selectSelectedButton } from '@/src/redux/ValuetionPage/valuetionPageSlice';
 import { selectToken } from "@/src/redux/auth";
+import { getModelNameValuation } from '@/src/utils/getModelNameValuation';
+import { selectHistorySelectedButton } from '@/src/redux/ValuetionPage/valuationHistorySlice';
+import { selectYear, selectQuarter } from '@/src/redux/ValuetionPage/valuetionSelectTimeSlice';
 
 interface Tab {
     id: number;
     label: string;
 }
 
-export default function ValuationCentral({ symbol, name, formular }: { symbol: string; name: string; formular: string }) {
+export default function ValuationCentralComponent({ symbol, name, formular }: { symbol: string; name: string; formular: string }) {
     const dispatch = useAppDispatch();
     const valuationResultData = useAppSelector(selectValuationResultData);
     const selectPrice = useAppSelector(selectProfileSummaryClosePrice) ?? 0;
     const selectButton = useAppSelector(selectSelectedButton);
     const token = useAppSelector(selectToken);
+    const selectedTabScenarios = useAppSelector(selectHistorySelectedButton);
+
+    const selectYearTime = useAppSelector(selectYear);
+    const selectQuarterTime = useAppSelector(selectQuarter);
 
     const result = valuationResultData
     ? upsideCalculator(selectButton, valuationResultData, selectPrice)
@@ -44,11 +50,11 @@ export default function ValuationCentral({ symbol, name, formular }: { symbol: s
     // POP UP THÊM KỊCH BẢN=============================================================
     useEffect(() => {
         if (isPopupOpen) {
-            document.body.classList.add('overflow-hidden');
+            // document.body.classList.add('overflow-hidden');
             setIsAnimating(true);
         } else {
             setTimeout(() => setIsAnimating(false), 300);
-            document.body.classList.remove('overflow-hidden');
+            // document.body.classList.remove('overflow-hidden');
         }
     }, [isPopupOpen]);
 
@@ -65,18 +71,21 @@ export default function ValuationCentral({ symbol, name, formular }: { symbol: s
     const renderContent = () => {
         switch (activeTabIndex) {
             case 0:
-                dispatch(setHistorySelectedButton({ button: 0 }));
                 return <FairValueCalculator symbol={symbol} />;
             case 1:
-                dispatch(setHistorySelectedButton({ button: 1 }));
-                return <PriceHistoryTab />;
+                return <PriceHistoryTab symbol={symbol} />;
             default:
                 return null;
         }
     };
 
+    useEffect(()=>{
+        // console.log('selectedTabScenarios ở bên kia ', selectedTabScenarios)
+        handleTabChange(selectedTabScenarios);
+    }, [selectedTabScenarios])
+
     //CÁC HÀM VALIDATE===================================================================
-    const handleSave = () => {
+    const handleSave = async () => {
         let valid = true;
         const newErrors = { scenarioName: '', notes: '' };
 
@@ -101,62 +110,68 @@ export default function ValuationCentral({ symbol, name, formular }: { symbol: s
         setErrors(newErrors);
 
         if (valid) {
+
+            let valuated;
+
+            if (selectButton > 4) {
+                valuated = adjustedPrice;
+            }
+
+            if (selectButton < 5) {
+                valuated =  valuationResultData?.valuationResult;
+            }
+
+            let expectedDate;
+            if (selectButton === 0) {
+                expectedDate = `Q${selectQuarterTime} Năm ${selectYearTime}`;
+            } else {
+                expectedDate = `Kết quả định giá`;
+            }
+
             const data = { 
                 title: scenarioName,
                 potential: upside,
-                valuated: adjustedPrice,
-                note: notes
+                valuated: valuated,
+                note: notes,
+                actual: selectPrice,
+                expectedDate: expectedDate
             };
 
-            console.log('Saving...', data);
-
-            let name = '';
-            if (selectButton === 0) {
-                name = 'discounted-cash-flow';
-            } else if (selectButton === 1) {
-                name = 'dividend-discount-model';
-            } else if (selectButton === 2) {
-                name = 'graham-intrinsic-value-formula';
-            } else if (selectButton === 3) {
-                name = 'price-to-earnings-relative-valuation';
-            } else if (selectButton === 4) {
-                name = 'price-to-book-relative-valuation';
-            } else if (selectButton === 5) {
-                name = 'price-earnings-to-growth-ratio';
-            } else if (selectButton === 6) {
-                name = 'capital-asset-pricing-model';
-            }          
+            // console.log('Saving...', data);
 
             if (token) {
-                dispatch(postScenario({ symbol: symbol, name: name, token: token, data: data}));
-                dispatch(fetchScenarios({ symbol: symbol, name: name, token: token }));
+                const name = getModelNameValuation(selectButton);
+                const year = new Date().getFullYear();
+                const filter = `year=${year}`;
+                await dispatch(postScenario({ symbol: symbol, name: name, token: token, data: data}));
+                dispatch(fetchScenarios({ symbol: symbol, name: name, token: token, filter: filter }));
             }
 
             setIsPopupOpen(false);
         }
     };
-
+    
     return (
         <>
             <div className='w-full'>
-                <div className='py-[30px] px-[24px] justify-between border-r border-b border-fintown-br'>
-                    <div className='text-[20px] font-bold text-fintown-txt-1 mb-[16px]'>
+                <div className='py-[30px] px-[24px] justify-between border-b border-fintown-br dark:border-fintown-br-light'>
+                    <div className='text-[20px] font-bold text-fintown-txt-1 dark:text-fintown-txt-1-light mb-[16px]'>
                         {name}
                     </div>
 
-                    <div className="text-[14px] text-fintown-txt-1">
+                    <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light">
                         {formular}
                     </div>
                 </div>
 
-                <div className="flex items-center px-[24px] border-b border-fintown-br">
+                <div className="flex items-center px-[24px] border-b border-fintown-br dark:border-fintown-br-light">
                     <div className='py-6'>
-                        <SlidingTabs onTabChange={handleTabChange} tabs={tabs} gap={"18px"} startIndex={0} fontsize='14px' />
+                        <SlidingTabs onTabChange={handleTabChange} tabs={tabs} gap={"18px"} startIndex={0} fontsize='14px'/>
                     </div>
                     {activeTabIndex === 0 && (
                         <button
                             onClick={() => setIsPopupOpen(true)}
-                            className="text-fintown-txt-1 text-[12px] rounded py-[7px] px-[17px] bg-fintown-btn-2 ml-auto">
+                            className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-[12px] rounded py-[7px] px-[17px] bg-fintown-btn-2 dark:bg-fintown-btn-2-light ml-auto">
                             Lưu kịch bản
                         </button>
                     )}
@@ -169,15 +184,17 @@ export default function ValuationCentral({ symbol, name, formular }: { symbol: s
 
             {(isPopupOpen || isAnimating) && (
                 <div
+                onClick={() => setIsPopupOpen(false)}
                 className={`fixed w-full h-full top-0 left-0 z-[60] flex justify-center items-start 
                 bg-black bg-opacity-50 transition-opacity duration-300 ease-in-out 
                 ${isPopupOpen ? 'opacity-100' : 'opacity-0'}`}>
                     <div
-                    className={`w-[400px] bg-fintown-bg-stn rounded-[8px] py-[32px] px-[32px] max-h-max
+                    onClick={(e) => e.stopPropagation()}
+                    className={`w-[400px] bg-fintown-bg-stn dark:bg-fintown-bg-stn-light rounded-[8px] py-[32px] px-[32px] max-h-max
                     transform transition-all duration-500 ease-out
                     ${isPopupOpen ? 'mt-[100px] translate-y-0 opacity-100' : 'mt-0 -translate-y-12 opacity-0'}`}>
 
-                    <div className="text-[16px] text-fintown-txt-1 font-[600] mb-[10px]">
+                    <div className="text-[16px] text-fintown-txt-1 dark:text-fintown-txt-1-light font-[600] mb-[10px]">
                         Lưu trữ kết quả tính toán của bạn
                     </div>
                     <div className="text-[12px] text-fintown-txt-2 mb-[33px]">
@@ -185,12 +202,12 @@ export default function ValuationCentral({ symbol, name, formular }: { symbol: s
                     </div>
 
                     {/* Tên kịch bản */}
-                    <div className="mb-[10px] text-[14px] text-fintown-txt-1 font-[600]">Tên cho kịch bản này</div>
+                    <div className="mb-[10px] text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light font-[600]">Tên cho kịch bản này</div>
                     <div className={`py-[13px] px-[16px] rounded-[8px] border 
-                    ${errors.scenarioName ? 'border-[#E03C4A]' : 'border-fintown-br'}
+                    ${errors.scenarioName ? 'border-[#E03C4A]' : 'border-fintown-br dark:border-fintown-br-light'}
                     `}>
                         <input
-                            className="text-[14px] text-fintown-txt-1 block w-full placeholder:text-fintown-txt-2 bg-transparent outline-none"
+                            className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light block w-full placeholder:text-fintown-txt-2 bg-transparent outline-none"
                             placeholder="Ví dụ: Kết quả ước tính cho FPT - Q2/2025"
                             value={scenarioName}
                             onChange={(e) => setScenarioName(e.target.value)}
@@ -203,12 +220,12 @@ export default function ValuationCentral({ symbol, name, formular }: { symbol: s
                     <div className='mb-[32px]'></div>
 
                     {/* Ghi chú */}
-                    <div className="mb-[10px] text-[14px] text-fintown-txt-1 font-[600]">Ghi chú</div>
+                    <div className="mb-[10px] text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light font-[600]">Ghi chú</div>
                         <div 
                         className={`py-[13px] px-[16px] rounded-[8px] border mb-[33px]
-                        ${errors.notes ? 'border-[#E03C4A]' : 'border-fintown-br'}`}>
+                        ${errors.notes ? 'border-[#E03C4A]' : 'border-fintown-br dark:border-fintown-br-light'}`}>
                             <textarea
-                                className="text-[14px] text-fintown-txt-1 block w-full placeholder:text-fintown-txt-2 bg-transparent outline-none custom-scrollbarmini2"
+                                className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light block w-full placeholder:text-fintown-txt-2 bg-transparent outline-none custom-scrollbarmini2"
                                 placeholder="Hãy viết vài dòng ghi chú ngắn gọn"
                                 rows={6}
                                 value={notes}
@@ -221,7 +238,7 @@ export default function ValuationCentral({ symbol, name, formular }: { symbol: s
                         <div className="flex justify-end">
                             <button
                                 onClick={() => setIsPopupOpen(false)}
-                                className="py-[10px] text-fintown-txt-1 text-[12px] px-[23px] border border-fintown-br rounded-[8px] mr-[10px]">
+                                className="py-[10px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-[12px] px-[23px] border border-fintown-br dark:border-fintown-br-light rounded-[8px] mr-[10px]">
                                 Để sau vậy
                             </button>
                             <button

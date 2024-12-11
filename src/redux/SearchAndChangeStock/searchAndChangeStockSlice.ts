@@ -23,7 +23,7 @@ export const fetchSearchVn30Stock = createAsyncThunk(
   async () => {
     const api = `${apiUrl}/symbols/vn30`;
     const response = await fetch(api);
-    console.log('api query', api)
+    // console.log('api query', api)
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -37,7 +37,7 @@ export const fetchSearchStockByQuery = createAsyncThunk(
   async (query: string) => {
     const api = `${apiUrl}/symbols/search?q=${query}`; // Đường dẫn API với query
     const response = await fetch(api);
-    console.log('api 30', api)
+    // console.log('api 30', api)
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }

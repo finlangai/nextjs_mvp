@@ -2,9 +2,10 @@
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import HighchartsMore from 'highcharts/highcharts-more';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { selectCompanyData } from '@/src/redux/Comparison';
 import { useAppSelector } from '@/src/redux/hooks/useAppStore';
+import { selectDarkMode } from '@/src/redux/darkmode';
 
 // Initialize the Spiderweb (Radar) chart module
 if (typeof Highcharts === 'object') {
@@ -12,6 +13,7 @@ if (typeof Highcharts === 'object') {
 }
 
 const CompareChart: React.FC = () => {
+  const isDarkMode = useAppSelector(selectDarkMode);
   const companyData = useAppSelector(selectCompanyData);
   const colors = ['#64E766', '#E7E575', '#E565A1', '#9552CF', '#66BED6'];
 
@@ -58,7 +60,7 @@ const CompareChart: React.FC = () => {
       lineWidth: 0,
       labels: {
         style: {
-          color: '#ffffff',
+          color: `${isDarkMode ? '#101010' : '#D9D9D9'}`,
           distance: 20,
         },
       },

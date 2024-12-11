@@ -3,6 +3,8 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import HC_more from 'highcharts/highcharts-more';
 import { Metric } from '@/src/interfaces/ForecastingCriteria';
+import { selectDarkMode } from '@/src/redux/darkmode';
+import { useAppSelector } from "@/src/redux/hooks/useAppStore";
 
 // Khởi tạo module
 if (typeof Highcharts === 'object') {
@@ -10,6 +12,8 @@ if (typeof Highcharts === 'object') {
 }
 
 const EPSChart = ({ data }: { data: Metric[] }) => {
+  const isDarkMode = useAppSelector(selectDarkMode);
+
   // Tính toán sự thay đổi hàng năm
   const historicalData = data[0].historical;
   const forecastData = data[0].forecast;
@@ -30,7 +34,7 @@ const EPSChart = ({ data }: { data: Metric[] }) => {
     title: {
       text: '',
       style: {
-        color: '#ffffff'
+        color: `${isDarkMode ? '#232323' : '#EAECEF'}`
       }
     },
     xAxis: {
@@ -38,17 +42,17 @@ const EPSChart = ({ data }: { data: Metric[] }) => {
       type: 'category',
       labels: {
         style: {
-          color: '#ffffff'
+          color: `${isDarkMode ? '#232323' : '#EAECEF'}`
         }
       },
       plotBands: [{
         from: historicalData.length - 0.5,
         to: historicalData.length + forecastData.length - 0.5,
-        color: '#1E2026',
+        color: `${isDarkMode ? '#EAECEF' : 'rgb(217 217 217 / 5%)'}`,
         label: {
           text: 'Dự báo',
           style: {
-            color: 'white'
+            color: `${isDarkMode ? '#232323' : '#EAECEF'}`
           }
         }
       }],
@@ -57,15 +61,15 @@ const EPSChart = ({ data }: { data: Metric[] }) => {
       title: {
         text: '',
         style: {
-          color: '#ffffff'
+          color: `${isDarkMode ? '#232323' : '#EAECEF'}`
         }
       },
       labels: {
         style: {
-          color: '#ffffff'
+          color: `${isDarkMode ? '#232323' : '#EAECEF'}`
         }
       },
-      gridLineColor: '#2B3139',
+      gridLineColor: `${isDarkMode ? '#D9D9D9' : '#2B3139'}`,
       tickAmount: 5,
       min: 0,
     },
@@ -83,7 +87,7 @@ const EPSChart = ({ data }: { data: Metric[] }) => {
           return Highcharts.numberFormat(this.y ?? 0, 0, ',');
         },
         style: {
-          color: '#FFFFFF',
+          color: `${isDarkMode ? '#232323' : '#EAECEF'}`,
           fontWeight: 'bold',
           textOutline: 'none'
         }

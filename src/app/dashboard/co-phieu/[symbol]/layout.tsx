@@ -51,12 +51,12 @@ export default function MaCoPhieuLayout({ children, params }: { children: React.
                 </div>
             </div>
 
-            <div className='px-[40px] py-[22px] flex items-center gap-x-[50px] border-y border-fintown-br-btn'>
+            <div className='px-[40px] py-[22px] font-bold flex items-center gap-x-[50px] border-y border-fintown-br dark:border-fintown-br-light text-fintown-txt-2'>
 
                 <Link href={`/dashboard/co-phieu/${symbol}/`}>
                     <button
                         onClick={() => handleButtonClick(0)} 
-                        className={`text-sm py-[10px] px-[16px] rounded-[7px] ${selectedButton === 0 ? 'bg-fintown-btn-active-1 text-fintown-txt-1' : 'text-fintown-txt-1'}`}
+                        className={`text-sm py-[10px] px-[16px] rounded-[7px] ${selectedButton === 0 ? 'bg-fintown-btn-active-1 text-fintown-txt-1' : ''}`}
                     >
                         Chỉ số kỹ thuật
                     </button>
@@ -65,7 +65,7 @@ export default function MaCoPhieuLayout({ children, params }: { children: React.
                 <Link href={`/dashboard/co-phieu/${symbol}/bao-cao-doanh-nghiep`}>
                     <button
                         onClick={() => handleButtonClick(1)} 
-                        className={`text-sm py-[10px] px-[16px] rounded-[7px] ${selectedButton === 1 ? 'bg-fintown-btn-active-1 text-fintown-txt-1' : 'text-fintown-txt-1'}`}
+                        className={`text-sm py-[10px] px-[16px] rounded-[7px] ${selectedButton === 1 ? 'bg-fintown-btn-active-1 text-fintown-txt-1' : ''}`}
                     >
                         Báo cáo doanh nghiệp
                     </button>
@@ -74,7 +74,7 @@ export default function MaCoPhieuLayout({ children, params }: { children: React.
                 <Link href={`/dashboard/co-phieu/${symbol}/ho-so-doanh-nghiep`}>
                     <button
                         onClick={() => handleButtonClick(2)} 
-                        className={`text-sm py-[10px] px-[16px] rounded-[7px] ${selectedButton === 2 ? 'bg-fintown-btn-active-1 text-fintown-txt-1' : 'text-fintown-txt-1'}`}
+                        className={`text-sm py-[10px] px-[16px] rounded-[7px] ${selectedButton === 2 ? 'bg-fintown-btn-active-1 text-fintown-txt-1' : ''}`}
                     >
                         Hồ sơ doanh nghiệp
                     </button>
@@ -83,7 +83,7 @@ export default function MaCoPhieuLayout({ children, params }: { children: React.
                 <Link href={`/dashboard/co-phieu/${symbol}/ket-qua-du-bao`}>
                     <button
                         onClick={() => handleButtonClick(3)} 
-                        className={`text-sm py-[10px] px-[16px] rounded-[7px] ${selectedButton === 3 ? 'bg-fintown-btn-active-1 text-fintown-txt-1' : 'text-fintown-txt-1'}`}
+                        className={`text-sm py-[10px] px-[16px] rounded-[7px] ${selectedButton === 3 ? 'bg-fintown-btn-active-1 text-fintown-txt-1' : ''}`}
                     >
                         Kết quả dự báo
                     </button>
@@ -92,7 +92,7 @@ export default function MaCoPhieuLayout({ children, params }: { children: React.
                 <Link href={`/dashboard/co-phieu/${symbol}/du-lieu-lich-su`}>
                     <button
                         onClick={() => handleButtonClick(4)} 
-                        className={`text-sm py-[10px] px-[16px] rounded-[7px] ${selectedButton === 4 ? 'bg-fintown-btn-active-1 text-fintown-txt-1' : 'text-fintown-txt-1'}`}
+                        className={`text-sm py-[10px] px-[16px] rounded-[7px] ${selectedButton === 4 ? 'bg-fintown-btn-active-1 text-fintown-txt-1' : ''}`}
                     >
                         Dữ liệu lịch sử
                     </button>
@@ -101,7 +101,7 @@ export default function MaCoPhieuLayout({ children, params }: { children: React.
                 <Link href={`/dashboard/co-phieu/${symbol}/so-sanh`}>
                     <button
                         onClick={() => handleButtonClick(5)} 
-                        className={`text-sm py-[10px] px-[16px] rounded-[7px] ${selectedButton === 5 ? 'bg-fintown-btn-active-1 text-fintown-txt-1' : 'text-fintown-txt-1'}`}
+                        className={`text-sm py-[10px] px-[16px] rounded-[7px] ${selectedButton === 5 ? 'bg-fintown-btn-active-1 text-fintown-txt-1' : ''}`}
                     >
                         So sánh
                     </button>

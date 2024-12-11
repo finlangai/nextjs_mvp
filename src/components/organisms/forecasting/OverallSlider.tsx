@@ -62,7 +62,7 @@ const OverallSlider = () => {
             >
               {chunk.map((subCriteria, subIndex) => (
                 <div key={subIndex} className='flex justify-between'>
-                  <p className='text-fintown-txt-1 text-[14px] font-bold'>{subCriteria.name}</p>
+                  <p className='text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px] font-bold'>{subCriteria.name}</p>
                   <div className={`${subCriteria.status === "Tích cực" ? "text-fintown-stt-buy" : "text-fintown-stt-sell"} text-[14px] text-right`}>
                     {subCriteria.status}
                   </div>
@@ -76,7 +76,7 @@ const OverallSlider = () => {
         {chunks.map((_, dotIndex) => (
           <div
             key={dotIndex}
-            className={`h-[10px] w-[10px] rounded-[50%] cursor-pointer ${currentIndex === dotIndex ? 'bg-white' : 'bg-fintown-bg-stn'}`}
+            className={`h-[10px] w-[10px] rounded-[50%] cursor-pointer ${currentIndex === dotIndex ? 'bg-fintown-txt-1 dark:bg-fintown-txt-1-light' : 'bg-fintown-txt-2'}`}
             onClick={() => setCurrentIndex(dotIndex)}
           ></div>
         ))}

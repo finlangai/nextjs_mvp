@@ -40,6 +40,10 @@ import ScenariosReducers from "./Scenarios/scenariosSlice"
 import DividendsReducers from "./Dividends/dividendsSlice";
 import ComparisonReducers from "./Comparison/comparisonSlice"
 import SearchStockComparisonReducers from "./SearchStockComparison/searchStockComparisonSlice"
+import IdScenariosReducers from "./Scenarios/idScenariosSlice";
+import TechChartlayoutReducer from "./LayoutTechChart/layoutSlice";
+import DarkModeReducer from "./darkmode/darkmodeSlice"
+import NotificationsReducers from "./Notifications/";
 
 const tickerListReducer = combineReducers({
   TickerList: TickerListReducer,
@@ -59,6 +63,8 @@ const cardStockReducer = combineReducers({
 
 const store = configureStore({
   reducer: {
+    darkmode: DarkModeReducer,
+
     financialStatement: financialStatementReducer,
     financialMetric: financialMetricReducer,
     reportPage: reportPageReducer,
@@ -66,10 +72,10 @@ const store = configureStore({
     siderBar: siderBarReducer,
     btnNextPrevReport: btnNextPrevReportPageReducer,
     searchVn30Stock: searchAndChangeStockReducer,
-    
+
     priceStock: priceStockReducer,
     profileSummary: profileSummaryReducer,
-    
+
     tickerList: tickerListReducer,
     tickerListOverview: TickerListOverviewReducers,
 
@@ -100,13 +106,16 @@ const store = configureStore({
     valuationParams: valuetionParamsReducers,
     valuationResult: valuationResultReduces,
     scenarios: ScenariosReducers,
+    idScenario: IdScenariosReducers,
 
     instrumentList: InstrumentListReducers,
     technicalChartOverview: TechnicalChartOverviewReducers,
     watchlist: WatchlistReducer,
     searchStockTechChart: SearchStockTechChartReducers,
-    
+    techChartlayout: TechChartlayoutReducer,
     auth: authReducer,
+
+    notifications: NotificationsReducers,
   },
 });
 

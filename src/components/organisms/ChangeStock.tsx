@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { 
     fetchSearchVn30Stock,
@@ -9,9 +10,14 @@ import {
 } from '@/src/redux/SearchAndChangeStock';
 import { SpinerLoader } from '../common/Loader';
 import { ChangeStockatReportPage } from '@/src/interfaces/SearchStock';
+import { selectSelectedButton } from '@/src/redux/SiderBar/siderBarSlice';
 
 const ChangeStockInput = ({symbol} : {symbol: string}) => {
     const dispatch = useAppDispatch();
+    const router = useRouter();
+
+    const selectedButton = useAppSelector(selectSelectedButton);
+
     const containerRef = useRef<HTMLDivElement>(null);
 
     const [selectedStock, setSelectedStock] = useState<string>(symbol);
@@ -36,7 +42,12 @@ const ChangeStockInput = ({symbol} : {symbol: string}) => {
     const handleStockSelect = (stock: ChangeStockatReportPage) => {
         setSelectedStock(stock.symbol);
         setDropdownOpen(false);
-        window.location.href = `/dashboard/co-phieu/${stock.symbol}`;
+
+        const link = selectedButton === 3
+        ? `/dashboard/co-phieu/${stock.symbol}/`
+        : `/dashboard/dinh-gia-co-phieu/${stock.symbol}`;
+        // console.log('selectedButton', selectedButton)
+        router.push(link);
     };
 
     const handleSearch = async () => {
@@ -82,6 +93,20 @@ const ChangeStockInput = ({symbol} : {symbol: string}) => {
         }
     };
 
+    const handleDropdownToggle = () => {
+        const newDropdownState = !isDropdownOpen;
+        setDropdownOpen(newDropdownState);
+        
+        if (newDropdownState && !hasInitialized) {
+            if (!vn30StockData || vn30StockData.length === 0) {
+                dispatch(fetchSearchVn30Stock());
+            } else {
+                setStockList(vn30StockData);
+                setHasInitialized(true);
+            }
+        }
+    };
+
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
@@ -101,20 +126,6 @@ const ChangeStockInput = ({symbol} : {symbol: string}) => {
             setHasInitialized(true);
         }
     }, [vn30StockData]);
-
-    const handleDropdownToggle = () => {
-        const newDropdownState = !isDropdownOpen;
-        setDropdownOpen(newDropdownState);
-        
-        if (newDropdownState && !hasInitialized) {
-            if (!vn30StockData || vn30StockData.length === 0) {
-                dispatch(fetchSearchVn30Stock());
-            } else {
-                setStockList(vn30StockData);
-                setHasInitialized(true);
-            }
-        }
-    };
 
     useEffect(() => {
         if (!isDropdownOpen) return;
@@ -154,26 +165,26 @@ const ChangeStockInput = ({symbol} : {symbol: string}) => {
         <div className='flex relative' ref={containerRef}>
             {/* <div className='text-fintown-txt-2 text-sm mr-[16px]'>Đổi cổ phiếu</div> */}
             <div 
-                className='flex items-center h-[48px] rounded-[8px] border border-fintown-btn-disable w-[183px] max-w-[183px] hover:border-fintown-btn-active-1'
+                className='flex items-center h-[48px] rounded-[8px] border border-fintown-br dark:border-fintown-br-light w-[183px] max-w-[183px] hover:border-fintown-btn-active-1'
                 onClick={handleDropdownToggle}
             >
                 <input 
                     type="text" 
-                    className='w-full text-fintown-txt-1 bg-transparent outline-none px-[12px] cursor-pointer' 
+                    className='w-full text-fintown-txt-1 dark:text-fintown-txt-1-light bg-transparent outline-none px-[12px] cursor-pointer' 
                     value={selectedStock} 
                     readOnly 
                 />
-                <i className={`bx ${isDropdownOpen ? 'bx-caret-up' : 'bx-caret-down'} text-fintown-txt-1 pr-[12px]`}></i>
+                <i className={`bx ${isDropdownOpen ? 'bx-caret-up' : 'bx-caret-down'} text-fintown-txt-1 dark:text-fintown-txt-1-light pr-[12px]`}></i>
             </div>
 
             {isDropdownOpen && (
                 <div className='absolute min-w-[200px] left-[-85%] top-[50px] z-40'>
-                    <div className='bg-fintown-bg-stn rounded pb-[10px]'>
+                    <div className='bg-fintown-bg-stn dark:bg-fintown-bg-stn-light rounded pb-[10px] border border-fintown-br dark:border-fintown-br-light'>
                         <div className='flex justify-between px-[12px] py-[8px]'>
                             <div className='flex justify-between border border-fintown-btn-2 rounded w-full h-[40px] hover:border-fintown-pr9 items-center'>
-                                <i className='bx bx-search text-fintown-txt-1 text-[20px] pl-[10px]'></i>
+                                <i className='bx bx-search text-fintown-txt-1 dark:text-fintown-txt-1-light text-[20px] pl-[10px]'></i>
                                 <input 
-                                    className='bg-transparent outline-none text-fintown-txt-1 text-sm w-full px-[10px]' 
+                                    className='bg-transparent outline-none text-fintown-txt-1 dark:text-fintown-txt-1-light text-sm w-full px-[10px]' 
                                     type="text" 
                                     placeholder='Tìm mã cổ phiếu' 
                                     value={searchTerm} 
@@ -192,27 +203,26 @@ const ChangeStockInput = ({symbol} : {symbol: string}) => {
                             </div>
                         </div>
 
-                        <div className='py-[4px] overflow-y-scroll max-h-[228px] custom-scrollbarmini'>
+                        <div className='py-[4px] overflow-y-scroll max-h-[228px] custom-scrollbarmini w-full'>
                             {isLoading || isEnterPressed ? (
                                 <div className='text-center py-4 w-full flex justify-center'>
                                     <SpinerLoader/>
                                 </div>
                             ) : stockList.length === 0 ? (
-                                <div className='text-center py-4 text-fintown-txt-2 px-[12px]'>
+                                <div className='text-center py-4 text-fintown-txt-2 px-[12px] w-full'>
                                     {!hasSearched ? "Vui lòng nhập mã cổ phiếu hoặc tên công ty" : "Không tìm thấy kết quả"}
                                 </div>
                             ) : (
-                                stockList.map(stock => (
+                                stockList.map((stock) => (
                                     <li 
-                                        key={stock.symbol}
-                                        className='py-[10px] list-none flex items-center justify-between cursor-pointer hover:bg-fintown-hvr-btn-2'
+                                        className='py-[10px] list-none flex items-center justify-between cursor-pointer hover:bg-fintown-hvr-btn-2 hover:dark:bg-fintown-hvr-btn-2-light'
                                         onClick={() => handleStockSelect(stock)}
                                     >
-                                        <div className='px-[14px] text-fintown-txt-1 text-sm'>{stock.symbol}</div>
-                                        <div className='px-[14px] text-fintown-txt-1 text-sm truncate max-w-[200px] overflow-hidden whitespace-nowrap'>
+                                        <div className='px-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-sm'>{stock.symbol}</div>
+                                        <div className='px-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-sm truncate max-w-[200px] overflow-hidden whitespace-nowrap'>
                                             {stock.company_name}
                                         </div>
-                                        <div className='px-[14px] text-fintown-txt-1 text-sm'>{stock.exchange}</div>
+                                        <div className='px-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-sm'>{stock.exchange}</div>
                                     </li>
                                 ))
                             )}

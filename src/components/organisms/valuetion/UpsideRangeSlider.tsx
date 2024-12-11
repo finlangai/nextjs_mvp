@@ -1,13 +1,9 @@
 import React from 'react';
+import { getColorClasses } from '@/src/utils/getColorClasses';
 
 interface ProgressBarProps {
   value: number;
 }
-
-type ColorClass = {
-  bg: string;
-  text: string;
-};
 
 const UpsideRangerSlider: React.FC<ProgressBarProps> = ({ value }) => {
   const progress = value;
@@ -18,15 +14,6 @@ const UpsideRangerSlider: React.FC<ProgressBarProps> = ({ value }) => {
   const range = displayMax - displayMin;
   const normalizedProgress = ((progress - displayMin) / range) * 100;
   const displayProgress = Math.max(0, Math.min(100, normalizedProgress));
-
-  const getColorClasses = (value: number): ColorClass => {
-    if (value < 0) return { bg: 'bg-red-500', text: 'text-red-600' };
-    if (value === 0) return { bg: 'bg-slate-400', text: 'text-slate-600' };
-    if (value <= 10) return { bg: 'bg-orange-500', text: 'text-orange-600' };
-    if (value <= 25) return { bg: 'bg-yellow-500', text: 'text-yellow-600' };
-    if (value < 50) return { bg: 'bg-green-500', text: 'text-green-600' };
-    return { bg: 'bg-purple-500', text: 'text-purple-600' };
-  };
 
   const totalSegments = 30;
   const filledSegments = Math.round((displayProgress / 100) * totalSegments);

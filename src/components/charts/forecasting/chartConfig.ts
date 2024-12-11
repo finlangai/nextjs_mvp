@@ -83,7 +83,7 @@ export const getConfigCharts = (chartsConfig: any): ChartConfig[][] => [
     {
       n: "Tăng trưởng dòng tiền tự do",
       chart: FreeCashFlowGrowthRateChart,
-      color: chartsConfig.liquidityRatio.color,
+      color: chartsConfig.freeCashFlowGrowthRate.color,
     },
   ],
   [

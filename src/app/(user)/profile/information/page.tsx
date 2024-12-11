@@ -76,7 +76,7 @@ interface FormValues {
             <div className="w-[626px] h-[524px] relative">
                 {/* Header section */}
                 <div className="pr-[37px] pt-0.5 pb-[22px] flex justify-start items-center">
-                    <div className="text-white text-xl font-bold">Thông tin tài khoản</div>
+                    <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-xl font-bold">Thông tin tài khoản</div>
                 </div>
 
                 {/* Avatar section */}
@@ -87,7 +87,7 @@ interface FormValues {
                             src={user?.avatar || "https://via.placeholder.com/80x80"}
                         />
                         <div className="ml-5">
-                            <div className="text-white text-sm font-bold mb-3">Ảnh đại diện</div>
+                            <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-sm font-bold mb-3">Ảnh đại diện</div>
                             <div className="w-[227px] text-[#848e9c] text-xs font-normal mt-2">
                                 Bạn có thể tải ảnh của mình lên tại đây.
                             </div>
@@ -115,14 +115,14 @@ interface FormValues {
                     <form onSubmit={formik.handleSubmit} className="space-y-4">
                         <div className="flex gap-6">
                             <div className="grow flex-col gap-[13px]">
-                                <div className="text-white text-sm font-bold mb-3">Tên hiển thị</div>
+                                <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-sm font-bold mb-3">Tên hiển thị</div>
                                 <input
                                     type="text"
                                     name="fullname"
                                     value={formik.values.fullname}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    className="h-[52px] pl-7 rounded-lg border border-[#2b3139] bg-transparent text-white w-full"
+                                    className="h-[52px] pl-7 rounded-lg border border-[#2b3139] bg-transparent text-fintown-txt-1 dark:text-fintown-txt-1-light w-full"
                                 />
                                 {formik.touched.fullname && formik.errors.fullname && (
                                     <div className="text-red-500">{formik.errors.fullname}</div>
@@ -130,14 +130,14 @@ interface FormValues {
                             </div>
 
                             <div className="grow flex-col gap-[13px]">
-                                <div className="text-white text-sm font-bold mb-3">Email</div>
+                                <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-sm font-bold mb-3">Email</div>
                                 <input
                                     type="email"
                                     name="email"
                                     value={formik.values.email}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    className="h-[52px] pl-7 rounded-lg border border-[#2b3139] bg-transparent text-white w-full"
+                                    className="h-[52px] pl-7 rounded-lg border border-[#2b3139] bg-transparent text-fintown-txt-1 dark:text-fintown-txt-1-light w-full"
                                 />
                                 {formik.touched.email && formik.errors.email && (
                                     <div className="text-red-500">{formik.errors.email}</div>
@@ -149,14 +149,14 @@ interface FormValues {
 
                         <div className="flex gap-6 w-[626px] justify-end">
                             <div className="flex-col gap-[13px] w-full max-w-[calc(50%-6px)]">
-                                <div className="text-white text-sm font-bold mb-3">Số điện thoại</div>
+                                <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-sm font-bold mb-3">Số điện thoại</div>
                                 <input
                                     type="text"
                                     name="phone"
                                     value={formik.values.phone}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    className="h-[52px] pl-7 rounded-lg border border-[#2b3139] bg-transparent text-white w-full"
+                                    className="h-[52px] pl-7 rounded-lg border border-[#2b3139] bg-transparent text-fintown-txt-1 dark:text-fintown-txt-1-light w-full"
                                 />
                                 {formik.touched.phone && formik.errors.phone && (
                                     <div className="text-red-500">{formik.errors.phone}</div>
@@ -164,14 +164,14 @@ interface FormValues {
                             </div>
 
                             <div className="flex-col gap-[13px] w-full max-w-[calc(50%-6px)]">
-                                <div className="text-white text-sm font-bold mb-3">Mật khẩu</div>
+                                <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-sm font-bold mb-3">Mật khẩu</div>
                                 <input
                                     type="password"
                                     name="password"
                                     value={formik.values.password}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    className="h-[52px] pl-7 rounded-lg border border-[#2b3139] bg-transparent text-white w-full"
+                                    className="h-[52px] pl-7 rounded-lg border border-[#2b3139] bg-transparent text-fintown-txt-1 dark:text-fintown-txt-1-light w-full"
                                 />
                                 {formik.touched.password && formik.errors.password && (
                                     <div className="text-red-500">{formik.errors.password}</div>
@@ -183,7 +183,7 @@ interface FormValues {
                             <button
                                 type="submit"
                                 disabled={!isFormChanged}
-                                className="text-white text-xs font-normal bg-[#0ecb81] rounded-lg pl-12 pr-[47px] pt-[13px] pb-3.5"
+                                className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-xs font-normal bg-[#0ecb81] rounded-lg pl-12 pr-[47px] pt-[13px] pb-3.5"
                             >
                                 Lưu thông tin
                             </button>

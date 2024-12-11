@@ -3,8 +3,11 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { Metric } from '@/src/interfaces/ForecastingCriteria';
 import { convertToChartSeries } from '@/src/utils/convertToChartSeries';
-
+import { selectDarkMode } from '@/src/redux/darkmode';
+import { useAppSelector } from "@/src/redux/hooks/useAppStore";
 const MarginalProfitChart = ({data}: {data: Metric[]}) => {
+  const isDarkMode = useAppSelector(selectDarkMode);
+
   const chartSeries = convertToChartSeries(data, "marginalProfit");
 
   // Tìm năm bắt đầu và kết thúc cho tất cả các series
@@ -42,13 +45,13 @@ const MarginalProfitChart = ({data}: {data: Metric[]}) => {
       },
       labels: {
         style: {
-          color: 'white'
+          color: `${isDarkMode ? '#232323' : '#EAECEF'}`
         }
       },
       plotBands: [{
         from: forecastStartIndex - 0.5,
         to: xAxisCategories.length - 0.5,
-        color: '#1E2026',
+        color: `${isDarkMode ? '#EAECEF' : 'rgb(217 217 217 / 5%)'}`,
         label: {
           text: 'Dự báo',
           style: {
@@ -65,13 +68,14 @@ const MarginalProfitChart = ({data}: {data: Metric[]}) => {
       },
       labels: {
         style: {
-          color: 'white'
+          color: `${isDarkMode ? '#232323' : '#EAECEF'}`
         },
         formatter: function (this: Highcharts.AxisLabelsFormatterContextObject): string {
           return this.value + '%';
         }
       },
-      gridLineColor: '#2B3139',
+      gridLineColor: `${isDarkMode ? '#D9D9D9' : '#2B3139'}`,
+
       tickAmount: 5,
     },
     series: chartSeries,
@@ -99,7 +103,7 @@ const MarginalProfitChart = ({data}: {data: Metric[]}) => {
     legend: {
       enabled: false,
       itemStyle: {
-        color: 'white'
+        color: `${isDarkMode ? '#232323' : '#EAECEF'}`
       }
     }
   };

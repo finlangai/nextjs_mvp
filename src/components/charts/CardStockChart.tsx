@@ -2,13 +2,16 @@ import React from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { quotes } from '@/src/interfaces/CardStock';
-
+import { selectDarkMode } from '@/src/redux/darkmode';
+import { useAppSelector } from '@/src/redux/hooks/useAppStore';
 interface DataPoint extends Highcharts.PointOptionsObject {
   x: number;
   y: number;
 }
 
 const LineChart = ({ data }: { data: quotes[] }) => {
+  const isDarkMode = useAppSelector(selectDarkMode);
+
   const formattedData: DataPoint[] = data.map(item => {
     const date = new Date(item.time * 1000);
     return {
@@ -63,13 +66,13 @@ const LineChart = ({ data }: { data: quotes[] }) => {
     series: [{
       type: 'area',
       data: formattedData,
-      color: 'white',
+      color: `${isDarkMode ? '#232323' : '#EAECEF'}`,
       lineWidth: 1.5,
       fillColor: {
         linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
         stops: [
-          [0, '#ffffff61'],
-          [1, '#49494921']
+          [0, `${isDarkMode ? '#ffffff61' : '#ffffff61'}`],
+          [1, `${isDarkMode ? 'rgb(255 255 255 / 69%)' : '#49494921'}`]
         ]
       },
     }],

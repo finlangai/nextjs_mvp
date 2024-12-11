@@ -33,23 +33,23 @@ export function PeParamsComponent() {
     return (
         <div className="flex flex-col gap-y-[10px]">
             <>
-                <div className="border border-fintown-br py-[15px] px-[17px] rounded-[8px]">
-                    <div className="text-[12px] text-fintown-txt-1 mb-[7px]">
+                <div className="border border-fintown-br dark:border-fintown-br-light py-[15px] px-[17px] rounded-[8px]">
+                    <div className="text-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light mb-[7px]">
                         Lợi nhuận trên mỗi cổ phiếu.
                     </div>
                     <div className="flex items-center justify-between">
-                        <div className="text-[14px] text-fintown-txt-1 font-bold text-right">EPS</div>
-                        <div className="text-[14px] text-fintown-txt-1">
+                        <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold text-right">EPS</div>
+                        <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light">
                             {nowData?.earnings_per_share?.toLocaleString('en-US')}
                         </div>
                     </div>
                 </div>
 
-                <div className="border border-fintown-br py-[15px] px-[17px] rounded-[8px]">
-                    <div className="text-[12px] text-fintown-txt-1 mb-[7px]">Tỷ lệ P/E của thị trường (VN30)</div>
+                <div className="border border-fintown-br dark:border-fintown-br-light py-[15px] px-[17px] rounded-[8px]">
+                    <div className="text-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light mb-[7px]">Tỷ lệ P/E của thị trường (VN30)</div>
                     <div className="flex items-center justify-between">
-                        <div className="text-[14px] text-fintown-txt-1 font-bold">P/E</div>
-                        <div className="text-[14px] text-fintown-txt-1">{nowData?.price_to_earnings}</div>
+                        <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold">P/E</div>
+                        <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light">{nowData?.price_to_earnings}</div>
                     </div>
                 </div>
             </>
@@ -80,23 +80,23 @@ export function PbParamsComponent() {
     return (
         <div className="flex flex-col gap-y-[10px]">
             <>
-                <div className="border border-fintown-br py-[15px] px-[17px] rounded-[8px]">
-                    <div className="text-[12px] text-fintown-txt-1 mb-[7px]">
+                <div className="border border-fintown-br dark:border-fintown-br-light py-[15px] px-[17px] rounded-[8px]">
+                    <div className="text-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light mb-[7px]">
                         Giá trị sổ sách trên mỗi cổ phiếu.
                     </div>
                     <div className="flex items-center justify-between">
-                        <div className="text-[14px] text-fintown-txt-1 font-bold text-right">BVPS</div>
-                        <div className="text-[14px] text-fintown-txt-1">
+                        <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold text-right">BVPS</div>
+                        <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light">
                             {nowData?.book_value_per_share?.toLocaleString('en-US')}
                         </div>
                     </div>
                 </div>
 
-                <div className="border border-fintown-br py-[15px] px-[17px] rounded-[8px]">
-                    <div className="text-[12px] text-fintown-txt-1 mb-[7px]">Tỷ lệ P/B của thị trường (VN30)</div>
+                <div className="border border-fintown-br dark:border-fintown-br-light py-[15px] px-[17px] rounded-[8px]">
+                    <div className="text-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light mb-[7px]">Tỷ lệ P/B của thị trường (VN30)</div>
                     <div className="flex items-center justify-between">
-                        <div className="text-[14px] text-fintown-txt-1 font-bold">P/B</div>
-                        <div className="text-[14px] text-fintown-txt-1">{nowData?.price_to_book}</div>
+                        <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold">P/B</div>
+                        <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light">{nowData?.price_to_book}</div>
                     </div>
                 </div>
             </>
@@ -127,31 +127,31 @@ export function BenjaminGramhamParamsComponent() {
     return (
         <div className="flex flex-col gap-y-[10px]">
             <>
-                <div className="border border-fintown-br py-[15px] px-[17px] rounded-[8px]">
-                    <div className="text-[12px] text-fintown-txt-1 mb-[7px]">
+                <div className="border border-fintown-br dark:border-fintown-br-light py-[15px] px-[17px] rounded-[8px]">
+                    <div className="text-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light mb-[7px]">
                         EPS (Lợi nhuận trên mỗi cổ phiếu) 12 tháng
                     </div>
                     <div className="flex items-center justify-between">
-                        <div className="text-[14px] text-fintown-txt-1 font-bold text-right">E</div>
-                        <div className="text-[14px] text-fintown-txt-1">
+                        <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold text-right">E</div>
+                        <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light">
                             {nowData?.earnings_per_share?.toLocaleString('en-US')}
                         </div>
                     </div>
                 </div>
 
-                <div className="border border-fintown-br py-[15px] px-[17px] rounded-[8px]">
-                    <div className="text-[12px] text-fintown-txt-1 mb-[7px]">Tỷ lệ tăng trưởng EPS dự kiến 7-10 năm tới</div>
+                <div className="border border-fintown-br dark:border-fintown-br-light py-[15px] px-[17px] rounded-[8px]">
+                    <div className="text-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light mb-[7px]">Tỷ lệ tăng trưởng EPS dự kiến 7-10 năm tới</div>
                     <div className="flex items-center justify-between">
-                        <div className="text-[14px] text-fintown-txt-1 font-bold">g</div>
-                        <div className="text-[14px] text-fintown-txt-1">{nowData?.earnings_per_share_growth_rate?.toFixed(4)}</div>
+                        <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold">g</div>
+                        <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light">{nowData?.earnings_per_share_growth_rate?.toFixed(4)}</div>
                     </div>
                 </div>
 
-                <div className="border border-fintown-br py-[15px] px-[17px] rounded-[8px]">
-                    <div className="text-[12px] text-fintown-txt-1 mb-[7px]">Lãi suất trái phiếu doanh nghiệp hạng A hiện tại</div>
+                <div className="border border-fintown-br dark:border-fintown-br-light py-[15px] px-[17px] rounded-[8px]">
+                    <div className="text-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light mb-[7px]">Lãi suất trái phiếu doanh nghiệp hạng A hiện tại</div>
                     <div className="flex items-center justify-between">
-                        <div className="text-[14px] text-fintown-txt-1 font-bold">y</div>
-                        <div className="text-[14px] text-fintown-txt-1">{nowData?.bonds_yield}</div>
+                        <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold">y</div>
+                        <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light">{nowData?.bonds_yield}</div>
                     </div>
                 </div>
             </>
@@ -163,10 +163,12 @@ export function DCFParamsComponent({sYear, sQuarter} : {sYear:number; sQuarter:n
     const [nowData, setNowData] = useState<ValuationParams | null>(null);
     const [showChart, setShowChart] = useState(false);
 
+
     const valuationParamsLoading = useAppSelector(selectValuationParamsLoading);
     const valuationParamsData = useAppSelector(selectValuationParamsData);
 
     useEffect(() => {
+        // console.log('xx', valuationParamsData)
         if (valuationParamsData !== null) {
             setNowData(valuationParamsData);
         }
@@ -196,17 +198,17 @@ export function DCFParamsComponent({sYear, sQuarter} : {sYear:number; sQuarter:n
 
     return (
         <div className="flex flex-col gap-y-[10px]">
-            <div className="border border-fintown-br py-[15px] px-[17px] rounded-[8px] relative">
-                <div className="text-[12px] text-fintown-txt-1 mb-[7px]">
+            <div className="border border-fintown-br dark:border-fintown-br-light py-[15px] px-[17px] rounded-[8px] relative">
+                <div className="text-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light mb-[7px]">
                     Dòng tiền tương lai dự kiến
                 </div>
 
                 <div className="flex items-center justify-between">
-                    <div className="text-[14px] text-fintown-txt-1 font-bol flex items-centerd">
+                    <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light font-bol flex items-centerd">
                         FCFE_t
                     </div>
 
-                    <div className="text-[14px] text-fintown-txt-1 text-right flex items-center">
+                    <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-right flex items-center">
                         <i className='bx bxs-bar-chart-alt-2 text-[18px] text-fintown-txt-2 cursor-pointer'
                             onMouseEnter={handleMouseEnter}
                             onMouseLeave={handleMouseLeave}
@@ -217,11 +219,11 @@ export function DCFParamsComponent({sYear, sQuarter} : {sYear:number; sQuarter:n
 
                 {showChart && (
                     <div
-                        className="px-[22px] py-[20px] absolute rounded-[10px] bg-fintown-bg-stn w-[385px] h-max right-[0] tooltip-container"
+                        className="px-[22px] py-[20px] absolute rounded-[10px] bg-fintown-bg-stn dark:bg-fintown-bg-stn-light w-[385px] h-max right-[0] tooltip-container border border-fintown-br dark:border-fintown-br-light"
                         onMouseEnter={handleMouseEnter}
                         onMouseLeave={handleMouseLeave}
                     >
-                        <div className="text-fintown-txt-1 text-[14px] font-[600] mb-[30px]">
+                        <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px] font-[600] mb-[30px]">
                             Dòng tiền tương lai dự kiến (Tỷ)
                         </div>
 
@@ -236,33 +238,33 @@ export function DCFParamsComponent({sYear, sQuarter} : {sYear:number; sQuarter:n
                 )}
             </div>
 
-            <div className="border border-fintown-br py-[15px] px-[17px] rounded-[8px]">
-                <div className="text-[12px] text-fintown-txt-1 mb-[7px]">
+            <div className="border border-fintown-br dark:border-fintown-br-light py-[15px] px-[17px] rounded-[8px]">
+                <div className="text-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light mb-[7px]">
                     Tỷ suất chiết khấu (WACC)
                 </div>
 
                 <div className="flex items-center justify-between">
-                    <div className="text-[14px] text-fintown-txt-1 font-bold text-right">
+                    <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold text-right">
                         r
                     </div>
 
-                    <div className="text-[14px] text-fintown-txt-1">
+                    <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light">
                         {nowData?.r?.toFixed(4)}
                     </div>
                 </div>
             </div>
 
-            <div className="border border-fintown-br py-[15px] px-[17px] rounded-[8px]">
-                <div className="text-[12px] text-fintown-txt-1 mb-[7px]">
+            <div className="border border-fintown-br dark:border-fintown-br-light py-[15px] px-[17px] rounded-[8px]">
+                <div className="text-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light mb-[7px]">
                     Số lượng thời kỳ
                 </div>
 
                 <div className="flex items-center justify-between">
-                    <div className="text-[14px] text-fintown-txt-1 font-bold">
+                    <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold">
                         t
                     </div>
 
-                    <div className="text-[14px] text-fintown-txt-1">
+                    <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light">
                         Đến Q{sQuarter} {sYear}
                     </div>
                 </div>
@@ -278,6 +280,7 @@ export function DDMParamsComponent({g} : {g:number}) {
     const valuationParamsData = useAppSelector(selectValuationParamsData);
 
     useEffect(() => {
+        // console.log(valuationParamsData)
         if (valuationParamsData !== null) {
             setNowData(valuationParamsData);
         }
@@ -294,31 +297,31 @@ export function DDMParamsComponent({g} : {g:number}) {
     return (
         <div className="flex flex-col gap-y-[10px]">
             <>
-                <div className="border border-fintown-br py-[15px] px-[17px] rounded-[8px]">
-                    <div className="text-[12px] text-fintown-txt-1 mb-[7px]">
+                <div className="border border-fintown-br dark:border-fintown-br-light py-[15px] px-[17px] rounded-[8px]">
+                    <div className="text-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light mb-[7px]">
                     Cổ tức dự kiến năm tới
                     </div>
                     <div className="flex items-center justify-between">
-                        <div className="text-[14px] text-fintown-txt-1 font-bold text-right">D1</div>
-                        <div className="text-[14px] text-fintown-txt-1">
+                        <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold text-right">D1</div>
+                        <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light">
                             {nowData?.D1?.toLocaleString('en-US')}
                         </div>
                     </div>
                 </div>
 
-                <div className="border border-fintown-br py-[15px] px-[17px] rounded-[8px]">
-                    <div className="text-[12px] text-fintown-txt-1 mb-[7px]">Tỷ suất yêu cầu (CAPM)</div>
+                <div className="border border-fintown-br dark:border-fintown-br-light py-[15px] px-[17px] rounded-[8px]">
+                    <div className="text-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light mb-[7px]">Tỷ suất yêu cầu (CAPM)</div>
                     <div className="flex items-center justify-between">
-                        <div className="text-[14px] text-fintown-txt-1 font-bold">r</div>
-                        <div className="text-[14px] text-fintown-txt-1">{nowData?.r?.toFixed(4)}</div>
+                        <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold">r</div>
+                        <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light">{nowData?.r?.toFixed(4)}</div>
                     </div>
                 </div>
 
-                <div className="border border-fintown-br py-[15px] px-[17px] rounded-[8px]">
-                    <div className="text-[12px] text-fintown-txt-1 mb-[7px]">Tỷ lệ tăng trưởng cổ tức</div>
+                <div className="border border-fintown-br dark:border-fintown-br-light py-[15px] px-[17px] rounded-[8px]">
+                    <div className="text-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light mb-[7px]">Tỷ lệ tăng trưởng cổ tức</div>
                     <div className="flex items-center justify-between">
-                        <div className="text-[14px] text-fintown-txt-1 font-bold">g</div>
-                        <div className="text-[14px] text-fintown-txt-1">{g}</div>
+                        <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold">g</div>
+                        <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light">{g}</div>
                     </div>
                 </div>
             </>
@@ -349,23 +352,23 @@ export function PEGParamsComponent() {
     return (
         <div className="flex flex-col gap-y-[10px]">
             <>
-                <div className="border border-fintown-br py-[15px] px-[17px] rounded-[8px]">
-                    <div className="text-[12px] text-fintown-txt-1 mb-[7px]">
+                <div className="border border-fintown-br dark:border-fintown-br-light py-[15px] px-[17px] rounded-[8px]">
+                    <div className="text-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light mb-[7px]">
                         Tỷ lệ giá trên lợi nhuận của cổ phiếu
                     </div>
                     <div className="flex items-center justify-between">
-                        <div className="text-[14px] text-fintown-txt-1 font-bold text-right">P/E</div>
-                        <div className="text-[14px] text-fintown-txt-1">
+                        <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold text-right">P/E</div>
+                        <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light">
                             {nowData?.price_to_earnings?.toLocaleString('en-US')}
                         </div>
                     </div>
                 </div>
 
-                <div className="border border-fintown-br py-[15px] px-[17px] rounded-[8px]">
-                    <div className="text-[12px] text-fintown-txt-1 mb-[7px]">Tỷ lệ tăng trưởng lợi nhuận dự kiến hàng năm</div>
+                <div className="border border-fintown-br dark:border-fintown-br-light py-[15px] px-[17px] rounded-[8px]">
+                    <div className="text-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light mb-[7px]">Tỷ lệ tăng trưởng lợi nhuận dự kiến hàng năm</div>
                     <div className="flex items-center justify-between">
-                        <div className="text-[14px] text-fintown-txt-1 font-bold">G</div>
-                        <div className="text-[14px] text-fintown-txt-1">{nowData?.earnings_per_share_growth_rate?.toFixed(4)}</div>
+                        <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold">G</div>
+                        <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light">{nowData?.earnings_per_share_growth_rate?.toFixed(4)}</div>
                     </div>
                 </div>
             </>
@@ -396,31 +399,31 @@ export function CAPMParamsComponent({Rm} : {Rm:number}) {
     return (
         <div className="flex flex-col gap-y-[10px]">
             <>
-                <div className="border border-fintown-br py-[15px] px-[17px] rounded-[8px]">
-                    <div className="text-[12px] text-fintown-txt-1 mb-[7px]">
+                <div className="border border-fintown-br dark:border-fintown-br-light py-[15px] px-[17px] rounded-[8px]">
+                    <div className="text-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light mb-[7px]">
                         Lãi suất không rủi ro
                     </div>
                     <div className="flex items-center justify-between">
-                        <div className="text-[14px] text-fintown-txt-1 font-bold text-right">Rf</div>
-                        <div className="text-[14px] text-fintown-txt-1">
+                        <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold text-right">Rf</div>
+                        <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light">
                             {nowData?.risk_free_rate?.toFixed(4)}
                         </div>
                     </div>
                 </div>
 
-                <div className="border border-fintown-br py-[15px] px-[17px] rounded-[8px]">
-                    <div className="text-[12px] text-fintown-txt-1 mb-[7px]">Hệ số beta</div>
+                <div className="border border-fintown-br dark:border-fintown-br-light py-[15px] px-[17px] rounded-[8px]">
+                    <div className="text-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light mb-[7px]">Hệ số beta</div>
                     <div className="flex items-center justify-between">
-                        <div className="text-[14px] text-fintown-txt-1 font-bold">βa</div>
-                        <div className="text-[14px] text-fintown-txt-1">{nowData?.beta?.toFixed(4)}</div>
+                        <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold">βa</div>
+                        <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light">{nowData?.beta?.toFixed(4)}</div>
                     </div>
                 </div>
 
-                <div className="border border-fintown-br py-[15px] px-[17px] rounded-[8px]">
-                    <div className="text-[12px] text-fintown-txt-1 mb-[7px]">Lợi suất kỳ vọng của thị trường</div>
+                <div className="border border-fintown-br dark:border-fintown-br-light py-[15px] px-[17px] rounded-[8px]">
+                    <div className="text-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light mb-[7px]">Lợi suất kỳ vọng của thị trường</div>
                     <div className="flex items-center justify-between">
-                        <div className="text-[14px] text-fintown-txt-1 font-bold">Rm</div>
-                        <div className="text-[14px] text-fintown-txt-1">{Rm}</div>
+                        <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold">Rm</div>
+                        <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light">{Rm}</div>
                     </div>
                 </div>
             </>

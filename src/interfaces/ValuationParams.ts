@@ -15,4 +15,6 @@ export interface ValuationParams {
     fcf_forecasts: FcfForecasts[],
     beta: number,
     risk_free_rate: number,
+    quarter: number,
+    year: number
 }

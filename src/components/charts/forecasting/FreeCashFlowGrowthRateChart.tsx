@@ -3,8 +3,11 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { Metric } from '@/src/interfaces/ForecastingCriteria';
 import { convertToChartSeries } from '@/src/utils/convertToChartSeries';
-
+import { selectDarkMode } from '@/src/redux/darkmode';
+import { useAppSelector } from "@/src/redux/hooks/useAppStore";
 const FreeCashFlowGrowthRateChart = ({data}: {data: Metric[]}) => {
+  const isDarkMode = useAppSelector(selectDarkMode);
+
   const chartSeries = convertToChartSeries(data, "freeCashFlowGrowthRate");
 
   // Tìm năm bắt đầu và kết thúc cho tất cả các series
@@ -50,21 +53,20 @@ const FreeCashFlowGrowthRateChart = ({data}: {data: Metric[]}) => {
       },
       labels: {
         style: {
-          color: 'white'
+          color: `${isDarkMode ? '#232323' : '#EAECEF'}`
         }
       },
       plotBands: [{
         from: forecastStartIndex - 0.5,
         to: xAxisCategories.length - 0.5,
-        color: '#1E2026',
+        color: `${isDarkMode ? '#EAECEF' : 'rgb(217 217 217 / 5%)'}`,
         label: {
           text: 'Dự báo',
           style: {
-            color: 'white'
+            color: `${isDarkMode ? '#232323' : '#EAECEF'}`
           }
         },
-        gridLineColor: '#2B3139',
-
+        gridLineColor: `${isDarkMode ? '#D9D9D9' : '#2B3139'}`,
       }],
     },
     yAxis: [
@@ -75,20 +77,21 @@ const FreeCashFlowGrowthRateChart = ({data}: {data: Metric[]}) => {
         title: {
           text: '',
           style: {
-            color: 'white'
+            color: `${isDarkMode ? '#232323' : '#EAECEF'}`
           }
         },
         labels: {
           style: {
-            color: 'white'
+            color: `${isDarkMode ? '#232323' : '#EAECEF'}`
           },
           formatter: function (this: Highcharts.AxisLabelsFormatterContextObject): string {
             return this.value.toLocaleString();
           }
         },
-        gridLineColor: '#2B3139', // Màu lưới tối hơn
+        gridLineColor: `${isDarkMode ? '#232323' : '#EAECEF'}`, 
+
         gridLineWidth: 1,
-        minorGridLineColor: '#2B3139', // Màu lưới phụ tối hơn
+        minorGridLineColor: `${isDarkMode ? '#232323' : '#EAECEF'}`, // Màu lưới phụ tối hơn
         minorGridLineWidth: 0.5,
       },
       {
@@ -110,16 +113,16 @@ const FreeCashFlowGrowthRateChart = ({data}: {data: Metric[]}) => {
           }
         },
         opposite: true,
-        gridLineColor: '#2B3139', // Màu lưới tối hơn
+        gridLineColor: `${isDarkMode ? '#D9D9D9' : '#2B3139'}`, // Màu lưới tối hơn
         gridLineWidth: 1,
-        minorGridLineColor: '#2B3139', // Màu lưới phụ tối hơn
+        minorGridLineColor: `${isDarkMode ? '#D9D9D9' : '#2B3139'}`, // Màu lưới phụ tối hơn
         minorGridLineWidth: 0.5,
       }
     ],
     series: chartSeries.map(series => ({
       ...series,
       yAxis: series.type === 'column' ? 0 : 1,
-      gridLineColor: '#2B3139',
+      gridLineColor: `${isDarkMode ? '#D9D9D9' : '#2B3139'}`,
       // Gán series vào trục Y tương ứng
     })),
     plotOptions: {
@@ -145,7 +148,7 @@ const FreeCashFlowGrowthRateChart = ({data}: {data: Metric[]}) => {
     legend: {
       enabled: false,
       itemStyle: {
-        color: 'white'
+        color: `${isDarkMode ? '#232323' : '#EAECEF'}`
       }
     },
     tooltip: {

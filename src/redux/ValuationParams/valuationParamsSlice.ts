@@ -22,6 +22,7 @@ export const fetchValuationParams = createAsyncThunk(
     { rejectWithValue }) => {
 
     const api = `${apiUrl}/valuation/${name}/${symbol}/params`;
+    // console.log(api)
 
     if (!token) {
       return rejectWithValue('Token không tồn tại');

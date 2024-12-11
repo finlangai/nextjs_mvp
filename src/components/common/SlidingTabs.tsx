@@ -1,7 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { selectHistorySelectedButton } from '@/src/redux/ValuetionPage/valuationHistorySlice';
+import { useAppSelector } from '@/src/redux/hooks/useAppStore';
+import { setSelectedButtonActive, selectSelectedButton } from '@/src/redux/SiderBar';
 
-const SlidingTabs = ({ onTabChange, tabs, gap, startIndex, fontsize } : {onTabChange: (index: number, api: string) => void; tabs: any[]; gap: string; startIndex:number; fontsize: string;}) => {
+const SlidingTabs = (
+  { onTabChange, tabs, gap, startIndex, fontsize } : 
+  {onTabChange: (index: number, api: string) => void; tabs: any[]; gap: string; startIndex:number; fontsize: string;}
+) => {
   const [activeTab, setActiveTab] = useState(startIndex);
+  const selectedTabScenarios = useAppSelector(selectHistorySelectedButton);
+  const selectedButton = useAppSelector(selectSelectedButton);
+
   const [indicatorStyle, setIndicatorStyle] = useState({
     transform: 'translateX(0px)'
   });
@@ -27,6 +36,13 @@ const SlidingTabs = ({ onTabChange, tabs, gap, startIndex, fontsize } : {onTabCh
     tabRefs.current = tabRefs.current.slice(0, tabs.length);
   }, [tabs.length]);
 
+  // Ở TAB ĐỊNH GIÁ NẾU KÍCH HOẠT XEM CHI TIẾT MỘT KỊCH BẢN
+  useEffect(()=>{
+    if (selectedButton === 6) {
+      setActiveTab(selectedTabScenarios);
+    }
+  }, [selectedTabScenarios])
+
   return (
     <div className="relative">
       <div className={`flex items-center gap-x-[${gap}] pb-[11px]`}>
@@ -34,7 +50,7 @@ const SlidingTabs = ({ onTabChange, tabs, gap, startIndex, fontsize } : {onTabCh
           <div
             key={tab.id} ref={el => {if (el) {tabRefs.current[index] = el;}}}
             className={`font-bold text-[${fontsize}] cursor-pointer transition-colors duration-200 ${
-              activeTab === index ? 'text-fintown-txt-1' : 'text-fintown-txt-2'
+              activeTab === index ? 'text-fintown-txt-1 dark:text-fintown-txt-1-light' : 'text-fintown-txt-2'
             }`}
             onClick={() => handleTabClick(index, tab.api)}
           >

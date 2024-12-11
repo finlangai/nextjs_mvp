@@ -29,7 +29,7 @@ export default function ValuationHeader({ symbol }: { symbol: string }) {
 
     if (selectLoading) {
         return (
-            <div className="flex items-center gap-x-[30px] justify-center w-[40%] border-b border-b-fintown-br flex w-full py-[17px]">
+            <div className="flex items-center gap-x-[30px] justify-center w-[40%] border-b border-b-fintown-br dark:border-b-fintown-br-light flex w-full py-[17px]">
                 <SpinerLoader />
             </div>
         );
@@ -38,14 +38,14 @@ export default function ValuationHeader({ symbol }: { symbol: string }) {
     return (
         <>
             <div className='flex items-center justify-between'>
-                <div className='flex items-center py-[16px] border-r border-fintown-br w-full justify-between'>
+                <div className='flex items-center py-[16px] border-r border-fintown-br dark:border-fintown-br-light w-full justify-between'>
                     <div className='flex items-center'>
                         <div className='h-[50px] w-[50px] rounded-[50%] overflow-hidden bg-white mr-[13px]'>
                             <img className='h-full w-full object-contain' src={nowData?.logo} alt={nowData?.symbol} />
                         </div>
 
                         <div>
-                            <p className='text-[16px] text-fintown-txt-1 font-bold'>
+                            <p className='text-[16px] text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold'>
                                 {nowData?.symbol}
                             </p>
                             <div className='text-[14px] font-[400] text-fintown-txt-2'>
@@ -64,7 +64,7 @@ export default function ValuationHeader({ symbol }: { symbol: string }) {
                         <div className='text-left text-[12px] font-bold text-fintown-txt-2 mr-[7px]'>
                             Giá:
                         </div>
-                        <div className='text-right text-[12px] text-fintown-txt-1'>
+                        <div className='text-right text-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light'>
                             {nowData?.close.toLocaleString('en-US')}
                         </div>
                     </div>
@@ -73,7 +73,7 @@ export default function ValuationHeader({ symbol }: { symbol: string }) {
                         <div className='text-left text-[12px] font-bold text-fintown-txt-2 mr-[7px]'>
                             Khối lượng:
                         </div>
-                        <div className='text-right text-[12px] text-fintown-txt-1'>
+                        <div className='text-right text-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light'>
                             {nowData?.tradingVolume.toLocaleString('en-US')}
                         </div>
                     </div>

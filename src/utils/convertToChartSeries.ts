@@ -2,10 +2,6 @@ import { Metric } from '@/src/interfaces/ForecastingCriteria';
 import { ChartSeries } from '@/src/interfaces/Chart';
 import { useAppSelector } from '@/src/redux/hooks/useAppStore';
 
-function hasTypeProperty(obj: any): obj is { type: Record<string, string> } {
-  return obj && obj.type && typeof obj.type === 'object';
-}
-
 export const convertToChartSeries = (metrics: Metric[], main: string): ChartSeries[] => {
   const chartsConfig = useAppSelector((state:any) => state.forecastingcharts);
 

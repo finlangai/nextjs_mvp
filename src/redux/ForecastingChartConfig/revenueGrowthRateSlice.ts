@@ -2,14 +2,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface RevenueGrowthRateChartState {
   title: string;
-  color: string[]; // Mảng màu sắc
-  type: string[];  // Mảng loại biểu đồ
+  color: string[]; 
+  type: string[]; 
 }
 
 const initialState: RevenueGrowthRateChartState = {
   title: "Tỷ lệ tăng trưởng doanh thu",
-  color: ["#25B770", "white", "#FF6347"], // Mảng màu sắc
-  type: ["spline", "line", "spline"],     // Mảng loại biểu đồ
+  color: ["#25B770", "white", "#FF6347"],
+  type: ["spline", "line", "spline"],   
 };
 
 const revenueGrowthRateChartSlice = createSlice({

@@ -3,8 +3,11 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { convertToChartSeries } from '@/src/utils/convertToChartSeries';
 import { Metric } from '@/src/interfaces/ForecastingCriteria';
-
+import { selectDarkMode } from '@/src/redux/darkmode';
+import { useAppSelector } from "@/src/redux/hooks/useAppStore";
 const EquityGrowthRateChart = ({data}: {data: Metric[]}) => {
+  const isDarkMode = useAppSelector(selectDarkMode);
+
   const chartSeries = convertToChartSeries(data, "equityGrowthRate"); 
 
   const allYears = data.flatMap(metric => 
@@ -42,17 +45,17 @@ const EquityGrowthRateChart = ({data}: {data: Metric[]}) => {
       },
       labels: {
         style: {
-          color: 'white' // Đổi màu cho các giá trị trục X
+          color: `${isDarkMode ? '#232323' : '#EAECEF'}`
         }
       },
       plotBands: [{ // Vùng màu phủ cho năm dự báo
         from: forecastStartIndex - 0.5,
         to: xAxisCategories.length - 0.5,
-        color: '#1E2026',
+        color: `${isDarkMode ? '#EAECEF' : 'rgb(217 217 217 / 5%)'}`,
         label: {
           text: 'Dự báo',
           style: {
-            color: 'white'
+            color: `${isDarkMode ? '#232323' : '#EAECEF'}`
           }
         }
       }],
@@ -65,13 +68,13 @@ const EquityGrowthRateChart = ({data}: {data: Metric[]}) => {
       },
       labels: {
         style: {
-          color: 'white'
+          color: `${isDarkMode ? '#232323' : '#EAECEF'}`
         },
         formatter: function (this: Highcharts.AxisLabelsFormatterContextObject): string {
           return this.value + '%';
         }
       },
-      gridLineColor: '#2B3139',
+      gridLineColor: `${isDarkMode ? '#D9D9D9' : '#2B3139'}`,
       tickAmount: 5,
     },
     series: chartSeries.map((series, index) => ({
@@ -94,10 +97,10 @@ const EquityGrowthRateChart = ({data}: {data: Metric[]}) => {
       enabled: false
     },
     exporting: {
-      enabled: false // Ẩn nút menu
+      enabled: false
     },
     legend: {
-      enabled: false // Ẩn chú giải (legend)
+      enabled: false 
     }
   };
 

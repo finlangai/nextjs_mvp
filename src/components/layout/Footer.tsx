@@ -4,9 +4,9 @@ interface FooterProps {
     backgroundColor: string;
 }
 
-export default function Footer({ backgroundColor }: FooterProps) {
+export default function Footer() {
     return (
-        <footer className={`${backgroundColor} p-[40px]`}>
+        <footer className={`bg-fintown-bg p-[40px]`}>
             <div className='flex items-center mb-[26px]'>
                 <div className="logo mr-[60px]">
                     <Link href="/" className="flex h-[51px] items-center">
@@ -32,10 +32,10 @@ export default function Footer({ backgroundColor }: FooterProps) {
                     </Link>
                 </div>
             </div>
-            <hr className='border-fintown-lnr-1 mb-[39px]' />
+            <hr className='border-fintown-br dark:border-fintown-br-light mb-[39px]' />
             <div className='flex items-center gap-x-[17px]'>
                 <Link href="/" className='text-base text-fintown-txt-2 hover:text-fintown-pr9'>Tùy chọn cookie</Link>
-                <div className='w-[1px] h-[25px] bg-fintown-lnr-1'></div>
+                <div className='w-[1px] h-[25px] bg-fintown-br dark:bg-fintown-br-light'></div>
                 <Link href="/" className='flex items-center text-base text-fintown-txt-2 hover:text-fintown-pr9'>
                     <p className='m-3'>Quay lại đầu trang</p> <i className='bx bx-caret-up'></i>
                 </Link>

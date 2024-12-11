@@ -8,8 +8,8 @@ export interface DebtToAssetsRatioChartState {
 
 const initialState: DebtToAssetsRatioChartState = {
   title: "Tỷ số nợ trên tài sản",
-  color: ["#25B770", "white", "#FF6347"], // Mảng màu sắc
-  type: ["column", "line", "spline"],     // Mảng loại biểu đồ
+  color: ["#25B770", "white", "#FF6347"], 
+  type: ["column", "line", "spline"],  
 };
 
 const debtToAssetsRatioChartSlice = createSlice({

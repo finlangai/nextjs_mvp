@@ -137,10 +137,10 @@ export default function InputSearch() {
 
     return (
         <div className="relative" ref={dropdownRef}>
-            <div className="border border-fintown-br-input rounded-[10px] h-[48px] flex items-center">
+            <div className="border border-fintown-br dark:border-fintown-br-light  rounded-[10px] h-[48px] flex items-center">
                 <i className='bx bx-search text-fintown-txt-2 text-2xl h-auto px-[15px] py-[11px]'></i>
                 <input
-                    className="w-[434px] text-sm text-fintown-txt-1 bg-transparent outline-none py-[14px] pr-[20px]"
+                    className="w-[434px] text-sm text-fintown-txt-1 dark:text-fintown-txt-1-light bg-transparent outline-none py-[14px] pr-[20px]"
                     type="text"
                     placeholder="Tìm kiếm thông tin cổ phiếu"
                     value={query}
@@ -151,13 +151,13 @@ export default function InputSearch() {
             </div>
 
             {showDropdown && (
-                <div className="bg-fintown-bg-stn w-full absolute top-[50px] rounded-[10px] py-[10px] px-[10px]">
+                <div className="bg-fintown-btn-5 dark:bg-fintown-btn-5-light w-full absolute top-[50px] rounded-[10px] py-[10px] px-[10px]">
                     <div className='flex py-[10px] px-[14px] mb-[12px] gap-x-[8px] flex-wrap gap-y-[10px]'>
                         {TABS.map(tab => (
                             <button
                                 key={tab.id}
-                                className={`text-xs text-fintown-txt-1 py-[8px] px-[10px] rounded-[10px] ${
-                                    activeTab === tab.id ? 'bg-fintown-btn-active-1' : 'bg-fintown-btn-disable'
+                                className={`text-xs py-[8px] px-[10px] rounded-[10px] ${
+                                    activeTab === tab.id ? 'bg-fintown-btn-active-1 text-fintown-txt-1' : 'bg-fintown-btn-2 dark:bg-fintown-btn-2-light text-fintown-txt-1 dark:text-fintown-txt-1-light'
                                 }`}
                                 onClick={() => handleTabClick(tab.id)}
                             >
@@ -173,20 +173,20 @@ export default function InputSearch() {
                             {stocks.map((stock, index) => (
                                 <Link key={index} href={getRouteForStock(stock.symbol)}>
                                     <li
-                                        className='py-[10px] list-none flex items-center cursor-pointer hover:bg-fintown-hvr-btn-2 rounded-[6px] justify-between'
+                                        className='py-[10px] list-none flex items-center cursor-pointer hover:bg-fintown-hvr-btn-2 dark:hover:bg-fintown-hvr-btn-2-light rounded-[6px] justify-between'
                                         onClick={() => setShowDropdown(false)}
                                     >
-                                        <div className='px-[14px] text-fintown-txt-1 text-sm'>{stock.symbol}</div>
-                                        <div className='px-[14px] text-fintown-txt-1 text-sm truncate overflow-hidden whitespace-nowrap flex-grow'>
+                                        <div className='px-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-sm'>{stock.symbol}</div>
+                                        <div className='px-[14px] ttext-fintown-txt-1 dark:text-fintown-txt-1-light text-sm truncate overflow-hidden whitespace-nowrap flex-grow'>
                                             {stock.company_name}
                                         </div>
-                                        <div className='px-[14px] text-fintown-txt-1 text-sm'>{stock.exchange}</div>
+                                        <div className='px-[14px] ttext-fintown-txt-1 dark:text-fintown-txt-1-light text-sm'>{stock.exchange}</div>
                                     </li>
                                 </Link>
                             ))}
                         </div>
                     ) : (
-                        <div className="text-center text-sm text-fintown-txt-1 py-[10px]">
+                        <div className="text-center text-sm ttext-fintown-txt-1 dark:text-fintown-txt-1-light py-[10px]">
                             {!hasSearched ? "Vui lòng nhập mã cổ phiếu hoặc tên công ty" : "Không tìm thấy cổ phiếu"}
                         </div>
                     )}

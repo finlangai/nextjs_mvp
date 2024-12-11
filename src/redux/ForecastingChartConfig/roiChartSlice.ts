@@ -8,8 +8,8 @@ export interface ROIChartState {
 
 const initialState: ROIChartState = {
   title: "Hiệu quả sinh lời dựa trên vốn",
-  color: ["#25B770", "white", "#FF6347"], // Mảng màu sắc
-  type: ["column", "line", "spline"], // Mảng loại biểu đồ
+  color: ["#25B770", "white", "#FF6347"], 
+  type: ["column", "line", "spline"], 
 };
 
 

@@ -9,7 +9,7 @@ interface ValuationHistoryPageState {
 
 // State ban đầu
 const initialState: ValuationHistoryPageState = {
-  selectedButton: 1,
+  selectedButton: 0,
 };
 
 // Tạo slice cho ValuationHistoryPage

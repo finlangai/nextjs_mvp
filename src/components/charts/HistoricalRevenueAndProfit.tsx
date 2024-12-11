@@ -4,8 +4,11 @@ import HighchartsReact from 'highcharts-react-official';
 import { HistoricalData } from "@/src/interfaces/BestNPM";
 import { useAppSelector } from "@/src/redux/hooks/useAppStore";
 import { selectBestNPMData } from "@/src/redux/BestNPM";
+import { selectDarkMode } from '@/src/redux/darkmode';
 
 const StackedColumnChart = () => {
+  const isDarkMode = useAppSelector(selectDarkMode);
+
   const bestNPMData = useAppSelector(selectBestNPMData);
   const [NowData, setNowData] = useState<HistoricalData[]>([]);
 
@@ -14,10 +17,8 @@ const StackedColumnChart = () => {
       setNowData(bestNPMData?.historical);
     }
   }, [bestNPMData]);
-  // console.log('NowData:', NowData); // Kiểm tra dữ liệu NowData
 
   const options = {
-
     
     credits: {
       enabled: false
@@ -29,14 +30,14 @@ const StackedColumnChart = () => {
     title: {
       text: '',
       style: {
-        color: '#ffffff'
+        color: `${isDarkMode ? '#232323' : '#EAECEF'}`,
       }
     },
     xAxis: {
       categories: NowData.map(d => d.year.toString()),
       labels: {
         style: {
-          color: '#ffffff'
+          color: `${isDarkMode ? '#232323' : '#EAECEF'}`,
         }
       },
     },
@@ -44,27 +45,27 @@ const StackedColumnChart = () => {
       title: {
         text: '',
         style: {
-          color: '#ffffff'
+          color: `${isDarkMode ? '#232323' : '#EAECEF'}`,
         }
       },
       labels: {
         style: {
-          color: '#ffffff'
+          color: `${isDarkMode ? '#232323' : '#EAECEF'}`,
         }
       },
       tickAmount: 5,
-      gridLineColor: '#2B3139',
+      gridLineColor: `${isDarkMode ? '#D9D9D9' : '#2B3139'}`,
     }, {
       title: {
         text: '',
         style: {
-          color: '#ffffff'
+          color: `${isDarkMode ? '#232323' : '#EAECEF'}`
         }
       },
       labels: {
         format: '{value}%',
         style: {
-          color: '#ffffff'
+          color: `${isDarkMode ? '#232323' : '#EAECEF'}`
         }
       },
       tickAmount: 5,
@@ -84,7 +85,7 @@ const StackedColumnChart = () => {
     }, {
       name: 'LNST',
       data: NowData.map(d => d?.net_profit),
-      color: 'white',
+      color: `${isDarkMode ? '#232323' : '#EAECEF'}`,
       type: 'column'
     }, {
       type: 'spline',

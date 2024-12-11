@@ -3,16 +3,20 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import 'dayjs/locale/vi';
+import { selectDarkMode } from '@/src/redux/darkmode';
+import { useAppSelector } from '@/src/redux/hooks/useAppStore';
 
 export default function BasicDatePicker({ onDateChange } : {onDateChange:any}) {
+  const isDarkMode = useAppSelector(selectDarkMode);
+
   dayjs.locale('vi');
 
   const theme = createTheme({
     palette: {
-      mode: 'dark',
+      mode: `${!isDarkMode ? 'dark' : 'light'}`,
       primary: {
         main: '#25B770',
       },
@@ -40,7 +44,7 @@ export default function BasicDatePicker({ onDateChange } : {onDateChange:any}) {
       MuiInputBase: {
         styleOverrides: {
           root: {
-            color: 'white',
+            // color: 'white',
             borderRadius: '4px',
           },
         },
@@ -63,7 +67,7 @@ export default function BasicDatePicker({ onDateChange } : {onDateChange:any}) {
             }}
             format="DD/MM/YYYY"
             onChange={(newValue) => {
-              onDateChange(newValue); // Gọi hàm callback từ component cha
+              onDateChange(newValue);
             }}
             sx={{
               maxWidth: '60px',

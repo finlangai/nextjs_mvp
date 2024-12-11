@@ -19,10 +19,11 @@ const initialState: ScenariosState = {
 export const fetchScenarios = createAsyncThunk(
   'scenarios/fetch',
   async (
-    { symbol, name, token }: { symbol: string; name: string, token: string },
+    { symbol, name, token, filter }: { symbol: string; name: string, token: string, filter: string | '' },
     { rejectWithValue }
   ) => {
-    const api = `${apiUrl}/valuation/${name}/${symbol}/scenarios`;
+    const api = `${apiUrl}/valuation/${name}/${symbol}/scenarios?${filter}`;
+    // console.log('api', api)
 
     if (!token) {
       return rejectWithValue('Token không tồn tại');
@@ -57,6 +58,8 @@ export const postScenario = createAsyncThunk(
     { rejectWithValue }
   ) => {
     const api = `${apiUrl}/valuation/${name}/${symbol}/scenarios`;
+    // console.log('api', api)
+    // console.log('body', data)
 
     if (!token) {
       return rejectWithValue('Token không tồn tại');
@@ -88,10 +91,16 @@ export const postScenario = createAsyncThunk(
 const scenariosSlice = createSlice({
   name: 'scenarios',
   initialState,
-  reducers: {},
+  reducers: {
+    deleteScenarioById: (state, action) => {
+      state.data = state.data.filter((scenario) => scenario.id !== action.payload);
+    },
+    resetScenarios: (state) => {
+      state.data = [];
+    },
+  },
   extraReducers: (builder) => {
     builder
-      // Fetch Scenarios
       .addCase(fetchScenarios.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -103,8 +112,6 @@ const scenariosSlice = createSlice({
       .addCase(fetchScenarios.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string || 'Đã xảy ra lỗi';
-
-      // Post Scenario
       })
       .addCase(postScenario.pending, (state) => {
         state.loading = true;
@@ -124,5 +131,38 @@ const scenariosSlice = createSlice({
 export const selectScenariosData = (state: RootState) => state.scenarios.data;
 export const selectScenariosLoading = (state: RootState) => state.scenarios.loading;
 export const selectScenariosError = (state: RootState) => state.scenarios.error;
+
+export const selectNewestScenario = (state: RootState): Scenarios | null => {
+  if (state.scenarios.data.length === 0) return null;
+
+  const parseDate = (dateStr: string) => {
+    if (!dateStr || typeof dateStr !== 'string') {
+      console.warn('Invalid date string:', dateStr);
+      return new Date(0);
+    }
+  
+    const [day, month, year] = dateStr.split('/').map(Number);
+  
+    if (!day || !month || !year) {
+      console.warn('Invalid date components in:', dateStr);
+      return new Date(0);
+    }
+  
+    return new Date(year, month - 1, day);
+  };
+  
+
+  const newestScenario = [...state.scenarios.data].sort((a, b) =>
+    parseDate(b.saveAt).getTime() - parseDate(a.saveAt).getTime()
+  )[0];
+
+  return newestScenario || null;
+};
+
+export const selectIsScenariosEmpty = (state: RootState): boolean =>
+  state.scenarios.data.length === 0;
+
+
+export const { deleteScenarioById, resetScenarios } = scenariosSlice.actions;
 
 export default scenariosSlice.reducer;
