@@ -43,6 +43,7 @@ import SearchStockComparisonReducers from "./SearchStockComparison/searchStockCo
 import IdScenariosReducers from "./Scenarios/idScenariosSlice";
 import TechChartlayoutReducer from "./LayoutTechChart/layoutSlice";
 import DarkModeReducer from "./darkmode/darkmodeSlice"
+import NotificationsReducers from "./Notifications/";
 
 const tickerListReducer = combineReducers({
   TickerList: TickerListReducer,
@@ -71,10 +72,10 @@ const store = configureStore({
     siderBar: siderBarReducer,
     btnNextPrevReport: btnNextPrevReportPageReducer,
     searchVn30Stock: searchAndChangeStockReducer,
-    
+
     priceStock: priceStockReducer,
     profileSummary: profileSummaryReducer,
-    
+
     tickerList: tickerListReducer,
     tickerListOverview: TickerListOverviewReducers,
 
@@ -113,6 +114,8 @@ const store = configureStore({
     searchStockTechChart: SearchStockTechChartReducers,
     techChartlayout: TechChartlayoutReducer,
     auth: authReducer,
+
+    notifications: NotificationsReducers,
   },
 });
 
