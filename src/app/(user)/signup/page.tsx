@@ -1,188 +1,210 @@
-// "use client";
-// import { useState } from "react";
-// import { Formik, Form, Field, ErrorMessage } from "formik";
-// import * as Yup from "yup";
-// import Link from "next/link";
-
-// // Validation schema using Yup
-// const validationSchema = Yup.object({
-//     email: Yup.string()
-//         .required("Email is required")
-//         .email("Invalid email format"),
-//     phone: Yup.string()
-//         .required("Phone number is required")
-//         .matches(/^\d{10,11}$/, "Phone number must be 10 to 11 digits"),
-// });
-
-// const SignUpPage = () => {
-//     const [success, setSuccess] = useState("");
-
-//     return (
-//         <Formik
-//             initialValues={{ email: "", phone: "" }}
-//             validationSchema={validationSchema}
-//             onSubmit={(values) => {
-//                 // Save email and phone in localStorage
-//                 localStorage.setItem("email", values.email);
-//                 localStorage.setItem("phone", values.phone);
-//                 setSuccess("Data saved! Proceeding to the next step...");
-//                 setTimeout(() => {
-//                     window.location.href = "/signup/set-password"; // Redirect to password page
-//                 }, 2000);
-//             }}
-//         >
-//             {({ errors, touched }) => (
-//                 <Form className="w-[452px] py-[28px] px-[26px] ml-auto mr-auto mt-[80px]">
-//                     <div className="font-bold text-fintown-txt-1 text-[24px] mb-[28px]">
-//                         Tạo tài khoản
-//                     </div>
-//                     <div className="mb-[30px]">
-//                         <label
-//                             className="font-medium text-fintown-txt-1 text-sm mb-[16px] block" // Sử dụng block để label nằm trên một dòng riêng
-//                             htmlFor="email"
-//                         >
-//                             Email
-//                         </label>
-//                         <div className={`px-[20px] h-[48px] border rounded-[10px] flex items-center w-full ${errors.email && touched.email ? "border-red-500" : "border-fintown-br-input"} hover:border-fintown-pr9`}>
-//                             <Field
-//                                 id="email"
-//                                 name="email"
-//                                 placeholder="username@gmail.com"
-//                                 className="text-fintown-txt-1 bg-transparent outline-none text-sm w-full"
-//                             />
-//                         </div>
-//                         <ErrorMessage name="email" component="div" className="text-red-500 text-sm mt-1" />
-//                     </div>
+'use client'
+import React, { useEffect, useState } from 'react'
+import './signup.css';
+import Password from './set-password';
+import Setfullname from './set-fullname';
+import Link from 'next/link';
+export default function page() {
+   const [information , setInformation] = useState({fullname: "", email : "" , phone :"123456789",address : "123 Main St, Anytown, USA",  password: ""})
+   const [Check, setCheck] = useState<boolean>(false);
+   const [nguoimoi , setNguoimoi] = useState<boolean>(false);
+   const [tienTrinh , setTienTrinh] = useState('email') 
+   function isValidEmail(email:string) {
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      return !emailPattern.test(email);
+   }
+   const handleEmailChange = (
+      e: React.ChangeEvent<HTMLInputElement>
+   ) => {
+      const { name, value } = e.target;
+      setInformation((prevData) => ({
+         ...prevData,
+         [name]: value,
+      }));
+    };
+    const onTabSetPassword = ()=>{
+      if(information.email.length <= 11 ){
+          alert('email Không xác định!')
+         return false;
+      }
+      if(isValidEmail(information.email)){
+         alert('email không đúng định dạng ')
+         return false;
+      }
+      if(!Check){
+         setNguoimoi(true);
+         return false;
+      }
+      setTienTrinh('loading');
+     setTimeout(()=>{
+      setTienTrinh('password');
+     },1000)
 
 
-//                     <div className="mb-[30px]">
-//                         <label
-//                             className="font-medium text-fintown-txt-1 text-sm mb-[16px] block"
-//                             htmlFor="phone"
-//                         >
-//                             Số điện thoại
-//                         </label>
-//                         <div className={`px-[20px] h-[48px] border rounded-[10px] flex items-center w-full ${errors.phone && touched.phone ? "border-red-500" : "border-fintown-br-input"} hover:border-fintown-pr9`}>
-//                             <Field
-//                                 id="phone"
-//                                 name="phone"
-//                                 placeholder="Nhập số điện thoại"
-//                                 className="text-fintown-txt-1 bg-transparent outline-none text-sm w-full"
-//                             />
-//                         </div>
-//                         <ErrorMessage name="phone" component="div" className="text-red-500 text-sm mt-1" />
-//                     </div>
-
-
-//                     {success && <div className="text-green-500 mb-4">{success}</div>}
-
-//                     <button type="submit" className="h-[48px] w-full bg-fintown-pr9 rounded-[10px] mb-[30px]">
-//                         <span className="text-fintown-txt-1 text-sm">Bước tiếp theo</span>
-//                     </button>
-
-//                     <Link href="/">
-//                         <button className="h-[48px] w-full border border-fintown-br-btn rounded-[10px]">
-//                             <span className="text-fintown-txt-1 text-sm">Đăng nhập</span>
-//                         </button>
-//                     </Link>
-//                 </Form>
-//             )}
-//         </Formik>
-//     );
-// };
-
-// export default SignUpPage;
-
-
-
-"use client";
-import { useState } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import Link from "next/link";
-import { useDispatch, useSelector } from "react-redux";
-import { verifyEmail } from "@/src/redux/auth/authSlice";
-import { useRouter } from "next/navigation";
-
-const validationSchema = Yup.object({
-  email: Yup.string().required("Email bắt buộc").email("Email không hợp lệ"),
-  phone: Yup.string().required("Phone number bắt buộc").matches(/^\d{10,11}$/, "Số điện thoại phải có từ 10 đến 11 chữ số"),
-});
-
-const SignUpPage = () => {
-  const dispatch = useDispatch();
-  const { loading, error: authError, emailVerified } = useSelector((state: any) => state.auth);
-  const [success, setSuccess] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const router = useRouter();
-  interface FormValues {
-    email: string;
-    phone: string;
-  }
-
-  const handleSubmit = async (values: FormValues) => {
-    const result = await dispatch(verifyEmail(values.email) as any);
-    console.log(result);
-    console.log(verifyEmail.fulfilled.match(result));
-    // if (verifyEmail.fulfilled.match(result)) {
-        localStorage.setItem("email", values.email);
-        localStorage.setItem("phone", values.phone);
-        setSuccess("Email hợp lệ! Đang chuyển đến bước tiếp theo...");
-        setTimeout(() => {
-          router.push("/signup/set-password");
-        }, 1000);
-    // } else {
-    //     setErrorMessage("Email không hợp lệ hoặc đã được sử dụng!");
-    // }
-};
-
-
+   }
   return (
-    <Formik
-      initialValues={{ email: "", phone: "" }}
-      validationSchema={validationSchema}
-      onSubmit={handleSubmit}
-    >
-      {({ errors, touched }) => (
-        <Form className="w-[452px] py-[28px] px-[26px] ml-auto mr-auto mt-[80px]">
-          <div className="font-bold text-fintown-txt-1 text-[24px] mb-[28px]">Tạo tài khoản</div>
+    <div>
+     <div>
+         <ul className="flex text-white gap-10 pt-8">
+            <li>
+               <button className="p-3 rounded-2xl border border-transparent hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 bg-transparent">
+               Đăng kí gói
+               </button>
+            </li>
+            <li>
+               <button className="p-3 rounded-2xl border border-transparent hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 bg-transparent">
+               Về chúng tôi
+               </button>
+            </li>
+            <li>
+               <button className="p-3 rounded-2xl border border-transparent hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 bg-transparent">
+               Pháp lý
+               </button>
+            </li>
+            <li>
+               <button className="p-3 rounded-2xl border border-transparent hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 bg-transparent">
+               Liên hệ
+               </button>
+            </li>
+         </ul>
+      </div>
 
-          {/* Email Field */}
-          <div className="mb-[30px]">
-            <label className="font-medium text-fintown-txt-1 text-sm mb-[16px] block" htmlFor="email">
-              Email
-            </label>
-            <div className={`px-[20px] h-[48px] border rounded-[10px] flex items-center w-full ${errors.email && touched.email ? "border-red-500" : "border-fintown-br-input"} hover:border-fintown-pr9`}>
-              <Field id="email" name="email" placeholder="username@gmail.com" className="text-fintown-txt-1 bg-transparent outline-none text-sm w-full" />
-            </div>
-            <ErrorMessage name="email" component="div" className="text-red-500 text-sm mt-1" />
-          </div>
+      <div className="mt-12 p-3 max-w-[420px]">
+         {tienTrinh == 'loading' && (
+         <div className="flex justify-center items-center mt-40">
+           <div className="spinner"></div> {/* Hiển thị spinner */}
+         </div>
+         )}
+         {tienTrinh == 'email' &&( 
+            <>
+         <div  className="flex flex-col">
+            <h2 className="font-semibold text-4xl text-gray-300">Tạo tài khoản</h2>
+               <label htmlFor="email" className="mt-8 text-gray-200 ">Email</label>
+               <div className="relative w-full">
+                  <input
+                     type="text"
+                     id="email"
+                     name="email"
+                     value={information.email}
+                     onChange={handleEmailChange}
+                     className="bg-transparent border-gray-600 text-sm border pl-4 focus:outline-none p-3 rounded-lg mt-3 text-white w-full"
+                     placeholder="example@gmail.com"
+                  />
+                  {information.email.length !== 0 &&
+                  information.email.length > 6 &&
+                  isValidEmail(information.email) ? (
+                     <div className="relative group">
+                        <svg
+                           xmlns="http://www.w3.org/2000/svg"
+                           width={24}
+                           height={24}
+                           viewBox="0 0 24 24"
+                           className="absolute top-[-20px] right-[-35px] transform -translate-y-1/2 cursor-pointer"
+                           style={{ fill: "#C81636" }}
+                        >
+                        <path d="M11.953 2C6.465 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.493 2 11.953 2zM12 20c-4.411 0-8-3.589-8-8s3.567-8 7.953-8C16.391 4 20 7.589 20 12s-3.589 8-8 8z" />
+                        <path d="M11 7h2v7h-2zm0 8h2v2h-2z" />
+                        </svg>
+                        {/* Tooltip */}
+                        <div className="absolute bg-black text-white text-xs rounded-lg p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 top-[-70px] right-[-40px] w-max">
+                           Vui lòng nhập email đúng định dạng (ví dụ: example@gmail.com).
+                        </div>
+                     </div>
+                  ) : (
+                     ""
+                  )}
+                  {information.email.length > 6 &&
+                  !isValidEmail(information.email) ? <div className="relative group">
+                     <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width={24}
+                        height={24}
+                        viewBox="0 0 24 24"
+                         className="absolute top-[-20px] right-[-35px] transform -translate-y-1/2 cursor-pointer"
+                        style={{ fill: "#349C1F", transform: "",}}
+                        >
+                        <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z" />
+                        <path d="M9.999 13.587 7.7 11.292l-1.412 1.416 3.713 3.705 6.706-6.706-1.414-1.414z" />
+                        </svg>
+                     </div>:""}
 
-          {/* Phone Field */}
-          <div className="mb-[30px]">
-            <label className="font-medium text-fintown-txt-1 text-sm mb-[16px] block" htmlFor="phone">Số điện thoại</label>
-            <div className={`px-[20px] h-[48px] border rounded-[10px] flex items-center w-full ${errors.phone && touched.phone ? "border-red-500" : "border-fintown-br-input"} hover:border-fintown-pr9`}>
-              <Field id="phone" name="phone" placeholder="Nhập số điện thoại" className="text-fintown-txt-1 bg-transparent outline-none text-sm w-full" />
-            </div>
-            <ErrorMessage name="phone" component="div" className="text-red-500 text-sm mt-1" />
-          </div>
+               </div>
 
-          {errorMessage && <div className="text-red-500 mb-4">{errorMessage}</div>}
-          {success && <div className="text-green-500 mb-4">{success}</div>}
 
-          <button type="submit" className="h-[48px] w-full bg-fintown-pr9 rounded-[10px] mb-[30px]" disabled={loading}>
-            <span className="text-fintown-txt-1 text-sm">{loading ? "Đang xác thực..." : "Bước tiếp theo"}</span>
-          </button>
+               <div className="mt-5 flex gap-3 items-center">
+                  <div className="checkbox-wrapper-31 mt-1 relative">
+                  <input 
+                        type="checkbox" 
+                        className="w-3 h-3" 
+                        checked={Check} 
+                        onChange={(e) => setCheck(e.target.checked)} 
+                        />
+                     <svg viewBox="0 0 35.6 35.6" className="w-5 h-5">
+                        <circle className="background" cx="17.8" cy="17.8" r="17.8" />
+                        <circle className="stroke" cx="17.8" cy="17.8" r="14.37" />
+                        <polyline
+                        className="check"
+                        points="11.78 18.12 15.55 22.23 25.17 12.87"
+                        />
+                     </svg>
 
-          <Link href="/">
-            <button className="h-[48px] w-full border border-fintown-br-btn rounded-[10px]">
-              <span className="text-fintown-txt-1 text-sm">Đăng nhập</span>
+                     {/* Tooltip thông báo */}
+                     <div className="tooltip absolute hidden bg-black text-white text-xs p-2 rounded-lg opacity-0 group-hover:opacity-100 group-hover:block transition-opacity whitespace-nowrap max-w-xs top-[-40px] left-0">
+                        đồng ý với Điều khoản dịch vụ trước khi tiếp tục.
+                     </div>
+                  </div>
+                  <span className="text-gray-400 text-xs pb-3 pl-[-10px]">
+                    đồng ý với{" "}
+                     <a href="#" className="text-blue-500 underline">
+                        Điều khoản dịch vụ
+                     </a>{" "}
+                     của chúng tôi.
+                  </span>
+                  {!Check && nguoimoi && (
+                         <div className="relative group right-[-105px] top-[-10px]">
+                         <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width={24}
+                            height={24}
+                            viewBox="0 0 24 24"
+                            style={{ fill: "#C81636", transform: "" }}
+                         >
+                            <path d="M11.953 2C6.465 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.493 2 11.953 2zM12 20c-4.411 0-8-3.589-8-8s3.567-8 7.953-8C16.391 4 20 7.589 20 12s-3.589 8-8 8z" />
+                            <path d="M11 7h2v7h-2zm0 8h2v2h-2z" />
+                         </svg>
+    
+                         {/* Tooltip hiện thị khi hover */}
+                         <div className="absolute hidden bg-black text-white text-xs p-2 rounded-lg opacity-0 group-hover:opacity-100 group-hover:block transition-opacity whitespace-nowrap max-w-xs top-[-40px] left-0">
+                            đồng ý với điều khoản dịch vụ trước khi tiếp tục
+                         </div>
+                      </div>
+                  ) }
+                  </div>
+            <button onClick={onTabSetPassword} className="w-[401px] h-10 pt-4 pb-[15px] bg-[#25b770] rounded-[10px] justify-center items-center inline-flex mt-5 hover:bg-[#1a9e59] transition-all duration-300">
+               <div className="text-center text-[#eaecef] text-sm font-medium">Bước tiếp theo</div>
             </button>
-          </Link>
-        </Form>
-      )}
-    </Formik>
-  );
-};
-
-export default SignUpPage;
+            <div className="Frame25266 w-[400px] h-5 justify-center items-center gap-8 inline-flex mt-10">
+               <div className="Line8 w-[100px] h-[0px] border border-[#2b3139]"></div>
+               <div className="BNCTIKhoN text-[#eaecef] text-sm font-normal  leading-tight">Bạn đã có tài khoản?</div>
+               <div className="Line9 w-[100px] h-[0px] border border-[#2b3139]"></div>
+            </div>
+         </div>
+         <Link href="/">
+            <div className="mt-10 Frame427321903 w-[401px] h-12 pt-4 pb-[15px] rounded-[10px] border border-[#2b3139] justify-center items-center inline-flex">
+               <div className="NgK text-center text-[#eaecef] text-sm font-medium font-['Inter']">Đăng nhập</div>
+            </div>
+         </Link>
+            </>
+         
+         )}
+          {tienTrinh == 'password' &&(
+            <Password information={information} setInformation={setInformation} setTienTrinh={setTienTrinh}/>
+           )}
+          {tienTrinh == 'fullname' &&(
+            <Setfullname  information={information} setInformation={setInformation} setTienTrinh={setTienTrinh}/>
+           )}
+           
+      </div>
+    </div>
+  )
+}

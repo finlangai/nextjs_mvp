@@ -23,7 +23,7 @@ export default function DashboardHeader({isTechnicalChart} : {isTechnicalChart: 
     };
 
     const [isTokenChecked, setIsTokenChecked] = useState(false); 
-
+    
     useEffect(() => {
         const checkAndRefreshToken = async () => {
             const token = Cookies.get('token');
@@ -37,11 +37,7 @@ export default function DashboardHeader({isTechnicalChart} : {isTechnicalChart: 
                     
                 }
             } 
-            // else {
-            //     // Nếu không có token, chuyển hướng về trang chính
-            //     router.push('/');
-            // }
-            setIsTokenChecked(true); // Đã kiểm tra token
+            setIsTokenChecked(true);
         };
         checkAndRefreshToken();
     }, [dispatch, router]);
@@ -104,7 +100,9 @@ export default function DashboardHeader({isTechnicalChart} : {isTechnicalChart: 
 
             <div className="flex items-center gap-x-2.5 ml-auto">
                 {loading ? (
-                    <div>...</div>
+                     <div className="flex justify-center items-center h-screen">
+                            <div className="w-16 h-16 border-4 border-t-4 border-gray-200 border-solid rounded-full animate-spin"></div>
+                        </div>
                 ) : user ? (
                     <div className="flex items-center gap-x-3">
                         <div>
@@ -114,11 +112,9 @@ export default function DashboardHeader({isTechnicalChart} : {isTechnicalChart: 
                             </div>
                             <div className="text-fintown-txt-1 text-sm text-right">{user.fullname}</div>
                         </div>
-
                         <div className="w-[1px] bg-fintown-br h-[25px] ml-[5px] mr-[5px]"></div>
                         
                         <div className="relative" ref={dropdownRef}>
-                            {/* href="/profile/information" */}
 
                             <div className="flex items-center" onClick={toggleDropdown}>
                                 <img
@@ -133,20 +129,19 @@ export default function DashboardHeader({isTechnicalChart} : {isTechnicalChart: 
                             {isOpen && (
                                 <div className="absolute right-0 mt-2 bg-fintown-bg-stn rounded-[10px] shadow-lg">
                                     <ul className="px-[24px] pb-[26px] pt-[10px] min-w-max text-fintown-txt-2">
-
                                         <li className="border-b border-b-fintown-br py-[14px] flex items-center gap-x-[12px] min-w-max hover:text-fintown-pr9">
                                             <i className='bx bx-user-circle text-[24px]' ></i>
-                                            <Link href="/" className="text-[14px]">Thông tin cá nhân</Link>
+                                            <Link href="/profile/information" className="text-[14px]">Thông tin cá nhân</Link>
                                         </li>
 
                                         <li className="border-b border-b-fintown-br py-[14px] flex items-center gap-x-[12px] min-w-max hover:text-fintown-pr9">
                                             <i className='bx bx-cube text-[24px]' ></i>
-                                            <Link href="/" className="text-[14px]">Quyền hạn sử dụng</Link>
+                                            <Link href="/profile/permission" className="text-[14px]">Quyền hạn sử dụng</Link>
                                         </li>
 
                                         <li className="py-[14px] flex items-center gap-x-[12px] min-w-max hover:text-fintown-pr9">
                                             <i className='bx bx-history text-[24px]' ></i>
-                                            <Link href="/" className="text-[14px]">Lịch sử thanh toán</Link>
+                                            <Link href="/profile/history" className="text-[14px]">Lịch sử thanh toán</Link>
                                         </li>
 
                                         <li className="mt-[12px]">

@@ -9,7 +9,6 @@ export default function Header() {
             px-[40px] 
             flex items-center justify-between bg-fintown-bg fixed top-0 z-50 
             ">
-
             <div className="flex items-center">
                 <img className="h-[42px] w-[42px]" src="/imgs/logo.png" alt="fintown-logo" />
                 <div className="font-bold text-fintown-txt-1 text-[24px]">fintown</div>

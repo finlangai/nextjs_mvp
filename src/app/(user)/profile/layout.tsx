@@ -33,7 +33,6 @@ export default function MainLayout({ children }: { children: ReactNode }) {
         <div className="pt-[40px] pb-[174px] max-w-[1120px] ml-[110px]">
           <div className="flex h-screen">
             <SidebarUser/>
-            
             {children}
           </div>
         </div>

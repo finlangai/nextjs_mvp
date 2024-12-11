@@ -1,35 +1,49 @@
 "use client";
-
+import Cookies from 'js-cookie';
 
 import LoginForm from "@/src/components/form/Login";
 import Link from "next/link";
-
-export default function HomePage() {
+import './login.css';
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+export default function HomePage() {    
+    const [login, setLogin  ] = useState(false);
+    const router = useRouter();
+    useEffect(() => {
+        const token = Cookies.get("token"); 
+        if (token) {
+            setLogin(true);
+         router.push('/dashboard');
+        }
+      }, []);
     return (
         <>
-        <section>
+        {login ? (
+            <>
+                <div className="flex justify-center items-center h-screen">
+                    <div className="w-16 h-16 border-4 border-t-4 border-gray-200 border-solid rounded-full animate-spin"></div>
+                </div>
+            
+             </>
+        ) : 
+        (<div> <section>
             <div className="pt-[40px] pb-[174px] max-w-[1120px] mr-auto ml-auto">
                 <div className="flex items-center">
                     <div className="w-full max-w-[507px]">
                         <div className="text-[20px] text-fintown-txt-1 mb-[20px]">
                             NỀN TẢNG ĐẦU TƯ HÀNG ĐẦU
                         </div>
-
                         <h1 className="font-bold text-[50px] text-fintown-txt-1 mb-[25px]">
                             Đạt được lợi nhuận dễ dàng với <span className="text-fintown-pr9">Fintown</span>
                         </h1>
-
                         <div className="text-[16px] text-fintown-txt-1">Chúng tôi tin tưởng bạn sẽ đạt được nhiều hơn những gì mong đợi.</div>
                         <div className="text-[16px] text-fintown-txt-1 mb-[48px]">Hãy bắt đầu trải nghiệm ngay.</div>
-                        
                         <Link href="/dashboard">
                             <button  className="text-fintown-txt-1 text-sm h-[48px] px-[30px] bg-fintown-pr9 rounded-[8px]">
                                 <span>Tìm hiểu ngay bây giờ</span>
                             </button>
                         </Link>
-
                     </div>
-
                     <div className="ml-auto text-fintown-txt-1">
                         < LoginForm/>
                     </div>
@@ -98,7 +112,8 @@ export default function HomePage() {
                     </button>
                 </Link>
             </div>
-        </section>
+        </section> </div>)}
+       
         </>
     );
 }
