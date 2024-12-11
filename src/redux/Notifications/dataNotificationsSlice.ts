@@ -56,7 +56,7 @@ export const postNotification = createAsyncThunk(
     { rejectWithValue }
   ) => {
     const api = `${apiUrl}/general/notification/mark-as-read`;
-console.log('??', body)
+// console.log('??', body)
     if (!token) {
       return rejectWithValue('Token không tồn tại');
     }
