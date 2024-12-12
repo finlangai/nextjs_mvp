@@ -6,9 +6,10 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
+body, main {
     @apply font-inter;
 }
+
 
 body::-webkit-scrollbar {
   width: 6px;  /* Chiều rộng của thanh cuộn */
