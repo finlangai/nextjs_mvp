@@ -96,7 +96,7 @@ export default function TopStocksTable() {
                                                 ? 'text-fintown-stt-buy'
                                                 : val.dailyDelta < 0
                                                     ? 'text-fintown-stt-sell'
-                                                    : 'text-fintown-txt-1'
+                                                    : 'text-fintown-txt-1 dark:text-fintown-txt-1-light'
                                             }`}
                                     >
                                         {val.dailyDelta}%
@@ -106,7 +106,7 @@ export default function TopStocksTable() {
                                                 ? 'text-fintown-stt-buy'
                                                 : val.weeklyDelta < 0
                                                     ? 'text-fintown-stt-sell'
-                                                    : 'text-fintown-txt-1'
+                                                    : 'text-fintown-txt-1 dark:text-fintown-txt-1-light'
                                             }`}
                                     >
                                         {val.weeklyDelta}%
@@ -116,7 +116,7 @@ export default function TopStocksTable() {
                                                 ? 'text-fintown-stt-buy'
                                                 : val.yearlyDelta < 0
                                                     ? 'text-fintown-stt-sell'
-                                                    : 'text-fintown-txt-1'
+                                                    : 'text-fintown-txt-1 dark:text-fintown-txt-1-light'
                                             }`}
                                     >
                                         {val.yearlyDelta}%

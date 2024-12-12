@@ -16,7 +16,7 @@ import { useAppSelector } from '@/src/redux/hooks/useAppStore';
 const MarketIndicatorChart = dynamic(() => {
   return import('./MarketIndicatorChartComponent').then(mod => mod.default);
 }, {
-  ssr: false, // Tắt SSR cho component này
+  ssr: false,
 });
 
 HC_more(Highcharts);

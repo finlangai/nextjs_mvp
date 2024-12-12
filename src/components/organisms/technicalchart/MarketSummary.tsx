@@ -43,7 +43,7 @@ const MarketSummary = () => {
           Số lượng cổ phiếu:
         </div>
         <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px]">
-          {NowData?.totalTickers.toLocaleString('en-US')}
+          {NowData?.totalTickers?.toLocaleString('en-US')}
         </div>
       </div>
 
@@ -52,7 +52,7 @@ const MarketSummary = () => {
           Vốn hóa:
         </div>
         <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px]">
-          {NowData?.totalMarketCap.toLocaleString('en-US')}Tỷ
+          {NowData?.totalMarketCap?.toLocaleString('en-US')}Tỷ
         </div>
       </div>
 
@@ -61,7 +61,7 @@ const MarketSummary = () => {
           Tổng KLGD 24h:
         </div>
         <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-[14px]">
-          {NowData?.totalTradingVolume.toLocaleString('en-US')}
+          {NowData?.totalTradingVolume?.toLocaleString('en-US')}
         </div>
       </div>
 
@@ -75,9 +75,9 @@ const MarketSummary = () => {
         <div className="mr-[5px]">
           <i
             className={`font-bold text-[14px]  ${NowData?.highestDeltaPercent !== undefined
-                ? NowData.highestDeltaPercent > 0
+                ? NowData?.highestDeltaPercent > 0
                   ? 'bx bx-caret-up text-fintown-stt-buy'
-                  : NowData.highestDeltaPercent < 0
+                  : NowData?.highestDeltaPercent < 0
                     ? 'bx bx-caret-down text-fintown-stt-sell'
                     : 'hidden'
                 : 'hidden'
@@ -85,9 +85,9 @@ const MarketSummary = () => {
         </div>
         <div
           className={`font-bold text-[14px] mr-[5px] ${NowData?.highestDeltaPercent !== undefined
-              ? NowData.highestDeltaPercent > 0
+              ? NowData?.highestDeltaPercent > 0
                 ? 'text-fintown-stt-buy'
-                : NowData.highestDeltaPercent < 0
+                : NowData?.highestDeltaPercent < 0
                   ? 'text-fintown-stt-sell'
                   : 'text-fintown-txt-1 dark:text-fintown-txt-1-light'
               : 'text-fintown-txt-1 dark:text-fintown-txt-1-light'

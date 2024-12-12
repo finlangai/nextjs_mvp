@@ -47,7 +47,7 @@ Highcharts.setOptions({
 const TechnicalChart = dynamic(() => {
   return import('./TechnicalChartComponent').then(mod => mod.default);
 }, {
-  ssr: false, // Tắt SSR cho component này
+  ssr: false, 
 });
 
 const TechnicalChartComponent = ({symbol} : {symbol: string}) => {

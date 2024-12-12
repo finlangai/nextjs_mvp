@@ -87,7 +87,7 @@ export const getChartOptions = (data: PriceStockNoVolume[], isDarkMode:boolean):
         ]
       },
       dataGrouping: {
-        enabled: false // Tắt nhóm dữ liệu tự động
+        enabled: false
       }
     }],
     plotOptions: {

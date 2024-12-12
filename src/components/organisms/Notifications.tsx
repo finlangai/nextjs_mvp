@@ -1,11 +1,13 @@
 import { useEffect, useState, useRef } from "react";
 import { Realtime } from "ably";
+import Link from "next/link";
 import { selectToken } from "@/src/redux/auth";
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { fetchNotificationsToken, selectTokenNotificationsData } from "@/src/redux/Notifications/getTokenNotificationsSlice";
 import { fetchNotifications, selectNotificationsData, postNotification } from "@/src/redux/Notifications/dataNotificationsSlice";
 import { formatTimeAgo } from "@/src/utils/formatTimeAgo";
-import Link from "next/link";
+import { DataNotifications } from "@/src/interfaces/Notifications";
+
 
 export default function NotificationsComponent() {
     const dispatch = useAppDispatch();
@@ -13,7 +15,12 @@ export default function NotificationsComponent() {
     const tokenUser = useAppSelector(selectToken);
     const tokenNotificationsData = useAppSelector(selectTokenNotificationsData);
     const notificationsData = useAppSelector(selectNotificationsData);
+    const [nowData, setNowData] = useState<DataNotifications[]>([]);
+
+    const [notiRed, setNotiRed] = useState(false);
+    const [start, setStart] = useState(true);
     const [isOpen, setIsOpen] = useState(false); 
+
     const dropdownRef = useRef<HTMLDivElement | null>(null);
 
     const toggleDropdown = () => {
@@ -38,6 +45,9 @@ export default function NotificationsComponent() {
         if (tokenUser) {
             // Khởi tạo hoặc tái sử dụng mảng idArray
             let idArray: string[] = [];
+
+            // Tìm đối tượng trong mảng notificationsData với id tương ứng
+            const notification = nowData.find(notif => notif.id === id);
     
             // Thêm ID vào mảng
             idArray.push(id);
@@ -48,13 +58,24 @@ export default function NotificationsComponent() {
                     token: tokenUser,
                     body: { uuids: idArray },
                 }));
-    
+
+                
                 console.log("Updated ID Array:", idArray);
             }
         }
     };    
 
-    // FETCH API LẤY TOKEN CHO NOTIFICATIONS
+    // HÀM TẢI THÊM THÔNG BÁO
+    const viewMore = () => {
+        if (tokenUser) {
+            console.log(tokenUser)
+            const conditional = `limit=5&offset=0&from=${nowData?.[0]?.createdAt}`;
+            setStart(false);
+            dispatch(fetchNotifications({ token: tokenUser,  conditional: conditional}));
+        }    
+    }
+
+    // B1: FETCH API LẤY TOKEN CHO NOTIFICATIONS
     useEffect(() => {
         if (!hasFetched.current) {
             if (tokenUser) {
@@ -64,7 +85,7 @@ export default function NotificationsComponent() {
         }
     }, [tokenUser]);
 
-    // THEO DÕI TOKEN ĐÃ ĐƯỢC LẤY SAU ĐÓ CẬP NHẬT VÀ KẾT NỐI WEBSOCKET
+    // B2: THEO DÕI TOKEN ĐÃ ĐƯỢC LẤY SAU ĐÓ CẬP NHẬT VÀ KẾT NỐI WEBSOCKET
     useEffect(() => {
         if (tokenNotificationsData && tokenNotificationsData !== null) {
             const realtime = new Realtime({
@@ -84,16 +105,31 @@ export default function NotificationsComponent() {
         }
     }, [tokenNotificationsData]);
 
+    // B3: THEO DÕI DỮ LIỆU NẾU CÓ THAY ĐỔI HOẶC CẬP NHẬT MỚI THÌ LIỀN LẤY VỀ
+    useEffect(() => {
+        if (!start) {
+            const newItems = notificationsData.filter(
+                newItem => !nowData.some(existingItem => existingItem.id === newItem.id)
+            );
+            setNowData(prevData => [...prevData, ...newItems]);
+            setStart(true);
+        } else {
+            setNowData(notificationsData);
+        }
+    }, [notificationsData]);
+
+    // B4: THEO DÕI THÔNG BÁO ĐỂ CẬP NHẬT DẤU CHẤM ĐỎ BÁO HIỆU
     useEffect(()=>{
-        console.log('kk', notificationsData)
-    }, [notificationsData])
+        const hasUnreadNotifications = nowData.some(notification => !notification.isReaded);
+        setNotiRed(hasUnreadNotifications);
+    }, [nowData])
 
     return (
         <div className="relative" ref={dropdownRef}>
             <button className="flex items-center relative" onClick={toggleDropdown}>
                 {/* Vòng thông báo */}
                 {
-                    notificationsData.length === 0
+                    !notiRed
                     ? ''
                     : <div className="h-[10px] w-[10px] rounded-full bg-red-600 absolute top-0 right-0"></div>
                 }
@@ -112,12 +148,12 @@ export default function NotificationsComponent() {
 
                         <div className="custom-scrollbarmini2 h-[380px] overflow-y-auto"> 
                             {   
-                                notificationsData.length > 0
+                                nowData.length > 0
                                 ? 
-                                    notificationsData?.map((val) => (
+                                    nowData?.map((val) => (
                                         <>
-                                            <div 
-                                            // href={`/dashboard/co-phieu/${val?.title}/ket-qua-du-bao`}
+                                            <Link 
+                                            href={`/dashboard/co-phieu/${val?.title}/ket-qua-du-bao`}
                                             onClick={()=> readNoti(val?.id)}
                                             >
                                                 <div key={val?.id} 
@@ -148,7 +184,7 @@ export default function NotificationsComponent() {
 
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </Link>
                                         </>
                                     ))
                                 : 
@@ -162,7 +198,7 @@ export default function NotificationsComponent() {
 
                         <div className="px-[24px] pt-[16px]">
                             <button 
-                            
+                            onClick={()=> viewMore()}
                             className={`
                             ${notificationsData.length === 0 || notificationsData.length < 5 ? 'hidden' : ''}
                             text-[12px] text-fintown-txt-1 w-full py-[12px] bg-fintown-pr9 rounded-[8px]`}>
