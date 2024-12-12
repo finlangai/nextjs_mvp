@@ -46,7 +46,7 @@ const NotFoundComponent = () => {
 
       {/* Back to dashboard */}
       <Link href={"/dashboard"} className='w-full text-center'>
-        <button className="px-[22px] py-[10px] border border-[#2B3139] rounded-[6px] mx-auto flex items-center text-[12px] text-fintown-txt-2 hover:text-fintown-pr9 hover:border-fintown-pr9">
+        <button className="px-[22px] py-[10px] border border-[#2B3139] rounded-[6px] mx-auto flex items-center text-[12px] text-fintown-txt-2 hover:text-fintown-txt-1 hover:border-fintown-pr9">
             <i className='bx bx-left-arrow-alt text-[18px]'></i>
             <div>
               Về trang dashboard

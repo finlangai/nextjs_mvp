@@ -65,7 +65,7 @@ export default function SetFullname({ information, setInformation, setTienTrinh 
             Bước tiếp theo
           </div>
         </button>
-          <button onClick={quaylaitientrinh}className="mt-10 text-white">quay lại</button>
+          <button onClick={quaylaitientrinh}className="mt-10 text-white hover:text-[#25B770]">quay lại</button>
       </div>
 
       <ToastContainer

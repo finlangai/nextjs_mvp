@@ -1,13 +1,10 @@
 "use client";
 
 import { usePathname } from 'next/navigation';
-import Footer from '@/src/components/layout/Footer';
 import { ReactNode } from 'react';
 import DashboardHeader from '@/src/components/layout/DashboardHeader';
 import Sidebar from '@/src/components/layout/Sidebar';
 import FooterDashboard from '@/src/components/layout/FooterDashboard';
-
-
 
 export default function MainLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
@@ -22,8 +19,8 @@ export default function MainLayout({ children }: { children: ReactNode }) {
         xyz
       </main>
       <div>
-            <FooterDashboard backgroundColor="ml-[70px] bg-fintown-bg-stn dark:bg-fintown-bg-light" />
-          </div>
+        <FooterDashboard backgroundColor="ml-[70px] bg-fintown-bg-stn dark:bg-fintown-bg-light" />
+      </div>
     </>
   );
 }

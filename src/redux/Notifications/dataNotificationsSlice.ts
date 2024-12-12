@@ -83,7 +83,6 @@ export const postNotification = createAsyncThunk(
   }
 );
 
-
 const notificationsSlice = createSlice({
   name: 'notifications',
   initialState,
@@ -110,7 +109,7 @@ const notificationsSlice = createSlice({
       })
       .addCase(postNotification.fulfilled, (state, action) => {
         state.loading = false;
-        state.data = [action.payload, ...state.data];
+        // state.data = [action.payload, ...state.data];
       })
       .addCase(postNotification.rejected, (state, action) => {
         state.loading = false;

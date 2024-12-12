@@ -14,6 +14,7 @@ export default function DashboardHeader({ isTechnicalChart }: { isTechnicalChart
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement | null>(null);
     const router = useRouter();
+
     let { user, loading, error } = useSelector((state: RootState) => state.auth) as {
         user: {
             email: string; avatar?: string; fullname?: string; role?: string;
@@ -23,6 +24,7 @@ export default function DashboardHeader({ isTechnicalChart }: { isTechnicalChart
     };
 
     const [isTokenChecked, setIsTokenChecked] = useState(false); 
+
     useEffect(() => {
         const checkAndRefreshToken = async () => {
             const token = Cookies.get('token');
@@ -36,7 +38,7 @@ export default function DashboardHeader({ isTechnicalChart }: { isTechnicalChart
 
                 }
             } 
-            setIsTokenChecked(true);
+            setIsTokenChecked(true); 
         };
         checkAndRefreshToken();
     }, [dispatch, router]);
@@ -76,59 +78,60 @@ export default function DashboardHeader({ isTechnicalChart }: { isTechnicalChart
         }
     },[])
     return (
-        <header className="w-full h-[70px] border-b border-fintown-br dark:border-fintown-br-light px-[40px] flex items-center justify-between bg-fintown-bg dark:bg-fintown-bg-light fixed top-0 z-50 ml-[70px]"
-        style={{ width: 'calc(100% - 70px)' }}
-        id="dasnhboard-header"
-    >
+        <header
+            className="w-full h-[70px] border-b border-fintown-br dark:border-fintown-br-light px-[40px] flex items-center justify-between bg-fintown-bg dark:bg-fintown-bg-light fixed top-0 z-50 ml-[70px]"
+            style={{ width: 'calc(100% - 70px)' }}
+            id="dasnhboard-header"
+        >
 
-        {
-            isTechnicalChart === !true && (
+            {
+                isTechnicalChart === !true && (
+                    <>
+                        <InputSearch />
+                    </>
+                )
+            }
+
+            {
+                isTechnicalChart === true && (
+                    <>
+                        <MarketSummary />
+                    </>
+                )
+            }
+            <div className="flex items-center gap-x-2.5 ml-auto">
+            {loading ? (<div className="flex justify-center items-center h-screen">
+                                <div className="w-5 h-5 border-4 border-t-4 border-gray-200 border-solid rounded-full animate-spin"></div>
+                            </div>) : (
                 <>
-                    <InputSearch />
-                </>
-            )
-        }
-
-        {
-            isTechnicalChart === true && (
-                <>
-                    <MarketSummary />
-                </>
-            )
-        }
-        <div className="flex items-center gap-x-2.5 ml-auto">
-        {loading ? (<div className="flex justify-center items-center h-screen">
-                            <div className="w-5 h-5 border-4 border-t-4 border-gray-200 border-solid rounded-full animate-spin"></div>
-                        </div>) : (
-            <>
-                {isToken ? (
-                    <> 
-                        {user ? ( 
-                    <div className="flex items-center gap-x-3">
-                    <div>
-                        <div className={`${user?.role === 'basic' ? 'text-[#FF6347]' : 'text-fintown-pr9'} text-[10px] flex items-center gap-x-[5px] justify-end`}>
-                            <i className='bx bx-cube text-[14px]'></i>
-                            <div className="capitalize font-bold text-right">{user?.role}</div>
-                        </div>
-                        <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-sm text-right">{user.fullname}</div>
-                    </div>
-
-                    <div className="w-[1px] bg-fintown-br h-[25px] ml-[5px] mr-[5px]"></div>
-                    
-                    <div className="relative" ref={dropdownRef}>
-                        <div className="flex items-center" onClick={toggleDropdown}>
-                            <img
-                                src={user.avatar || "/imgs/default-avatar.jpg"}
-                                alt="Avatar"
-                                className="w-[40px] h-[40px] rounded-full object-cover"
-                            />
-                            <i className="bx bx-chevron-down ml-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-[24px]" />
+                    {isToken ? (
+                        <> 
+                            {user ? ( 
+                        <div className="flex items-center gap-x-3">
+                        <div>
+                            <div className={`${user?.role === 'basic' ? 'text-[#FF6347]' : 'text-fintown-pr9'} text-[10px] flex items-center gap-x-[5px] justify-end`}>
+                                <i className='bx bx-cube text-[14px]'></i>
+                                <div className="capitalize font-bold text-right">{user?.role}</div>
+                            </div>
+                            <div className="text-fintown-txt-1 dark:text-fintown-txt-1-light text-sm text-right">{user.fullname}</div>
                         </div>
 
-                        {/* Dropdown menu */}
-                        {isOpen && (
-                            <div className="absolute right-0 mt-2 bg-fintown-btn-5 bg-fintown-bg dark:bg-fintown-bg-light rounded-[10px] shadow-lg">
-                                <ul className="px-[24px] pb-[26px] pt-[10px] min-w-max text-fintown-txt-2">
+                        <div className="w-[1px] bg-fintown-br dark:bg-fintown-br-light h-[25px] ml-[5px] mr-[5px]"></div>
+                        
+                        <div className="relative" ref={dropdownRef}>
+                            <div className="flex items-center" onClick={toggleDropdown}>
+                                <img
+                                    src={user.avatar || "/imgs/default-avatar.jpg"}
+                                    alt="Avatar"
+                                    className="w-[40px] h-[40px] rounded-full object-cover"
+                                />
+                                <i className="bx bx-chevron-down ml-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-[24px]" />
+                            </div>
+
+                            {/* Dropdown menu */}
+                            {isOpen && (
+                                <div className="absolute right-0 mt-2 bg-fintown-bg dark:bg-fintown-bg-light rounded-[10px] shadow-lg">
+                                    <ul className="px-[24px] pb-[26px] pt-[10px] min-w-max text-fintown-txt-2">
                                         <li className="border-b border-b-fintown-br dark:border-b-fintown-br-light py-[14px] flex items-center gap-x-[12px] min-w-max hover:text-fintown-pr9">
                                             <i className='bx bx-user-circle text-[24px]' ></i>
                                             <Link href="/profile/information" className="text-[14px]">Thông tin cá nhân</Link>
@@ -175,7 +178,8 @@ export default function DashboardHeader({ isTechnicalChart }: { isTechnicalChart
                             <Link href="/">
                                 <button
                                     className="text-fintown-txt-1 text-sm rounded-md bg-fintown-btn-2 px-[19px] py-[6px]"
-                                >Đăng nhập
+                                >
+                                    Đăng nhập
                                 </button>
                             </Link>
                             <Link href="/signup">

@@ -356,15 +356,7 @@ const Payment = ({ params }: { params: { id: string } }) => {
                </div>
             </div>
             <hr className="my-3" />
-            <div className="flex justify-between">
-               <div>
-               <h5 className="text-sm font-semibold text-[#25B770]">[Nhận] 1200 Credit</h5>
-               <p className="text-xs font-light mt-1"></p>
-               </div>
-               <div>
-               <h5 className="text-sm font-semibold">Miễn phí</h5>
-               </div>
-            </div>
+           
             <hr className="my-3" />
             <div className="flex justify-between">
                <div>

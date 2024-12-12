@@ -8,7 +8,6 @@ import { fetchNotifications, selectNotificationsData, postNotification } from "@
 import { formatTimeAgo } from "@/src/utils/formatTimeAgo";
 import { DataNotifications } from "@/src/interfaces/Notifications";
 
-
 export default function NotificationsComponent() {
     const dispatch = useAppDispatch();
     const hasFetched = useRef(false);
@@ -18,7 +17,7 @@ export default function NotificationsComponent() {
     const [nowData, setNowData] = useState<DataNotifications[]>([]);
 
     const [notiRed, setNotiRed] = useState(false);
-    const [start, setStart] = useState(true);
+    const [start, setStart] = useState<1 | 2 | 3>(3);
     const [isOpen, setIsOpen] = useState(false); 
 
     const dropdownRef = useRef<HTMLDivElement | null>(null);
@@ -43,49 +42,54 @@ export default function NotificationsComponent() {
     // ĐÁNH DẤU LÀ ĐÃ ĐỌC
     const readNoti = (id: string) => {
         if (tokenUser) {
-            // Khởi tạo hoặc tái sử dụng mảng idArray
-            let idArray: string[] = [];
-
-            // Tìm đối tượng trong mảng notificationsData với id tương ứng
-            const notification = nowData.find(notif => notif.id === id);
+            // Tạo mảng ID để gửi request
+            const idArray: string[] = [id];
     
-            // Thêm ID vào mảng
-            idArray.push(id);
+            // Cập nhật trạng thái local ngay lập tức
+            setNowData(prevData => 
+                prevData.map(item => 
+                    item.id === id ? { ...item, isReaded: true } : item
+                )
+            );
     
-            // Kiểm tra nếu mảng có phần tử
-            if (idArray.length > 0) {
-                dispatch(postNotification({
-                    token: tokenUser,
-                    body: { uuids: idArray },
-                }));
-
-                
-                console.log("Updated ID Array:", idArray);
-            }
+            // Gửi request đánh dấu đã đọc
+            dispatch(postNotification({
+                token: tokenUser,
+                body: { uuids: idArray },
+            }));
         }
-    };    
+    };   
 
     // HÀM TẢI THÊM THÔNG BÁO
     const viewMore = () => {
         if (tokenUser) {
-            console.log(tokenUser)
-            const conditional = `limit=5&offset=0&from=${nowData?.[0]?.createdAt}`;
-            setStart(false);
-            dispatch(fetchNotifications({ token: tokenUser,  conditional: conditional}));
-        }    
+            const conditional = `limit=5&offset=0&from=${nowData?.[nowData.length - 1]?.createdAt}`;
+            setStart(1);
+            dispatch(fetchNotifications({ 
+                token: tokenUser,  
+                conditional: conditional
+            }));
+        }
     }
 
-    // B1: FETCH API LẤY TOKEN CHO NOTIFICATIONS
+    // FETCH API LẤY TOKEN CHO NOTIFICATIONS
     useEffect(() => {
-        if (!hasFetched.current) {
-            if (tokenUser) {
-                dispatch(fetchNotificationsToken({ token: tokenUser }));
-                hasFetched.current = true;
+        const fetchData = async () => {
+            if (!hasFetched.current) {
+                if (tokenUser) {
+                    setStart(3);
+                    await dispatch(fetchNotificationsToken({ token: tokenUser }));
+                    const conditional = `limit=5&offset=0`;
+                    dispatch(fetchNotifications({ token: tokenUser, conditional: conditional }));
+                    hasFetched.current = true;
+                }
             }
-        }
+        };
+    
+        fetchData();
     }, [tokenUser]);
 
-    // B2: THEO DÕI TOKEN ĐÃ ĐƯỢC LẤY SAU ĐÓ CẬP NHẬT VÀ KẾT NỐI WEBSOCKET
+    // THEO DÕI TOKEN ĐÃ ĐƯỢC LẤY SAU ĐÓ CẬP NHẬT VÀ KẾT NỐI WEBSOCKET
     useEffect(() => {
         if (tokenNotificationsData && tokenNotificationsData !== null) {
             const realtime = new Realtime({
@@ -94,31 +98,46 @@ export default function NotificationsComponent() {
             });
 
             const channel = realtime.channels.get("public:notification");
-            const conditional = `limit=5&offset=0`;
+            const conditional = ``;
 
             channel.subscribe("new-notification", (event) => {
-                // console.log("Event received: ", event);
                 if (tokenUser) {
+                    setStart(2);
                     dispatch(fetchNotifications({ token: tokenUser,  conditional: conditional}));
                 }
             });
         }
     }, [tokenNotificationsData]);
 
-    // B3: THEO DÕI DỮ LIỆU NẾU CÓ THAY ĐỔI HOẶC CẬP NHẬT MỚI THÌ LIỀN LẤY VỀ
+    // THEO DÕI DỮ LIỆU NẾU CÓ THAY ĐỔI HOẶC CẬP NHẬT MỚI THÌ LIỀN LẤY VỀ
     useEffect(() => {
-        if (!start) {
+        // console.log('notificationsData', notificationsData)
+
+        // CASE 1: CẬP NHẬT THÔNG BÁO CŨ HƠN ĐẨY VÀO SAU
+        if (start === 1) {
             const newItems = notificationsData.filter(
                 newItem => !nowData.some(existingItem => existingItem.id === newItem.id)
             );
             setNowData(prevData => [...prevData, ...newItems]);
-            setStart(true);
-        } else {
+            // setStart(3);
+        } 
+
+        // CASE 2: CẬP NHẬT THÔNG BÁO MỚI NHẤT ĐẨY LÊN TRƯỚC
+        if (start === 2) {
+            const newItems = notificationsData.filter(
+                newItem => !nowData.some(existingItem => existingItem.id === newItem.id)
+            );
+            setNowData(prevData => [...newItems, ...prevData]);
+            // setStart(3);
+        }
+
+        // CASE 3: CẬP NHẬT LẦN ĐẦU 
+        if (start === 3) {
             setNowData(notificationsData);
         }
     }, [notificationsData]);
 
-    // B4: THEO DÕI THÔNG BÁO ĐỂ CẬP NHẬT DẤU CHẤM ĐỎ BÁO HIỆU
+    // THEO DÕI THÔNG BÁO ĐỂ CẬP NHẬT DẤU CHẤM ĐỎ BÁO HIỆU
     useEffect(()=>{
         const hasUnreadNotifications = nowData.some(notification => !notification.isReaded);
         setNotiRed(hasUnreadNotifications);
