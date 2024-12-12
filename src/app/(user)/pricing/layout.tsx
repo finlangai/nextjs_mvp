@@ -5,6 +5,7 @@ import Footer from '@/src/components/layout/Footer';
 import { ReactNode } from 'react';
 import DashboardHeader from '@/src/components/layout/DashboardHeader';
 import Sidebar from '@/src/components/layout/Sidebar';
+import FooterDashboard from '@/src/components/layout/FooterDashboard';
 
 
 
@@ -15,13 +16,14 @@ export default function MainLayout({ children }: { children: ReactNode }) {
     <>
       <Sidebar />
       <DashboardHeader isTechnicalChart={isTechnicalChartPage} />
-
-      <main className='mt-[70px]'>
+      <main className='bg-fintown-bg dark:bg-fintown-bg-light'>
+        abc
         {children}
+        xyz
       </main>
-      <div className='ml-[70px]'>
-        <Footer />
-      </div>
+      <div>
+            <FooterDashboard backgroundColor="ml-[70px] bg-fintown-bg-stn dark:bg-fintown-bg-light" />
+          </div>
     </>
   );
 }

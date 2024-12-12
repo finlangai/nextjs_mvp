@@ -5,30 +5,54 @@ import { RootState, AppDispatch } from "@/src/redux/store";
 import { fetchUserProfile } from "@/src/redux/auth/authSlice";
 import axios from "axios";
 import getCookie from "@/src/components/common/getCookie";
-import ChucMung from "../camonquykhach/page";
-import { useRouter } from "next/router";
+
 const Payment = ({ params }: { params: { id: string } }) => {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const dispatch: AppDispatch = useDispatch();
   const user = useSelector((state: RootState) => state.auth.user);
   const { id } = params;
+
   const [pricingData, setPricingData] = useState<PricingData | null>(null);
   const [selectedPlan, setSelectedPlan] = useState<PricingMONTHLY | PricingYEARLY>();
-  window.addEventListener("message", function(event) {
-    console.log("event.origin:", event.origin); 
-  
-    if (event.origin === "http://localhost:3000") {  
-      if (event.data === "success") {
-        window.location.href = '/payment/camonquykhach';
-      } else if (event.data === "failure") {
-        console.log("Thanh toán thất bại.");
-      } else if (event.data === "tabClosed") {
-        console.log("Cửa sổ con đã bị đóng.");
-      }
-    } else {
-      console.warn("Thông điệp không đến từ nguồn gốc hợp lệ!");
-    }
+  const [paymentData, setPaymentData] = useState<PaymentData>({
+    programId: id,
+    paymentMethod: "momo",
+    callbackUrl: "",
   });
-  
+
+  useEffect(() => {
+    // Set callbackUrl khi chạy trên client
+    if (typeof window !== "undefined") {
+      setPaymentData((prevState) => ({
+        ...prevState,
+        callbackUrl: `${window.location.origin}/payment/thanhtoan`,
+      }));
+
+      // Lắng nghe sự kiện message
+      const handleMessage = (event: MessageEvent) => {
+        console.log(">>>", event.origin);
+        if (event.origin === window.location.origin) {
+          if (event.data === "success") {
+            window.location.href = `${window.location.origin}/payment/camonquykhach`;
+          } else if (event.data === "failure") {
+            console.log("Thanh toán thất bại.");
+          } else if (event.data === "tabClosed") {
+            console.log("Cửa sổ con đã bị đóng.");
+          }
+        } else {
+          console.warn("Thông điệp không đến từ nguồn gốc hợp lệ!");
+        }
+      };
+
+      window.addEventListener("message", handleMessage);
+
+      // Cleanup event listener
+      return () => {
+        window.removeEventListener("message", handleMessage);
+      };
+    }
+  }, []);
+
   useEffect(() => {
     if (!user) {
       dispatch(fetchUserProfile());
@@ -36,13 +60,13 @@ const Payment = ({ params }: { params: { id: string } }) => {
   }, [user, dispatch]);
 
   useEffect(() => {
-    fetch('https://portal.fintown.software/api/general/pricing')
+    fetch(`${apiUrl}/general/pricing`)
       .then((response) => response.json())
       .then((data) => {
         setPricingData(data);
       })
       .catch((error) => {
-        console.error('Error fetching pricing data:', error);
+        console.error("Error fetching pricing data:", error);
       });
   }, []);
 
@@ -53,56 +77,57 @@ const Payment = ({ params }: { params: { id: string } }) => {
       } else if (id === pricingData.YEARLY.programId) {
         setSelectedPlan(pricingData.YEARLY);
       } else {
-        console.error('Program ID không hợp lệ');
+        console.error("Program ID không hợp lệ");
       }
     }
   }, [id, pricingData]);
 
-  // code gửi thông tin thanh toán
-  
-  const [paymentData, setPaymentData] = useState<PaymentData>({
-    programId : id,
-    paymentMethod: "momo",
-    callbackUrl: "/payment/thanhtoan",  
-  }); 
   const handlePaymentMethodChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    setPaymentData(prevState => ({
+    setPaymentData((prevState) => ({
       ...prevState,
-      paymentMethod: value, 
+      paymentMethod: value,
     }));
   };
-  const token = getCookie('token');
+
+  const token = getCookie("token");
   const handlePayment = () => {
     if (!paymentData.programId || !paymentData.paymentMethod) {
       alert("Vui lòng chọn gói hội viên và phương thức thanh toán!");
       return;
     }
+
     console.log("Đang xử lý thanh toán với dữ liệu: ", paymentData);
-    axios.post("https://portal.fintown.software/api/general/payment/initiate", paymentData, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`, 
-      }
-    })
-    .then(response => {
-      const paymentUrl = response.data.paymentUrl; 
-      const popupWidth = 800;
-      const popupHeight = 800;
-      const left = (window.innerWidth - popupWidth) / 2;
-      const top = (window.innerHeight - popupHeight) / 2;
-      const popup = window.open(paymentUrl, 'PaymentPopup', `width=${popupWidth},height=${popupHeight},top=${top},left=${left}`);
-    
-      if (popup) {
-        popup.focus(); 
-      } else {
-        alert("Vui lòng bật cửa sổ popup trong trình duyệt.");
-      }
-    })
-    .catch(error => {
-      console.error("Có lỗi xảy ra khi thanh toán: ", error);
-    });
-  };
+
+    axios
+      .post(`${apiUrl}/general/payment/initiate`, paymentData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        const paymentUrl = response.data.paymentUrl;
+        const popupWidth = 800;
+        const popupHeight = 800;
+        const left = (window.innerWidth - popupWidth) / 2;
+        const top = (window.innerHeight - popupHeight) / 2;
+        const popup = window.open(
+          paymentUrl,
+          "PaymentPopup",
+          `width=${popupWidth},height=${popupHeight},top=${top},left=${left}`
+        );
+
+        if (popup) {
+          popup.focus();
+        } else {
+          alert("Vui lòng bật cửa sổ popup trong trình duyệt.");
+        }
+      })
+      .catch((error) => {
+        console.error("Có lỗi xảy ra khi thanh toán: ", error);
+      });
+  }
   return (
     <div className="px-10 pt-5 bg-white h-screen">
       <a href="/dashboard">

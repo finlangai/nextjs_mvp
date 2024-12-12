@@ -17,7 +17,7 @@ const ChucMung = () => {
         </h1>
         
         <p className="mt-5 text-xl text-gray-800 font-medium animate-fadeIn">
-          Bạn đã là thành viên của fiin town.
+          Bạn đã là thành viên của fintown.
         </p>
         
         <div className="mt-10">
