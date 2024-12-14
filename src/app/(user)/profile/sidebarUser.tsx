@@ -1,8 +1,7 @@
 'use client';
-
 import React from 'react';
-import { usePathname } from 'next/navigation'; // Import usePathname từ next/navigation
-import Link from 'next/link'; // Import Link từ next/link
+import { usePathname } from 'next/navigation';
+import Link from 'next/link'; 
 
 export default function SidebarUser() {
   const pathname = usePathname(); 

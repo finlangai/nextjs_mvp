@@ -21,10 +21,8 @@ export default function SetFullname({ information, setInformation, setTienTrinh 
       toast.error('Tên quá ngắn, vui lòng nhập tên dài hơn 3 ký tự.');
       return false;
     }
-
     try {
       const response = await axios.post(`${apiUrl}/auth/register`, information);
-
       toast.success('Đăng ký thành công!');
       setTimeout(() => {
         window.location.href = '/';

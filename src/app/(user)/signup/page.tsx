@@ -4,6 +4,7 @@ import './signup.css';
 import Password from './set-password';
 import Setfullname from './set-fullname';
 import Link from 'next/link';
+import { ToastContainer, toast } from 'react-toastify';
 export default function page() {
    const [information , setInformation] = useState({fullname: "", email : "" , phone :"123456789",address : "123 Main St, Anytown, USA",  password: ""})
 
@@ -24,20 +25,17 @@ export default function page() {
     };
     const onTabSetPassword = ()=>{
       if(information.email.length <= 11 ){
-          alert('email Không xác định!')
+           toast.error('Email không xác định !');
          return false;
       }
       if(isValidEmail(information.email)){
-         alert('email không đúng định dạng ')
+         toast.error('Email không xác định !');
          return false;
       }
-     
       setTienTrinh('loading');
-     setTimeout(()=>{
+      setTimeout(()=>{
       setTienTrinh('password');
      },1000)
-
-
    }
   return (
     <div>
@@ -154,6 +152,14 @@ export default function page() {
            )}
            
       </div>
+       <ToastContainer
+              position="top-right" 
+              autoClose={5000}
+              hideProgressBar={false} 
+              newestOnTop={true}
+              closeOnClick={true}
+              rtl={false} 
+            />
     </div>
   )
 }

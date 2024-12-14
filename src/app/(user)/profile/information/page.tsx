@@ -6,7 +6,6 @@ import { RootState, AppDispatch } from "@/src/redux/store";
 import { updateUserInformation, updateUserAvatar, fetchUserProfile } from "@/src/redux/auth/authSlice";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import Link from "next/link";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 interface FormValues {

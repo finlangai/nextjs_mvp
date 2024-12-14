@@ -1,8 +1,62 @@
-import React from 'react';
+"use client";
+import React, { useState } from 'react';
+import emailjs from 'emailjs-com';
 
 const Contact: React.FC = () => {
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        subject: '',
+        message: '',
+    });
+
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value,
+        }));
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+            setErrorMessage('Tất cả các trường đều bắt buộc.');
+            return;
+        }
+
+        setIsLoading(true);
+
+        emailjs.sendForm(
+            'service_xsykr2x',
+            'template_7sc0ecm',
+            e.target as HTMLFormElement,
+            'v5NuO4ipWGiCevhEG'
+        )
+        .then((result) => {
+            console.log('Success:', result.text);
+            alert('Tin nhắn đã được gửi thành công!');
+            setFormData({
+                name: '',
+                email: '',
+                subject: '',
+                message: '',
+            });
+        })
+        .catch((error) => {
+            console.error('Error:', error.text);
+            alert('Có lỗi xảy ra khi gửi tin nhắn.');
+        })
+        .finally(() => {
+            setIsLoading(false);
+        });
+    };
+
     return (
-        <div className="min-h-screen bg-[#181A20] text-white py-10 px-5 flex flex-col items-center">
+        <div className="min-h-screen text-fintown-txt-1 dark:text-fintown-txt-1-light py-10 px-5 flex flex-col items-center">
             <div className="flex flex-col md:flex-row w-full">
                 <div className="flex-1 p-10">
                     <h1 className="text-4xl font-bold mb-5">
@@ -29,10 +83,11 @@ const Contact: React.FC = () => {
                     </div>
                     <p className="mt-6 text-lg font-semibold">Hotline: (+84) 94 75 23169</p>
                 </div>
-                <div className="flex-1 p-10 bg-[#20232A] rounded-lg shadow-lg">
+                <div className="flex-1 p-10 bg-fintown-bg-stn dark:bg-fintown-bg-stn-light rounded-lg shadow-lg">
                     <h2 className="text-2xl font-bold mb-5">Bạn cần hỗ trợ? Để lại lời nhắn tại đây!</h2>
                     <form
                         className="flex flex-col gap-6"
+                        onSubmit={handleSubmit}
                     >
                         <div className="flex flex-col md:flex-row gap-6">
                             <div className="flex-1">
@@ -43,25 +98,27 @@ const Contact: React.FC = () => {
                                     type="text"
                                     id="name"
                                     name="name"
+                                    value={formData.name}
+                                    onChange={handleChange}
                                     placeholder="Vui lòng nhập tên của bạn..."
-                                    className="w-full p-3 rounded-lg bg-[#2B2E33] text-white border border-gray-600 hover:border-[#25B770] focus:ring-2 focus:ring-[#25B770] outline-none"
+                                    className="w-full p-3 rounded-lg bg-fintown-bg dark:bg-fintown-txt-1 text-fintown-txt-1 dark:text-fintown-txt-1-light border border-gray-600 hover:border-[#25B770] focus:ring-2 focus:ring-[#25B770] outline-none"
                                     required
                                 />
-                                <span className="text-red-500 text-sm mt-1 hidden">Họ và tên là bắt buộc</span>
                             </div>
                             <div className="flex-1">
                                 <label htmlFor="email" className="block mb-2 font-semibold">
-                                    Email
+                                    Địa chỉ email
                                 </label>
                                 <input
                                     type="email"
                                     id="email"
                                     name="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
                                     placeholder="Vui lòng nhập email của bạn..."
-                                    className="w-full p-3 rounded-lg bg-[#2B2E33] text-white border border-gray-600 hover:border-[#25B770] focus:ring-2 focus:ring-[#25B770] outline-none"
+                                    className="w-full p-3 rounded-lg bg-fintown-bg dark:bg-fintown-txt-1 text-fintown-txt-1 dark:text-fintown-txt-1-light border border-gray-600 hover:border-[#25B770] focus:ring-2 focus:ring-[#25B770] outline-none"
                                     required
                                 />
-                                <span className="text-red-500 text-sm mt-1 hidden">Email là bắt buộc</span>
                             </div>
                         </div>
                         <div>
@@ -72,11 +129,12 @@ const Contact: React.FC = () => {
                                 type="text"
                                 id="subject"
                                 name="subject"
+                                value={formData.subject}
+                                onChange={handleChange}
                                 placeholder="Bạn cần hỗ trợ vấn đề gì?"
-                                className="w-full p-3 rounded-lg bg-[#2B2E33] text-white border border-gray-600 hover:border-[#25B770] focus:ring-2 focus:ring-[#25B770] outline-none"
+                                className="w-full p-3 rounded-lg bg-fintown-bg dark:bg-fintown-txt-1 text-fintown-txt-1 dark:text-fintown-txt-1-light border border-gray-600 hover:border-[#25B770] focus:ring-2 focus:ring-[#25B770] outline-none"
                                 required
                             />
-                            <span className="text-red-500 text-sm mt-1 hidden">Chủ đề là bắt buộc</span>
                         </div>
                         <div>
                             <label htmlFor="message" className="block mb-2 font-semibold">
@@ -85,19 +143,22 @@ const Contact: React.FC = () => {
                             <textarea
                                 id="message"
                                 name="message"
+                                value={formData.message}
+                                onChange={handleChange}
                                 rows={5}
                                 placeholder="Hãy nhắn cụ thể vấn đề bạn cần hỗ trợ..."
-                                className="w-full p-3 rounded-lg bg-[#2B2E33] text-white border border-gray-600 hover:border-[#25B770] focus:ring-2 focus:ring-[#25B770] outline-none resize-none"
+                                className="w-full p-3 rounded-lg bg-fintown-bg dark:bg-fintown-txt-1 text-fintown-txt-1 dark:text-fintown-txt-1-light border border-gray-600 hover:border-[#25B770] focus:ring-2 focus:ring-[#25B770] outline-none resize-none"
                                 required
                             ></textarea>
-                            <span className="text-red-500 text-sm mt-1 hidden">Lời nhắn là bắt buộc</span>
                         </div>
                         <button
                             type="submit"
-                            className="w-full bg-[#25B770] text-white py-3 rounded-lg font-semibold hover:bg-[#1E8C5A] transition transform hover:scale-105"
+                            className="w-full bg-[#25B770] text-fintown-txt-1 py-3 rounded-lg font-semibold hover:bg-[#1E8C5A] transition transform hover:scale-105"
+                            disabled={isLoading}
                         >
-                            Gửi tin nhắn
+                            {isLoading ? 'Đang gửi...' : 'Gửi tin nhắn'}
                         </button>
+                        {errorMessage && <p className="text-red-500 text-sm mt-2">{errorMessage}</p>}
                     </form>
                 </div>
             </div>

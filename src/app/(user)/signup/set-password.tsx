@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { ToastContainer, toast } from 'react-toastify';
 export default function Password({information , setInformation ,setTienTrinh} :any) {
    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
@@ -8,11 +9,9 @@ export default function Password({information , setInformation ,setTienTrinh} :a
       }));
     };
     function containsNumber(str: string): boolean {
-      // Kiểm tra chuỗi có chứa ít nhất một chữ số
       return /\d/.test(str);
     }
-    function containsUpperCase(str: string): boolean {
-      
+    function containsUpperCase(str: string): boolean { 
       return /[A-Z]/.test(str);
     }
     const [nguoimoi, setnguoimoi] = useState(false);
@@ -24,6 +23,10 @@ export default function Password({information , setInformation ,setTienTrinh} :a
     const ontabsetFullName = ()=>{
       if(information.password.length  < 8 || !containsUpperCase(information.password) || !containsNumber(information.password)){
          setnguoimoi(true)
+         return false;
+      }
+      if(information.password !== passCheck ){
+         toast.error('Mật khẩu Không trùng khớp !');
          return false;
       }
       setTienTrinh('loading');
@@ -147,6 +150,14 @@ export default function Password({information , setInformation ,setTienTrinh} :a
          <button onClick={ontabsetFullName} className="Frame427321879 w-[401px] h-12 pt-4 pb-[15px] bg-[#25b770] rounded-[10px] justify-center items-center inline-flex mt-10">
             <div className="NgNhP text-center text-[#eaecef] text-sm font-medium ">Bước tiếp theo</div>
          </button>
+         <ToastContainer
+        position="top-right" 
+        autoClose={5000}
+        hideProgressBar={false} 
+        newestOnTop={true}
+        closeOnClick={true}
+        rtl={false} 
+      />
     </div>
   )
 }
