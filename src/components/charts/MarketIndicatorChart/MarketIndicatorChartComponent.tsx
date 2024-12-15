@@ -13,11 +13,11 @@ import { selectPriceStocksLoading } from '@/src/redux/PriceStock';
 import { selectDarkMode } from '@/src/redux/darkmode';
 import { useAppSelector } from '@/src/redux/hooks/useAppStore';
 
-// const MarketIndicatorChart = dynamic(() => {
-//   return import('./MarketIndicatorChartComponent').then(mod => mod.default);
-// }, {
-//   ssr: false,
-// });
+const MarketIndicatorChart = dynamic(() => {
+  return import('./MarketIndicatorChartComponent').then(mod => mod.default);
+}, {
+  ssr: false,
+});
 
 HC_more(Highcharts);
 configureHighchartsLanguage();
