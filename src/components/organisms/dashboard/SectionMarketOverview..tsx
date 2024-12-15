@@ -9,7 +9,7 @@ import { selectTickerListOverviewData, selectTickerListOverviewLoading } from '@
 import { SpinerLoader } from '../../common/Loader';
 import dynamic from 'next/dynamic';
 
-const MarketIndicatorChart = dynamic(() => import('@/src/components/charts/marketIndicatorChart/MarketIndicatorChartComponent'), {
+const MarketIndicatorChart = dynamic(() => import('@/src/components/charts/MarketIndicatorChart/MarketIndicatorChartComponent'), {
   ssr: false,
 });
 
