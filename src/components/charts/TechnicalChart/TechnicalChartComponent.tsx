@@ -44,11 +44,11 @@ Highcharts.setOptions({
   }
 });
 
-const TechnicalChart = dynamic(() => {
-  return import('./TechnicalChartComponent').then(mod => mod.default);
-}, {
-  ssr: false, 
-});
+// const TechnicalChart = dynamic(() => {
+//   return import('./TechnicalChartComponent').then(mod => mod.default);
+// }, {
+//   ssr: false, 
+// });
 
 const TechnicalChartComponent = ({symbol} : {symbol: string}) => {
     const isDarkMode = useAppSelector(selectDarkMode);

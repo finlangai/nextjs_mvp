@@ -34,9 +34,9 @@ import { setSelectedLayout } from '@/src/redux/LayoutTechChart';
 import { useAppDispatch } from '@/src/redux/hooks/useAppStore';
 import TechnicalChartComponent from '@/src/components/charts/technicalChart/TechnicalChartComponent';
 
-const TechnicalChart = dynamic(() => import('@/src/components/charts/technicalChart/TechnicalChartComponent'), {
-    ssr: false,
-});
+// const TechnicalChart = dynamic(() => import('@/src/components/charts/technicalChart/TechnicalChartComponent'), {
+//     ssr: false,
+// });
 
 export default function BieuDoKyThuatPage({ params }: { params: { symbol: string } }) {
     const symbol = params.symbol.toUpperCase();
