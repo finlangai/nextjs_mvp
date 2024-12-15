@@ -4,7 +4,7 @@ const PhapLy: React.FC = () => {
     return (
         <div className="bg-[#181A20] text-white font-sans leading-relaxed text-[18px] min-h-screen flex items-center justify-center">
             <main className="w-full max-w-7xl bg-[#181A20] p-10 shadow-md rounded-md">
-                <h2 className="text-[#25B770] text-[26px]">Giới thiệu</h2>
+                <h2 className="text-[#25B770] text-[26px] font-bold mt-6">Giới thiệu</h2>
                 <p className="text-justify">
                     Trang pháp lý của chúng tôi được xây dựng nhằm mục đích cung cấp thông tin minh bạch và rõ ràng cho tất cả người dùng truy cập vào Fintown. Chúng tôi hiểu rằng quyền riêng tư, trách nhiệm pháp lý và quyền lợi của người dùng là những yếu tố quan trọng để xây dựng niềm tin và sự hài lòng. Vì vậy, các thông tin trên trang này không chỉ mô tả các điều khoản và điều kiện mà bạn cần tuân thủ mà còn giải thích về cách chúng tôi bảo vệ dữ liệu của bạn, đảm bảo mọi hoạt động trên trang web đều tuân thủ pháp luật hiện hành.
                 </p>
@@ -13,7 +13,7 @@ const PhapLy: React.FC = () => {
                     Chúng tôi cam kết duy trì tính minh bạch trong mọi khía cạnh hoạt động và luôn sẵn sàng lắng nghe các ý kiến phản hồi của bạn để không ngừng cải thiện dịch vụ. Việc hiểu rõ các điều khoản và chính sách sẽ giúp bạn có trải nghiệm an toàn và hiệu quả hơn khi sử dụng nền tảng của chúng tôi. Hãy dành thời gian đọc kỹ các thông tin dưới đây để hiểu thêm về quyền và nghĩa vụ của bạn.
                 </p>
 
-                <h2 className="text-[#25B770] text-[26px]">Điều khoản sử dụng</h2>
+                <h2 className="text-[#25B770] text-[26px] font-bold mt-6">Điều khoản sử dụng</h2>
                 <p className="text-justify">
                     Người dùng truy cập và sử dụng trang web đồng nghĩa với việc chấp nhận các điều khoản sau:
                 </p>
@@ -23,7 +23,7 @@ const PhapLy: React.FC = () => {
                     <li>Chịu trách nhiệm cá nhân về mọi thông tin đăng tải hoặc hoạt động thực hiện trên trang web.</li>
                 </ul>
 
-                <h2 className="text-[#25B770] text-[26px]">Chính sách bảo mật</h2>
+                <h2 className="text-[#25B770] text-[26px] font-bold mt-6">Chính sách bảo mật</h2>
                 <p className="text-justify">
                     Chúng tôi cam kết bảo vệ quyền riêng tư và dữ liệu cá nhân của bạn. Dưới đây là các nguyên tắc của chúng tôi:
                 </p>
@@ -33,7 +33,7 @@ const PhapLy: React.FC = () => {
                     <li>Chúng tôi không chia sẻ thông tin cá nhân với bên thứ ba, trừ khi được pháp luật yêu cầu.</li>
                 </ul>
 
-                <h2 className="text-[#25B770] text-[26px]">Trách nhiệm pháp lý</h2>
+                <h2 className="text-[#25B770] text-[26px] font-bold mt-6">Trách nhiệm pháp lý</h2>
                 <p className="text-justify">
                     Chúng tôi không chịu trách nhiệm về bất kỳ thiệt hại nào phát sinh từ việc sử dụng trang web hoặc nội dung trên trang. Điều này bao gồm nhưng không giới hạn ở các thiệt hại do lỗi kỹ thuật, virus hoặc các vấn đề khác liên quan đến phần mềm hoặc phần cứng, hoặc từ việc bạn tin cậy vào bất kỳ thông tin nào có trên trang web.
                 </p>
@@ -46,7 +46,7 @@ const PhapLy: React.FC = () => {
                     Chúng tôi khuyến nghị người dùng nên sử dụng các biện pháp bảo mật thích hợp và cập nhật phần mềm bảo mật để bảo vệ thông tin cá nhân và thiết bị của mình khi truy cập và sử dụng trang web.
                 </p>
 
-                <h2 className="text-[#25B770] text-[26px]">Quyền sở hữu trí tuệ</h2>
+                <h2 className="text-[#25B770] text-[26px] font-bold mt-6">Quyền sở hữu trí tuệ</h2>
                 <p className="text-justify">
                     Tất cả nội dung, hình ảnh và tài liệu trên trang này là tài sản của Fintown và được bảo vệ bởi luật sở hữu trí tuệ. Bất kỳ hành vi sử dụng trái phép nào đều bị nghiêm cấm và có thể dẫn đến các hình phạt pháp lý.
                 </p>
@@ -57,7 +57,7 @@ const PhapLy: React.FC = () => {
                     Chúng tôi tôn trọng quyền sở hữu trí tuệ của người khác và mong rằng người dùng cũng làm như vậy. Nếu bạn tin rằng nội dung nào trên trang vi phạm quyền sở hữu trí tuệ của bạn, vui lòng liên hệ với chúng tôi để được hỗ trợ giải quyết.
                 </p>
 
-                <h2 className="text-[#25B770] text-[26px]">Thay đổi điều khoản</h2>
+                <h2 className="text-[#25B770] text-[26px] font-bold mt-6">Thay đổi điều khoản</h2>
                 <p className="text-justify">
                     Chúng tôi có quyền thay đổi các điều khoản và điều kiện bất kỳ lúc nào. Các thay đổi sẽ được thông báo trên trang này và có hiệu lực ngay lập tức sau khi được cập nhật.
                 </p>
