@@ -8,12 +8,13 @@ import TimeRangeButtons from '../../common/TimeRangeButtons';
 import { selectTickerListOverviewData, selectTickerListOverviewLoading } from '@/src/redux/TickerListOverview';
 import { SpinerLoader } from '../../common/Loader';
 import dynamic from 'next/dynamic';
+import MarketIndicatorChartComponent from '@/src/components/charts/marketIndicatorChart/MarketIndicatorChartComponent';
 
 const MarketIndicatorChart = dynamic(() => import('@/src/components/charts/marketIndicatorChart/MarketIndicatorChartComponent'), {
   ssr: false,
 });
 
-export default function SectionMarketOverview() {
+export default function SectionMarketOverview(){
   const dispatch = useAppDispatch();
   const hasFetched = useRef(false);
 
@@ -121,7 +122,7 @@ export default function SectionMarketOverview() {
           }
         </div>
         <div className='pb-[38px] mb-[24px] border-b border-b-fintown-br dark:border-b-fintown-br-light'>
-          <MarketIndicatorChart data={data} />
+          <MarketIndicatorChartComponent data={data} />
         </div>
         < VN30Summary />
       </div>

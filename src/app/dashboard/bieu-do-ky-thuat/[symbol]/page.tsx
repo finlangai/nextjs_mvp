@@ -32,6 +32,7 @@ import SaveLayoutChart from '@/src/components/organisms/technicalchart/SaveLayou
 import ListLayoutChartSaved from '@/src/components/organisms/technicalchart/ListLayoutChartSaved';
 import { setSelectedLayout } from '@/src/redux/LayoutTechChart';
 import { useAppDispatch } from '@/src/redux/hooks/useAppStore';
+import TechnicalChartComponent from '@/src/components/charts/technicalChart/TechnicalChartComponent';
 
 const TechnicalChart = dynamic(() => import('@/src/components/charts/technicalChart/TechnicalChartComponent'), {
     ssr: false,
@@ -145,7 +146,7 @@ export default function BieuDoKyThuatPage({ params }: { params: { symbol: string
                         </div>
 
                         <div className=''>
-                            < TechnicalChart symbol={symbol} />
+                            < TechnicalChartComponent symbol={symbol} />
                         </div>
                     </div>
                 </div>
