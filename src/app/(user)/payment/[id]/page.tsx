@@ -5,7 +5,14 @@ import { RootState, AppDispatch } from "@/src/redux/store";
 import { fetchUserProfile } from "@/src/redux/auth/authSlice";
 import axios from "axios";
 import getCookie from "@/src/components/common/getCookie";
-
+import { useAppSelector } from "@/src/redux/hooks/useAppStore";
+import { selectToken } from "@/src/redux/auth"; // Hàm selector để lấy token
+type codePromotion = {
+  initialPrice: number;
+  discountAmount: number;
+  afterDiscount: number;
+  discountPercent: number;
+};
 const Payment = ({ params }: { params: { id: string } }) => {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const dispatch: AppDispatch = useDispatch();
@@ -18,6 +25,7 @@ const Payment = ({ params }: { params: { id: string } }) => {
     programId: id,
     paymentMethod: "momo",
     callbackUrl: "",
+    promotionCode : ""
   });
 
   useEffect(() => {
@@ -30,14 +38,11 @@ const Payment = ({ params }: { params: { id: string } }) => {
 
       // Lắng nghe sự kiện message
       const handleMessage = (event: MessageEvent) => {
-        console.log(">>>", event.origin);
         if (event.origin === window.location.origin) {
           if (event.data === "success") {
             window.location.href = `${window.location.origin}/payment/camonquykhach`;
           } else if (event.data === "failure") {
-            console.log("Thanh toán thất bại.");
           } else if (event.data === "tabClosed") {
-            console.log("Cửa sổ con đã bị đóng.");
           }
         } else {
           console.warn("Thông điệp không đến từ nguồn gốc hợp lệ!");
@@ -97,7 +102,6 @@ const Payment = ({ params }: { params: { id: string } }) => {
       return;
     }
 
-    console.log("Đang xử lý thanh toán với dữ liệu: ", paymentData);
 
     axios
       .post(`${apiUrl}/general/payment/initiate`, paymentData, {
@@ -128,6 +132,41 @@ const Payment = ({ params }: { params: { id: string } }) => {
         console.error("Có lỗi xảy ra khi thanh toán: ", error);
       });
   }
+  // code mã giảm giá
+  const tokenBearer = useAppSelector(selectToken); // Lấy token từ Redux state
+  const [codePromotion, setCodePromotion] = useState<codePromotion>(); // State lưu khuyến mãi
+  const [promotionInput, setPromotionInput] = useState(''); // State lưu input mã giảm giá
+  const [errPromotion, setErrPromotion] = useState<boolean | null>(null);
+  const addPromotion = async () => {
+    try {
+      const response = await axios.post(
+        `${apiUrl}/general/payment/check-promotion`,
+        {
+          code: promotionInput, // Sử dụng giá trị từ input
+          programId: id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${tokenBearer}`, // Gửi token Bearer
+          },
+        }
+      );
+      setCodePromotion(response.data); 
+      setPaymentData((prevData) => ({
+        ...prevData, // Giữ nguyên dữ liệu cũ
+        promotionCode: "PY1Giamgia", 
+      }));
+      console.log('Promotion data:', response.data); // Log kết quả
+      setErrPromotion(true)
+    } catch (error) {
+      console.error('Error during fetching promotion:', error);
+      setErrPromotion(false)
+    }
+  };
+  const calculateDiscountedPrice = (originalPrice: any, discountPercent : any) => {
+    if (!originalPrice || !discountPercent) return originalPrice;
+    return originalPrice - (originalPrice * discountPercent / 100);
+  };
   return (
     <div className="px-10 pt-5 bg-white h-screen">
       <a href="/dashboard">
@@ -230,10 +269,29 @@ const Payment = ({ params }: { params: { id: string } }) => {
             </div>
           </div>
          <div className="mt-3 flex justify-between">
-         <input className="border-2 border-[#25B770] rounded-lg p-3 w-3/4" placeholder="Nhập mã giảm giá ..." />
-         <button className="border-[#25B770] border rounded-xl text-[#25B770] font-bold p-3">Áp dụng</button>
-
+         <input
+        className="border-2 border-[#25B770] rounded-lg p-3 w-3/4"
+        placeholder="Nhập mã giảm giá ..."
+        value={promotionInput}
+        onChange={(e) => setPromotionInput(e.target.value)}
+      />
+      <button
+        className="border-[#25B770] border rounded-xl text-[#25B770] font-bold p-3"
+        onClick={addPromotion}>
+        Áp dụng
+      </button>
          </div>
+         <p   className="h-5 mt-3"
+        style={{
+          color: errPromotion === null ? 'transparent' : errPromotion ? 'green' : 'red', 
+          visibility: errPromotion === null ? 'hidden' : 'visible' 
+        }}
+      >
+        {
+          errPromotion === null ? '' : // Nếu là null thì không hiển thị gì
+          errPromotion ? 'Áp dụng mã thành công' : 'Mã giảm giá không tồn tại'
+        }
+      </p>
          <p className="mt-5 font-sans text-sm"> 
          Lưu ý: Nếu bạn áp dụng mã giảm giá, sau khi bấm nút thanh toán vui lòng không đóng trang thanh toán khi chưa hoàn thành việc thanh toán để tránh mã giảm giá bị khóa.
          </p>
@@ -361,7 +419,7 @@ const Payment = ({ params }: { params: { id: string } }) => {
             <div className="flex justify-between">
                <div>
                <h5 className="text-sm font-semibold text-[#25B770]">Tổng cộng</h5>
-               <h5 className="text-sm font-semibold">
+               {/* <h5 className="text-sm font-semibold">
               {selectedPlan ? (
                 "price" in selectedPlan ? (
                   <p className="text-xs font-light mt-1 text-[red]">
@@ -381,7 +439,7 @@ const Payment = ({ params }: { params: { id: string } }) => {
               ) : (
                 "Đang tải dữ liệu..."
               )}
-            </h5>
+            </h5> */}
                </div>
                <div>
                <h5 className="text-sm font-semibold">
@@ -393,7 +451,8 @@ const Payment = ({ params }: { params: { id: string } }) => {
                   ) : (
                     "discountedPrice" in selectedPlan ? (
                       <span>
-                        {selectedPlan.discountedPrice.toLocaleString()} VNĐ
+                        {codePromotion ? codePromotion.afterDiscount.toLocaleString()  : selectedPlan.discountedPrice.toLocaleString()}
+                          VNĐ
                       </span>
                     ) : (
                       "N/A"
@@ -403,7 +462,6 @@ const Payment = ({ params }: { params: { id: string } }) => {
                   "Đang tải dữ liệu..."
                 )}
               </h5>
-
               <h5 className="text-sm font-semibold">
               {selectedPlan ? (
                 "price" in selectedPlan ? (
@@ -413,9 +471,15 @@ const Payment = ({ params }: { params: { id: string } }) => {
                   </p>
                 ) : (
                   "originalPrice" in selectedPlan && "discountedPrice" in selectedPlan ? (
-                    <p className="text-xs font-light mt-1 text-gray-400 line-through">
-                       {(selectedPlan.originalPrice - selectedPlan.discountedPrice).toLocaleString()} VNĐ
-                      ({((selectedPlan.originalPrice - selectedPlan.discountedPrice) / selectedPlan.originalPrice * 100).toFixed(0)}%)
+                    <p className={`text-sm font-light mt-1 text-gray-400 ${codePromotion ? "text-red" : "line-through"} `}>
+                      {
+                        codePromotion
+                          ? `Đã áp dụng mã giảm giá ${codePromotion.discountPercent}%`
+                          : `${(selectedPlan.originalPrice - selectedPlan.discountedPrice).toLocaleString()} VNĐ
+                            (${((selectedPlan.originalPrice - selectedPlan.discountedPrice) / selectedPlan.originalPrice * 100).toFixed(0)}%)`
+                      }
+
+                     
                     </p>
                   ) : (
                     "N/A"
@@ -432,10 +496,7 @@ const Payment = ({ params }: { params: { id: string } }) => {
                <p className="font-extralight text-sm">Với việc thanh toán gói hội viên, tôi xác nhận đã đọc và đồng ý với các Điều khoản thanh toán, Chính sách bảo mật và Chính sách nội dung của Fintown.</p>
             </div>
             <div className="flex justify-center mt-5">
-            <button
-                className="bg-blue-500 px-10 py-2 text-white rounded-md hover:bg-blue-700 hover:scale-105 transition-all duration-200"
-                onClick={handlePayment} // Gọi hàm handlePayment khi nhấn nút
-              >
+              <button className="bg-blue-500 px-10 py-2 text-white rounded-md hover:bg-blue-700 hover:scale-105 transition-all duration-200" onClick={handlePayment}  >
                 Thanh toán
               </button>
             </div>
