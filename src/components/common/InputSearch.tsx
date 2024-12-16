@@ -22,9 +22,9 @@ type TabType = {
 const TABS: TabType[] = [
     { id: 'report', label: 'Báo cáo', route: 'bao-cao-doanh-nghiep', baseurl: 'dashboard/co-phieu' },
     { id: 'forecast', label: 'Dự báo', route: 'ket-qua-du-bao', baseurl: 'dashboard/co-phieu' },
-    { id: 'chart', label: 'Biểu đồ', route: 'symbol', baseurl: 'bieu-do-ky-thuat' },
-    { id: 'price', label: 'Biến động giá', route: 'chi-so-ky-thuat', baseurl: 'dashboard/co-phieu' },
-    { id: 'valuation', label: 'Định giá', route: 'mo-hinh-dinh-gia', baseurl: 'dashboard/co-phieu' },
+    { id: 'chart', label: 'Biểu đồ', route: 'symbol', baseurl: 'dashboard/bieu-do-ky-thuat' },
+    { id: 'price', label: 'Biến động giá', route: '', baseurl: 'dashboard/co-phieu' },
+    { id: 'valuation', label: 'Định giá', route: '', baseurl: 'dashboard/dinh-gia-co-phieu' },
     { id: 'profile', label: 'Hồ sơ', route: 'ho-so-doanh-nghiep', baseurl: 'dashboard/co-phieu' },
 ];
 
@@ -130,7 +130,10 @@ export default function InputSearch() {
     const getRouteForStock = (symbol: string) => {
         const activeTabData = TABS.find(tab => tab.id === activeTab);
         if (activeTabData?.id === "chart") {
-            return `/${activeTabData?.baseurl}?${activeTabData?.route}=${symbol}`;
+            return `/${activeTabData?.baseurl}/${symbol}`;
+        };
+        if (activeTabData?.id === "valuation") {
+            return `/${activeTabData?.baseurl}/${symbol}`;
         }
         return `/${activeTabData?.baseurl}/${symbol}/${activeTabData?.route}`;
     };
