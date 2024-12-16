@@ -46,7 +46,6 @@ const ChangeStockInput = ({symbol} : {symbol: string}) => {
         const link = selectedButton === 3
         ? `/dashboard/co-phieu/${stock.symbol}/`
         : `/dashboard/dinh-gia-co-phieu/${stock.symbol}`;
-        // console.log('selectedButton', selectedButton)
         router.push(link);
     };
 

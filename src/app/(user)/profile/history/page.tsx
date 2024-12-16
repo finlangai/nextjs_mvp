@@ -83,7 +83,7 @@ export default function History() {
       ) : (
         // Hiển thị thông báo khi không có dữ liệu
         <tr>
-          <td colSpan={5} className="text-center text-fintown-txt-1 dark:text-fintown-txt-1-light text-sm font-normal leading-tight">
+          <td colSpan={5} className="text-center text-fintown-txt-1 dark:text-fintown-txt-1-light text-sm font-normal leading-tight py-[20px]">
             Không có lịch sử.
           </td>
         </tr>
