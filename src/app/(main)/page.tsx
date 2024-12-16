@@ -54,7 +54,9 @@ export default function HomePage() {
                 </div>
                 
                 <div className="flex justify-between items-center">
-                    <img className="w-[475px] h-[281px] border-[2px] rounded-[20px] border-fintown-br" src="/imgs/cap.jpg" alt="" />
+                    <div className='min-w-[475px] max-w-[475px] h-[281px]'>
+                        <img className="w-full h-full border-[2px] rounded-[20px] border-fintown-br object-contain" src="/imgs/cap.png" alt="" />
+                    </div>
 
                     <div className="min-w-[554px]">
                         <div className="pb-[30px] border-b border-fintown-br mb-[30px]">
@@ -87,7 +89,6 @@ export default function HomePage() {
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </section>
