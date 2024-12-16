@@ -161,7 +161,7 @@ export default function DashboardHeader({ isTechnicalChart }: { isTechnicalChart
 
                         <div className="w-[1px] bg-fintown-br dark:bg-fintown-br-light h-[25px] ml-[5px] mr-[5px]"></div>
 
-                        <Link href="/pricing">
+                        <Link href="/dashboard/dang-ky-goi">
                             <button className="text-fintown-txt-1 text-sm rounded-md bg-fintown-pr9 px-[19px] py-[6px]">
                                 Nâng cấp
                             </button>
