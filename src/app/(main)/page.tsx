@@ -1,10 +1,19 @@
 "use client";
-
-
+import { useEffect } from 'react';
 import LoginForm from "@/src/components/form/Login";
 import Link from "next/link";
+import { selectToken } from "@/src/redux/auth";
+import { useAppSelector } from '@/src/redux/hooks/useAppStore';
+import { useRouter } from 'next/navigation';
 
 export default function HomePage() {
+    const token = useAppSelector(selectToken);
+    const router = useRouter();
+    useEffect(() => {
+        if (token) {
+            router.push(`/dashboard`);
+        }
+    }, [router]);
     return (
         <>
         <section>
