@@ -20,7 +20,6 @@ export const fetchForecastingCriteria = createAsyncThunk(
   'forecastingCriteria/fetch',
   async ({ symbol, type, group }: { symbol: string; type: number; group?: number }) => {
     const api = `${apiUrl}/symbols/${symbol}/assessment/criteria?type=${type}${group !== undefined ? `&group=${group}` : ''}`;
-    console.log(api);
     const response = await fetch(api);
     
     if (!response.ok) {

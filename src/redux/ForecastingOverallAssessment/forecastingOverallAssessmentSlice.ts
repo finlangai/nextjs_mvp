@@ -20,7 +20,6 @@ export const fetchForecastingOverallAssessment = createAsyncThunk(
   async ({symbol}: { symbol: string}) => {
     const api = `${apiUrl}/symbols/${symbol}/assessment/overview`;
     const response = await fetch(api);
-    // console.log('cos ig sai',api)
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }

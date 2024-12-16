@@ -17,10 +17,10 @@ export default function Header() {
 
             <div className="flex">
                 <div className='flex items-center gap-x-[50px] mr-[46px]'>
-                    <Link href="/dang-ky-goi" className='text-sm text-fintown-txt-2 hover:text-fintown-pr9'>Đăng ký gói</Link>
-                    <Link href="/dashboard/ve-chung-toi" className='text-sm text-fintown-txt-2 hover:text-fintown-pr9'>Về chúng tôi</Link>
-                    <Link href="/" className='text-sm text-fintown-txt-2 hover:text-fintown-pr9'>Pháp lý</Link>
-                    <Link href="/dashboard/lien-he" className='text-sm text-fintown-txt-2 hover:text-fintown-pr9'>Liên hệ</Link>
+                    <Link href="/dashboard/dang-ky-goi" className='text-base text-fintown-txt-2 hover:text-fintown-pr9'>Đăng ký gói</Link>
+                    <Link href="/dashboard/ve-chung-toi" className='text-base text-fintown-txt-2 hover:text-fintown-pr9'>Về chúng tôi</Link>
+                    <Link href="/dashboard/phap-ly" className='text-base text-fintown-txt-2 hover:text-fintown-pr9'>Pháp lý</Link>
+                    <Link href="/dashboard/lien-he" className='text-base text-fintown-txt-2 hover:text-fintown-pr9'>Liên hệ</Link>
                 </div>
 
                 <div className="flex items-center gap-x-2.5">

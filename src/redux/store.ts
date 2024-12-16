@@ -44,6 +44,7 @@ import IdScenariosReducers from "./Scenarios/idScenariosSlice";
 import TechChartlayoutReducer from "./LayoutTechChart/layoutSlice";
 import DarkModeReducer from "./darkmode/darkmodeSlice"
 import NotificationsReducers from "./Notifications/";
+import FAQReducers from "./FAQ/faqSlice";
 
 const tickerListReducer = combineReducers({
   TickerList: TickerListReducer,
@@ -116,6 +117,8 @@ const store = configureStore({
     auth: authReducer,
 
     notifications: NotificationsReducers,
+
+    faq: FAQReducers,
   },
 });
 
