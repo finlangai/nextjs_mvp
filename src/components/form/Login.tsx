@@ -155,8 +155,8 @@ function containsUpperCase(str: string): boolean {
     <button  type="submit" className="h-[48px] w-full bg-fintown-pr9 rounded-[10px] mb-[30px]">
       <span className="text-fintown-txt-1 text-sm">Đăng nhập</span>
     </button>
-    }<div className="flex justify-between mb-[27px]">
-    <Link href="/" className="text-sm text-fintown-txt-2">
+    }<div className="flex justify-between">
+    {/* <Link href="/" className="text-sm text-fintown-txt-2">
       Quên mật khẩu?
     </Link>
     <div className="flex items-center">
@@ -164,7 +164,7 @@ function containsUpperCase(str: string): boolean {
         <i className="bx bx-check text-fintown-txt-1 w-full h-full"></i>
       </div>
       <div className="text-fintown-txt-2 text-sm">Ghi nhớ</div>
-    </div>
+    </div> */}
   </div>
 
   <div className="flex items-center gap-x-[12px] mb-[40px]">

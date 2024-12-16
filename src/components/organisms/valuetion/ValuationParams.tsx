@@ -9,6 +9,7 @@ import {
 import { useAppSelector } from '@/src/redux/hooks/useAppStore';
 import { ValuationParams } from '@/src/interfaces/ValuationParams';
 import { SpinerLoader } from "../../common/Loader";
+import { convertToDecimal } from '@/src/utils/convertToDecimal';
 
 export function PeParamsComponent() {
     const [nowData, setNowData] = useState<ValuationParams | null>(null);
@@ -163,12 +164,35 @@ export function DCFParamsComponent({sYear, sQuarter} : {sYear:number; sQuarter:n
     const [nowData, setNowData] = useState<ValuationParams | null>(null);
     const [showChart, setShowChart] = useState(false);
 
-
     const valuationParamsLoading = useAppSelector(selectValuationParamsLoading);
     const valuationParamsData = useAppSelector(selectValuationParamsData);
 
+    const [selectedQuarter, setSelectedQuarter] = useState(sQuarter);
+    const [selectedYear, setSelectedYear] = useState(sYear);
+    const [start, setStart] = useState(true);
+
+    useEffect(()=> {
+        let index = 0;
+        let yearStart = 0;
+        let cQuarter = sQuarter;
+
+        // Lần đầu tiên tăng thêm một quý so với quý hiện có => định giá cho quý tiếp theo. 
+        // Nếu đã là quý 4 thì tăng thêm 1 năm, không tăng qu => định giá cho quý 1 năm tiếp theo.
+        if (start && sQuarter > 0 && sQuarter < 4) {
+            index = 1;
+            setStart(false);
+        };
+        if (start && sYear > 0 && sQuarter === 4) {
+            cQuarter = 1;
+            yearStart = 1;
+            setStart(false);
+        };
+
+        setSelectedQuarter(cQuarter + index);
+        setSelectedYear(sYear + yearStart);
+    }, [sYear, sQuarter])
+
     useEffect(() => {
-        // console.log('xx', valuationParamsData)
         if (valuationParamsData !== null) {
             setNowData(valuationParamsData);
         }
@@ -265,7 +289,7 @@ export function DCFParamsComponent({sYear, sQuarter} : {sYear:number; sQuarter:n
                     </div>
 
                     <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light">
-                        Đến Q{sQuarter} {sYear}
+                        Đến Q{selectedQuarter} {selectedYear}
                     </div>
                 </div>
             </div>
@@ -321,7 +345,7 @@ export function DDMParamsComponent({g} : {g:number}) {
                     <div className="text-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light mb-[7px]">Tỷ lệ tăng trưởng cổ tức</div>
                     <div className="flex items-center justify-between">
                         <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold">g</div>
-                        <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light">{g}</div>
+                        <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light">{convertToDecimal(g)}</div>
                     </div>
                 </div>
             </>
@@ -394,7 +418,7 @@ export function CAPMParamsComponent({Rm} : {Rm:number}) {
                 <SpinerLoader />
             </div>
         );
-    }
+    };
 
     return (
         <div className="flex flex-col gap-y-[10px]">
@@ -423,7 +447,7 @@ export function CAPMParamsComponent({Rm} : {Rm:number}) {
                     <div className="text-[12px] text-fintown-txt-1 dark:text-fintown-txt-1-light mb-[7px]">Lợi suất kỳ vọng của thị trường</div>
                     <div className="flex items-center justify-between">
                         <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light font-bold">Rm</div>
-                        <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light">{Rm}</div>
+                        <div className="text-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light">{convertToDecimal(Rm)}</div>
                     </div>
                 </div>
             </>

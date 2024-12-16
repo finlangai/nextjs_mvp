@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import './signup.css';
 import Password from './set-password';
 import Setfullname from './set-fullname';
@@ -40,28 +40,12 @@ export default function page() {
   return (
     <div>
      <div>
-         <ul className="flex text-white gap-10 pt-8">
-            <li>
-               <button className="p-3 rounded-2xl border border-transparent hover:text-[#25B770]">
-               Đăng kí gói
-               </button>
-            </li>
-            <li>
-               <button className="p-3 rounded-2xl border border-transparent hover:text-[#25B770]">
-               Về chúng tôi
-               </button>
-            </li>
-            <li>
-               <button className="p-3 rounded-2xl border border-transparent hover:text-[#25B770]">
-               Pháp lý
-               </button>
-            </li>
-            <li>
-               <button className="p-3 rounded-2xl border border-transparent hover:text-[#25B770]">
-               Liên hệ
-               </button>
-            </li>
-         </ul>
+         <div className='flex items-center gap-x-[50px] pt-[30px]'>
+            <Link href="/dashboard/dang-ky-goi" className='text-base text-fintown-txt-2 hover:text-fintown-pr9'>Đăng ký gói</Link>
+            <Link href="/dashboard/ve-chung-toi" className='text-base text-fintown-txt-2 hover:text-fintown-pr9'>Về chúng tôi</Link>
+            <Link href="/dashboard/phap-ly" className='text-base text-fintown-txt-2 hover:text-fintown-pr9'>Pháp lý</Link>
+            <Link href="/dashboard/lien-he" className='text-base text-fintown-txt-2 hover:text-fintown-pr9'>Liên hệ</Link>
+         </div>
       </div>
       
       <div className="mt-12 p-3 max-w-[420px]">

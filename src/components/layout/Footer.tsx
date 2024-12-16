@@ -32,7 +32,7 @@ export default function Footer() {
                     </Link>
                 </div>
             </div>
-            <hr className='border-fintown-br dark:border-fintown-br-light mb-[39px]' />
+            <hr className='border-fintown-br mb-[39px]' />
             <div className='flex items-center gap-x-[17px]'>
                 {/* <Link href="/" className='text-base text-fintown-txt-2 hover:text-fintown-pr9'>Tùy chọn cookie</Link>
                 <div className='w-[1px] h-[25px] bg-fintown-br dark:bg-fintown-br-light'></div> */}

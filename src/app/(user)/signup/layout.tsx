@@ -6,7 +6,7 @@ import Link from "next/link";
 export default function SignupLayout({ children }: { children: ReactNode }) {
   return (
     <>
-      <main className='overflow-hidden bg-[#141119]'>
+      <main className='overflow-hidden bg-[#181A20]'>
         <div className="flex">
           <div className="h-screen flex items-center justify-center">
             <img src="/imgs/signupfintown.png" alt="Login Image" className="h-screen w-auto object-cover" />
