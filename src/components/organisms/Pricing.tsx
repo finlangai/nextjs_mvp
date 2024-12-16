@@ -30,8 +30,8 @@ export default function Pricing() {
     };
 
     const formatPrice = (price: any): string => {
-    const formattedPrice = price >= 1000 ? (price / 1000).toFixed(0) + 'k' : price.toString();
-    return formattedPrice;
+      const formattedPrice = price >= 1000 ? (price / 1000).toFixed(0) + 'k' : price.toString();
+      return formattedPrice;
     };
     return (
         <>
