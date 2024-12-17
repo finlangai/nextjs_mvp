@@ -39,13 +39,13 @@ const CallBackUrlPayMent = () => {
 
   useEffect(() => {
     if (typeof window !== 'undefined' && outcome) {
-      window.opener?.postMessage(outcome === 'REGISTRATION_SUCCESS' ? 'success' : 'failure', 'http://localhost:3000');
+      window.opener?.postMessage(outcome === 'REGISTRATION_SUCCESS' ? 'success' : 'failure', '/dashboard');
     }
   }, [outcome]);
 
   const handleCloseTab = () => {
     if (typeof window !== 'undefined') {
-      window.opener?.postMessage('tabClosed', 'http://localhost:3000');
+      window.opener?.postMessage('tabClosed', '/dashboard');
       window.close();
     }
   };
