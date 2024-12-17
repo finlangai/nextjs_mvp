@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 
 const About = () => {
     const [teamMembers, setTeamMembers] = useState<any[]>([]);
@@ -32,7 +33,9 @@ const About = () => {
                     <div className="absolute top-40 left-1/2 transform -translate-x-1/2 text-center bg-black/50 p-5 rounded-lg">
                         <h2 className="text-xl text-[#25B770]">Chúng tôi giúp bạn đầu tư thông minh</h2>
                         <p>FINTOWN cung cấp công cụ và dữ liệu tài chính mạnh mẽ để bạn ra quyết định đầu tư chính xác.</p>
-                        <button className="bg-[#25B770] hover:bg-[#1E9A60] text-white py-2 px-4 mt-3 rounded transition">Tìm hiểu thêm</button>
+                        < Link href={'/dashboard'}>
+                            <button className="bg-[#25B770] hover:bg-[#1E9A60] text-white py-2 px-4 mt-3 rounded transition">Tìm hiểu thêm</button>
+                        </Link>
                     </div>
                 </div>
             </section>
