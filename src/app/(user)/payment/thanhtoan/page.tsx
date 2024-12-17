@@ -39,13 +39,13 @@ const CallBackUrlPayMent = () => {
 
   useEffect(() => {
     if (typeof window !== 'undefined' && outcome) {
-      window.opener?.postMessage(outcome === 'REGISTRATION_SUCCESS' ? 'success' : 'failure', '/dashboard');
+      window.opener?.postMessage(outcome === 'REGISTRATION_SUCCESS' ? 'success' : 'failure', 'https://fintown.software');
     }
   }, [outcome]);
 
   const handleCloseTab = () => {
     if (typeof window !== 'undefined') {
-      window.opener?.postMessage('tabClosed', '/dashboard');
+      window.opener?.postMessage('tabClosed', 'https://fintown.software');
       window.close();
     }
   };
