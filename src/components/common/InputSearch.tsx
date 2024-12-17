@@ -180,16 +180,16 @@ export default function InputSearch() {
                                         onClick={() => setShowDropdown(false)}
                                     >
                                         <div className='px-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-sm'>{stock.symbol}</div>
-                                        <div className='px-[14px] ttext-fintown-txt-1 dark:text-fintown-txt-1-light text-sm truncate overflow-hidden whitespace-nowrap flex-grow'>
+                                        <div className='px-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-sm truncate overflow-hidden whitespace-nowrap flex-grow'>
                                             {stock.company_name}
                                         </div>
-                                        <div className='px-[14px] ttext-fintown-txt-1 dark:text-fintown-txt-1-light text-sm'>{stock.exchange}</div>
+                                        <div className='px-[14px] text-fintown-txt-1 dark:text-fintown-txt-1-light text-sm'>{stock.exchange}</div>
                                     </li>
                                 </Link>
                             ))}
                         </div>
                     ) : (
-                        <div className="text-center text-sm ttext-fintown-txt-1 dark:text-fintown-txt-1-light py-[10px]">
+                        <div className="text-center text-sm text-fintown-txt-1 dark:text-fintown-txt-1-light py-[10px]">
                             {!hasSearched ? "Vui lòng nhập mã cổ phiếu hoặc tên công ty" : "Không tìm thấy cổ phiếu"}
                         </div>
                     )}
